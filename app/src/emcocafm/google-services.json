@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "146937611566",
+    "firebase_url": "https://emco-cafm-qatar.firebaseio.com",
+    "project_id": "emco-cafm-qatar",
+    "storage_bucket": "emco-cafm-qatar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146937611566:android:97129b2b50ed7453fae6bf",
+        "android_client_info": {
+          "package_name": "com.daemon.emcocafm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146937611566-h393dfh5fltfj4s371vhs871ap7onv7c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.daemon.emcocafm",
+            "certificate_hash": "6f18997c4a361466e727194b297363af2e40e739"
+          }
+        },
+        {
+          "client_id": "146937611566-eosid8qvc7sug0nk0ife6hbkljn0mb72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALWOkqYC8kbjrnqokR0hpgF3mkHUUlD_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146937611566-eosid8qvc7sug0nk0ife6hbkljn0mb72.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

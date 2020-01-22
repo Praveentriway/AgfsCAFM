@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    tools:ignore="MissingPrefix"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/_5sdp">
+
+    <RelativeLayout
+        style="@style/match_parent_style"
+        android:background="@color/colorWhite">
+
+        <ScrollView style="@style/match_parent_style">
+
+            <LinearLayout
+                android:id="@+id/layout_main"
+                style="@style/match_parent_style"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/bottom_view_margin"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/linear_fromdate"
+                    style="@style/match_wrap_style"
+                    android:visibility="gone"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_from_date"
+                        style="@style/textview_label"
+                        fontPath="fonts/HelveticaBold.otf"
+                        android:layout_weight=".6"
+                        android:text="Date" />
+
+                    <TextView
+                        android:id="@+id/tv_select_from_date"
+                        style="@style/textview_calendar"
+                        fontPath="fonts/HelveticaRegular.ttf"
+                        android:layout_weight=".4"
+                        android:text="Select Date" />
+
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linear1"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <View
+                            android:backgroundTint="@color/colorPrimary"
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorFormMasterDivider" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_lbl_custcode"
+                            android:text="@string/customer_code"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                style="@style/textview_spinner_filter"
+                                android:textSize="@dimen/elementTextValueSize"
+                                android:id="@+id/tv_select_customer"
+                                android:inputType="textNoSuggestions"
+                                android:maxLines="1"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/select_customer_code"
+                                android:imeOptions="actionNext"
+                                android:padding="16dp"
+                                android:textColor="@color/colorPrimary"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    android:id="@+id/linear2"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <View
+                            android:backgroundTint="@color/colorPrimary"
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorFormMasterDivider" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_lbl_contract_no"
+                            android:text="Contract No"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                style="@style/textview_spinner_filter"
+                                android:textSize="@dimen/elementTextValueSize"
+                                android:id="@+id/tv_select_contract"
+                                android:text="Select the Contract No"
+                                android:inputType="textNoSuggestions"
+                                android:maxLines="1"
+                                android:layout_gravity="center_vertical"
+                                android:imeOptions="actionNext"
+                                android:padding="16dp"
+                                android:textColor="@color/colorPrimary"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <View
+                            android:backgroundTint="@color/colorPrimary"
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorFormMasterDivider" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_lbl_reference"
+                            android:text="Survey Ref"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                style="@style/textview_spinner_filter"
+                                android:textSize="@dimen/elementTextValueSize"
+                                android:id="@+id/tv_select_reference"
+                                android:text="Select the Survey ref"
+                                android:inputType="textNoSuggestions"
+                                android:maxLines="1"
+                                android:layout_gravity="center_vertical"
+                                android:imeOptions="actionNext"
+                                android:padding="16dp"
+                                android:textColor="@color/colorPrimary"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <View
+                            android:backgroundTint="@color/colorPrimary"
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorFormMasterDivider" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_lbl_location"
+                            android:text="Location"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+                            <AutoCompleteTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:textSize="@dimen/elementTextValueSize"
+                                android:maxLength="500"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:id="@+id/tie_location_name"
+                                android:hint="Enter Location"
+                                android:imeOptions="actionDone"
+                                android:padding="16dp"
+                                android:textColor="@color/colorPrimary"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <View
+                            android:backgroundTint="@color/colorPrimary"
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorFormMasterDivider" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_lbl_client_name"
+                            android:text="Reviewer Name"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:textSize="@dimen/elementTextValueSize"
+                                android:maxLength="500"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:id="@+id/tie_client_name"
+                                android:textColor="@color/colorPrimary"
+                                android:hint="Enter Reviewer Name"
+                                android:imeOptions="actionDone"
+                                android:padding="16dp"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <View
+                            android:backgroundTint="@color/colorPrimary"
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorFormMasterDivider" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_lbl_designation"
+                            android:text="Designation"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:textSize="@dimen/elementTextValueSize"
+                                android:maxLength="500"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:id="@+id/tie_designation"
+                                android:hint="Enter your Designation"
+                                android:imeOptions="actionDone"
+                                android:padding="16dp"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <View
+                            android:backgroundTint="@color/colorPrimary"
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorFormMasterDivider" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_lbl_contact"
+                            android:text="Contact No"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:textSize="@dimen/elementTextValueSize"
+                                android:maxLength="100"
+                                android:gravity="center"
+                                android:inputType="number"
+                                android:layout_gravity="center"
+                                android:id="@+id/tie_contact_no"
+                                android:hint="Enter Contact No"
+                                android:imeOptions="actionDone"
+                                android:padding="16dp"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <View
+                            android:backgroundTint="@color/colorPrimary"
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorFormMasterDivider" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_lbl_email"
+                            android:text="Email ID"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:textSize="@dimen/elementTextValueSize"
+                                android:maxLength="100"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:id="@+id/tie_email"
+                                android:hint="Enter your Email-Id"
+                                android:imeOptions="actionDone"
+                                android:padding="16dp"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnSearchComplaintForAll"
+                        style="@style/btn_common_home_dup"
+                        fontPath="fonts/HelveticaRegular.ttf"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_weight=".5"
+                        android:text="View All PPM"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:background="@color/colorWhite"
+            android:src="@drawable/emco_logo_with_name"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:background="@color/colorWhite"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/match_wrap_style"
+                android:text="@string/lbl_2017_ags"
+                fontPath="fonts/HelveticaRegular.ttf"
+                android:textAlignment="center"
+                android:textSize="@dimen/_6sdp" />
+
+            <TextView
+                style="@style/match_wrap_style"
+                android:text="@string/lbl_version"
+                android:textAlignment="center"
+                fontPath="fonts/HelveticaRegular.ttf"
+                android:textSize="@dimen/_5sdp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/arrow" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

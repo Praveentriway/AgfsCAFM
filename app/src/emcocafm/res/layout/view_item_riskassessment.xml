@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/match_wrap_style"
+    android:orientation="vertical">
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        style="@style/match_parent_style"
+        android:orientation="vertical"
+        card_view:cardCornerRadius="3dp"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:id="@+id/ll_rc_material_title"
+            style="@style/match_wrap_style"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_refno"
+                style="@style/textview_label"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:hint="Ref.No" />
+            <TextView
+                android:id="@+id/tv_description"
+                style="@style/textview_label"
+                android:layout_weight=".6"
+                android:gravity="left"
+                android:nestedScrollingEnabled="true"
+                android:text="Description" />
+
+            <TextView
+                android:id="@+id/tv_confirmation"
+                style="@style/textview_bg_border"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="confirmation" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnSave"
+        style="@style/btn_common"
+        android:visibility="gone"
+        android:text="@string/lbl_save" />
+
+</LinearLayout>

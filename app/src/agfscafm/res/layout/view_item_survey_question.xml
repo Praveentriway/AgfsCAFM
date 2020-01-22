@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    card_view:cardElevation="4dp"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardUseCompatPadding="true">
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/match_wrap_style"
+    android:orientation="horizontal">
+    <View
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_width="3.5dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="16dp"
+        android:background="@color/colorFormMasterDivider" />
+    <LinearLayout
+        style="@style/match_wrap_style"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/match_wrap_style"
+            android:weightSum="1"
+            android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txt_sno"
+            style="@style/textview_label"
+            android:layout_weight="0.94"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_10sdp"
+            android:text="99."
+            android:textColor="@color/checklist_text"
+            android:gravity="center"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_survey_ques"
+            style="@style/textview_label"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
+            android:textStyle="bold"
+            android:textSize="@dimen/_10sdp"
+            android:textColor="@color/checklist_text"
+            android:gravity="center_vertical"
+
+            android:text="How would you rate our staff's general cleaning and house of branches/ Offices ?"/>
+
+
+    </LinearLayout>
+
+        <LinearLayout
+            style="@style/match_wrap_style"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:weightSum="4"
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/radiogroup_ppe"
+                style="@style/match_wrap_style"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rd_1"
+                    style="@style/radio_button_common_survey"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/_7sdp"
+                    android:layout_weight="1"
+                    android:text="  1"
+                    />
+                <RadioButton
+                    android:id="@+id/rd_2"
+                    style="@style/radio_button_common_survey"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/_7sdp"
+                    android:layout_weight="1"
+                    android:text="  2"
+                    />
+                <RadioButton
+                    android:id="@+id/rd_3"
+                    style="@style/radio_button_common_survey"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_7sdp"
+                    android:text="  3"
+                    />
+                <RadioButton
+                    android:id="@+id/rd_4"
+
+                    style="@style/radio_button_common_survey"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_7sdp"
+                    android:text="  4"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/radiogroup_ppe2"
+                style="@style/match_wrap_style"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rd_5"
+                    style="@style/radio_button_common_survey"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/_7sdp"
+                    android:layout_weight="1"
+                    android:text="  1"
+                    />
+                <RadioButton
+                    android:id="@+id/rd_6"
+                    style="@style/radio_button_common_survey"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/_7sdp"
+
+                    android:layout_weight="1"
+                    android:text="  2"
+                    />
+                <RadioButton
+                    android:id="@+id/rd_7"
+                    style="@style/radio_button_common_survey"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_7sdp"
+                    android:text="  3"
+                    />
+                <RadioButton
+                    android:id="@+id/rd_8"
+
+                    style="@style/radio_button_common_survey"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_7sdp"
+                    android:text="  4"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+
+</LinearLayout>
+</LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/match_parent_style"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        style="@style/match_wrap_style"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:gravity="center"
+            android:id="@+id/ll_top_lay"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <Button
+                android:id="@+id/btn_ppe"
+                style="@style/btn_common_gray"
+                android:layout_weight="1"
+                android:text="@string/lbl_ppe" />
+
+
+            <Button
+                android:id="@+id/btn_risk"
+                style="@style/btn_common_gray"
+                android:layout_weight="1"
+                android:text="@string/lbl_risk_assessment" />
+
+            <Button
+                android:id="@+id/btn_equip"
+                style="@style/btn_common_gray"
+                android:layout_weight="1"
+                android:text="@string/lbl_equipment_tools" />
+            <Button
+                android:id="@+id/btn_material_req"
+                style="@style/btn_common_gray"
+                android:layout_weight="1"
+                android:text="@string/lbl_material_reqd" />
+        </LinearLayout>
+
+        <Button
+            style="@style/btn_wrap_content_red"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_5sdp"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:text="@string/lbl_next"
+            android:visibility="gone" />
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/match_parent_style"
+            android:background="@color/colorWhite"
+            android:visibility="visible">
+
+            <LinearLayout
+                style="@style/match_wrap_style"
+                android:layout_marginBottom="@dimen/_50sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:background="@color/color_gray"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            style="@style/btn_wrap_content_gray"
+                            android:gravity="center"
+                            android:id="@+id/txt_ppm_title"
+                            android:text="SPLIT UNIT PPM - MONTHLY SERVICE" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:background="@color/color_gray"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            style="@style/btn_wrap_content_gray"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:text="PPM Service" />
+
+                        <TextView
+                            style="@style/btn_wrap_content_gray"
+                            android:layout_weight=".8"
+                            android:gravity="center"
+                            android:text="Instructions" />
+
+                        <TextView
+                            android:id="@+id/tv_remarks"
+                            style="@style/btn_wrap_content_gray"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/lbl_comments" />
+
+                        <TextView
+                            style="@style/btn_wrap_content_gray"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/lbl_remarks" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:scrollbars="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_145sdp" />
+                    <!--   <Button
+                          style="@style/btn_wrap_content_red"
+                          android:layout_gravity="center"
+                          android:layout_margin="@dimen/_5sdp"
+                          android:paddingLeft="@dimen/_10sdp"
+                          android:paddingRight="@dimen/_10sdp"
+                          android:text="@string/lbl_save"
+                          android:visibility="visible" />-->
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_save"
+                            style="@style/btn_wrap_content_red"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:text="@string/lbl_save"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/btn_save_new"
+                            style="@style/btn_wrap_content_red"
+                            android:layout_gravity="center"
+                            android:visibility="visible"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:text="@string/lbl_save" />
+
+                        <Button
+                            android:id="@+id/btn_next"
+                            style="@style/btn_wrap_content_red"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:text="@string/lbl_next" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/emco_logo_with_name"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:background="@color/colorWhite"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_2017_ags"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_5sdp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+
+
+    <io.github.yavski.fabspeeddial.FabSpeedDial
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:fabGravity="bottom_end"
+        app:fabMenu="@menu/fab_menu"
+        android:id="@+id/fab_menu"
+        app:fabDrawable="@drawable/option"
+        app:miniFabBackgroundTint="@color/colorPrimary"
+        app:miniFabDrawableTint="@color/colorWhite"
+        app:miniFabTitleTextColor="@color/colorPrimary" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

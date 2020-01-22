@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    >
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/match_parent_style"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        style="@style/match_wrap_style"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/match_parent_style"
+            android:background="@color/colorWhite">
+
+            <LinearLayout
+                style="@style/match_wrap_style"
+                android:layout_marginBottom="@dimen/bottom_view_margin"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:baselineAligned="false"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_job_no"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+
+                            android:text="@string/lbl_job_no" />
+
+                        <TextView
+                            android:id="@+id/tv_job_no"
+                            style="@style/textview_bg_border"
+                            android:imeOptions="actionNext"
+                            android:layout_weight=".3"
+                            android:hint="@string/lbl_job_no" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_site_name"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_site_name" />
+
+                        <TextView
+                            android:id="@+id/tv_site_name"
+                            style="@style/textview_bg_border"
+                            android:layout_weight=".3"
+                            android:imeOptions="actionNext"
+                            android:hint="@string/lbl_site_name" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_location"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_location" />
+
+                        <TextView
+                            android:id="@+id/tv_location"
+                            style="@style/textview_bg_border"
+                            android:imeOptions="actionNext"
+                            android:layout_weight=".3"
+                            android:hint="@string/lbl_location_floor_flat" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_zone_area"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_zone_area" />
+
+                        <TextView
+                            android:id="@+id/tv_zone_area"
+                            style="@style/textview_bg_border"
+                            android:layout_weight=".3"
+                            android:imeOptions="actionNext"
+                            android:hint="@string/lbl_zone_area" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_nature"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_nature" />
+
+                        <TextView
+                            android:id="@+id/tv_nature"
+                            style="@style/textview_bg_border"
+                            android:layout_weight=".3"
+                            android:imeOptions="actionNext"
+                            android:hint="@string/lbl_nature" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_startdate"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_proposed_start_date" />
+
+                        <TextView
+                            android:id="@+id/tv_startdate"
+                            style="@style/textview_bg_border"
+                            android:layout_weight=".3"
+                            android:imeOptions="actionNext"
+                            android:hint="@string/lbl_proposed_start_date" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_enddate"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_proposed_end_date" />
+
+                        <TextView
+                            android:id="@+id/tv_enddate"
+                            style="@style/textview_bg_border"
+                            android:layout_weight=".3"
+                            android:imeOptions="actionNext"
+                            android:hint="@string/lbl_proposed_end_date" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_actual_start_date" />
+
+                        <TextView
+                            style="@style/textview_calendar"
+                            android:layout_weight=".3"
+                            android:hint="@string/lbl_actual_start_date" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_actual_end_date" />
+
+                        <TextView
+                            style="@style/textview_calendar"
+                            android:layout_weight=".3"
+                            android:hint="@string/lbl_actual_end_date" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_barcode_scan"
+                        style="@style/btn_wrap_content_gray"
+                        android:layout_weight="1"
+                        android:text="@string/lbl_barcode_scan" />
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_assettype"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_asset_type" />
+
+                        <TextView
+                            android:id="@+id/tv_assettype"
+                            style="@style/textview_bg_border"
+                            android:imeOptions="actionNext"
+                            android:layout_weight=".3"
+                            android:hint="@string/lbl_asset_type" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_make"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_make" />
+
+                        <TextView
+                            android:id="@+id/tv_make"
+                            style="@style/textview_bg_border"
+                            android:layout_weight=".3"
+                            android:imeOptions="actionNext"
+                            android:hint="@string/lbl_make" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_model"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_model" />
+
+                        <TextView
+                            android:id="@+id/tv_model"
+                            style="@style/textview_bg_border"
+                            android:imeOptions="actionNext"
+                            android:layout_weight=".3"
+                            android:hint="@string/lbl_model" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_assetcode"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_bar_code" />
+
+                        <EditText
+                            android:id="@+id/tv_assetcode"
+                            style="@style/textview_bg_border"
+                            android:layout_weight=".3"
+                            android:inputType="text"
+                            android:imeOptions="actionDone"
+                            android:hint="@string/lbl_bar_code" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_clientBarcode"
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_client_bar_code" />
+
+                        <EditText
+                            android:id="@+id/tv_clientBarcode"
+                            style="@style/textview_bg_border"
+                            android:layout_weight=".3"
+                            android:inputType="text"
+                            android:imeOptions="actionDone"
+                            android:hint="@string/lbl_client_bar_code" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_status" />
+
+                        <TextView
+                            android:id="@+id/tv_status"
+                            style="@style/textview_bg_border"
+                            android:layout_weight=".3"
+                            android:hint="@string/lbl_status" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/textview_label"
+                            android:layout_weight=".7"
+                            android:text="@string/lbl_before_ppm" />
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="visible"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/img_upload_count"
+                                   android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="0/3 Image Uploaded"
+                                    android:visibility="gone"
+                                    android:layout_marginLeft="@dimen/_10sdp"
+                                    android:textColor="@color/color_blue"
+                                    android:textSize="@dimen/_7sdp"/>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/custom_refresh_recycler_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"/>
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:visibility="gone"
+                                android:gravity="left">
+
+                                <ProgressBar
+                                    android:id="@+id/pb_workdone"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_marginLeft="@dimen/_7sdp"
+                                    android:layout_marginTop="@dimen/_7sdp"
+                                    android:visibility="visible" />
+
+                                <ImageView
+                                    android:id="@+id/iv_workdone"
+                                    android:layout_width="@dimen/_36sdp"
+                                    android:layout_height="@dimen/_36sdp"
+                                    app:srcCompat="@drawable/ic_camera_24dp" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:visibility="gone"
+                                android:gravity="center">
+
+                                <Button
+                                    android:id="@+id/btn_save"
+                                    style="@style/btn_wrap_content"
+                                    android:gravity="right"
+                                    android:text="@string/lbl_save" />
+                            </RelativeLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_ppm_checklist"
+                            style="@style/btn_wrap_content_red"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:visibility="gone"
+                            android:paddingLeft="@dimen/_20sdp"
+                            android:paddingRight="@dimen/_20sdp"
+                            android:text="@string/lbl_ppm_checklist" />
+
+                        <Button
+                            style="@style/btn_wrap_content_red"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:paddingLeft="@dimen/_20sdp"
+                            android:paddingRight="@dimen/_20sdp"
+                            android:text="@string/lbl_save"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/emco_logo_with_name"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_2017_ags"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_5sdp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/arrow" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/match_parent_style"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        style="@style/match_parent_style"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/match_parent_style"
+            android:background="@color/colorWhite">
+
+            <LinearLayout
+                style="@style/match_parent_style"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/_80sdp"
+                android:layout_marginRight="@dimen/_80sdp"
+                android:gravity="center|center_vertical"
+                android:orientation="vertical"
+                android:padding="@dimen/_5sdp">
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/textview_style"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.1"
+                        android:gravity="center"
+                        android:text="@string/lbl_afterppm" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_15sdp"
+                        android:layout_weight="0.6"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/img_upload_count"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="0/3 Image Uploaded"
+                            android:visibility="gone"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_7sdp"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/custom_refresh_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_38sdp"
+                        android:layout_height="@dimen/_38sdp"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_weight="1">
+
+                        <ProgressBar
+                            android:id="@+id/pb_workdone"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_7sdp"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_workdone"
+                            android:layout_width="@dimen/_36sdp"
+                            android:layout_height="@dimen/_36sdp"
+                            app:srcCompat="@drawable/ic_camera_24dp" />
+
+                    </RelativeLayout>
+
+                    <Button
+                        android:id="@+id/btn_save"
+                        style="@style/btn_wrap_content_red"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:paddingLeft="@dimen/_30sdp"
+                        android:visibility="gone"
+                        android:paddingRight="@dimen/_30sdp"
+                        android:text="@string/lbl_save" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/btn_feedback"
+                        style="@style/btn_common_gray"
+                        android:text="@string/lbl_feedback" />
+
+                    <Button
+                        android:id="@+id/btn_ppm_finding"
+                        style="@style/btn_common_gray"
+                        android:text="@string/ppm_finding" />
+
+                    <Button
+                        android:id="@+id/btn_material_used"
+                        style="@style/btn_common_gray"
+                        android:text="@string/lbl_material_used" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_next"
+                    android:visibility="gone"
+                    style="@style/btn_common_gray"
+                    android:text="@string/lbl_next" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/emco_logo_with_name"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/_40sdp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_2017_ags"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_5sdp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

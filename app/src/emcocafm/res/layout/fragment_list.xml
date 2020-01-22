@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/match_parent_style"
+    android:orientation="vertical">
+
+    <RelativeLayout style="@style/match_parent_style">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <include layout="@layout/view_list_empty" />
+
+        <include layout="@layout/view_error_retry" />
+
+        <include layout="@layout/view_loading_message" />
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+

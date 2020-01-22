@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cl_main"
+    style="@style/match_parent_style">
+
+    <include layout="@layout/toolbar" />
+
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_marginTop="?attr/actionBarSize"
+        style="@style/match_parent_style" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

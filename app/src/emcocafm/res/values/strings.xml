@@ -1,0 +1,379 @@
+<resources>
+    <string name="app_name">EMCO CAFM</string>
+    <string name="title_home">Home</string>
+    <string name="title_reactive_maintenance">Reactive Maintenance</string>
+    <string name="title_preventive_maintenace">Preventive Maintenance</string>
+    <string name="title_inspection_module">Inspection Module</string>
+    <string name="title_profile">Profile</string>
+
+    <!--common labels-->
+    <string name="lbl_welcome">Welcome</string>
+    <string name="lbl_loading">Loading...</string>
+    <string name="lbl_image_uploading">Uploading image please wait...</string>
+    <string name="lbl_no_image_uploading">Updating no image please wait...</string>
+    <string name="lbl_other">Others</string>
+    <string name="lbl_no_barcode_found">No barcode found</string>
+    <string name="lbl_no_barcode_captured">No barcode captured, intent data is null</string>
+    <string name="lbl_alert_network_not_available">Network not available. Please enable mobile data or wifi</string>
+    <string name="lbl_alert_incorrect_username_pwd">Incorrect Username or Password</string>
+    <string name="lbl_alert_rc_not_available">Receive Complaint details not available</string>
+    <string name="lbl_okay">Okay</string>
+    <string name="lbl_choose">Choose</string>
+    <string name="barcode_error">"Error reading barcode: %1$s"</string>
+
+    <string name="action_home">Home</string>
+    <string name="action_logout">Logout</string>
+
+    <!--common message labels-->
+    <string name="msg_no_data_found_in_local_db">No Data found. Please check your internet connection</string>
+
+    <!-- Bottom navigation titles when tab item is selected -->
+
+    <!-- Preventive maintenance view pager labels  -->
+
+    <string name="lbl_log_complaint">Log Complaints</string>
+    <string name="lbl_receive_complaints">Receive Complaints</string>
+    <string name="lbl_view_complaint_status">View Complaint Status</string>
+    <string name="lbl_pending_client_signature">Pending Client Signature</string>
+    <string name="lbl_dashboard">Dashboard</string>
+
+    <!--strings for google vision-->
+    <string name="ok">OK</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+
+    <!--login and sing up labels-->
+    <string name="lbl_username">Username</string>
+    <string name="lbl_username_new">Username/Email</string>
+    <string name="lbl_login">Login</string>
+    <string name="lbl_reg">Register</string>//Registration for new user
+    <string name="msg_enter_username">Enter your username</string>
+    <string name="msg_enter_password">Enter your password</string>
+    <string name="msg_server_url">Enter server URL</string>
+    <!-- <string name="msg_server_url_reg">Ex:111.111.111.111:</string>-->
+    <string name="msg_email_valid">Please enter Valid email</string>
+    <string name="msg_email_valid_url">Please enter Valid URL</string>
+    <string name="msg_no_valid">Please enter Valid number</string>
+    <string name="msg_property_valid">Please enter Property name</string>
+    <string name="msg_building_valid">Please enter building name</string>
+    <string name="msg_location_valid">Please enter location (floor/flat ,etc)</string>
+    <string name="msg_firstname_valid">Please enter your first name</string>
+    <string name="msg_lastname_valid">Please enter your last name</string>
+    <string name="msg_username_empty">Please enter your username</string>
+    <string name="msg_password_empty">Please enter your password</string>
+    <string name="msg_oldpassword_empty">Please enter your oldpassword</string>
+    <string name="msg_newpassword_empty">Please enter your newpassword</string>
+    <string name="msg_confinewpassword_empty">Please enter your confirmpassword</string>
+
+    <!--Receive complaints labels -->
+    <string name="lbl_region">Region</string>
+    <string name="lbl_job_type">Job Type</string>
+    <string name="lbl_date">Date</string>
+    <string name="lbl_respond">Respond</string>
+    <string name="lbl_building">Building</string>
+    <string name="lbl_model">Model</string>
+    <string name="lbl_make">Make</string>
+    <string name="lbl_setting">Settings</string>
+    <string name="lbl_bar_code">Asset/Location Barcode</string>
+    <string name="lbl_client_bar_code">Client Barcode</string>
+    <string name="lbl_asset_code">Asset/Location Code</string>
+    <string name="lbl_main_eqpt">Main Equipment</string>
+    <string name="lbl_remarks">Remarks</string>
+    <string name="lbl_parameter">Parameter</string>
+    <string name="lbl_select_remarks">Select Remarks</string>
+
+    <string name="lbl_select_pending">Select pending reasons</string>
+
+    <string name="lbl_please_select_remarks">Please select remarks</string>
+    <string name="lbl_please_select_complaint_ref">Please enter complaint ref no</string>
+    <string name="lbl_next">Next</string>
+    <string name="lbl_select">select</string>
+    <string name="msg_empty">This field required</string>
+
+    <!--receive complaints remarks labels-->
+    <string-array name="string_array_remarks">
+        <item>Responded</item>
+        <item>Access not Available</item>
+        <item>Access not reachable</item>
+        <item>Appointment Required</item>
+        <item>Barcode label damaged/removed</item>
+        <item>Others</item>
+    </string-array>
+
+    <!--receive complaints status labels-->
+
+    <!--receive complaints status labels-->
+
+    <!--log complaint labels-->
+    <string name="lbl_select_site">Select Site</string>
+    <string name="lbl_contract_title">Contract Title</string>
+    <string name="lbl_contract_no">Contract No</string>
+    <string name="lbl_select_category">Select Category</string>
+    <string name="lbl_select_zone">Select Zone</string>
+    <string name="lbl_select_job_no">Select Job No</string>
+    <string name="lbl_select_priority">Select Priority</string>
+    <string name="lbl_select_property">Select Property</string>
+    <string name="lbl_select_jobno">Select Contract Title</string>
+    <string name="lbl_select_jobno_new">Select Job No</string>
+    <string name="msg_thankyou_note1">Thank you for registering your complaint.\nYour Complaint Reference Number -</string>
+    <string name="msg_contact_us">\nFor any further assistance, please call us on 04 - 521 7900 or email us at customer.care@agfacilities.com</string>
+
+    <!--Please contact our customer care centre on 04 521 7900 for any further assistance-->
+    <!--For any further assistance, please call us on 04 - 521 7900 or email us at customer.care@agfacilities.com-->
+
+    <string name="lbl_priority">Priority</string>
+    <string name="lbl_complaint_details">Complaint Details</string>
+    <string name="lbl_site">Site</string>
+    <string name="lbl_category">Category</string>
+    <string name="lbl_zone">Zone / Area</string>
+    <string name="lbl_location">Location</string>
+    <string name="lbl_location_details">Location Details</string>
+    <string name="lbl_property_details">Property Details</string>
+    <string name="lbl_save">Save</string>
+    <string name="lbl_signup">Sign up</string>
+    <string name="msg_enter_location">Enter your location </string>
+    <string name="msg_enter_complaint">Enter your complaint </string>
+    <string name="msg_enter_complaint_empty">Please enter the complaint</string>
+    <string name="msg_enter_building_name">(Building Name Etc)</string>
+    <string name="msg_building_name_empty">Please enter Building Name Etc</string>
+    <string name="lbl_flat_office_etc">(Flat / Office No. Etc)</string>
+
+    <!--forgot password labels-->
+    <string name="lbl_forget_password">Forgot Password</string>
+    <string name="msg_forget_password">Forgot Password?</string>
+    <string name="lbl_send_email">Send E-mail</string>
+    <string name="lbl_barcode_scan">Scan the Location / Asset Code</string>
+    <string name="lbl_equipment_barcode_scan">Scan the equipment barcode</string>
+
+    <!--received complaints labels -->
+    <string name="lbl_done">Choose</string>
+    <string name="lbl_complaint">Complaint</string>
+    <string name="lbl_defectsfound">Defects Found</string>
+    <string name="lbl_defectsfound_comments">Enter Comments</string>
+    <string name="lbl_ppe">PPE</string>
+    <string name="lbl_feedback">Feedback</string>
+    <string name="lbl_material_reqd">Material Required</string>
+    <string name="lbl_material_used">Material Used</string>
+    <string name="lbl_select_reason">Select Reason</string>
+    <string name="lbl_reason">Reason</string>
+    <string name="lbl_select_workstatus">Select Work Status</string>
+    <string name="lbl_workstatus">Work Status</string>
+    <string name="lbl_workdone">Work Done</string>
+    <string name="msg_other_pending_work">Enter Other Work Pending</string>
+    <string name="lbl_yes">Yes</string>
+    <string name="lbl_no">No</string>
+    <string name="lbl_na">N/A</string>
+    <string name="lbl_feedback_required">Technician  Feedback Required</string>
+    <string name="lbl_remarks_required">Remarks Required</string>
+    <string name="lbl_checkedby">Checked By</string>
+    <string name="lbl_select_checkedby">Select Checked by</string>
+    <string name="lbl_attendedby">Attended By</string>
+    <string name="lbl_select_attendedby">Select Attended by</string>
+    <string name="lbl_select_status">Select Status</string>
+    <string name="lbl_technfeedback">Technician  Feedback</string>
+    <string name="lbl_actul_startdate">Actual Start Date</string>
+    <string name="lbl_actul_enddate">Actual End Date</string>
+    <string name="lbl_supervisorremarks">Supervisor/Engineer  Remarks</string>
+    <string name="lbl_retry">Retry</string>
+    <string name="msg_receivecomplaint_empty">No Complaints have been assigned</string>
+    <string name="msg_material_empty">Please enter search keyword to fetch data</string>
+    <string name="msg_ppelist_empty">No Complain Recieved For Employee</string>
+
+    <!--view profile labels-->
+    <string name="lbl_view_profile">View Profile</string>
+    <string name="lbl_firstname">First Name</string>
+    <string name="lbl_lastname">Last Name</string>
+    <string name="lbl_email_id">Email ID</string>
+    <string name="lbl_phone_no">Phone No</string>
+    <string name="lbl_mobile_no">Mobile No</string>
+    <string name="lbl_user_type">User Type</string>
+    <string name="lbl_zone_area">Zone/Area</string>
+
+    <!--home screen labels-->
+    <string name="lbl_2017_ags">2017 "\@" AGFS V1.0</string>
+    <string name="lbl_version">Version 1.0</string>
+
+    <!--search complaint screen labels-->
+    <string name="msg_enter_complaint_ref_no">Enter complaint reference number </string>
+    <string name="lbl_search">Search</string>
+    <string name="lbl_clear">Clear</string>
+    <string name="lbl_from_date">From Date</string>
+    <string name="lbl_select_from_date">Select From Date</string>
+    <string name="lbl_select_to_date">Select To Date</string>
+    <string name="lbl_to_date">To Date</string>
+    <string name="lbl_building_property_detail">Building / Property detail</string>
+    <string name="lbl_select_building_property_detail">Select building / Property detail</string>
+    <string name="lbl_select_building">Select building</string>
+
+    <!--view complaint screen labels-->
+    <string name="lbl_complaint_no">Complaint No.</string>
+    <string name="lbl_multi_search_complaint">Multiple Search Complaint</string>
+    <string name="lbl_for_multiple_complaint">View Multiple Complaints Status</string>
+    <string name="lbl_complaint_status">Complaint Status</string>
+    <string name="lbl_flat_office_villa">Flat / Office / Villa</string>
+    <string name="lbl_cr_no">C.R.No</string>
+    <string name="lbl_nature">Nature</string>
+    <string name="lbl_nature_new">Nature of Work</string>
+    <string name="lbl_complaint_date">Complaint Date</string>
+    <string name="lbl_status">Status</string>
+    <string name="lbl_click_here">Click Here</string>
+    <string name="lbl_customer_ref">Customer Ref.</string>
+    <string name="lbl_request_details">Request Details</string>
+    <string name="lbl_site_location">Site / Location</string>
+    <string name="lbl_date_time">Date &amp; Time</string>
+    <string name="lbl_select_defectsfound">Select Defects Found</string>
+    <string name="lbl_select_workdone">Select Work Done</string>
+    <string name="tentative_date">Tentative date</string>
+    <string name="lbl_select_tentative_date">Select Tentative Date</string>
+
+    <!--Rate and Share labels-->
+    <string name="lbl_customer_satisfaction">Customer Satisfaction</string>
+    <string name="lbl_customer_remarks">Customer Remarks</string>
+    <string name="lbl_select_customer_remarks">Select Customer Remarks</string>
+    <string name="lbl_customer_sign">Customer Signature</string>
+    <string name="lbl_tech_remarks">Technician Remarks</string>
+    <string name="lbl_remark_details">Closed Remarks</string>
+    <string name="msg_enter_remark_detail">Enter Remark Detail</string>
+    <string name="lbl_rate_and_share">Rate the Service</string>
+    <string name="lbl_select_tech_remarks">Select Technician Remarks</string>
+    <string name="re_assign_to_cc">Re-Assign to CCC</string>
+    <string name="re_assigning_to_cc">Re-Assigning to CCC</string>
+    <string name="lbl_size">Size</string>
+    <string name="thisfeildisrequired">This field is required</string>
+    <string name="lbl_worktype">WorkType</string>
+    <string name="lbl_select_worktype">Select WorkType</string>
+    <string name="lbl_building_name">Building Name</string>
+    <string name="lbl_select_image">Select Image</string>
+    <string name="lbl_close">Close</string>
+    <string name="no_value_has_been_selected">No value has been selected</string>
+    <string name="msg_request_error_occurred">Error connecting to server. Please try again after sometime</string>
+    <string name="lbl_reporttypes">Report Type</string>
+    <string name="lbl_select_reporttypes">Select report type</string>
+    <string name="lbl_enter">Enter</string>
+    <string name="file_size_more_then">Image size should be less than 2MB</string>
+    <string name="lbl_cancel">Cancel</string>
+    <string name="lbl_ppm_details">PPM Details</string>
+    <string name="lbl_preventivemaintenance">Preventive Maintenance</string>
+    <string name="lbl_building_zone_area">Building / Zone (Area)</string>
+    <string name="lbl_building_zone_area_ppm">Zone/Building/Floor/Flat/Sub-Location</string>
+    <string name="lbl_location_floor_flat_ppm">Asset Name</string>
+    <string name="lbl_location_floor_flat">Location (Floor/Flat ,etc)</string>
+    <string name="lbl_server_url">Server URL</string>
+    <string name="lbl_proposed_start_date">Proposed Start Date</string>
+    <string name="lbl_proposed_end_date">Proposed End Date</string>
+    <string name="lbl_proposed_end_date_ppm">Total PPM</string>
+    <string name="lbl_ppm_pending">Pending</string>
+    <string name="lbl_ppm_status">PPM Status</string>
+    <string name="lbl_asset_type">Asset Type</string>
+    <string name="lbl_site_name">Site Name</string>
+    <string name="lbl_actual_end_date">Actual end date</string>
+    <string name="lbl_actual_start_date">Actual  start date</string>
+    <string name="lbl_before_ppm">Before PPM</string>
+    <string name="lbl_ppm_checklist">PPM Checklist</string>
+    <string name="lbl_quantity">Quantity</string>
+    <string name="title_reactive_hard_services">Reactive Request Verification - Hard Services</string>
+    <string name="title_reactive_soft_services">Reactive Request Verification - Soft Services</string>
+    <string name="title_reactive_request_verification">Reactive Request Verification</string>
+    <string name="title_ppm_request_verification">PPM Request Verification</string>
+    <string name="title_ppm_request_verification_hard">PPM Request Verification - Hard Services</string>
+    <string name="title_ppm_request_verification_soft">PPM Request Verification - Soft Services</string>
+    <string name="title_periodic_inspection">Periodic Inspection</string>
+    <string name="title_hard_services">Hard Services</string>
+    <string name="title_soft_services">Soft Services</string>
+    <string name="title_assigned_inspection">Assigned Inspection</string>
+    <string name="title_random_inspection">Random Inspection</string>
+    <string name="action_search">Search</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="lbl_rc_search">Search by Complaint No.</string>
+    <string name="lbl_rc_search_ppm">Search PPM </string>
+    <string name="lbl_complaint_ref_no">Complaint Ref.No</string>
+    <string name="lbl_ppm_workorderno">PPM Workorder No.</string>
+    <string name="lbl_asset_name">Asset Name</string>
+    <string name="lbl_ppm_frequency">PPM Frequency</string>
+    <string name="lbl_ppm_completed">Completed</string>
+    <string name="lbl_equipment_tools">Equipment Tools</string>
+    <string name="lbl_risk_assessment">Risk Assessment</string>
+    <string name="lbl_material_required">Material Required</string>
+    <string name="lbl_ppm_activities_checklist">PPM activities (checklist)</string>
+    <string name="title_monthly_service">SPLIT UNIT PPM -  MONTHLY SERVICE</string>
+    <string name="lbl_afterppm">After PPM</string>
+    <string name="lbl_s_no">S.No</string>
+    <string name="lbl_request_no">Request No.</string>
+    <string name="lbl_request_location">Request Location</string>
+    <string name="lbl_client_remark">Client Remark</string>
+    <string name="lbl_comments">Comments</string>
+    <string name="lbl_photo">Photo</string>
+    <string name="lbl_start_date">Start Date</string>
+    <string name="lbl_end_date">End Date</string>
+    <string name="lbl_location_barcode">Location Barcode</string>
+    <string name="new_user_register_now">New User? Register Now</string>
+    <string name="already_registered_login_now">Already registered? Login Now</string>
+    <string name="lbl_fname">First Name</string>
+    <string name="lbl_lname">Last Name</string>
+    <string name="lbl_telno">Tel No</string>
+    <string name="lbl_submit">Submit</string>
+    <string name="lbl_property">Property</string>
+    <string name="lbl_sublocation">Sub-Location</string>
+    <string name="lbl_job_no">Job No</string>
+    <string name="valid_quantity">Please enter a valid quantity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="building_zone_floor_flat_sub_location">Building/Zone Floor/Flat/Sub location</string>
+    <string name="asset_name">Asset Name</string>
+    <string name="proposed_start_date">Proposed Start Date</string>
+    <string name="proposed_end_date">Proposed End Date</string>
+    <string name="total_ppm">Total PPM</string>
+    <string name="completed">Completed</string>
+    <string name="pending">Pending</string>
+    <string name="ppm_finding">PPM Finding</string>
+    <string name="ppm_recommedation">PPM Recommendation</string>
+    <string name="description">Description</string>
+    <string name="eqp_tag_no">EQPT.TAG.NO.</string>
+    <string name="txt_equipment">EQUIPMENT TOOLS TAG DESCRIPTION</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="contract_no">Contract No</string>
+    <string name="select_contract">Select Contract No</string>
+    <string name="search_by">Search by</string>
+    <string name="select_search_type">Select Search Type</string>
+    <string name="select_nature">Select Nature</string>
+
+    <string name="dateFormat" translatable="false">EE, dd MMM</string>
+    <string name="timeFormat" translatable="false">EE, dd MMM HH:mm</string>
+    <string name="period" translatable="false">%1$s – %2$s</string>
+    <string name="but_done">Done</string>
+    <string name="title_tab_start_date">Start Date</string>
+    <string name="ttile_tab_end_date">End Date</string>
+    <string name="ppm_no_workorder_no">PPM No / WorkOrder No</string>
+    <string name="rx_no_workorder_no">Reactive No / Complaint No</string>
+    <string name="rx_doc_type">Document Type</string>
+    <string name="asset_code_asset_barcode">Asset code / Asset barcode</string>
+    <string name="location_name_zone_building">Location Name / Zone Building</string>
+    <string name="nature">Nature</string>
+    <string name="pending_reason">Pending reason</string>
+    <string name="select_the_reason">Select the reason</string>
+    <string name="new_propose_from_date">New propose start date</string>
+    <string name="new_propose_to_date">New propose end date</string>
+    <string name="enter_the_remarks">Enter the remarks</string>
+    <string name="customer_code">Customer</string>
+    <string name="select_customer_code">Select the Customer</string>
+    <string name="survey_question">Survey Question</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+</resources>

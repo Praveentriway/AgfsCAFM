@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_re2"
+    tools:context=".ui.fragments.user.Fragment_ViewProfile_New">
+
+    <!-- TODO: Update blank fragment layout -->
+    <!--<TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment" />-->
+
+    <LinearLayout
+        style="@style/match_parent_style"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_margin="@dimen/_10sdp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_myprofile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:layout_weight="1"
+
+            android:src="@drawable/myprifile_btn" />
+
+        <ImageView
+            android:id="@+id/iv_changepass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_weight="1"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/changepass_btn" />
+
+        <ImageView
+            android:id="@+id/iv_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_weight="1"
+            android:src="@drawable/logout_btn" />
+    </LinearLayout>
+
+
+
+</FrameLayout>

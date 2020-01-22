@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "720793917604",
+    "firebase_url": "https://agfs-cafm.firebaseio.com",
+    "project_id": "agfs-cafm",
+    "storage_bucket": "agfs-cafm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720793917604:android:94eb7499eda8b3aeddae31",
+        "android_client_info": {
+          "package_name": "com.daemon.emco_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "720793917604-d16qa9gbc9empgms1opfg8d0endsihjh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.daemon.emco_android",
+            "certificate_hash": "a2f686185af539c3b71972d4276e9bd50e70a9df"
+          }
+        },
+        {
+          "client_id": "720793917604-ppr49c8dj42t1644aarrrh8q3n1kjvp7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvXhUk9_3Q83dEG2tFkICciwbeikRM16c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "720793917604-ppr49c8dj42t1644aarrrh8q3n1kjvp7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

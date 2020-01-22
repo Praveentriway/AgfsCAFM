@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:background="@color/list_bg"
+        style="@style/match_wrap_style"
+        android:id="@+id/linear_main"
+      android:paddingBottom="@dimen/_2sdp"
+        android:paddingTop="@dimen/_2sdp"
+        android:orientation="horizontal">
+
+
+        <CheckBox
+            android:id="@+id/cb_ccc"
+            style="@style/checkbox_view"
+            android:layout_width="match_parent"
+            android:layout_weight="1.06"
+            android:checked="false" />
+
+        <TextView
+            android:id="@+id/tv_sno"
+            style="@style/textview_label"
+            android:layout_gravity="center"
+            android:layout_weight="1.08"
+            android:text="S.No"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_building"
+            style="@style/textview_label"
+            android:layout_gravity="center"
+            android:layout_weight=".9"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/building_zone_floor_flat_sub_location"
+            android:textSize="@dimen/_7sdp" />
+        <TextView
+            android:id="@+id/tv_location_name"
+            style="@style/textview_label"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/lbl_location"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_asset_name"
+            style="@style/textview_label"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/asset_name"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_start_date"
+            style="@style/textview_label"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/proposed_start_date"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_end_date"
+            style="@style/textview_label"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/proposed_end_date"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_total_ppm"
+            style="@style/textview_label"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/total_ppm"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_completed"
+            style="@style/textview_label"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/completed"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_pending"
+            style="@style/textview_label"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/pending"
+            android:textSize="@dimen/_7sdp" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

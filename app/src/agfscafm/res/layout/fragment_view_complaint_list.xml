@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/match_parent_style"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/ll_receivecomplaint_title"
+        style="@style/match_wrap_style"
+        android:layout_alignParentTop="true"
+        android:background="@color/color_gray"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_zone_area"
+            style="@style/btn_wrap_content_gray"
+            android:layout_weight="1"
+            android:text="@string/lbl_zone_area" />
+
+        <TextView
+            android:id="@+id/tv_property"
+            style="@style/btn_wrap_content_gray"
+            android:layout_weight="1"
+            android:text="@string/lbl_property" />
+
+        <TextView
+            android:id="@+id/tv_site_location"
+            style="@style/btn_wrap_content_gray"
+            android:layout_weight="1"
+            android:text="@string/lbl_site_location" />
+
+        <TextView
+            android:id="@+id/tv_complaint_no"
+            style="@style/btn_wrap_content_gray"
+            android:layout_weight="1"
+            android:text="@string/lbl_cr_no" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/btn_wrap_content_gray"
+            android:layout_weight="1"
+            android:text="@string/lbl_date_time" />
+
+
+        <TextView
+            android:id="@+id/tv_nature"
+            style="@style/btn_wrap_content_gray"
+            android:layout_weight="1"
+            android:text="@string/lbl_nature_new" />
+
+        <TextView
+            android:id="@+id/tv_request_details"
+            style="@style/btn_wrap_content_gray"
+            android:layout_weight="1"
+            android:text="@string/lbl_request_details" />
+
+
+        <TextView
+            android:id="@+id/tv_status"
+            style="@style/btn_wrap_content_gray"
+            android:layout_weight="1"
+            android:text="@string/lbl_status" />
+
+        <TextView
+            android:id="@+id/tv_coutumer_ref"
+            style="@style/btn_wrap_content_gray"
+            android:layout_weight="1"
+            android:text="@string/lbl_remarks" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        style="@style/match_parent_style"
+        android:layout_below="@+id/ll_receivecomplaint_title"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            style="@style/match_parent_style"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                style="@style/match_parent_style"
+                android:layout_marginBottom="@dimen/_110sdp" />
+
+            <include layout="@layout/view_list_empty" />
+
+            <include layout="@layout/view_error_retry" />
+
+            <include layout="@layout/view_loading_message" />
+
+            <include layout="@layout/footer" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

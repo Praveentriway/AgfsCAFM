@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/scroll_bar"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+    <LinearLayout
+        style="@style/match_parent_style"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_2sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/emco_logo_with_name"
+            android:visibility="gone" />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/match_parent_style"
+            android:background="@color/colorWhite">
+
+            <LinearLayout
+                style="@style/match_wrap_style"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/bottom_view_margin"
+                android:layout_marginLeft="@dimen/_50sdp"
+                android:layout_marginRight="@dimen/_50sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_name"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_fname" />
+
+                    <com.daemon.emco_android.ui.components.CustomTextInputLayout
+                        android:id="@+id/til_name"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_name"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/lbl_fname"
+                            android:maxLength="100" />
+                    </com.daemon.emco_android.ui.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_lname"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_lname" />
+
+                    <com.daemon.emco_android.ui.components.CustomTextInputLayout
+                        android:id="@+id/til_lname"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_lname"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/lbl_lname"
+                            android:maxLength="100" />
+                    </com.daemon.emco_android.ui.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_telno"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_telno" />
+
+                    <com.daemon.emco_android.ui.components.CustomTextInputLayout
+                        android:id="@+id/til_telno"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_telno"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/lbl_telno"
+                            android:inputType="phone"
+                            android:maxLength="20" />
+                    </com.daemon.emco_android.ui.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_mobile_no"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_mobile_no" />
+
+                    <com.daemon.emco_android.ui.components.CustomTextInputLayout
+                        android:id="@+id/til_mobile_no"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_mobile_no"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/lbl_mobile_no"
+                            android:inputType="phone"
+                            android:maxLength="20" />
+                    </com.daemon.emco_android.ui.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_email"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_email_id" />
+
+                    <com.daemon.emco_android.ui.components.CustomTextInputLayout
+                        android:id="@+id/til_email"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_email"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/lbl_email_id"
+                            android:maxLength="50" />
+                    </com.daemon.emco_android.ui.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_property_details"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_property_details" />
+
+                    <com.daemon.emco_android.ui.components.CustomTextInputLayout
+                        android:id="@+id/til_property_details"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_property_details"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/lbl_property_details"
+                            android:maxLength="100" />
+                    </com.daemon.emco_android.ui.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_building_name"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_building_name" />
+
+                    <com.daemon.emco_android.ui.components.CustomTextInputLayout
+                        android:id="@+id/til_building_name"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_building_name"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/lbl_building_name"
+                            android:maxLength="100" />
+                    </com.daemon.emco_android.ui.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_location_details"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_location_floor_flat" />
+
+                    <com.daemon.emco_android.ui.components.CustomTextInputLayout
+                        android:id="@+id/til_location_details"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_location_details"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/lbl_location_floor_flat"
+                            android:imeOptions="actionNext"
+                            android:maxLength="100" />
+                    </com.daemon.emco_android.ui.components.CustomTextInputLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/textview_label"
+                        android:id="@+id/tv_serverurl"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_server_url" />
+
+                    <com.daemon.emco_android.ui.components.CustomTextInputLayout
+                        android:id="@+id/til_serverurl"
+                        android:layout_weight=".3"
+                        style="@style/text_input_layout_common">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_serverurl"
+                            style="@style/text_input_edittext_common"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@./:"
+                            android:hint="@string/msg_server_url"
+                            android:drawableRight="@drawable/ic_arrow_down"
+                            android:imeOptions="actionDone"
+                            android:inputType="textFilter"
+                            android:maxLength="45" />
+                    </com.daemon.emco_android.ui.components.CustomTextInputLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_Login"
+                    style="@style/btn_common2"
+
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:layout_marginLeft="@dimen/_35sdp"
+                    android:layout_marginRight="@dimen/_35sdp"
+                    android:text="@string/lbl_submit" />
+
+                <TextView
+                    android:id="@+id/tv_forgot_password"
+                    style="@style/textview_label"
+                    android:text="@string/msg_forget_password"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_login"
+                    fontPath="fonts/HelveticaRegular.ttf"
+                    style="@style/textview_label_new2"
+                    android:text="@string/already_registered_login_now"
+                    android:textAlignment="textEnd" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+
+                android:background="@color/colorWhite"
+                android:src="@drawable/emco_logo_with_name"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_2017_ags"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_5sdp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
