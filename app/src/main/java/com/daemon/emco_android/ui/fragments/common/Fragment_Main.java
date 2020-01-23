@@ -70,7 +70,6 @@ import static com.github.florent37.expectanim.core.Expectations.invisible;
 import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
 import static com.github.florent37.expectanim.core.Expectations.visible;
 
-/** Created by subbu on 25/11/16. */
 public class Fragment_Main extends Fragment implements View.OnClickListener {
   private static final String TAG = Fragment_Main.class.getSimpleName();
   final Handler handler = new Handler();
@@ -98,17 +97,6 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
   private Toolbar mToolbar;
   private TextView tv_toolbar_title, tv_user_name;
   LinearLayout linear_toolbar;
-  /*private BroadcastReceiver receiver =
-  new BroadcastReceiver() {
-      @Override
-      public void onReceive(Context context, Intent intent) {
-
-      }
-  };*/
-
-  /*  int time = 20;
-  // Timer t;
-   TimerTask task;*/
   private View rootView = null;
   private TimerTask mTimerTask;
   private Timer t = new Timer();
@@ -128,8 +116,6 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
       if (mStringJson != null) {
         user = gson.fromJson(mStringJson, Login.class);
       }
-      // mActivity.registerReceiver(receiver, new
-      // IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -168,7 +154,7 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
                 });
           }
         };
-    // public void schedule (TimerTask task, long delay, long period)
+
     t.scheduleAtFixedRate(mTimerTask, AppUtils.TIMEOUT_NEW, AppUtils.TIMEOUT);
   }
 
@@ -203,7 +189,6 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
       rootView = (View) inflater.inflate(R.layout.fragment_main, container, false);
       initUI(rootView);
       setProperties();
-
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -221,7 +206,6 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
       btnPreventive = (ImageView) rootView.findViewById(R.id.btn_preventive_maintenance);
       btnInspection = (ImageView) rootView.findViewById(R.id.btn_inspection_module);
       btnSurvey = (ImageView) rootView.findViewById(R.id.btn_survey_module);
-      //  btnProfile = (Button) rootView.findViewById(R.id.btn_profile);
       tv_user_name = (TextView) rootView.findViewById(R.id.tv_user_name);
       profile_action = (ImageView) rootView.findViewById(R.id.profile_action);
       ll_main_cust = (LinearLayout) rootView.findViewById(R.id.ll_main_cust);
@@ -231,7 +215,6 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
       //  btnPendingSignature = (Button) rootView.findViewById(R.id.btn_pending_client_signature);
       btnDashboard = (ImageView) rootView.findViewById(R.id.btn_dashboard);
       setupActionBar();
-
 
       new ExpectAnim()
               .expect(ll_main_tech)
@@ -265,11 +248,10 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
               .toAnimation()
               .setDuration(800)
               .start();
+
       FragmentManager fm = getActivity().getSupportFragmentManager();
       for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-        // fm.popBackStack();
         Log.i(TAG, "Found fragment: " + fm.getBackStackEntryAt(i).getId());
-
         if( fm.getBackStackEntryAt(i).getId()!=0){
             fm.popBackStack();
         } }
@@ -311,9 +293,7 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
       linear_toolbar.setOnClickListener(this);
       tv_user_name.setTypeface(font.getHelveticaRegular());
       // user name
-
       tv_user_name.setText(getGreeting()+", "+user.getFirstName().replaceAll("(\\r|\\n)", "") + " " + user.getLastName());
-
       if (user.getUserType().equals(AppUtils.TECHNISION)) {
         ll_main_tech.setVisibility(View.VISIBLE);
         ll_main_cust.setVisibility(View.GONE);
@@ -326,15 +306,12 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
       btnLogComplaint.setOnClickListener(this);
       btnReceiveComplaint.setOnClickListener(this);
       btnViewComplaintStatus.setOnClickListener(this);
-
       btnDashboard.setOnClickListener(this);
-
       if (user.getUserType().equals(AppUtils.CUSTOMER)) {
         btnReceiveComplaint.setVisibility(View.GONE);
         if (user.getContractNo().equals("*")) {
           btnDashboard.setVisibility(View.VISIBLE);
         } else btnDashboard.setVisibility(View.GONE);
-
       } else btnReceiveComplaint.setVisibility(View.VISIBLE);
 
     } catch (Exception e) {
@@ -364,11 +341,9 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
       case R.id.btn_survey_module:
        // loadFragment(new CustomerFeedBackHeader(), Utils.TAG_F_CUSTOMER_FEEDBACK_HEADER);
 
-
         if (!(user.getUserType().equals(AppUtils.TECHNISION)) && !(user.getUserType().equals(AppUtils.CUSTOMER))) {
           showSurvey();
         }
-
         break;
 
       case R.id.btn_log_complaint:
@@ -427,7 +402,6 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
     fragmentTransaction.commit();
   }
 
-
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
@@ -460,7 +434,6 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
       case R.id.action_home:
         Log.d(TAG, "onOptionsItemSelected : home");
         mActivity.onBackPressed();
-        // mActivity.finish();
         break;
     }
     return super.onOptionsItemSelected(item);
@@ -497,14 +470,11 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
     }
   }
 
-
   public void showSurvey(){
     int icon =R.drawable.logo_new;
-
     if(SessionManager.getSessionForURL("ip_address",mActivity) !=null && (!SessionManager.getSessionForURL("ip_address",mActivity).trim().isEmpty())  && (SessionManager.getSessionForURL("ip_address",mActivity).contains("mbm"))){
       icon =R.drawable.logo_mbm_png_no_bg_white;
     }
-
 
     new FancyAlertDialog.Builder(mActivity)
             .setTitle("Customer Survey")
@@ -520,7 +490,6 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
             .OnPositiveClicked(new FancyAlertDialogListener() {
               @Override
               public void OnClick() {
-
                 Bundle mdata = new Bundle();
                 mdata.putSerializable(ARGS_SURVEYTYPE,"Tenant");
                 loadFragment(new CustomerFeedBackHeader(), Utils.TAG_F_CUSTOMER_FEEDBACK_HEADER,mdata);
@@ -536,6 +505,5 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
             })
             .build();
   }
-
 
 }

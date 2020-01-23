@@ -25,6 +25,7 @@
 
             <LinearLayout
                 style="@style/match_parent_style"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/bottom_view_margin"
                 android:layout_marginLeft="@dimen/_35sdp"
                 android:layout_marginRight="@dimen/_35sdp"

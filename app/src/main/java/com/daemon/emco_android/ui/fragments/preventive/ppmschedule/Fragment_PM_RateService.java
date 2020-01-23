@@ -419,108 +419,9 @@ public class Fragment_PM_RateService extends Fragment
             mGetPostRateService.saveCustomerFeedback(serviceRequest);
 
         }
-        // AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
-        //if (!complaint_number.equals("") && !opco_number.equals("") && !complaint_site.equals("")) {
-             /*   SaveRatedServiceRequest serviceRequest = new SaveRatedServiceRequest();
-                serviceRequest.setComplaintNumber(complaint_number);
-                serviceRequest.setComplaintSite(complaint_site);
-                serviceRequest.setCustomerFeedback(select_customer_rank);
-                serviceRequest.setCustomerSignStatus(AppUtils.CLOSEWITHOUTSIGN);
-                serviceRequest.setCustomerRemarks(mCustomerRemarks);
-                serviceRequest.setPpmRefNo(ppmScheduleDocBy.getPpmNo());
-                serviceRequest.setOpco(opco_number);
-                serviceRequest.setCreatedBy(mStrEmpId);
-                serviceRequest.setTransactionType("P");
-                mGetPostRateService.saveCustomerFeedback(serviceRequest);*/
-        // } else {
-              /*  SaveRatedServiceRequest serviceRequest = new SaveRatedServiceRequest();
-                serviceRequest.setComplaintNumber(mComplaintno);
-                serviceRequest.setComplaintSite(mComplaintSite);
-                serviceRequest.setCustomerFeedback(select_customer_rank);
-                serviceRequest.setCustomerSignStatus(AppUtils.CLOSEWITHOUTSIGN);
-                serviceRequest.setCustomerRemarks(mCustomerRemarks);
-                serviceRequest.setPpmRefNo(ppmScheduleDocBy.getPpmNo());
-                serviceRequest.setOpco(mOpco);
-                serviceRequest.setCreatedBy(mStrEmpId);
-                serviceRequest.setTransactionType("P");
-                mGetPostRateService.saveCustomerFeedback(serviceRequest);
-            }*/
-        // } else {
-        //AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
-        // if (!complaint_number.equals("") && !opco_number.equals("") && !complaint_site.equals("")) {
-               /* SaveRatedServiceRequest serviceRequest = new SaveRatedServiceRequest();
-                serviceRequest.setComplaintNumber(complaint_number);
-                serviceRequest.setComplaintSite(complaint_site);
-                serviceRequest.setCustomerFeedback(select_customer_rank);
-                serviceRequest.setCustomerSignStatus(AppUtils.CLOSEWITHSIGN);
-                serviceRequest.setCustomerRemarks(mCustomerRemarks);
-                serviceRequest.setOpco(opco_number);
-                serviceRequest.setPpmRefNo(ppmScheduleDocBy.getPpmNo());
-                serviceRequest.setCreatedBy(mStrEmpId);
-                serviceRequest.setCustomerSignature(
-                        AppUtils.getEncodedString(signaturePad.getSignatureBitmap()));
-                serviceRequest.setTransactionType("P");
-                mGetPostRateService.saveCustomerFeedback(serviceRequest);*/
 
-        // } else {
-              /*  SaveRatedServiceRequest serviceRequest = new SaveRatedServiceRequest();
-                serviceRequest.setComplaintNumber(mComplaintno);
-                serviceRequest.setComplaintSite(mComplaintSite);
-                serviceRequest.setCustomerFeedback(select_customer_rank);
-                serviceRequest.setCustomerSignStatus(AppUtils.CLOSEWITHSIGN);
-                serviceRequest.setCustomerRemarks(mCustomerRemarks);
-                serviceRequest.setOpco(ppmScheduleDocBy.getCompanyCode());
-                serviceRequest.setPpmRefNo(ppmScheduleDocBy.getPpmNo());
-                serviceRequest.setCreatedBy(mStrEmpId);
-                serviceRequest.setCustomerSignature(
-                        AppUtils.getEncodedString(signaturePad.getSignatureBitmap()));
-                serviceRequest.setTransactionType("P");
-                mGetPostRateService.saveCustomerFeedback(serviceRequest);*/
     }
-    //}
-    // }
 
-    public void getCustomerRemarks() {
-        Log.d(TAG, "getCustomerRemarks");
-        try {
-            if (listCustomerRank.size() > 0) {
-                new MaterialDialog.Builder(mActivity)
-                        .title(R.string.lbl_select_customer_remarks)
-                        .items(listCustomerRank)
-                        .itemsCallbackSingleChoice(
-                                -1,
-                                new MaterialDialog.ListCallbackSingleChoice() {
-                                    @Override
-                                    public boolean onSelection(
-                                            MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        if (which >= 0) {
-                                            select_customer_rank = text.toString();
-                                            tv_select_customer_rank.setText(text.toString());
-                                            tv_select_customer_rank.setTypeface(font.getHelveticaBold());
-                                            AppUtils.setErrorBg(tv_select_customer_rank, false);
-                                        } else {
-                                            select_customer_rank = null;
-                                            tv_select_customer_rank.setText("");
-                                            tv_select_customer_rank.setHint(
-                                                    getString(R.string.lbl_select_customer_remarks));
-                                            AppUtils.showDialog(
-                                                    mActivity, getString(R.string.no_value_has_been_selected));
-                                            AppUtils.setErrorBg(tv_select_customer_rank, true);
-                                        }
-                                        AppUtils.closeInput(cl_main);
-                                        return true;
-                                    }
-                                })
-                        .canceledOnTouchOutside(false)
-                        .positiveText(R.string.lbl_done)
-                        .negativeText(R.string.lbl_close)
-                        .show();
-            } else
-                AppUtils.showDialog(mActivity, getString(R.string.msg_no_data_found_in_local_db));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     private boolean validateCustomerRemarks() {
         mCustomerRemarks = tie_customer_remarks.getText().toString().trim();
@@ -618,9 +519,15 @@ public class Fragment_PM_RateService extends Fragment
                                             dialog.dismiss();
                                             //Bundle mdata = new Bundle();
                                             //mdata.putString(AppUtils.ARGS_RECEIVECOMPLAINT_PAGETYPE, mUnSignedPage);
-                                            Fragment_PM_PPMDetails_List unsignedcomplaintslist = new Fragment_PM_PPMDetails_List();
+
+                                            FragmentManager fm = getActivity().getSupportFragmentManager();
+                                            for (int i = 0; i < fm.getBackStackEntryCount()-3; ++i) {
+                                                fm.popBackStack();
+                                            }
+
+                                           // Fragment_PM_PPMDetails_List unsignedcomplaintslist = new Fragment_PM_PPMDetails_List();
                                             //unsignedcomplaintslist.setArguments(mdata);
-                                            loadFragment(unsignedcomplaintslist, Utils.TAG_RECEIVED_COMPALINTS);
+                                          //  loadFragment(unsignedcomplaintslist, Utils.TAG_RECEIVED_COMPALINTS);
                                         }
                                     });
 
@@ -662,10 +569,8 @@ public class Fragment_PM_RateService extends Fragment
 
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
-
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
-
         public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
                 case R.id.tie_customer_remarks:
@@ -678,7 +583,6 @@ public class Fragment_PM_RateService extends Fragment
     @Override
    public void onCustomerFeedbackReceived(SaveRatedServiceRequest customerRemarks){
 
-
         if(!customerRemarks.getCustomerFeedback().equalsIgnoreCase("null")){
             feedbackUpdate=true;
             tv_select_customer_rank.setText(customerRemarks.getCustomerFeedback());
@@ -690,20 +594,15 @@ public class Fragment_PM_RateService extends Fragment
             img_signature.setVisibility(View.VISIBLE);
             img_signature.setImageBitmap(convertBase64Tobitmap(customerRemarks.getCustomerSignature()));
         }
-
-
     }
     @Override
     public void onCustomerFeedbackReceivedError(String strErr){
-
     }
 
     public Bitmap convertBase64Tobitmap(String encodedImage) {
         byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
         return decodedByte;
     }
-
 
 }

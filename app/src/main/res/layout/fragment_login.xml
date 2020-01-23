@@ -6,7 +6,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingTop="5dp"
     >
 
 <androidx.core.widget.NestedScrollView
@@ -41,10 +41,18 @@
                 <LinearLayout
                     style="@style/match_wrap_style"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_weight=".5"
                     android:orientation="vertical" >
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="1dp"
+                        android:textColor="@color/colorPrimary"
+                        android:background="#ffffff"
+                        android:textSize="@dimen/_18sdp"
+                        android:textStyle="bold"
+                        android:text="Login to account" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -60,13 +68,13 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="15dp"
                                 android:background="@drawable/broken_border"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/color_gray"
+                                android:textColorHint="@color/color_gray"
                                 android:textSize="@dimen/_10sdp"
                                 android:hint="Enter the username"
                                 android:paddingLeft="@dimen/_10sdp"
                                 android:id="@+id/tie_username"
                                 android:maxLength="10"
-
                               />
                             <TextView
                                 android:id="@+id/txt_username"
@@ -74,6 +82,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="7dp"
+                                android:textColor="@color/colorPrimary"
                                 android:background="#ffffff"
                                 android:textStyle="bold"
                                 android:text=" Username " />
@@ -98,7 +107,8 @@
                                 android:background="@drawable/broken_border"
                                 android:paddingLeft="@dimen/_10sdp"
                                 android:hint="Enter the password"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/color_gray"
+                                android:textColorHint="@color/color_gray"
                                 android:textSize="@dimen/_10sdp"
                                 android:id="@+id/tie_password"
                                 android:imeOptions="actionNext"
@@ -110,6 +120,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
+                                android:textColor="@color/colorPrimary"
                                 android:layout_marginTop="7dp"
                                 android:background="#ffffff"
                                 android:textStyle="bold"
@@ -136,7 +147,8 @@
                                 android:paddingLeft="@dimen/_10sdp"
                                 android:textSize="@dimen/_10sdp"
                                 android:hint="Enter the server url"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/color_gray"
+                                android:textColorHint="@color/color_gray"
                                 android:id="@+id/tie_serverurl"
                                 android:imeOptions="actionDone"
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@./:"
@@ -152,6 +164,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="7dp"
                                 android:background="#ffffff"
+                                android:textColor="@color/colorPrimary"
                                 android:textStyle="bold"
                                 android:text=" Server Url " />
                         </RelativeLayout>

@@ -127,11 +127,9 @@ public class Fragment_Login extends Fragment implements View.OnClickListener, Us
             tv_reg = (TextView) rootView.findViewById(R.id.tv_reg);
         //  til_serverurl = (TextInputLayout) rootView.findViewById(R.id.til_serverurl);
             tie_serverurl = (EditText) rootView.findViewById(R.id.tie_serverurl);
-
             txt_username= (TextView) rootView.findViewById(R.id.txt_username);
             txt_password= (TextView) rootView.findViewById(R.id.txt_password);
             txt_server_url= (TextView) rootView.findViewById(R.id.txt_server_url);
-
             txt_username.setTypeface(font.getHelveticaRegular());
             txt_password.setTypeface(font.getHelveticaRegular());
             txt_server_url.setTypeface(font.getHelveticaRegular());
@@ -152,10 +150,7 @@ public class Fragment_Login extends Fragment implements View.OnClickListener, Us
 
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                           // if(which==-1)
-
                                             int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
-
                                             if(selectedPosition!=-1){
                                                 tie_serverurl.setText(serverurls[selectedPosition]);
                                             }
@@ -174,7 +169,6 @@ public class Fragment_Login extends Fragment implements View.OnClickListener, Us
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     public void showDialog(Context context, String title, String[] btnText,
@@ -190,11 +184,9 @@ public class Fragment_Login extends Fragment implements View.OnClickListener, Us
             };
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
-
         builder.setSingleChoiceItems(serverurls, -1,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-
                     }
                 });
         builder.setPositiveButton(btnText[0], listener);
@@ -206,16 +198,19 @@ public class Fragment_Login extends Fragment implements View.OnClickListener, Us
 
     public void setUpActionBar() {
         Log.d(TAG, "setActionBar");
-
         try {
             mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
             tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
             LinearLayout linear_toolbar =(LinearLayout) mToolbar.findViewById(R.id.linear_profile) ;
             linear_toolbar.setVisibility(View.GONE);
-            // tv_toolbar_title.setText(getString(R.string.lbl_login));
-            //mActivity.setContentView(R.layout.toolbar);
             mActivity.setSupportActionBar(mToolbar);
-            tv_toolbar_title.setText("Login");
+
+            if(SessionManager.getSessionForURL("ip_address",mActivity) !=null && (!SessionManager.getSessionForURL("ip_address",mActivity).trim().isEmpty())  && (SessionManager.getSessionForURL("ip_address",mActivity).contains("mbm"))){
+                tv_toolbar_title.setText("Welcome to MBM CAFM");
+            }
+            else{
+                tv_toolbar_title.setText("Welcome to "+getString(R.string.app_name));
+            }
             // mActivity.getSupportActionBar().setTitle(getString(R.string.lbl_login));
             mActivity.getSupportActionBar().setHomeAsUpIndicator(null);
             mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -307,8 +302,6 @@ public class Fragment_Login extends Fragment implements View.OnClickListener, Us
 
     public void submitFormData() {
         try {
-
-
 
             String loginData = mPreferences.getString(AppUtils.SHARED_LOGIN_OFFLINE, null);
             if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {

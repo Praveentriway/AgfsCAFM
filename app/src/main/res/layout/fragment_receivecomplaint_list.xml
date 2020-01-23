@@ -119,7 +119,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 style="@style/scroll_bar"
-                android:layout_marginBottom="@dimen/_10sdp" />
+                android:layout_marginBottom="@dimen/_10sdp" />`
 
             <include layout="@layout/view_list_empty" />
 
@@ -130,16 +130,19 @@
             <include layout="@layout/footer" />
         </LinearLayout>
 
-    <Button
-        android:visibility="gone"
-        android:id="@+id/btn_reassign_ccc"
-        style="@style/btn_wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_margin="1dp"
-        android:text="@string/re_assign_to_cc" />
-</RelativeLayout>
 
+
+</RelativeLayout>
+    <io.github.yavski.fabspeeddial.FabSpeedDial
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:fabGravity="bottom_end"
+        app:fabMenu="@menu/fab_menu_rc"
+        android:id="@+id/fab_menu"
+        app:fabDrawable="@drawable/option"
+        app:miniFabBackgroundTint="@color/colorPrimary"
+        app:miniFabDrawableTint="@color/colorWhite"
+        app:miniFabTitleTextColor="@color/colorPrimary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

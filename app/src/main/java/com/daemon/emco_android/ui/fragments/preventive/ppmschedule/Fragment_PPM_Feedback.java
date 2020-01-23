@@ -149,7 +149,6 @@ public class Fragment_PPM_Feedback extends Fragment
     private boolean isPPEloaded=false;
     private boolean isRiskassesment=false;
 
-
     View.OnClickListener _OnClickListener =
             new View.OnClickListener() {
                 @Override
@@ -196,7 +195,6 @@ public class Fragment_PPM_Feedback extends Fragment
             setHasOptionsMenu(true);
             setRetainInstance(false);
             mManager = mActivity.getSupportFragmentManager();
-
             mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
             mEditor = mPreferences.edit();
             font = App.getInstance().getFontInstance();
@@ -234,14 +232,7 @@ public class Fragment_PPM_Feedback extends Fragment
                         complaint_site = mArgs.getString("complaint_site");
                     }
 
-
-
             }
-
-
-
-
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -516,7 +507,6 @@ public class Fragment_PPM_Feedback extends Fragment
                 }
 
             }
-
 
             if (ppmFeedBackResponse != null) {
                 AppUtils.closeInput(cl_main);
@@ -968,7 +958,8 @@ public class Fragment_PPM_Feedback extends Fragment
                                                             R.id.frame_container, fragment, TAG_RECEIVE_COMPLAINT_RATE__AND_FEEDBACK);
                                                     fragmentTransaction.addToBackStack(TAG_RATE_AND_SHARE_PPM);
                                                     fragmentTransaction.commit();
-                                                } else {
+                                                }
+                                                else {
                                                     mManager.popBackStack();
                                                 }
                                             } else {

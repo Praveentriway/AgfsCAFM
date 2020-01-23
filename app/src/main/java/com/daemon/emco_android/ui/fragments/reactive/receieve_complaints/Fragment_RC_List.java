@@ -326,8 +326,6 @@ public class Fragment_RC_List extends Fragment
       text_view_message = (TextView) view.findViewById(R.id.text_view_message);
 
       btn_reassign_ccc = (Button) view.findViewById(R.id.btn_reassign_ccc);
-
-
        fabSpeedDial = (FabSpeedDial) view.findViewById(R.id.fab_menu);
 
        if (ARGS_RCLIST_C){
