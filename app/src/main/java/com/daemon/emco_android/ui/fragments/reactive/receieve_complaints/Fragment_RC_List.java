@@ -28,6 +28,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -85,6 +86,7 @@ public class Fragment_RC_List extends Fragment
   private CoordinatorLayout cl_main;
   private LinearLayoutManager mLayoutManager;
   private TextView text_view_loading_message, tv_toolbar_title;
+  private ImageView img_toolbar;
   private LinearLayout layout_loading_message;
   private TextView text_view_message, text_view_empty;
   private Button btn_reassign_ccc;
@@ -303,7 +305,8 @@ public class Fragment_RC_List extends Fragment
       AppUtils.closeInput(cl_main);
 
       searchView = (SearchView) view.findViewById(R.id.sv_rc_search);
-      searchView.setOnQueryTextListener(this);
+
+
       cb_checkAll = (CheckBox) view.findViewById(R.id.cb_checkall);
 
       recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -325,7 +328,7 @@ public class Fragment_RC_List extends Fragment
       text_view_empty = (TextView) view.findViewById(R.id.text_view_empty);
       text_view_message = (TextView) view.findViewById(R.id.text_view_message);
 
-      btn_reassign_ccc = (Button) view.findViewById(R.id.btn_reassign_ccc);
+    //  btn_reassign_ccc = (Button) view.findViewById(R.id.btn_reassign_ccc);
        fabSpeedDial = (FabSpeedDial) view.findViewById(R.id.fab_menu);
 
        if (ARGS_RCLIST_C){
@@ -415,6 +418,7 @@ public class Fragment_RC_List extends Fragment
   public void setupActionBar() {
     mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
     tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
+    img_toolbar = (ImageView) mToolbar.findViewById(R.id.img_toolbar);
     tv_toolbar_title.setText(
         getResources()
             .getString(
@@ -474,7 +478,7 @@ public class Fragment_RC_List extends Fragment
 
       text_view_empty.setTypeface(font.getHelveticaRegular());
       text_view_message.setTypeface(font.getHelveticaRegular());
-      btn_reassign_ccc.setTypeface(font.getHelveticaRegular());
+   //   btn_reassign_ccc.setTypeface(font.getHelveticaRegular());
 
       text_view_loading_message.setTypeface(font.getHelveticaRegular());
 
@@ -489,7 +493,7 @@ public class Fragment_RC_List extends Fragment
       } else {
         cb_checkAll.setVisibility(View.GONE);
       }
-      btn_reassign_ccc.setOnClickListener(_OnClickListener);
+    //  btn_reassign_ccc.setOnClickListener(_OnClickListener);
       recyclerView.addOnScrollListener(onScrollListener);
 
       if (mSavedInstanceState != null) {
@@ -561,12 +565,6 @@ public class Fragment_RC_List extends Fragment
 
   public void showList() {
     try {
-//      if (!ARGS_RCLIST_C){
-//        if (fabSpeedDial != null)
-//          fabSpeedDial.setVisibility(
-//                  mUnSignedPage == AppUtils.ARGS_RECEIVECOMPLAINT_PAGE ? View.VISIBLE : View.GONE);
-//      }
-
 
       if (recyclerView != null) recyclerView.setVisibility(View.VISIBLE);
       if (layout_loading != null) layout_loading.setVisibility(View.GONE);
@@ -584,9 +582,6 @@ public class Fragment_RC_List extends Fragment
       if (footer_container != null) footer_container.setVisibility(View.GONE);
       if (layout_loading != null) layout_loading.setVisibility(View.VISIBLE);
       if (recyclerView != null) recyclerView.setVisibility(View.GONE);
-//      if(!ARGS_RCLIST_C){
-//        if (fabSpeedDial != null) fabSpeedDial.setVisibility(View.GONE);
-//      }
 
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -793,12 +788,7 @@ public class Fragment_RC_List extends Fragment
                   @Override
                   public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                     dialog.dismiss();
-                    /*Bundle data = new Bundle();
-                    data.putString(AppUtils.ARGS_RECEIVECOMPLAINT_PAGETYPE, AppUtils.ARGS_RECEIVECOMPLAINT_PAGE);
-                    data.putBoolean(AppUtils.ARGS_RCLIST_F, true);
-                    Fragment_RC_List complaintsList = new Fragment_RC_List();
-                    complaintsList.setArguments(data);
-                    loadFragment(complaintsList, Utils.TAG_RECEIVED_COMPALINTS);*/
+
                   }
                 });
 
@@ -833,17 +823,7 @@ public class Fragment_RC_List extends Fragment
 
           // changed navigation based on Sulaiman request
           gotoFragmentReceiveComplaintView(temp, position);
-//          Bundle mdata = new Bundle();
-//          Fragment fragment = new Fragment_RC_Feedback();
-//          mdata.putParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_ITEM_DETAILS, temp.get(position));
-//       //   mdata.putString("");
-//          fragment.setArguments(mdata);
-//          FragmentTransaction fragmentTransaction = mManager.beginTransaction();
-//          fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-//          fragmentTransaction.replace(
-//              R.id.frame_container, fragment, TAG_RECEIVE_COMPLAINT_FEEDBACK);
-//          fragmentTransaction.addToBackStack(TAG_RECEIVE_COMPLAINT_FEEDBACK);
-//          fragmentTransaction.commit();
+
         } else {
           if (temp.get(position).getComplaintNumber() != null) {
             gotoFragmentReceiveComplaintView(temp, position);
@@ -910,6 +890,18 @@ public class Fragment_RC_List extends Fragment
     searchView.setMaxWidth(Integer.MAX_VALUE);
     searchView.setOnQueryTextListener(this);
     changeSearchViewTextColor(searchView);
+
+    searchView.setOnQueryTextListener(this);
+
+    searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+
+      @Override
+      public boolean onClose() {
+        img_toolbar.setVisibility(View.VISIBLE);
+        return false;
+      }
+    });
+
   }
 
   private void changeSearchViewTextColor(View view) {
@@ -974,6 +966,9 @@ public class Fragment_RC_List extends Fragment
 
   @Override
   public boolean onQueryTextSubmit(String query) {
+
+    img_toolbar.setVisibility(View.GONE);
+
     Log.d(TAG, "onQueryTextSubmit");
     // filter your list from your input
     filter(query);
@@ -1050,14 +1045,7 @@ public class Fragment_RC_List extends Fragment
         } else showEmptyView(getString(R.string.lbl_alert_network_not_available));
       }
 
-      /*
 
-
-      mPreferences
-              .edit()
-              .putString("rc_day", new SimpleDateFormat("dd-MMM-yyyy").format(new Date()))
-              .commit();*/
-      // }
     } else {
       if (mPreferences
           .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)

@@ -25,6 +25,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,6 +61,7 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
   private AppCompatActivity mActivity;
   private Toolbar mToolbar;
   private TextView text_view_message, text_view_empty, tv_toolbar_title;
+  private ImageView img_toolbar;
   private FragmentManager mManager;
   private CoordinatorLayout cl_main;
   private LinearLayoutManager mLayoutManager;
@@ -252,6 +254,7 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
   public void setupActionBar() {
     mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
     tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
+    img_toolbar = (ImageView) mToolbar.findViewById(R.id.img_toolbar);
     tv_toolbar_title.setText(getString(R.string.lbl_ppm_details));
     // mToolbar.setTitle(getResources().getString(R.string.lbl_ppm_details));
     mActivity.setSupportActionBar(mToolbar);
@@ -599,6 +602,8 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
       @Override
       public boolean onClose() {
 
+        img_toolbar.setVisibility(View.VISIBLE);
+
         if(searchEnabled){
           searchEnabled=false;
           mCurrentnoOfRows=0;
@@ -606,9 +611,6 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
           scrollCount=1;
         }
 
-
-       // Log.i("SearchView:", "onClose");
-        // searchView.onActionViewCollapsed();
         return false;
       }
     });
@@ -676,6 +678,8 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
   public boolean onQueryTextSubmit(String query) {
 
     closeKeyboard();
+
+    img_toolbar.setVisibility(View.GONE);
 
     if(query.trim().length()>2){
 

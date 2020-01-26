@@ -40,6 +40,7 @@ import androidx.navigation.ui.NavigationUI;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -168,6 +169,9 @@ public class MainActivity extends AppCompatActivity
   private Drawable drawableLogout;
   private String mLoginData = null;
   private String mStrEmpId = null;
+  private String username = null;
+  private String email = null;
+  private String mobile = null;
   private GetPostRateServiceService mGetPostRateService;
   ActionBarDrawerToggle mDrawerToggle;
   private BroadcastReceiver receiver =
@@ -286,15 +290,17 @@ public class MainActivity extends AppCompatActivity
               R.id.nav_tools, R.id.nav_share, R.id.nav_send)
               .setDrawerLayout(drawer)
               .build();
-      NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-      NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-      NavigationUI.setupWithNavController(navigationView, navController);
+
+      View hView =  navigationView.getHeaderView(0);
+      TextView nav_user = (TextView)hView.findViewById(R.id.txtusername);
+      TextView nav_email = (TextView)hView.findViewById(R.id.txt_email);
+      nav_user.setText(username+" | "+mobile);
+      nav_email.setText(email);
 
 
     } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
 
   private void logUser() {
@@ -305,6 +311,9 @@ public class MainActivity extends AppCompatActivity
       Gson gson = new Gson();
       Login login = gson.fromJson(mLoginData, Login.class);
       mStrEmpId = login.getEmployeeId();
+      username = login.getFirstName().replace("\n", "").replace("\r", "");;
+      email = login.getEmailId();
+      mobile = login.getMobileNumber();
       Crashlytics.setUserIdentifier(mStrEmpId);
       Crashlytics.setUserEmail(login.getEmailId());
       Crashlytics.setUserName(login.getUserType() + login.getUserName());

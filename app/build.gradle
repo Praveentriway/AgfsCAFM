@@ -110,19 +110,15 @@ android {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-
     testImplementation 'junit:junit:4.12'
 
     //retrofit for networking
-
     implementation 'com.squareup.retrofit2:retrofit:' + rootProject.retrofitVersion
-
     //okhttp client
     implementation 'com.squareup.okhttp3:okhttp:' + rootProject.okHttpVersion
     implementation 'com.squareup.okhttp3:logging-interceptor:' + rootProject.okHttpVersion
@@ -166,15 +162,10 @@ dependencies {
         implementation 'io.github.yavski:fab-speed-dial:1.0.6'
     }
 
-
     implementation 'com.github.Shashank02051997:FancyAlertDialog-Android:0.1'
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
     implementation 'com.android.support:multidex:1.0.3'
-
     implementation 'com.samigehi:loadingview:1.1'
-
     implementation 'fr.tvbarthel.blurdialogfragment:lib:2.2.0'
 // for loading GIF
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
@@ -184,13 +175,12 @@ dependencies {
     implementation('com.github.thekhaeng:pushdown-anim-click:1.1.1') {
         exclude group: 'com.android.support'
     }
-
     implementation 'com.github.chrisbanes.photoview:library:1.2.4'
 }
 configurations.all {
     resolutionStrategy.eachDependency {
         DependencyResolveDetails details ->
-            def requested = details.requested
+            def requesteinspectionbtn2d = details.requested
             if (requested.group == 'com.android.support') {
                 if (!requested.name.startsWith("multidex")) {
                     details.useVersion '26.0.0'

@@ -273,7 +273,7 @@ public class Fragment_Main extends Fragment implements View.OnClickListener {
       tv_toolbar_title.setText("MBM CAFM");
     }
     else{
-      tv_toolbar_title.setText("AGFS CAFM");
+      tv_toolbar_title.setText(getString(R.string.app_name));
     }
     mActivity.setSupportActionBar(mToolbar);
     mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
