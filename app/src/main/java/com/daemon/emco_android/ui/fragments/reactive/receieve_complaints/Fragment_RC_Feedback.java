@@ -29,7 +29,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.repository.remote.FeedBackService;
+import com.daemon.emco_android.repository.remote.FeedBackRepository;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintViewService;
 import com.daemon.emco_android.repository.db.dbhelper.FbEmployeeDbInitializer;
 import com.daemon.emco_android.repository.db.dbhelper.FeedbackDbInitializer;
@@ -40,7 +40,7 @@ import com.daemon.emco_android.repository.db.entity.ReceiveComplaintItemEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintRespondEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
 import com.daemon.emco_android.repository.db.entity.SaveFeedbackEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.FeedbackListener;
 import com.daemon.emco_android.listeners.ReceivecomplaintView_Listener;
 import com.daemon.emco_android.listeners.TechRemarksListener;
@@ -90,7 +90,7 @@ public class Fragment_RC_Feedback extends Fragment
   private Toolbar mToolbar;
   private View rootView;
   private ReceiveComplaintViewService complaintView_service;
-  private FeedBackService feedBackService;
+  private FeedBackRepository feedBackService;
   private List<EmployeeDetailsEntity> entityList = new ArrayList<>();
   private List<ReceiveComplaintViewEntity> entityListNew = new ArrayList<>();
   private ReceiveComplaintViewEntity receiveComplaintViewEntity;
@@ -153,7 +153,7 @@ public class Fragment_RC_Feedback extends Fragment
         Login login = gson.fromJson(mLoginData, Login.class);
         mStrEmpId = login.getEmployeeId();
       }
-      feedBackService = new FeedBackService(mActivity, this);
+      feedBackService = new FeedBackRepository(mActivity, this);
       complaintView_service = new ReceiveComplaintViewService(mActivity, this);
       if (mArgs != null && mArgs.size() > 0) {
         receiveComplaintViewEntity =
@@ -814,7 +814,7 @@ public class Fragment_RC_Feedback extends Fragment
           for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             fm.popBackStack();
           }
-          Fragment _fragment = new Fragment_Main();
+          Fragment _fragment = new MainLandingUI();
           FragmentTransaction _transaction = mManager.beginTransaction();
           _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
           _transaction.replace(R.id.frame_container, _fragment);

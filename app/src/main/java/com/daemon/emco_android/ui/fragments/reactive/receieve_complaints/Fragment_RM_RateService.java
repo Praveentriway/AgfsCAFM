@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -38,7 +41,7 @@ import com.daemon.emco_android.ui.components.CustomTextInputLayout;
 import com.daemon.emco_android.repository.db.dbhelper.SaveRatedServiceDbInitializer;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
 import com.daemon.emco_android.repository.db.entity.SaveRatedServiceEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.RateAndShareListener;
 import com.daemon.emco_android.listeners.RatedServiceListener;
 import com.daemon.emco_android.model.common.Login;
@@ -77,14 +80,16 @@ public class Fragment_RM_RateService extends Fragment
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private FragmentManager mManager;
+
+    AppCompatTextView tv_lbl_signature,tv_lbl_cus_remarks;
     private TextView tv_lbl_cus_satisfaction,
-            tv_lbl_cus_remarks,
+
             tv_lbl_cus_sign,
             tv_lbl_tech_remarks;
     private TextView tv_select_customer_rank, tv_select_signstatus;
     private SignaturePad signaturePad;
-    private Button btnSave, btnClear;
-    private CustomTextInputLayout til_remarks_detail, til_customer_remarks;
+    private Button btnClear;
+    private FloatingActionButton btnSave;
     private TextInputEditText tie_customer_remarks;
     private ImageView iv_very_good, iv_good, iv_excellent, iv_Satisfactory, iv_poor;
     private LinearLayout ll_remarks_detail;
@@ -169,8 +174,8 @@ public class Fragment_RM_RateService extends Fragment
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             ll_remarks_detail = (LinearLayout) rootView.findViewById(R.id.ll_remarks_detail);
             tv_lbl_cus_satisfaction = (TextView) rootView.findViewById(R.id.tv_lbl_cus_satisfaction);
-            tv_lbl_cus_remarks = (TextView) rootView.findViewById(R.id.tv_lbl_cus_remarks);
-            tv_lbl_cus_sign = (TextView) rootView.findViewById(R.id.tv_lbl_cus_sign);
+            tv_lbl_cus_remarks = (AppCompatTextView) rootView.findViewById(R.id.tv_lbl_cus_remarks);
+            tv_lbl_signature = (AppCompatTextView) rootView.findViewById(R.id.tv_lbl_signature);
             tv_lbl_tech_remarks = (TextView) rootView.findViewById(R.id.tv_lbl_tech_remarks);
 
             // logo changes R id
@@ -180,15 +185,10 @@ public class Fragment_RM_RateService extends Fragment
             iv_Satisfactory = (ImageView) rootView.findViewById(R.id.iv_good);
             iv_poor = (ImageView) rootView.findViewById(R.id.iv_Satisfactory);
 
-            til_remarks_detail = (CustomTextInputLayout) rootView.findViewById(R.id.til_remarks_detail);
-            til_customer_remarks =
-                    (CustomTextInputLayout) rootView.findViewById(R.id.til_customer_remarks);
-            tie_customer_remarks = (TextInputEditText) rootView.findViewById(R.id.tie_customer_remarks);
-
             tv_select_customer_rank = (TextView) rootView.findViewById(R.id.tv_select_customer_rank);
             tv_select_signstatus = (TextView) rootView.findViewById(R.id.tv_select_signstatus);
             signaturePad = (SignaturePad) rootView.findViewById(R.id.signaturePad);
-            btnSave = (Button) rootView.findViewById(R.id.btnSave);
+            btnSave = (FloatingActionButton) rootView.findViewById(R.id.btnSave);
             btnClear = (Button) rootView.findViewById(R.id.btnClear);
             setupActionBar();
 
@@ -197,7 +197,6 @@ public class Fragment_RM_RateService extends Fragment
                 // fm.popBackStack();
                 Log.i(TAG, "Found fragment: " + fm.getBackStackEntryAt(i).getId());
             }
-
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -227,27 +226,22 @@ public class Fragment_RM_RateService extends Fragment
             tv_lbl_tech_remarks.setText(
                     Html.fromHtml(getString(R.string.lbl_tech_remarks) + AppUtils.mandatory));
 
+            tv_lbl_signature.setText(Html.fromHtml("Customer Signature " + AppUtils.mandatory));
             tv_lbl_cus_satisfaction.setTypeface(font.getHelveticaRegular());
             tv_lbl_cus_remarks.setTypeface(font.getHelveticaRegular());
-            tv_lbl_cus_sign.setTypeface(font.getHelveticaRegular());
+            tv_lbl_signature.setTypeface(font.getHelveticaRegular());
             tv_lbl_tech_remarks.setTypeface(font.getHelveticaRegular());
             tv_select_customer_rank.setTypeface(font.getHelveticaRegular());
             tv_select_signstatus.setTypeface(font.getHelveticaRegular());
-            til_remarks_detail.setTypeface(font.getHelveticaRegular());
-
-            btnSave.setTypeface(font.getHelveticaRegular());
             btnClear.setTypeface(font.getHelveticaRegular());
-
             btnSave.setOnClickListener(this);
             btnClear.setOnClickListener(this);
             signaturePad.setOnSignedListener(this);
-
             iv_very_good.setOnClickListener(this);
             iv_good.setOnClickListener(this);
             iv_excellent.setOnClickListener(this);
             iv_Satisfactory.setOnClickListener(this);
             iv_poor.setOnClickListener(this);
-
             tie_customer_remarks.addTextChangedListener(new MyTextWatcher(tie_customer_remarks));
 
             if (receiveComplaintViewEntity != null) {
@@ -255,11 +249,11 @@ public class Fragment_RM_RateService extends Fragment
                 if (receiveComplaintViewEntity.getCustomerFeedback() != null) {
                     select_customer_rank = receiveComplaintViewEntity.getCustomerFeedback();
                     tv_select_customer_rank.setText(receiveComplaintViewEntity.getCustomerFeedback());
-
                 }
             }
 
             AppUtils.closeInput(cl_main);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -302,14 +296,6 @@ public class Fragment_RM_RateService extends Fragment
             if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 mGetPostRateService.getCustomerRemarksData();
-
-        /*SaveRatedServiceRequest serviceRequest = new SaveRatedServiceRequest();
-        serviceRequest.setComplaintNumber(mComplaintno);
-        serviceRequest.setComplaintSite(mComplaintSite);
-        serviceRequest.setCustomerFeedback(select_customer_rank);
-        serviceRequest.setCustomerSignStatus(AppUtils.CLOSEWITHSIGN);
-        serviceRequest.setOpco(mOpco);
-        mGetPostRateService.fetchCustomerFeedback(serviceRequest);*/
 
             } else {
                 String strJsonCr = mPreferences.getString(AppUtils.SHARED_CUSTOMER_REMARKS, null);
@@ -371,8 +357,7 @@ public class Fragment_RM_RateService extends Fragment
                 serviceRequest.setCustomerRemarks(mCustomerRemarks);
                 serviceRequest.setOpco(mOpco);
                 serviceRequest.setCreatedBy(mStrEmpId);
-                serviceRequest.setCustomerSignature(
-                        AppUtils.getEncodedString(signaturePad.getSignatureBitmap()));
+                serviceRequest.setCustomerSignature(AppUtils.getEncodedString(signaturePad.getSignatureBitmap()));
                 serviceRequest.setTransactionType("R");
 
                 mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
@@ -437,11 +422,11 @@ public class Fragment_RM_RateService extends Fragment
     private boolean validateCustomerRemarks() {
         mCustomerRemarks = tie_customer_remarks.getText().toString().trim();
         if (mCustomerRemarks.isEmpty()) {
-            til_customer_remarks.setError(getString(R.string.msg_enter_remark_detail));
+           // til_customer_remarks.setError(getString(R.string.msg_enter_remark_detail));
             requestFocus(tie_customer_remarks);
             return false;
         } else {
-            til_customer_remarks.setErrorEnabled(false);
+           // til_customer_remarks.setErrorEnabled(false);
         }
         return true;
     }
@@ -486,7 +471,7 @@ public class Fragment_RM_RateService extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);
@@ -601,8 +586,6 @@ public class Fragment_RM_RateService extends Fragment
 
         public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
-                case R.id.tie_customer_remarks:
-                    validateCustomerRemarks();
-                    break;
+
             } }}
 }

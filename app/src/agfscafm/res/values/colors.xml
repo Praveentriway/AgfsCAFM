@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#EB1165</color>
-    <color name="colorAccent">#EB1165</color>
+    <color name="colorPrimary">#D7164B</color>
+    <color name="colorAccent">#D7164B</color>
     <color name="colorPrimaryDark">#CB1D62</color>
 
  <!--   <color name="colorPrimary"> #AC1D37</color>-->
@@ -20,11 +20,13 @@
 
     <color name="colorBlack">#111</color>
     <!-- #7C4DFF , #3FB5A3 -->
-    <color name="color_gray">#646569</color>
+    <color name="color_gray">#505561</color>
 
-    <color name="color_gray_new">#808080</color>
+    <color name="color_gray_new">#505561</color>
 
     <color name="list_bg">#FFEBF1</color>
+
+    <color name="bg_layout">#FAFBFC</color>
 
     <color name="transparent">#00FFFFFF</color>
 
@@ -40,7 +42,5 @@
     <color name="colorFormMasterElementTextValue">#000000</color>
     <color name="colorFormMasterDivider">#DDDDDD</color>
     <color name="color_blue">#4285F4</color>
-
-
 
 </resources>

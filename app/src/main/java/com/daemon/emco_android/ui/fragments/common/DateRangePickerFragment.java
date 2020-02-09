@@ -42,8 +42,6 @@ public class DateRangePickerFragment extends DialogFragment implements View.OnCl
         this.is24HourMode = is24HourMode;
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,9 +82,6 @@ public class DateRangePickerFragment extends DialogFragment implements View.OnCl
     }
 
 
-    public void setOnDateRangeSelectedListener(OnDateRangeSelectedListener callback) {
-        this.onDateRangeSelectedListener = callback;
-    }
 
     @Override
     public void onClick(View v) {

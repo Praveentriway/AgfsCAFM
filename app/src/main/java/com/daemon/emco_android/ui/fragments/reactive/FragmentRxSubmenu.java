@@ -32,7 +32,7 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.activities.LoginActivity;
 import com.daemon.emco_android.repository.db.dbhelper.ReceiveComplaintItemDbInitializer;
 import com.daemon.emco_android.ui.fragments.reactive.dashboard.Fragment_RM_Dashboard;
-import com.daemon.emco_android.ui.fragments.common.document.FragmentDocumentFilter;
+import com.daemon.emco_android.ui.fragments.common.document.DocumentFilter;
 import com.daemon.emco_android.ui.fragments.reactive.logcomplaints.Fragment_RM_LogComplaintUser;
 import com.daemon.emco_android.ui.fragments.reactive.receieve_complaints.Fragment_RC_List;
 import com.daemon.emco_android.model.common.Login;
@@ -241,7 +241,7 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
                 break;
             case R.id.btn_receive_documents:
 
-                Fragment filter=new FragmentDocumentFilter();
+                Fragment filter=new DocumentFilter();
                 Bundle mdata = new Bundle();
                 mdata.putString(AppUtils.ARGS_FILTERTYPE, "R");
                 filter.setArguments(mdata);

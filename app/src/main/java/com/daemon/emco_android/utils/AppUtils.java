@@ -199,6 +199,8 @@ public class AppUtils extends Dialog {
 
   public static String ARGS_SURVEYQUES = "ARGS_SURVEYQUES";
 
+  public static String ARGS_SUGESSTIONFLAG = "ARGS_SUGESSTIONFLAG";
+
   public static String ARGS_SURVEYTRANS = "ARGS_SURVEYTRANS";
 
   public static String ARGS_SURVEYTYPE = "ARGS_SURVEYTYPE";

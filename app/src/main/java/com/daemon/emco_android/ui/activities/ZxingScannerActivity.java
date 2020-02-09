@@ -12,9 +12,6 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static com.daemon.emco_android.ui.activities.BarcodeCaptureActivity.BarcodeObject;
 
-/**
- * Created by Daemonsoft on 9/7/2017.
- */
 
 public class ZxingScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private static String TAG = ZxingScannerActivity.class.getSimpleName();

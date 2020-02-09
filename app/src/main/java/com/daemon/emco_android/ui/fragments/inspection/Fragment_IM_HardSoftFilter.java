@@ -22,14 +22,14 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.repository.remote.GetLogComplaintPopupService;
+import com.daemon.emco_android.repository.remote.GetLogComplaintPopupRepository;
 import com.daemon.emco_android.repository.db.dbhelper.ContractDbInitializer;
 import com.daemon.emco_android.repository.db.dbhelper.SiteAreaDbInitializer;
 import com.daemon.emco_android.repository.db.entity.BuildingDetailsEntity;
 import com.daemon.emco_android.repository.db.entity.ContractEntity;
 import com.daemon.emco_android.repository.db.entity.SiteAreaEntity;
 import com.daemon.emco_android.repository.db.entity.ZoneEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.BuildingDetailsListener;
 import com.daemon.emco_android.listeners.DatePickerDialogListener;
 import com.daemon.emco_android.listeners.JobNoListener;
@@ -73,7 +73,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   private Toolbar mToolbar;
   private int mModeDate;
   private HardSoftRequest hardSoftRequest;
-  private GetLogComplaintPopupService mGetComplaintPopupService;
+  private GetLogComplaintPopupRepository mGetComplaintPopupService;
   /** Global variables for post log complaint data */
   private Login mUserData;
 
@@ -147,7 +147,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
         }
       }
       mGetComplaintPopupService =
-          new GetLogComplaintPopupService(
+          new GetLogComplaintPopupRepository(
               mActivity,
               new EmployeeIdRequest(
                   mUserData.getEmployeeId(),
@@ -267,30 +267,25 @@ public class Fragment_IM_HardSoftFilter extends Fragment
 
   private void setProperties() {
     Log.d(TAG, "setProperties");
-
     tv_lbl_jobno.setText(Html.fromHtml(getString(R.string.lbl_job_no) + AppUtils.mandatory));
     tv_lbl_site.setText(Html.fromHtml(getString(R.string.lbl_site_name) + AppUtils.mandatory));
     tv_zone_area.setText(Html.fromHtml(getString(R.string.lbl_zone_area) + AppUtils.mandatory));
     tv_lbl_from_date.setText(Html.fromHtml(getString(R.string.lbl_from_date) + AppUtils.mandatory));
     tv_lbl_to_date.setText(Html.fromHtml(getString(R.string.lbl_to_date) + AppUtils.mandatory));
     tv_building.setText(Html.fromHtml(getString(R.string.lbl_building) + AppUtils.mandatory));
-
     tv_lbl_site.setTypeface(font.getHelveticaRegular());
     tv_lbl_jobno.setTypeface(font.getHelveticaRegular());
     tv_lbl_from_date.setTypeface(font.getHelveticaRegular());
     tv_lbl_to_date.setTypeface(font.getHelveticaRegular());
     tv_building.setTypeface(font.getHelveticaRegular());
     tv_zone_area.setTypeface(font.getHelveticaRegular());
-
     tv_select_from_date.setTypeface(font.getHelveticaRegular());
     tv_select_to_date.setTypeface(font.getHelveticaRegular());
     tv_select_site.setTypeface(font.getHelveticaRegular());
     tv_select_jobno.setTypeface(font.getHelveticaRegular());
     tv_select_building.setTypeface(font.getHelveticaRegular());
     tv_select_zone_area.setTypeface(font.getHelveticaRegular());
-
     btnSearch.setTypeface(font.getHelveticaRegular());
-
     btnSearch.setOnClickListener(_OnClickListener);
     tv_select_from_date.setOnClickListener(_OnClickListener);
     tv_select_to_date.setOnClickListener(_OnClickListener);
@@ -374,18 +369,14 @@ public class Fragment_IM_HardSoftFilter extends Fragment
       hardSoftRequest.setToDate(mToDate);
       hardSoftRequest.setZoneCode(mZoneCode);
       hardSoftRequest.setBuildingCode(mBuildingCode);
-
       //this for ppmlist
       hardSoftRequest.setBuildTag(mBuildingCode);
       hardSoftRequest.setJobNo(mJobNo);
       hardSoftRequest.setStartIndex("0");
       hardSoftRequest.setLimit("10");
 
-
       AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
-      //btnSearch.setEnabled(false);
       gotoFragmentList();
-       //new ReactiveDashboardService(mActivity, this, this).GetDashboardData(pieChartRequest);
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -637,7 +628,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
           fm.popBackStack();
         }
-        Fragment _fragment = new Fragment_Main();
+        Fragment _fragment = new MainLandingUI();
         FragmentTransaction _transaction = mManager.beginTransaction();
         _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         _transaction.replace(R.id.frame_container, _fragment);

@@ -27,7 +27,7 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.ViewComplaintListAdapter;
 import com.daemon.emco_android.repository.remote.GetSearchComplaintService;
 import com.daemon.emco_android.ui.components.SimpleDividerItemDecoration;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.SearchComplaintListener;
 import com.daemon.emco_android.repository.db.entity.MultiSearchComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.SingleSearchComplaintEntity;
@@ -319,7 +319,7 @@ public class Fragment_RM_ViewComplaintList extends Fragment implements SearchCom
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

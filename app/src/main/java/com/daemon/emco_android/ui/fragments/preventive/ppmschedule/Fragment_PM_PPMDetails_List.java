@@ -35,7 +35,7 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.PPMListAdapter;
 import com.daemon.emco_android.repository.remote.GetSearchComplaintPreventiveService;
 import com.daemon.emco_android.repository.remote.PPMDetailsService;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.SearchComplaintPreventiveListener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.common.PPMDetails;
@@ -291,7 +291,6 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
       setManager();
       searchView.setIconifiedByDefault(true);
       searchView.setOnQueryTextListener(this);
-
       tv_totla_ppm.setTypeface(font.getHelveticaRegular());
       tv_building.setTypeface(font.getHelveticaRegular());
       tv_asset_name.setTypeface(font.getHelveticaRegular());
@@ -299,7 +298,6 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
       tv_proposed_end_date.setTypeface(font.getHelveticaRegular());
       tv_completed.setTypeface(font.getHelveticaRegular());
       tv_pending.setTypeface(font.getHelveticaRegular());
-
       text_view_empty.setTypeface(font.getHelveticaRegular());
       text_view_message.setTypeface(font.getHelveticaRegular());
       btn_reassign_ccc.setTypeface(font.getHelveticaRegular());
@@ -639,7 +637,7 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
           fm.popBackStack();
         }
-        Fragment _fragment = new Fragment_Main();
+        Fragment _fragment = new MainLandingUI();
         FragmentTransaction _transaction = mManager.beginTransaction();
         _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         _transaction.replace(R.id.frame_container, _fragment);

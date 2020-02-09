@@ -7,6 +7,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     tools:ignore="MissingPrefix"
+    android:background="@color/bg_layout"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/_5sdp">
     <androidx.core.widget.NestedScrollView
@@ -22,8 +23,7 @@
 
         <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/match_parent_style"
-            android:background="@color/colorWhite">
+            style="@style/match_parent_style">
 
             <LinearLayout
                 style="@style/match_parent_style"
@@ -654,6 +654,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:visibility="gone"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/sharp_search_white_18" />
 

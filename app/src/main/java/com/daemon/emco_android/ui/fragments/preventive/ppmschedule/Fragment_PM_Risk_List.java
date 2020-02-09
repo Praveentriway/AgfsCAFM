@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
@@ -29,7 +28,7 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.RiskAssessmentListAdapter;
 import com.daemon.emco_android.repository.remote.RiskAssessmentService;
 import com.daemon.emco_android.repository.db.entity.AssetDetailsEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.RiskeAssListener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.common.PpmScheduleDocBy;
@@ -40,10 +39,8 @@ import com.daemon.emco_android.model.response.ObjectPPM;
 import com.daemon.emco_android.model.response.PpmFeedBackResponse;
 import com.daemon.emco_android.utils.AppUtils;
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.daemon.emco_android.utils.AppUtils.showProgressDialog;
 
 /**
@@ -71,7 +68,6 @@ public class Fragment_PM_Risk_List extends Fragment implements RiskeAssListener 
     private List<Object> loginList2 = new ArrayList<>();
     private Button btn_reassign_ccc;
     private List<Object> loginData;
-    //private List<Object> UpdateData = new ArrayList<>();
     private List<Object> saveData = new ArrayList<>();
 
     @Override
@@ -136,7 +132,6 @@ public class Fragment_PM_Risk_List extends Fragment implements RiskeAssListener 
         mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
         tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
         tv_toolbar_title.setText(getString(R.string.lbl_risk_assessment));
-        // mToolbar.setTitle(getResources().getString(R.string.lbl_ppm_details));
         mActivity.setSupportActionBar(mToolbar);
         mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -166,7 +161,7 @@ public class Fragment_PM_Risk_List extends Fragment implements RiskeAssListener 
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);
@@ -175,7 +170,6 @@ public class Fragment_PM_Risk_List extends Fragment implements RiskeAssListener 
         return super.onOptionsItemSelected(item);
     }
 
-
     public void setProperties() {
         setManager();
     }
@@ -183,7 +177,6 @@ public class Fragment_PM_Risk_List extends Fragment implements RiskeAssListener 
     public void initView(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         btn_reassign_ccc = (Button) view.findViewById(R.id.btn_reassign_ccc);
-
         btn_reassign_ccc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -219,7 +212,6 @@ public class Fragment_PM_Risk_List extends Fragment implements RiskeAssListener 
         }
     }
 
-
     @Override
     public void onListAssSuccess(List<Object> login) {
         AppUtils.hideProgressDialog();
@@ -241,9 +233,6 @@ public class Fragment_PM_Risk_List extends Fragment implements RiskeAssListener 
     @Override
     public void onSaveDataSuccess(String commonResponse) {
         AppUtils.hideProgressDialog();
-        //  AppUtils.showDialog(mActivity, commonResponse);
-        //mManager.popBackStack();
-       // AppUtils.hideProgressDialog();
         MaterialDialog.Builder builder = new MaterialDialog.Builder(mActivity)
                 .content(commonResponse)
                 .positiveText(R.string.lbl_okay)
@@ -255,7 +244,6 @@ public class Fragment_PM_Risk_List extends Fragment implements RiskeAssListener 
                         mManager.popBackStack();
                     }
                 });
-
         MaterialDialog dialog = builder.build();
         dialog.show();
     }

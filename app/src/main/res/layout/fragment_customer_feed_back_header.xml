@@ -8,11 +8,12 @@
     android:layout_width="match_parent"
     tools:ignore="MissingPrefix"
     android:layout_height="match_parent"
+    android:background="@color/bg_layout"
     android:paddingTop="@dimen/_5sdp">
 
     <RelativeLayout
         style="@style/match_parent_style"
-        android:background="@color/colorWhite">
+       >
 
         <ScrollView style="@style/match_parent_style">
 
@@ -105,8 +106,6 @@
 
                 </androidx.cardview.widget.CardView>
 
-
-
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"
                     android:background="@color/colorFormMasterElementBackground"
@@ -117,7 +116,6 @@
                     android:id="@+id/linear2"
                     card_view:cardElevation="4dp"
                     card_view:cardUseCompatPadding="true">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -165,7 +163,6 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
 
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"
@@ -225,6 +222,65 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    android:id="@+id/linear3"
+                    android:visibility="gone"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <View
+                            android:backgroundTint="@color/colorPrimary"
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorFormMasterDivider" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_lbl_tenant_name"
+                            android:text="Tenant Name"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:textSize="@dimen/elementTextValueSize"
+                                android:maxLength="500"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:id="@+id/tie_tenant_name"
+                                android:textColor="@color/colorPrimary"
+                                android:hint="Enter Tenant Name"
+                                android:imeOptions="actionDone"
+                                android:padding="16dp"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"

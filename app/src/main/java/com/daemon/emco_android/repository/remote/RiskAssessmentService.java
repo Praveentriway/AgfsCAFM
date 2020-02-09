@@ -26,7 +26,7 @@ import retrofit2.Response;
  */
 
 public class RiskAssessmentService {
-    private static final String TAG = ChangePasswordService.class.getSimpleName();
+    private static final String TAG = ChangePasswordRepository.class.getSimpleName();
 
     private AppCompatActivity mActivity;
     private ApiInterface mInterface;

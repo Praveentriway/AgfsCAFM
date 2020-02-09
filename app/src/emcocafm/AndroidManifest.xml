@@ -31,10 +31,6 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
-        <activity
-            android:name=".ui.activities.Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/MyMaterialTheme.NoActionBar"></activity>
 
         <provider
             android:name=".utils.GenericFileProvider"
@@ -46,7 +42,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".ui.activities.KotlinActivity" />
         <activity
             android:name=".ui.activities.SplashScreen"
             android:configChanges="orientation|screenSize|keyboardHidden"

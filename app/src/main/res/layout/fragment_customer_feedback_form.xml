@@ -6,11 +6,12 @@
     android:layout_width="match_parent"
     tools:ignore="MissingPrefix"
     android:layout_height="match_parent"
+    android:background="@color/bg_layout"
     android:paddingTop="5dp">
 
 <RelativeLayout
     style="@style/match_parent_style"
-    android:background="@color/colorWhite">
+   >
 
     <LinearLayout
         style="@style/match_parent_style"

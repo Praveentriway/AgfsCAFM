@@ -7,6 +7,16 @@ public class SurveyMaster {
     String customerName;
     String surveyReference;
     String surveyName;
+    Boolean suggestionFlag;
+
+
+    public Boolean getSuggestionFlag() {
+        return suggestionFlag;
+    }
+
+    public void setSuggestionFlag(Boolean suggestionFlag) {
+        this.suggestionFlag = suggestionFlag;
+    }
 
     public String getOpco() {
         return opco;

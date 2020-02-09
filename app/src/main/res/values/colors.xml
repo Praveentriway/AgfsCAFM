@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#EB1165</color>
-    <color name="colorAccent">#EB1165</color>
+    <color name="colorPrimary">#D7164B</color>
+    <color name="colorAccent">#D7164B</color>
     <color name="colorPrimaryDark">#CB1D62</color>
+
 
  <!--   <color name="colorPrimary"> #AC1D37</color>-->
 
@@ -26,6 +27,8 @@
 
     <color name="list_bg">#FFEBF1</color>
 
+    <color name="bg_layout">#FAFBFC</color>
+
     <color name="transparent">#00FFFFFF</color>
 
     <color name="color_divider_half_transparent">#50B6B6B6</color>
@@ -40,6 +43,10 @@
     <color name="colorFormMasterElementTextValue">#000000</color>
     <color name="colorFormMasterDivider">#DDDDDD</color>
     <color name="color_blue">#4285F4</color>
+
+    <color name="icon_color">#AC1E38</color>
+
+
 
 
 

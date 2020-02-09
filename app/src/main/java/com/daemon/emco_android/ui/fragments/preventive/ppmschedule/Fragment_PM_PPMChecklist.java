@@ -27,7 +27,7 @@ import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.PPMCheckListAdapter;
 import com.daemon.emco_android.repository.remote.GetPpmResponseService;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.PPMService_Listner;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.common.PpmScheduleDetails;
@@ -392,7 +392,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
                     for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                         fm.popBackStack();
                     }
-                    Fragment _fragment = new Fragment_Main();
+                    Fragment _fragment = new MainLandingUI();
                     FragmentTransaction _transaction = mManager.beginTransaction();
                     _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                     _transaction.replace(R.id.frame_container, _fragment);

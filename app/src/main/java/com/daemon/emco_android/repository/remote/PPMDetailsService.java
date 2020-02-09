@@ -34,8 +34,7 @@ public class PPMDetailsService {
     mInterface = ApiClient.getClient(mContext).create(ApiInterface.class);
   }
 
-  public void getppmListData(
-      String strEmpid, int startIndex,PPMFilterRequest ppmFilterRequest) {
+  public void getppmListData(String strEmpid, int startIndex,PPMFilterRequest ppmFilterRequest) {
     Log.d(TAG, "GetReceiveComplaintListData");
     Call<PPMDetailsResponse> getppm = mInterface.getppmdetailsResult(strEmpid, startIndex, 10, ppmFilterRequest);
 

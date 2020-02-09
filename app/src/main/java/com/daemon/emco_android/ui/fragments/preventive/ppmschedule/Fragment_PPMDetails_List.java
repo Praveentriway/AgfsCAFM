@@ -26,9 +26,9 @@ import android.widget.TextView;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.PPMDetailsListAdapter;
-import com.daemon.emco_android.repository.remote.CheckCustomerSignService;
+import com.daemon.emco_android.repository.remote.CheckCustomerSignRepository;
 import com.daemon.emco_android.repository.remote.PPMScheduleDetailsService;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.CheckCustomerSignListener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.common.PPMDetails;
@@ -187,7 +187,6 @@ public class Fragment_PPMDetails_List extends Fragment
         mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
         tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
         tv_toolbar_title.setText(getString(R.string.lbl_ppm_details));
-        // mToolbar.setTitle(getResources().getString(R.string.lbl_ppm_details));
         mActivity.setSupportActionBar(mToolbar);
         mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -205,13 +204,11 @@ public class Fragment_PPMDetails_List extends Fragment
         Log.d(MODULE, TAG);
         try {
             setManager();
-
             tv_building.setTypeface(font.getHelveticaRegular());
             tv_asset_name.setTypeface(font.getHelveticaRegular());
             tv_proposed_start_date.setTypeface(font.getHelveticaRegular());
             tv_proposed_end_date.setTypeface(font.getHelveticaRegular());
             tv_status.setTypeface(font.getHelveticaRegular());
-
             text_view_empty.setTypeface(font.getHelveticaRegular());
             text_view_message.setTypeface(font.getHelveticaRegular());
             btn_custmsign.setTypeface(font.getHelveticaRegular());
@@ -256,7 +253,6 @@ public class Fragment_PPMDetails_List extends Fragment
                 mSelectedPosition = mSavedInstanceState.getInt(AppUtils.ARG_SELECTED_POSITION);
                 setReceivecomplaintList();
             }
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -302,7 +298,7 @@ public class Fragment_PPMDetails_List extends Fragment
             if (mList != null && mList.size() > 0) {
                 Log.w(MODULE, TAG + " mList : " + mList.size());
                 adapter.notifyDataSetChanged();
-                tv_building.setText(mList.get(0).getZoneBuilding());
+                tv_building.setText(mList.get(0).getWorkOrderNo()+" - "+mList.get(0).getZoneBuilding());
                 recyclerView.setScrollY(mScrollPosition);
                 showList();
             } else {
@@ -456,7 +452,7 @@ public class Fragment_PPMDetails_List extends Fragment
         fetchPpmScheduleDocBy.setCompCode(ppmDetails.getCompCode());
         fetchPpmScheduleDocBy.setWorkOrderNo(ppmDetails.getWorkOrderNo());
         fetchPpmScheduleDocBy.setContractNo(ppmDetails.getContractNo());
-        new CheckCustomerSignService(mActivity, this).checkCustomerSign(fetchPpmScheduleDocBy);
+        new CheckCustomerSignRepository(mActivity, this).checkCustomerSign(fetchPpmScheduleDocBy);
     /*try {
       mSavedInstanceState = getSavedState();
       Bundle mdata = new Bundle();
@@ -489,7 +485,7 @@ public class Fragment_PPMDetails_List extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

@@ -1,8 +1,12 @@
 package com.daemon.emco_android.repository.remote.restapi;
 
 import com.daemon.emco_android.model.request.DocumentTransaction;
+import com.daemon.emco_android.model.request.LocationDetail;
 import com.daemon.emco_android.model.response.DocumentDownloadResponse;
 import com.daemon.emco_android.model.response.DocumentTypeResponse;
+import com.daemon.emco_android.model.response.LocationDetailResponse;
+import com.daemon.emco_android.model.response.LocationResponse;
+import com.daemon.emco_android.model.response.OpcoResponse;
 import com.daemon.emco_android.repository.db.entity.DFoundWDoneImageEntity;
 import com.daemon.emco_android.repository.db.entity.EmployeeDetailsEntity;
 import com.daemon.emco_android.repository.db.entity.LogComplaintEntity;
@@ -61,7 +65,7 @@ import com.daemon.emco_android.model.response.BuildingDetailsResponse;
 import com.daemon.emco_android.model.response.CategoryResponse;
 import com.daemon.emco_android.model.response.CheckListMonthlyResponse;
 import com.daemon.emco_android.model.response.CommonResponse;
-import com.daemon.emco_android.model.response.ContractDetailResp;
+import com.daemon.emco_android.model.response.ContractDetailResponse;
 import com.daemon.emco_android.model.response.ContractResponse;
 import com.daemon.emco_android.model.response.CustomerFeedBackResponse;
 import com.daemon.emco_android.model.response.CustomerRemarksResponse;
@@ -113,7 +117,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 
-/** Created by subbu on 17/7/17. */
+/** Created on 17/7/17. */
 public interface ApiInterface {
   @POST(ApiConstant.LOGIN)
   Call<LoginResponse> getLoginResult(@Body LoginRequest loginRequest);
@@ -166,7 +170,7 @@ public interface ApiInterface {
 
 
   @GET(ApiConstant.CONTRACTDETAILS)
-  Call<ContractDetailResp> getContractDetails(
+  Call<ContractDetailResponse> getContractDetails(
           @Query("employeeId") String employeeId,@Query("type") String type);
 
   @GET(ApiConstant.DOCUMENTTYPE)
@@ -566,6 +570,28 @@ public interface ApiInterface {
   @POST(ApiConstant.SURVEYSAVE)
   Call<CommonResponse> saveSurvey
          (@Body SurveyTransaction survey);
+
+
+  /* API call for Location Finder  */
+
+  @GET(ApiConstant.LOCATIONOPCO)
+  Call<OpcoResponse> getLocationOpco(@Query("userid") String userid);
+
+  @POST(ApiConstant.LOCATIONBUILDING)
+  Call<LocationResponse> getLocationBuilding
+          (@Body LocationDetail loc);
+
+  @POST(ApiConstant.LOCATIONZONE)
+  Call<LocationResponse> getLocationZone
+          (@Body LocationDetail loc);
+
+  @POST(ApiConstant.LOCATIONJOBNO)
+  Call<LocationResponse> getLocationJobNo
+          (@Body LocationDetail loc);
+
+  @POST(ApiConstant.LOCATIONDETAIL)
+  Call<LocationDetailResponse> getLocationDetail
+          (@Body LocationDetail loc);
 
 
 }

@@ -212,6 +212,13 @@ public class ApiConstant {
     public static final String DOWNLOADDOCUMENT = "DocumentUpload/downloadDocument";
 
 
+    /* Location Finder URL */
+
+    public static final String LOCATIONOPCO = "LocationFinder/getLocationOpco";
+    public static final String LOCATIONBUILDING = "LocationFinder/getLocationBuildingname";
+    public static final String LOCATIONZONE = "LocationFinder/getLocationZonename";
+    public static final String LOCATIONJOBNO = "LocationFinder/getLocationJobNo";
+    public static final String LOCATIONDETAIL = "LocationFinder/getLocationDetail";
 
 
     private static Context context;

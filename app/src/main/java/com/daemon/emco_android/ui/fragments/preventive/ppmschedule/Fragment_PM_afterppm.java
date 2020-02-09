@@ -57,8 +57,8 @@ import com.daemon.emco_android.repository.remote.ReceiveComplaintRespondService;
 import com.daemon.emco_android.repository.db.dbhelper.DefectDoneImageDbInitializer;
 import com.daemon.emco_android.repository.db.entity.DFoundWDoneImageEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_ImagePicker;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.ImagePicker;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.DefectDoneImage_Listener;
 import com.daemon.emco_android.listeners.ImagePickListener;
 import com.daemon.emco_android.model.common.Login;
@@ -126,6 +126,7 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
     private boolean checkImageLoad = false;
     private CharSequence[] items;
     private CoordinatorLayout cl_main;
+    private TextView tv_header;
     private RecyclerView recyclerView = null;
     private ArrayList<CustomRecyclerViewItem> itemList  =new ArrayList<>();
     private CustomRecyclerViewDataAdapter customRecyclerViewDataAdapter = null;
@@ -207,7 +208,7 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
+}
 
     @Override
     public View onCreateView(
@@ -235,6 +236,7 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
             btn_next = (Button) rootView.findViewById(R.id.btn_material_used);
             btn_next.setOnClickListener(_OnClickListener);
             btn_next = (Button) rootView.findViewById(R.id.btn_next);
+            tv_header= (TextView) rootView.findViewById(R.id.tv_header);
             btn_next.setOnClickListener(_OnClickListener);
             iv_workdone = (ImageView) rootView.findViewById(R.id.iv_workdone);
             pb_workdone = (ProgressBar) rootView.findViewById(R.id.pb_workdone);
@@ -286,6 +288,9 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
         Log.d(TAG, "setProperties");
 
         AppUtils.closeInput(cl_main);
+
+
+        tv_header.setText(ppmScheduleDocBy.getPpmNo()+" - "+ppmScheduleDocBy.getLocation());
 
 
         mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
@@ -373,7 +378,7 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
             items = new CharSequence[]{"Take photo", "Choose photo"};
             builder.setTitle("Add  photo");
         } else {
-            items = new CharSequence[]{"Take photo", "Choose photo", "View photo","No image"}; // , "Delete photo"
+            items = new CharSequence[]{"Take photo", "Choose photo", "View photo"}; // , "Delete photo"
             builder.setTitle("Update and view photo");
         }
         builder.setItems(
@@ -437,7 +442,7 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
 
 
     private void dispatchChoosePhotoIntent() {
-        Fragment_ImagePicker fragment = new Fragment_ImagePicker();
+        ImagePicker fragment = new ImagePicker();
         fragment.SetImagePickListener(this);
         FragmentTransaction ObjTransaction = mManager.beginTransaction();
         ObjTransaction.add(android.R.id.content, fragment, AppUtils.SHARED_DIALOG_PICKER);
@@ -582,7 +587,7 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);
@@ -895,7 +900,7 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        noImageAvailabe(count,convertImageviewBase64());
+                        noImageAvailabe(count,"");
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

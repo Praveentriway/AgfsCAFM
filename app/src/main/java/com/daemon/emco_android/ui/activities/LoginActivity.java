@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.ui.fragments.user.Fragment_Login;
+import com.daemon.emco_android.ui.fragments.user.Login;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.ConnectivityStatus;
 import com.daemon.emco_android.utils.Font;
@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
     public void loadFragment() {
         Log.d(TAG, "loadFragment");
         // update the main content by replacing fragments
-        Fragment fragment = new Fragment_Login();
+        Fragment fragment = new Login();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         fragmentTransaction.replace(R.id.frame_container, fragment);

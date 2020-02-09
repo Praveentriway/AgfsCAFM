@@ -44,7 +44,7 @@ import com.daemon.emco_android.ui.adapter.ReceivecomplaintListAdapter;
 import com.daemon.emco_android.repository.db.dbhelper.ReceiveComplaintItemDbInitializer;
 import com.daemon.emco_android.repository.db.entity.ComplaintStatusEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintItemEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.ReceivecomplaintList_Listener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.request.ReceiveComplainCCRequest;
@@ -928,7 +928,7 @@ public class Fragment_RC_List extends Fragment
         for (int i = 0; i < mManager.getBackStackEntryCount(); ++i) {
           mManager.popBackStack();
         }
-        Fragment _fragment = new Fragment_Main();
+        Fragment _fragment = new MainLandingUI();
         FragmentTransaction _transaction = mManager.beginTransaction();
         _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         _transaction.replace(R.id.frame_container, _fragment);

@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.ui.fragments.user.Fragment_Reg;
+import com.daemon.emco_android.ui.fragments.user.UserRegisteration;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.ConnectivityStatus;
 import com.daemon.emco_android.utils.Font;
@@ -103,16 +103,12 @@ public class RegisterActivity extends AppCompatActivity {
         final ImageView imageInToolbar = (ImageView) toolbar.findViewById(R.id.img_toolbar);
         setSupportActionBar(toolbar);
         if(SessionManager.getSessionForURL("ip_address",this) !=null && (!SessionManager.getSessionForURL("ip_address",this).trim().isEmpty())  &&  (SessionManager.getSessionForURL("ip_address",this).contains("mbm"))){
-
             imageInToolbar.setImageDrawable(ContextCompat.getDrawable(RegisterActivity.this, R.drawable.logo_mbm_png));
-
         }
-
         else{
-
             imageInToolbar.setImageDrawable(ContextCompat.getDrawable(RegisterActivity.this, R.drawable.ag_logo_white));
-
         }
+
         TextView titleTextView = null;
         try {
             Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
@@ -129,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void loadFragment() {
         Log.d(TAG, "loadFragment");
         // update the main content by replacing fragments
-        Fragment fragment = new Fragment_Reg();
+        Fragment fragment = new UserRegisteration();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         fragmentTransaction.replace(R.id.frame_container, fragment);

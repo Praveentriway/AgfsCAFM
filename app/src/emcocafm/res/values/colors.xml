@@ -26,6 +26,8 @@
 
     <color name="list_bg">#DBDADA</color>
 
+    <color name="bg_layout">#FAFBFC</color>
+
     <color name="transparent">#00FFFFFF</color>
 
     <color name="color_divider_half_transparent">#50B6B6B6</color>

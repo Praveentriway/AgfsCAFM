@@ -42,6 +42,10 @@ public class PPMFilterRequest implements Serializable  {
     @Expose
     private ArrayList<String> completedDate;
 
+    @SerializedName("dueDate")
+    @Expose
+    private String dueDate;
+
     public PPMFilterRequest(   String employeeId,
              String contractNo,
              String compCode,
@@ -50,7 +54,7 @@ public class PPMFilterRequest implements Serializable  {
              ArrayList<String>  startDate,
              ArrayList<String> endDate,
              String zoneBuilding,
-             String natureDescription,ArrayList<String> completedDate){
+             String natureDescription,ArrayList<String> completedDate,String dueDate){
 
         this.employeeId=employeeId;
         this.contractNo=contractNo;
@@ -62,6 +66,7 @@ public class PPMFilterRequest implements Serializable  {
         this.zoneBuilding=zoneBuilding;
         this.natureDescription=natureDescription;
         this.completedDate=completedDate;
+        this.dueDate=dueDate;
 
     }
     public PPMFilterRequest(){
@@ -76,6 +81,15 @@ public class PPMFilterRequest implements Serializable  {
         this.endDate=new ArrayList<>();
         this.zoneBuilding="";
         this.natureDescription="";
+        this.dueDate="";
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public ArrayList<String> getCompletedDate() {

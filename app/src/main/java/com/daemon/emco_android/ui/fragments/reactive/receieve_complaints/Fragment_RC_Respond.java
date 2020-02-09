@@ -26,6 +26,8 @@ import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.daemon.emco_android.ui.fragments.common.ImagePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -65,7 +67,7 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewDataAdapter;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewItem;
 import com.daemon.emco_android.ui.adapter.ReceivecomplaintListAdapter;
-import com.daemon.emco_android.repository.remote.FeedBackService;
+import com.daemon.emco_android.repository.remote.FeedBackRepository;
 import com.daemon.emco_android.repository.remote.PpeService;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintRespondService;
 import com.daemon.emco_android.ui.components.CustomTextInputLayout;
@@ -87,8 +89,7 @@ import com.daemon.emco_android.repository.db.entity.WorkDefectEntity;
 import com.daemon.emco_android.repository.db.entity.WorkDoneEntity;
 import com.daemon.emco_android.repository.db.entity.WorkPendingReasonEntity;
 import com.daemon.emco_android.repository.db.entity.WorkStatusEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_ImagePicker;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.DatePickerDialogListener;
 import com.daemon.emco_android.listeners.DefectDoneImage_Listener;
 import com.daemon.emco_android.listeners.FeedbackListener;
@@ -144,7 +145,7 @@ public class Fragment_RC_Respond extends Fragment
     boolean asyncRunning=false;
     private final int REQUEST_WRITE_EXTERNAL_STORAGE = 4;
     private final int REQUEST_READ_EXTERNAL_STORAGE = 5;
-    private FeedBackService feedBackService;
+    private FeedBackRepository feedBackService;
     private final int REQUEST_TAKE_PHOTO = 1;
     private final int REQUEST_CHOOSE_PHOTO = 2;
     private final int THUMBNAIL_SIZE = 75;
@@ -171,6 +172,8 @@ public class Fragment_RC_Respond extends Fragment
             mSelectDate = null;
     Bitmap thumbnail = null;
     private boolean confirm = false;
+
+    RCDownloadImage imageEntityB,imageEntityA;
 
     private boolean ppeList=false;
     private boolean feedBackList=false;
@@ -307,7 +310,7 @@ public class Fragment_RC_Respond extends Fragment
             mContext = mActivity;
             imageLoader = ImageLoader.getInstance();
             ppeService = new PpeService(mActivity, this);
-            feedBackService = new FeedBackService(mActivity, this);
+            feedBackService = new FeedBackRepository(mActivity, this);
             // initialize local db
             mWorkStatusInitializer = new WorkStatusDbInitializer(this);
             mWorkPendingInitializer = new WorkPendingReasonDbInitializer(this);
@@ -1009,9 +1012,9 @@ public class Fragment_RC_Respond extends Fragment
                         if (tie_workdone.getText().toString().trim().isEmpty() &&  tv_select_workstatus.getText().toString().equalsIgnoreCase("Completed") ) {
 
 
-                                til_workdone.setError(getString(R.string.msg_empty));
-                                requestFocus(tie_workdone);
-                                msgErr = msgErr + "tv_select_workdone";
+                            til_workdone.setError(getString(R.string.msg_empty));
+                            requestFocus(tie_workdone);
+                            msgErr = msgErr + "tv_select_workdone";
 
 
                         } else {
@@ -1049,13 +1052,13 @@ public class Fragment_RC_Respond extends Fragment
                 }
             } else {
 
-                    AppUtils.setErrorBg(tv_select_workstatus, true);
-                    msgErr = msgErr + "mWorkStatusCode";
+                AppUtils.setErrorBg(tv_select_workstatus, true);
+                msgErr = msgErr + "mWorkStatusCode";
 
             }
 
             if (msgErr != "") {
-             //   AppUtils.showDialog(mActivity, "Please select values in Mandatory field");
+                //   AppUtils.showDialog(mActivity, "Please select values in Mandatory field");
                 AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Please select values in Mandatory field");
 
                 return;
@@ -1313,7 +1316,7 @@ public class Fragment_RC_Respond extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);
@@ -1371,7 +1374,7 @@ public class Fragment_RC_Respond extends Fragment
                     if (mReceiveComplaintView.getWorkDone().equals(item.getWorkDoneCode())) {
                         mSelectWorkDone = item.getWorkDoneDescription();
                         tv_select_workdone.setText(item.getWorkDoneDescription());
-                          mWorkDoneCode=item.getWorkDoneCode();
+                        mWorkDoneCode=item.getWorkDoneCode();
                         if (mSelectWorkDone.equals(getString(R.string.lbl_other))) {
                             til_workdone.setVisibility(View.VISIBLE);
                         } else {
@@ -1505,7 +1508,7 @@ public class Fragment_RC_Respond extends Fragment
 
                                                                 FragmentManager fm=getFragmentManager();
                                                                 for (int i = 0; i < fm.getBackStackEntryCount()-1; ++i) {
-                                                                     fm.popBackStack();
+                                                                    fm.popBackStack();
                                                                 }
 
                                                                 Fragment_RC_List fragment = new Fragment_RC_List();
@@ -1756,7 +1759,7 @@ public class Fragment_RC_Respond extends Fragment
             items = new CharSequence[]{"Take photo", "Choose photo"};
             builder.setTitle("Add  photo");
         } else {
-            items = new CharSequence[]{"Take photo", "Choose photo", "View photo","No image"}; // , "Delete photo"
+            items = new CharSequence[]{"Take photo", "Choose photo", "View photo"}; // , "Delete photo"
             builder.setTitle("Update and view photo");
         }
         builder.setItems(
@@ -1804,7 +1807,7 @@ public class Fragment_RC_Respond extends Fragment
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        noImageAvailabe(count,convertImageviewBase64());
+                        noImageAvailabe(count,"");
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -1918,7 +1921,7 @@ public class Fragment_RC_Respond extends Fragment
         if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 isPermissionGranted = true;
-              //  displayAttachImageDialog();
+                //  displayAttachImageDialog();
             } else {
 
             }
@@ -1926,7 +1929,7 @@ public class Fragment_RC_Respond extends Fragment
         } else if (requestCode == REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 isPermissionGranted = true;
-               // displayAttachImageDialog();
+                // displayAttachImageDialog();
             } else {
 
             }
@@ -1955,19 +1958,19 @@ public class Fragment_RC_Respond extends Fragment
                 BitmapFactory.decodeFile(mImagePathToBeAttached, options);
                 options.inJustDecodeBounds = false;
 
-                    mImageToBeAttachedDefectFound = BitmapFactory.decodeFile(mImagePathToBeAttached, options);
-                    thumbnail =
-                            ThumbnailUtils.extractThumbnail(
-                                    mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+                mImageToBeAttachedDefectFound = BitmapFactory.decodeFile(mImagePathToBeAttached, options);
+                thumbnail =
+                        ThumbnailUtils.extractThumbnail(
+                                mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
 
                 // Delete the temporary image file
                 file.delete();
-               if(imgType.equalsIgnoreCase(DefectFound)){
-                   submitImage("B");
-               }
-               else{
-                   submitImage("A");
-               }
+                if(imgType.equalsIgnoreCase(DefectFound)){
+                    submitImage("B");
+                }
+                else{
+                    submitImage("A");
+                }
             }
             mImagePathToBeAttached = null;
         } else if (requestCode == REQUEST_CHOOSE_PHOTO) {
@@ -1975,7 +1978,7 @@ public class Fragment_RC_Respond extends Fragment
                 Uri uri = data.getData();
                 ContentResolver resolver = mActivity.getContentResolver();
 
-                    mImageToBeAttachedDefectFound = MediaStore.Images.Media.getBitmap(resolver, uri);
+                mImageToBeAttachedDefectFound = MediaStore.Images.Media.getBitmap(resolver, uri);
 
                 AssetFileDescriptor asset = resolver.openAssetFileDescriptor(uri, "r");
                 thumbnail =
@@ -2019,7 +2022,7 @@ public class Fragment_RC_Respond extends Fragment
     }
 
     private void dispatchChoosePhotoIntent() {
-        Fragment_ImagePicker fragment = new Fragment_ImagePicker();
+        ImagePicker fragment = new ImagePicker();
         fragment.SetImagePickListener(this);
         FragmentTransaction ObjTransaction = mManager.beginTransaction();
         ObjTransaction.add(android.R.id.content, fragment, AppUtils.SHARED_DIALOG_PICKER);
@@ -2064,7 +2067,7 @@ public class Fragment_RC_Respond extends Fragment
     @Override
     public void onSingleImagePicked(String Str_Path) {
         try {
-          //  AppUtils.showProgressDialog(mActivity, "Processing image", false);
+            //  AppUtils.showProgressDialog(mActivity, "Processing image", false);
             Str_Path = "file://" + Str_Path;
             imageLoader.loadImage(
                     Str_Path,
@@ -2082,10 +2085,10 @@ public class Fragment_RC_Respond extends Fragment
                             if (loadedImage != null) {
 
 
-                                        mImageToBeAttachedDefectFound = loadedImage;
-                                        iv_defectfound.setImageBitmap(
-                                                ThumbnailUtils.extractThumbnail(
-                                                        loadedImage, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+                                mImageToBeAttachedDefectFound = loadedImage;
+                                iv_defectfound.setImageBitmap(
+                                        ThumbnailUtils.extractThumbnail(
+                                                loadedImage, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
 
                                 if(imgType.equalsIgnoreCase(DefectFound)){
                                     submitImage("B");
@@ -2096,7 +2099,7 @@ public class Fragment_RC_Respond extends Fragment
 
                             }
                             AppUtils.closeInput(cl_main);
-                          //  AppUtils.hideProgressDialog();
+                            //  AppUtils.hideProgressDialog();
                         }
                         @Override
                         public void onLoadingCancelled(String imageUri, View view) {
@@ -2136,7 +2139,7 @@ public class Fragment_RC_Respond extends Fragment
                     btn_done_save.setText("Save");
                     btn_done_save.setEnabled(true);
                 }
-            //    AppUtils.showDialog(mActivity, "Data has been successfully Saved.");
+                //    AppUtils.showDialog(mActivity, "Data has been successfully Saved.");
                 AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Image has been successfully Saved.");
             }
         }
@@ -2302,7 +2305,7 @@ public class Fragment_RC_Respond extends Fragment
     @Override
     public void onFeedbackPpmStatusSucess (List<String> strMsg, int mode){
 
-}
+    }
     @Override
     public void onFeedbackEmployeeDetailsReceivedFailure(String strErr, int mode){
 
@@ -2325,7 +2328,7 @@ public class Fragment_RC_Respond extends Fragment
                                     @Override
                                     public void onClick(
                                             @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                         dialog.dismiss();
+                                        dialog.dismiss();
                                     }
                                 });
 
@@ -2344,141 +2347,146 @@ public class Fragment_RC_Respond extends Fragment
 
         imageTotalCount=imageEntity.getImageCount();
 
-        if(imageEntity.getDocType().equalsIgnoreCase("B")){
-
-            try {
-                itemList1 = new ArrayList<CustomRecyclerViewItem>();
-
-                if (!imageEntity.getBase64Image().isEmpty() && imageEntity.getDocType() != null) {
-
-
-                    new AsyncTask<Void, Boolean, Boolean>() {
-                        @Override
-                        protected void onPreExecute() {
-                            super.onPreExecute();
-                        }
-
-                        @Override
-                        protected Boolean doInBackground(Void... params) {
-
-                            for(int i=0;i<imageEntity.getBase64Image().size();i++){
-                                mImageToBeAttachedDefectFound = AppUtils.getDecodedString(imageEntity.getBase64Image().get(i));
-                                DFoundWDoneImageEntity imageEntity1 = new DFoundWDoneImageEntity("B" );
-                                imageEntity1.setOpco(mOpco);
-                                imageEntity1.setComplaintSite(mComplaintSite);
-                                imageEntity1.setComplaintNo(mComplaintNumber);
-                                imageEntity1.setFileType("jpg");
-                                imageEntity1.setTransactionType("R");
-                                imageEntity1.setDocType("B");
-                                imageEntity1.setCreatedBy(mStrEmpId);
-                                imageEntity1.setModifiedBy(mStrEmpId);
-                                imageEntity1.setImageCount(i);
-                                imageEntity1.setActStartDate(DateFormat.getDateTimeInstance().format(new Date()));
-                                if (mImageToBeAttachedDefectFound != null) {
-                                    imageEntity1.setBase64Image(AppUtils.getEncodedString(mImageToBeAttachedDefectFound));
-                                }
-                                CustomRecyclerViewItem item = new CustomRecyclerViewItem();
-                                item.setDet(imageEntity1);
-                                item.setThums(ThumbnailUtils.extractThumbnail(
-                                        mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
-                                itemList1.add(item);
-                            }
-                            return true;
-                        }
-
-                        @Override
-                        protected void onPostExecute(Boolean aVoid) {
-
-                           setupRecyclerview1();
-                            img_upload_count1.setVisibility(View.VISIBLE);
-                            img_upload_count1.setText(imageEntity.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Defect Found");
-                            if(fromUpload){
-                                AppUtils.hideProgressDialog();
-                                AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Image has been successfully Saved.");
-                            }
-
-                            super.onPostExecute(aVoid);
-                        }
-                    }.execute(); }
-
-                else{
-                    customRecyclerViewDataAdapter1 = new CustomRecyclerViewDataAdapter(itemList1,imageTotalCount,this,getContext(),false,DefectFound);
-                    recyclerviewImage1.setAdapter(customRecyclerViewDataAdapter1);
-                    img_upload_count1.setVisibility(View.VISIBLE);
-                    img_upload_count1.setText(imageEntity.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Defect Found");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+        if(imageEntity.getDocType().equalsIgnoreCase("B")) {
+            imageEntityB=imageEntity;
         }
         else{
+            imageEntityA=imageEntity;
+        }
+        try {
 
-            try {
-                itemList2 = new ArrayList<CustomRecyclerViewItem>();
-                imageCount2=imageEntity.getImageCount();
+            if (imageEntityB.getBase64Image()!=null && !imageEntityB.getBase64Image().isEmpty() && imageEntityB.getDocType() != null) {
 
-                if (!imageEntity.getBase64Image().isEmpty() && imageEntity.getDocType() != null) {
+                new AsyncTask<Void, Boolean, Boolean>() {
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                    }
 
-                    new AsyncTask<Void, Boolean, Boolean>() {
-                        @Override
-                        protected void onPreExecute() {
-                            super.onPreExecute();
-                        }
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
 
-                        @Override
-                        protected Boolean doInBackground(Void... params) {
 
-                            for(int i=0;i<imageEntity.getBase64Image().size();i++){
-                                mImageToBeAttachedDefectFound = AppUtils.getDecodedString(imageEntity.getBase64Image().get(i));
-                                DFoundWDoneImageEntity imageEntity1 = new DFoundWDoneImageEntity("B" );
-                                imageEntity1.setOpco(mOpco);
-                                imageEntity1.setComplaintSite(mComplaintSite);
-                                imageEntity1.setComplaintNo(mComplaintNumber);
-                                imageEntity1.setFileType("jpg");
-                                imageEntity1.setTransactionType("R");
-                                imageEntity1.setDocType("A");
-                                imageEntity1.setCreatedBy(mStrEmpId);
-                                imageEntity1.setModifiedBy(mStrEmpId);
-                                imageEntity1.setImageCount(i);
-                                imageEntity1.setActStartDate(DateFormat.getDateTimeInstance().format(new Date()));
-                                if (mImageToBeAttachedDefectFound != null) {
-                                    imageEntity1.setBase64Image(AppUtils.getEncodedString(mImageToBeAttachedDefectFound));
-                                }
-                                CustomRecyclerViewItem item = new CustomRecyclerViewItem();
-                                item.setDet(imageEntity1);
-                                item.setThums(ThumbnailUtils.extractThumbnail(
-                                        mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
-                                itemList2.add(item);
+                        itemList1 = new ArrayList<CustomRecyclerViewItem>();
+                        for(int i=0;i<imageEntityB.getBase64Image().size();i++){
+                            mImageToBeAttachedDefectFound = AppUtils.getDecodedString(imageEntityB.getBase64Image().get(i));
+                            DFoundWDoneImageEntity imageEntity1 = new DFoundWDoneImageEntity("B" );
+                            imageEntity1.setOpco(mOpco);
+                            imageEntity1.setComplaintSite(mComplaintSite);
+                            imageEntity1.setComplaintNo(mComplaintNumber);
+                            imageEntity1.setFileType("jpg");
+                            imageEntity1.setTransactionType("R");
+                            imageEntity1.setDocType("B");
+                            imageEntity1.setCreatedBy(mStrEmpId);
+                            imageEntity1.setModifiedBy(mStrEmpId);
+                            imageEntity1.setImageCount(i);
+                            imageEntity1.setActStartDate(DateFormat.getDateTimeInstance().format(new Date()));
+                            if (mImageToBeAttachedDefectFound != null) {
+                                imageEntity1.setBase64Image(AppUtils.getEncodedString(mImageToBeAttachedDefectFound));
                             }
-                            return true;
+                            CustomRecyclerViewItem item = new CustomRecyclerViewItem();
+                            item.setDet(imageEntity1);
+                            item.setThums(ThumbnailUtils.extractThumbnail(
+                                    mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+                            itemList1.add(item);
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean aVoid) {
+
+                        setupRecyclerview1();
+
+                        img_upload_count1.setVisibility(View.VISIBLE);
+                        img_upload_count1.setText(imageEntityB.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Defect Found");
+                        if(fromUpload){
+                            AppUtils.hideProgressDialog();
+                            AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Image has been successfully Saved.");
                         }
 
-                        @Override
-                        protected void onPostExecute(Boolean aVoid) {
+                        super.onPostExecute(aVoid);
+                    }
+                }.execute(); }
 
-                            setupRecyclerview2();
-                            img_upload_count2.setVisibility(View.VISIBLE);
-                            img_upload_count2.setText(imageEntity.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Work Done");
-                            if(fromUpload){
-                                AppUtils.hideProgressDialog();
-                                AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Image has been successfully Saved.");
+            else{
+                customRecyclerViewDataAdapter1 = new CustomRecyclerViewDataAdapter(itemList1,imageTotalCount,this,getContext(),false,DefectFound);
+                recyclerviewImage1.setAdapter(customRecyclerViewDataAdapter1);
+                img_upload_count1.setVisibility(View.VISIBLE);
+                img_upload_count1.setText(imageEntityB.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Defect Found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+
+
+            imageCount2=imageEntity.getImageCount();
+
+            if (imageEntityA.getBase64Image()!=null && !imageEntityA.getBase64Image().isEmpty() && imageEntityA.getDocType() != null) {
+
+                new AsyncTask<Void, Boolean, Boolean>() {
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                    }
+
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+
+                        itemList2 = new ArrayList<CustomRecyclerViewItem>();
+                        for(int i=0;i<imageEntityA.getBase64Image().size();i++){
+                            mImageToBeAttachedDefectFound = AppUtils.getDecodedString(imageEntityA.getBase64Image().get(i));
+                            DFoundWDoneImageEntity imageEntity1 = new DFoundWDoneImageEntity("B" );
+                            imageEntity1.setOpco(mOpco);
+                            imageEntity1.setComplaintSite(mComplaintSite);
+                            imageEntity1.setComplaintNo(mComplaintNumber);
+                            imageEntity1.setFileType("jpg");
+                            imageEntity1.setTransactionType("R");
+                            imageEntity1.setDocType("A");
+                            imageEntity1.setCreatedBy(mStrEmpId);
+                            imageEntity1.setModifiedBy(mStrEmpId);
+                            imageEntity1.setImageCount(i);
+                            imageEntity1.setActStartDate(DateFormat.getDateTimeInstance().format(new Date()));
+                            if (mImageToBeAttachedDefectFound != null) {
+                                imageEntity1.setBase64Image(AppUtils.getEncodedString(mImageToBeAttachedDefectFound));
                             }
-
-                            super.onPostExecute(aVoid);
+                            CustomRecyclerViewItem item = new CustomRecyclerViewItem();
+                            item.setDet(imageEntity1);
+                            item.setThums(ThumbnailUtils.extractThumbnail(
+                                    mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+                            itemList2.add(item);
                         }
-                    }.execute();
-                }
+                        return true;
+                    }
 
-                else{
-                    customRecyclerViewDataAdapter2 = new CustomRecyclerViewDataAdapter(itemList2,imageTotalCount,this,getContext(),false,WorkDone);
-                    recyclerviewImage2.setAdapter(customRecyclerViewDataAdapter2);
-                    img_upload_count2.setVisibility(View.VISIBLE);
-                    img_upload_count2.setText(imageEntity.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Work Done");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } }
+                    @Override
+                    protected void onPostExecute(Boolean aVoid) {
+
+                        setupRecyclerview2();
+
+                        img_upload_count2.setVisibility(View.VISIBLE);
+                        img_upload_count2.setText(imageEntityA.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Work Done");
+                        if(fromUpload){
+                            AppUtils.hideProgressDialog();
+                            AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Image has been successfully Saved.");
+                        }
+
+                        super.onPostExecute(aVoid);
+                    }
+                }.execute();
+            }
+
+            else{
+                customRecyclerViewDataAdapter2 = new CustomRecyclerViewDataAdapter(itemList2,imageTotalCount,this,getContext(),false,WorkDone);
+                recyclerviewImage2.setAdapter(customRecyclerViewDataAdapter2);
+                img_upload_count2.setVisibility(View.VISIBLE);
+                img_upload_count2.setText(imageEntityA.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Work Done");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setupRecyclerview1(){

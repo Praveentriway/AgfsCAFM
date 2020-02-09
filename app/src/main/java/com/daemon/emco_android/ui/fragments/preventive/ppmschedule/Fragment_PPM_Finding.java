@@ -30,7 +30,7 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.Equipment_ListAdapter;
 import com.daemon.emco_android.repository.remote.RiskAssessmentService;
 import com.daemon.emco_android.repository.db.entity.AssetDetailsEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.RiskeAssListener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.common.PpmScheduleDocBy;
@@ -148,7 +148,7 @@ public class Fragment_PPM_Finding extends Fragment implements RiskeAssListener
             @Override
             public void onClick(View view) {
                 if(TextUtils.isEmpty(edt_ppmrecommedation.getText().toString())&&TextUtils.isEmpty(edt_ppmfinding.getText().toString())){
-                    AppUtils.showDialog(mActivity, "Please Enter Data to Save");
+                    AppUtils.showDialog(mActivity, "Please any data to save");
                 }else if(TextUtils.isEmpty(edt_ppmfinding.getText().toString())){
                     //AppUtils.showDialog(mActivity, "Are you sure want to save without entering ppmfinding");
                     String s="Are you sure you want to save without entering PPM finding";
@@ -180,7 +180,7 @@ public class Fragment_PPM_Finding extends Fragment implements RiskeAssListener
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

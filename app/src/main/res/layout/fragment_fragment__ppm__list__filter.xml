@@ -6,6 +6,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
+    android:background="@color/bg_layout"
     tools:ignore="MissingPrefix"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/_5sdp">
@@ -24,7 +25,7 @@
         <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             style="@style/match_parent_style"
-            android:background="@color/colorWhite">
+           >
 
             <LinearLayout
                 style="@style/match_parent_style"
@@ -463,9 +464,7 @@
 
                     </LinearLayout>
                     </LinearLayout>
-
                 </androidx.cardview.widget.CardView>
-
 
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"
@@ -478,7 +477,6 @@
                     card_view:cardCornerRadius="0dp"
                     card_view:cardElevation="4dp"
                     card_view:cardUseCompatPadding="true">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -504,12 +502,12 @@
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
 
-
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="3"
                         android:layout_height="match_parent"
                         android:background="@color/colorFormMasterHeaderBackground2">
+
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -530,6 +528,66 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:id="@+id/linear_duedate"
+                    android:visibility="gone"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <View
+                            android:backgroundTint="@color/colorPrimary"
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorFormMasterDivider" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_lbl_due_date"
+                            android:text="Due day"
+                            android:gravity="center"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/textview_spinner_filter"
+                                android:textSize="@dimen/elementTextValueSize"
+                                android:inputType="textNoSuggestions"
+                                android:maxLines="1"
+                                android:layout_gravity="center_vertical"
+                                android:id="@+id/tv_select_due_date"
+                                android:text="Select Due day"
+                                android:imeOptions="actionNext"
+                                android:padding="16dp"
+                                android:textColor="@color/colorPrimary"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
                 <LinearLayout
                     android:layout_marginTop="@dimen/_16sdp"
                     style="@style/match_wrap_style"
@@ -542,9 +600,8 @@
                         android:layout_weight=".5"
                         fontPath="fonts/HelveticaRegular.otf"
                         android:visibility="gone"
-                      android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
                         android:text="View All PPM" />
-
 
                 </LinearLayout>
 
@@ -573,6 +630,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
         android:src="@drawable/sharp_search_white_18" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintViewService;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.ReceivecomplaintView_Listener;
 import com.daemon.emco_android.repository.db.database.AppDatabase;
 import com.daemon.emco_android.repository.db.dbhelper.RCRespondDbInitializer;
@@ -409,7 +409,7 @@ public class Fragment_IM_PPMListView extends Fragment implements Receivecomplain
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

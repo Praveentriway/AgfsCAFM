@@ -1,157 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<FrameLayout
     style="@style/match_parent_style"
-    android:fillViewport="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        style="@style/match_parent_style"
-        android:orientation="vertical">
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:background="@color/colorPrimary"
+        android:layout_weight="0.6">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            style="@style/match_parent_style"
-            android:background="@color/colorWhite">
+
 
             <LinearLayout
+                android:id="@+id/linear_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:visibility="visible"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/profile_action"
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:gravity="center"
+                    android:src="@drawable/profile_icon" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:paddingLeft="5dp"
+                    android:layout_marginEnd="0dp"
+                    android:gravity="center"
+                    android:text="Profile Details"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold" />
+
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_holder"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_35sdp"
+        app:cardElevation="5dp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            style="@style/match_parent_style"
+            android:background="@color/colorWhite">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+            <LinearLayout
                 style="@style/match_parent_style"
-                android:layout_marginBottom="@dimen/bottom_view_margin"
-                android:layout_marginLeft="@dimen/_45sdp"
-                android:layout_marginRight="@dimen/_45sdp"
+
+                android:layout_marginBottom="@dimen/_10sdp"
+
                 android:orientation="vertical">
+
 
                 <LinearLayout
                     style="@style/match_wrap_style"
+                    android:padding="10dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_firtname"
                         style="@style/textview_label"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_weight=".6"
-                        android:text="@string/lbl_firstname" />
+                        android:text="@string/lbl_firstname"/>
 
                     <TextView
                         android:id="@+id/tv_firstname"
-                        style="@style/textview_bg_border"
-                        android:layout_weight=".3" />
+                        style="@style/textview_label"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_weight=".3"
+                        android:text="@string/lbl_lastname"
+                        android:gravity="center" />
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDDDDD"/>
 
                 <LinearLayout
                     style="@style/match_wrap_style"
+                    android:padding="10dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_lastname"
                         style="@style/textview_label"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_weight=".6"
                         android:text="@string/lbl_lastname" />
 
                     <TextView
                         android:id="@+id/tv_lastname"
-                        style="@style/textview_bg_border"
-                        android:layout_weight=".3" />
+                        style="@style/textview_label"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_weight=".3"
+                        android:text="@string/lbl_lastname"
+                        android:gravity="center" />
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDDDDD"/>
 
                 <LinearLayout
                     style="@style/match_wrap_style"
+                    android:padding="10dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_emailid"
                         style="@style/textview_label"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_weight=".6"
                         android:text="@string/lbl_email_id" />
 
                     <TextView
                         android:id="@+id/tv_emailid"
-                        style="@style/textview_bg_border"
+                        style="@style/textview_label"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
                         android:layout_weight=".3" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDDDDD"/>
                 <LinearLayout
                     style="@style/match_wrap_style"
+                    android:padding="10dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_phoneno"
                         style="@style/textview_label"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_weight=".6"
                         android:text="@string/lbl_phone_no" />
 
                     <TextView
                         android:id="@+id/tv_phoneno"
-                        style="@style/textview_bg_border"
+                        style="@style/textview_label"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
                         android:layout_weight=".3" />
                 </LinearLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDDDDD"/>
                 <LinearLayout
                     style="@style/match_wrap_style"
+                    android:padding="10dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_mobileno"
                         style="@style/textview_label"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_weight=".6"
                         android:text="@string/lbl_mobile_no" />
 
                     <TextView
                         android:id="@+id/tv_mobileno"
-                        style="@style/textview_bg_border"
+                        style="@style/textview_label"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
                         android:layout_weight=".3" />
                 </LinearLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDDDDD"/>
                 <LinearLayout
                     style="@style/match_wrap_style"
+                    android:padding="10dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_usertype"
                         style="@style/textview_label"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_weight=".6"
                         android:text="@string/lbl_user_type" />
 
                     <TextView
                         android:id="@+id/tv_usertype"
-                        style="@style/textview_bg_border"
+                        style="@style/textview_label"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
                         android:layout_weight=".3" />
                 </LinearLayout>
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_20sdp"
-                android:visibility="gone"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:background="@color/colorWhite"
-                android:src="@drawable/emco_logo_with_name" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:visibility="gone"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:layout_marginRight="@dimen/_40sdp"
-                android:background="@color/colorWhite"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/match_wrap_style"
-                    android:text="@string/lbl_2017_ags"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/_6sdp" />
-
-                <TextView
-                    style="@style/match_wrap_style"
-                    android:text="@string/lbl_version"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/_5sdp" />
-            </LinearLayout>
+            </ScrollView>
         </RelativeLayout>
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
+    </FrameLayout>

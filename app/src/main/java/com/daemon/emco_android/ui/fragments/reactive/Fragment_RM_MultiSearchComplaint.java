@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.repository.remote.GetLogComplaintPopupService;
+import com.daemon.emco_android.repository.remote.GetLogComplaintPopupRepository;
 import com.daemon.emco_android.repository.remote.GetSearchComplaintService;
 import com.daemon.emco_android.ui.components.FilterableListDialog;
 import com.daemon.emco_android.repository.db.dbhelper.SiteAreaDbInitializer;
@@ -34,7 +34,7 @@ import com.daemon.emco_android.repository.db.entity.MultiSearchComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.SingleSearchComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.SiteAreaEntity;
 import com.daemon.emco_android.repository.db.entity.ZoneEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.ui.fragments.reactive.viewcomplaint.Fragment_RM_ViewComplaintList;
 import com.daemon.emco_android.listeners.BuildingDetailsListener;
 import com.daemon.emco_android.listeners.DatePickerDialogListener;
@@ -87,7 +87,7 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
     private Button btnSearchComplaint;
     private Toolbar mToolbar;
     private int mModeDate;
-    private GetLogComplaintPopupService mGetComplaintPopupService;
+    private GetLogComplaintPopupRepository mGetComplaintPopupService;
     private GetSearchComplaintService mGetSearchData;
     private ArrayList<MultiSearchComplaintEntity> listMultiSearch = new ArrayList<>();
     private String mStrLoginData = null, mFromDate = null, mToDate = null;
@@ -162,7 +162,7 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
                 imm.hideSoftInputFromWindow(mActivity.getCurrentFocus().getWindowToken(), 0);
             }
             mGetComplaintPopupService =
-                    new GetLogComplaintPopupService(
+                    new GetLogComplaintPopupRepository(
                             mActivity,
                             new EmployeeIdRequest(
                                     mUserData.getEmployeeId(),
@@ -640,7 +640,7 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

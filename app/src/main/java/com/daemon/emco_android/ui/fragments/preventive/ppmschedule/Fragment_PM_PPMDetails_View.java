@@ -26,6 +26,8 @@ import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.daemon.emco_android.ui.fragments.common.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -72,8 +74,7 @@ import com.daemon.emco_android.repository.db.entity.AssetDetailsEntity;
 import com.daemon.emco_android.repository.db.entity.DFoundWDoneImageEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintRespondEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_ImagePicker;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.DefectDoneImage_Listener;
 import com.daemon.emco_android.listeners.ImagePickListener;
 import com.daemon.emco_android.listeners.ReceivecomplaintView_Listener;
@@ -138,7 +139,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     private int imgCount=0;
 
     private boolean noImageAttached=false;
-
+    private TextView tv_header;
     private ReceiveComplaintRespondService receiveComplaintRespond_service;
     private int imageCount=0;
     private TextView tv_lbl_job_no, tv_job_no, tv_lbl_site_name, tv_site_name, tv_lbl_location, tv_location, tv_lbl_zone_area, tv_zone_area;
@@ -267,6 +268,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
 
             tv_lbl_job_no = (TextView) rootView.findViewById(R.id.tv_lbl_job_no);
+            tv_header = (TextView) rootView.findViewById(R.id.tv_header);
             tv_lbl_site_name = (TextView) rootView.findViewById(R.id.tv_lbl_site_name);
             tv_lbl_location = (TextView) rootView.findViewById(R.id.tv_lbl_location);
             tv_lbl_zone_area = (TextView) rootView.findViewById(R.id.tv_lbl_zone_area);
@@ -500,7 +502,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
                 items = new CharSequence[]{"Take photo", "Choose photo"};
                 builder.setTitle("Add  photo");
             } else {
-                items = new CharSequence[]{"Take photo", "Choose photo", "View photo","No image"}; // , "Delete photo"
+                items = new CharSequence[]{"Take photo", "Choose photo", "View photo"}; // , "Delete photo"
                 builder.setTitle("Update and view photo");
             }
             builder.setItems(
@@ -549,7 +551,8 @@ public class Fragment_PM_PPMDetails_View extends Fragment
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        noImageAvailabe(count,convertImageviewBase64());
+                     //   noImageAvailabe(count,convertImageviewBase64());
+                        noImageAvailabe(count,"");
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -582,7 +585,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     }
 
     private void dispatchChoosePhotoIntent() {
-        Fragment_ImagePicker fragment = new Fragment_ImagePicker();
+        ImagePicker fragment = new ImagePicker();
         fragment.SetImagePickListener(this);
         FragmentTransaction ObjTransaction = mManager.beginTransaction();
         ObjTransaction.add(android.R.id.content, fragment, AppUtils.SHARED_DIALOG_PICKER);
@@ -718,7 +721,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
                 if (!TextUtils.isEmpty(complaintViewValue.getSiteName()) && !complaintViewValue.getSiteName().equalsIgnoreCase("NULL"))
                     tv_site_name.setText(complaintViewValue.getSiteName());
                 if (!TextUtils.isEmpty(complaintViewValue.getLocation()) && !complaintViewValue.getLocation().equalsIgnoreCase("NULL"))
-                    tv_location.setText(complaintViewValue.getLocation());
+                    tv_header.setText(complaintViewValue.getPpmNo()+"  -  "+complaintViewValue.getLocation());
                 if (!TextUtils.isEmpty(complaintViewValue.getZoneDescription()) && !complaintViewValue.getZoneDescription().equalsIgnoreCase("NULL"))
                     tv_zone_area.setText(complaintViewValue.getZoneDescription());
                 if (!TextUtils.isEmpty(complaintViewValue.getNatureDescription()) && !complaintViewValue.getNatureDescription().equalsIgnoreCase("NULL"))
@@ -1069,7 +1072,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
                 _transaction.replace(R.id.frame_container, _fragment);

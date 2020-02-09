@@ -53,7 +53,7 @@ public class PPMDetailsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     if (viewType == VIEW_ITEM) {
       View layoutView =
           LayoutInflater.from(parent.getContext())
-              .inflate(R.layout.view_item_ppmdetails, parent, false);
+              .inflate(R.layout.view_item_ppmlistdetails, parent, false);
       mHolder = new ComplaintListViewHolder(layoutView);
     } else if (viewType == VIEW_PROG) {
       View layoutView =
@@ -86,8 +86,13 @@ public class PPMDetailsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         holder.tv_sno.setText((position + 1) + "");
         if(current.getLocationName()!=null)
           holder.tv_location_name.setText(current.getLocationName());
-        if (current.getZoneBuilding() != null)
-          holder.tv_complaint_no.setText(current.getZoneBuilding());
+        if (current.getPpmRefNo() != null){
+          holder.tv_complaint_no.setText(current.getPpmRefNo());
+        }
+        else{
+          holder.tv_complaint_no.setText(" - ");
+        }
+
         if (current.getEquipmentCode() != null) holder.tv_time.setText(current.getAssetBarCode());
         if (current.getPpmStatus() != null) holder.tv_status.setText(current.getPpmStatus());
 
@@ -173,7 +178,7 @@ public class PPMDetailsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         cb_ccc.setVisibility(View.GONE);
         tv_work_type.setVisibility(View.GONE);
         tv_priority.setVisibility(View.GONE);
-        tv_complaint_no.setVisibility(View.GONE);
+        tv_complaint_no.setText("PPM NO");
         tv_location_name.setText("Location");
         tv_time.setHint("Asset Bar-code");
         tv_location_name.setTypeface(font.getHelveticaRegular());

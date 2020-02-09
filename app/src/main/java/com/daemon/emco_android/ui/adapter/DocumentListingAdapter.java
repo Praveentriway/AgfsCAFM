@@ -37,6 +37,9 @@ public class DocumentListingAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public interface ItemListner{
         void onViewClick(int pos,DocumentTransaction trans,List<DocumentTransaction> transList);
+
+        void onAddNewDocument();
+
     }
 
     @Override
@@ -93,12 +96,24 @@ public class DocumentListingAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                   e.printStackTrace();
               }
 
-                holder.linear_view.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         listner.onViewClick(position,trans.get(position),trans);
                     }
                 });
+            }
+            else{
+
+                NoDocumentLayout holder = (NoDocumentLayout) mHolder;
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        listner.onAddNewDocument();
+                    }
+                });
+
             }
 
     }
@@ -132,8 +147,15 @@ public class DocumentListingAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public class NoDocumentLayout extends RecyclerView.ViewHolder {
 
+
+        View itemView;
+
         public NoDocumentLayout(View itemView) {
             super(itemView);
+
+            this.itemView=itemView;
+
+
         }
     }
 }

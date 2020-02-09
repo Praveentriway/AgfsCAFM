@@ -1,7 +1,5 @@
 package com.daemon.emco_android.utils;
 
-import com.daemon.emco_android.ui.fragments.preventive.FragmentPPMsubmenu;
-
 /**
  * Created by vikram on 13/7/17.
  */
@@ -19,14 +17,15 @@ public class Utils {
     public static final String TAG_FRAGMENT_CUST_FEEDBACK_SUGGESTION = "Fragment_cust_feedback_suggestion";
     public static final String TAG_FRAGMENT_DOC_UPLOAD = "FRAGMENT_DOC_UPLOAD";
     public static final String FRAGMENT_DOC_LIST = "FRAGMENT_DOC_LIST";
-    public static final String Fragment_PPM_LIST_Filter = "Fragment_PPM_LIST_Filter";
+    public static final String Fragment_PPM_LIST_Filter = "PPMFilterUI";
     public static final String Fragment_PPMsubmenu = "Fragment_PPMsubmenu";
 
     public static final String TAG_PM_PPMDETAILS_VIEW = "Fragment_PM_PPMDetails_view";
     public static final String TAG_RECEIVED_COMPALINTS = "received complaints";
-    public static final String TAG_DOC_COMPLAINT_LIST = "FragmentDocComplaintList";
+    public static final String TAG_DOC_COMPLAINT_LIST = "DocumentComplaintList";
     public static final String TAG_VIEW_PROFILE = "view profile";
     public static final String TAG_F_CUSTOMER_FEEDBACK_HEADER = "Customer Feedback header";
+    public static final String TAG_F_JOBLOCATIONFINDER = "TAG_F_JOBLOCATIONFINDER";
     public static final String TAG_CHANGE_PASS = "change pass";
     public static final String TAG_VIEW_PROFILE_NEW = "view profile new";
     public static final String TAG_VIEW_COMPLAINT = "view complaint";

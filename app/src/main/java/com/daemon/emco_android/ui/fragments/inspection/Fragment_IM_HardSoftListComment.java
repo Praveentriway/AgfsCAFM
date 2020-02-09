@@ -54,9 +54,9 @@ import com.daemon.emco_android.repository.db.entity.DFoundWDoneImageEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintItemEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintRespondEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_ImagePicker;
-import com.daemon.emco_android.ui.fragments.common.Fragment_ImageView;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.ImagePicker;
+import com.daemon.emco_android.ui.fragments.common.ViewImage;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.ui.fragments.reactive.receieve_complaints.Fragment_RC_Respond;
 import com.daemon.emco_android.listeners.DefectDoneImage_Listener;
 import com.daemon.emco_android.listeners.HardSoft_Listener;
@@ -352,7 +352,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
     }
 
     private void dispatchChoosePhotoIntent() {
-        Fragment_ImagePicker fragment = new Fragment_ImagePicker();
+        ImagePicker fragment = new ImagePicker();
         fragment.SetImagePickListener(this);
         FragmentTransaction ObjTransaction = mManager.beginTransaction();
         ObjTransaction.add(android.R.id.content, fragment, AppUtils.SHARED_DIALOG_PICKER);
@@ -373,7 +373,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
         }
         Bundle data = new Bundle();
         data.putParcelable(AppUtils.ARGS_RCDOWNLOADIMAGE, downloadImage);
-        Fragment fragment = new Fragment_ImageView();
+        Fragment fragment = new ViewImage();
         fragment.setArguments(data);
         FragmentTransaction fragmentTransaction = mManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -777,7 +777,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

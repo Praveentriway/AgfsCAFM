@@ -7,7 +7,7 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.repository.remote.restapi.ApiClient;
 import com.daemon.emco_android.repository.remote.restapi.ApiConstant;
 import com.daemon.emco_android.repository.remote.restapi.ApiInterface;
-import com.daemon.emco_android.model.response.ContractDetailResp;
+import com.daemon.emco_android.model.response.ContractDetailResponse;
 import com.daemon.emco_android.model.response.ContractDetails;
 import com.daemon.emco_android.model.response.NatureDescResponse;
 import com.daemon.emco_android.utils.AppUtils;
@@ -36,13 +36,13 @@ public class PpmFilterService  {
     public void getContractDetails(
             String strEmpid,String type) {
         Log.d(TAG, "getContractDetails");
-        Call<ContractDetailResp> getcontract = mInterface.getContractDetails(strEmpid,type);
+        Call<ContractDetailResponse> getcontract = mInterface.getContractDetails(strEmpid,type);
 
         getcontract.enqueue(
-                new Callback<ContractDetailResp>() {
+                new Callback<ContractDetailResponse>() {
                     @Override
                     public void onResponse(
-                            Call<ContractDetailResp> call, Response<ContractDetailResp> response) {
+                            Call<ContractDetailResponse> call, Response<ContractDetailResponse> response) {
                         if (response.isSuccessful()) {
                             Log.d(TAG, "onResponse success " + response.body().getMessage());
                             if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
@@ -59,7 +59,7 @@ public class PpmFilterService  {
                     }
 
                     @Override
-                    public void onFailure(Call<ContractDetailResp> call, Throwable t) {
+                    public void onFailure(Call<ContractDetailResponse> call, Throwable t) {
                         Log.d(TAG, "onFailure" + t.getMessage());
                         listener.onContractDetailsReceivedError(
                                 mContext.getString(R.string.msg_request_error_occurred), AppUtils.MODE_SERVER);

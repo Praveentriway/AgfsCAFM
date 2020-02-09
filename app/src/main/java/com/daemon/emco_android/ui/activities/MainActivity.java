@@ -20,11 +20,16 @@ import android.os.Handler;
 import android.os.StrictMode;
 import androidx.annotation.NonNull;
 
+import com.daemon.emco_android.BuildConfig;
+import com.daemon.emco_android.ui.fragments.user.ChangePassword;
+import com.daemon.emco_android.ui.fragments.user.UserProfile;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -51,7 +56,7 @@ import com.afollestad.materialdialogs.StackingBehavior;
 import com.crashlytics.android.Crashlytics;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.repository.remote.FeedBackService;
+import com.daemon.emco_android.repository.remote.FeedBackRepository;
 import com.daemon.emco_android.repository.remote.GetPostRateServiceService;
 import com.daemon.emco_android.repository.remote.PostLogComplaintService;
 import com.daemon.emco_android.repository.remote.PpeService;
@@ -83,9 +88,8 @@ import com.daemon.emco_android.repository.db.entity.SaveMaterialEntity;
 import com.daemon.emco_android.repository.db.entity.SaveRatedServiceEntity;
 import com.daemon.emco_android.repository.db.entity.UserToken;
 import com.daemon.emco_android.repository.remote.restapi.ApiClient;
-import com.daemon.emco_android.repository.remote.restapi.ApiConstant;
 import com.daemon.emco_android.repository.remote.restapi.ApiInterface;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.ui.fragments.reactive.FragmentRxSubmenu;
 import com.daemon.emco_android.listeners.DefectDoneImage_Listener;
 import com.daemon.emco_android.listeners.FeedbackListener;
@@ -124,12 +128,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity  extends AppCompatActivity
         implements LogComplaint_Listener,
         ReceivecomplaintView_Listener,
         DefectDoneImage_Listener,
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity
         FeedbackListener,
         Material_Listener,
         RatedServiceListener,
-        RateAndShareListener , UserListener {
+        RateAndShareListener , UserListener , View.OnClickListener  {
   private final String TAG = MainActivity.class.getSimpleName();
   private final int PERMISSION_REQUEST_CODE = 1;
   private String mNetworkInfo = null;
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity
   boolean updateShow=false;
   private TextView tv_toolbar_title;
   private ApiInterface mInterface;
+  DrawerLayout drawer;
 
 
   private RCRespondDbInitializer complaintRespondDbInitializer;
@@ -155,7 +157,7 @@ public class MainActivity extends AppCompatActivity
   private ReceiveComplaintViewService complaintView_service;
   private ReceiveComplaintRespondService complaintRespond_service;
   private PpeService ppeService;
-  private FeedBackService feedBackService;
+  private FeedBackRepository feedBackService;
   private RCMaterialService rcMaterial_service;
   private AppBarConfiguration mAppBarConfiguration;
   private Handler mHandler;
@@ -259,12 +261,11 @@ public class MainActivity extends AppCompatActivity
       complaintRespond_service = new ReceiveComplaintRespondService(this);
       complaintRespond_service.setmCallbackImages(this);
       ppeService = new PpeService(this, this);
-      feedBackService = new FeedBackService(mActivity, this);
+      feedBackService = new FeedBackRepository(mActivity, this);
 
       frame_container = (FrameLayout) findViewById(R.id.frame_container);
       drawableLogout = getResources().getDrawable(R.drawable.ic_logout);
       drawableLogout.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-
 
       StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder(); StrictMode.setVmPolicy(builder.build());
 
@@ -272,16 +273,16 @@ public class MainActivity extends AppCompatActivity
               ApiClient.getClientLongTime(15, SessionManager.getSession("baseurl", mActivity))
                       .create(ApiInterface.class);
 
-      // only one time register connectivity register
-      if (!isReceiver) {
-        registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-      } else isReceiver = false;
+//      // only one time register connectivity register
+//      if (!isReceiver) {
+//        registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+//      } else isReceiver = false;
       setupActionbar();
       loadFragment();
       logUser();
 
 
-      DrawerLayout drawer = findViewById(R.id.drawer_layout);
+       drawer = findViewById(R.id.drawer_layout);
       NavigationView navigationView = findViewById(R.id.nav_view);
       // Passing each menu ID as a set of Ids because each
       // menu should be considered as top level destinations.
@@ -291,12 +292,24 @@ public class MainActivity extends AppCompatActivity
               .setDrawerLayout(drawer)
               .build();
 
-      View hView =  navigationView.getHeaderView(0);
-      TextView nav_user = (TextView)hView.findViewById(R.id.txtusername);
-      TextView nav_email = (TextView)hView.findViewById(R.id.txt_email);
+     // View hView =  navigationView.getHeaderView(0);
+      TextView nav_user = (TextView)navigationView.findViewById(R.id.txtusername);
+      TextView nav_email = (TextView)navigationView.findViewById(R.id.txt_email);
+      TextView txt_appversion = (TextView)navigationView.findViewById(R.id.txt_appversion);
+
+      TextView txt_home = (TextView)navigationView.findViewById(R.id.txt_home);
+      TextView txt_profile = (TextView)navigationView.findViewById(R.id.txt_profile);
+      TextView txt_logout = (TextView)navigationView.findViewById(R.id.txt_logout);
+      TextView txt_change_password = (TextView)navigationView.findViewById(R.id.txt_change_password);
+
+      txt_home.setOnClickListener(this);
+      txt_profile.setOnClickListener(this);
+      txt_logout.setOnClickListener(this);
+      txt_change_password.setOnClickListener(this);
+
+      txt_appversion.setText(getString(R.string.app_name)+" V "+ BuildConfig.VERSION_NAME);
       nav_user.setText(username+" | "+mobile);
       nav_email.setText(email);
-
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -326,39 +339,6 @@ public class MainActivity extends AppCompatActivity
     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     return NavigationUI.navigateUp(navController, mAppBarConfiguration)
             || super.onSupportNavigateUp();
-  }
-
-
-  public void getFileSizeData() {
-    try {
-      mInterface
-              .GetFileSizeData()
-              .enqueue(
-                      new Callback<com.daemon.emco_android.model.common.CommonResponse>() {
-                        @Override
-                        public void onResponse(
-                                Call<com.daemon.emco_android.model.common.CommonResponse> call,
-                                Response<com.daemon.emco_android.model.common.CommonResponse> response) {
-                          if (response.isSuccessful()) {
-                            if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
-                              mEditor = mPreferences.edit();
-                              mEditor.putString(
-                                      AppUtils.FILE_SIZE_DATA,
-                                      String.valueOf(response.body().getObject().toString()));
-                              mEditor.commit();
-                            }
-                          }
-                        }
-
-                        @Override
-                        public void onFailure(
-                                Call<com.daemon.emco_android.model.common.CommonResponse> call, Throwable t) {
-                          Log.d(TAG, "onFailure" + t.getMessage());
-                        }
-                      });
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
 
@@ -416,15 +396,74 @@ public class MainActivity extends AppCompatActivity
   public void loadFragment() {
     Log.d(TAG, "loadFragment");
     setupActionbar();
-
     // update the main content by replacing fragments
-    Fragment fragment = new Fragment_Main();
+    Fragment fragment = new MainLandingUI();
     fragment.setArguments(mArgs);
     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
     fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
     fragmentTransaction.replace(R.id.frame_container, fragment, AppUtils.TAG_FRAGMNENT_MAIN);
     fragmentTransaction.commit();
   }
+
+  @Override
+  public void onClick(View view) {
+
+    drawer.closeDrawer(GravityCompat.START);
+
+    switch (view.getId()) {
+      case R.id.txt_profile:
+        loadFragment(new UserProfile(), Utils.TAG_VIEW_PROFILE);
+        break;
+      case R.id.txt_home:
+      {
+        FragmentManager fm = getSupportFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+          fm.popBackStack();
+        }
+        Fragment _fragment = new MainLandingUI();
+        FragmentTransaction _transaction = mManager.beginTransaction();
+        _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+        _transaction.replace(R.id.frame_container, _fragment);
+      }
+        break;
+      case R.id.txt_change_password:
+         loadFragment(new ChangePassword(), Utils.TAG_CHANGE_PASS);
+        break;
+      case R.id.txt_logout:
+        try {
+
+          AlertDialog.Builder builder = new AlertDialog.Builder(this);
+          builder.setMessage("Are you sure you want to logout?")
+                  .setCancelable(false)
+                  .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                      dialog.dismiss();
+                      clearPreferences();
+                      SessionManager.clearSession(mActivity);
+                      clearToken();
+                      Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                      startActivity(intent);
+                      finish();
+                    }
+                  })
+                  .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                      dialog.cancel();
+                    }
+                  });
+          AlertDialog alert = builder.create();
+          alert.show();
+
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        break;
+
+       default:
+        break;
+    }
+  }
+
 
   private void updateLogComplaint() {
     Log.d(TAG, "updateLogComplaint");
@@ -452,7 +491,7 @@ public class MainActivity extends AppCompatActivity
 
   private void updateFeedback() {
     Log.d(TAG, "updatePPE");
-    feedBackService = new FeedBackService(mActivity, this);
+    feedBackService = new FeedBackRepository(mActivity, this);
     new FeedbackDbInitializer(mActivity, this).execute(AppUtils.MODE_GETALL);
   }
 
@@ -1167,7 +1206,8 @@ public class MainActivity extends AppCompatActivity
 
   }
 
-
-
+  public void onDrawerOpen() {
+   drawer.openDrawer(GravityCompat.START);
+  }
 
 }

@@ -17,8 +17,22 @@ public class SurveyTransaction implements Serializable {
     String email;
     String suggestion;
     String signature;
+    String surveyFrom;
+    String tenantName;
     String createdBy;
     List<ServeyQuestionnaire> ques;
+
+    public String getTenantName() { return tenantName;}
+
+    public void setTenantName(String tenantName) { this.tenantName = tenantName;}
+
+    public String getSurveyFrom() {
+        return surveyFrom;
+    }
+
+    public void setSurveyFrom(String surveyFrom) {
+        this.surveyFrom = surveyFrom;
+    }
 
     public String getOpco() {
         return opco;
@@ -48,19 +62,10 @@ public class SurveyTransaction implements Serializable {
         return surveyReference;
     }
 
-    public void setSurveyReference(String surveyReference) {
-        this.surveyReference = surveyReference;
-    }
+    public void setSurveyReference(String surveyReference) { this.surveyReference = surveyReference;}
 
     public String getContractNo() {
-        if(contractNo==null){
-            return "";
-        }
-        else{
-            return contractNo;
-        }
-
-
+            return (contractNo==null ? "":contractNo);
     }
 
     public void setContractNo(String contractNo) {

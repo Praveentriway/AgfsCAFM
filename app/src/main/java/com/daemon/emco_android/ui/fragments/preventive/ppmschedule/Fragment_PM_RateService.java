@@ -9,6 +9,8 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -36,10 +38,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.repository.remote.CustomerFeedbackService;
+import com.daemon.emco_android.repository.remote.CustomerFeedbackRepository;
 import com.daemon.emco_android.repository.remote.GetPostRateServiceService;
 import com.daemon.emco_android.ui.components.CustomTextInputLayout;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.CustomerFeedback;
 import com.daemon.emco_android.listeners.RateAndShareListener;
 import com.daemon.emco_android.model.common.Login;
@@ -48,7 +50,6 @@ import com.daemon.emco_android.model.common.PpmScheduleDocBy;
 import com.daemon.emco_android.model.request.SaveRatedServiceRequest;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
-import com.daemon.emco_android.utils.Utils;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -86,7 +87,8 @@ public class Fragment_PM_RateService extends Fragment
             tv_lbl_tech_remarks;
     private TextView tv_select_customer_rank, tv_select_signstatus;
     private SignaturePad signaturePad;
-    private Button btnSave, btnClear;
+    private Button  btnClear;
+    private FloatingActionButton  btnSave;
     private CustomTextInputLayout til_remarks_detail, til_customer_remarks;
     private TextInputEditText tie_customer_remarks;
     private ImageView iv_very_good, iv_good, iv_excellent, iv_Satisfactory, iv_poor;
@@ -102,7 +104,7 @@ public class Fragment_PM_RateService extends Fragment
     private Type baseType = new TypeToken<List<String>>() {
     }.getType();
     private GetPostRateServiceService mGetPostRateService;
-    private CustomerFeedbackService mCustomerFeedbackService;
+    private CustomerFeedbackRepository mCustomerFeedbackService;
     private String complaint_number = "", opco_number = "", complaint_site = "", checkPPmList = "";
     private PpmScheduleDocBy ppmScheduleDocBy;
     private String mUnSignedPage = AppUtils.ARGS_RECEIVECOMPLAINT_PAGE;
@@ -133,7 +135,7 @@ public class Fragment_PM_RateService extends Fragment
                     new GetPostRateServiceService(mActivity,  this);
 
             mCustomerFeedbackService=
-                    new CustomerFeedbackService(mActivity,  this);
+                    new CustomerFeedbackRepository(mActivity,  this);
             getParcelableData();
 
         } catch (Exception ex) {
@@ -206,7 +208,7 @@ public class Fragment_PM_RateService extends Fragment
             ll_remarks_detail = (LinearLayout) rootView.findViewById(R.id.ll_remarks_detail);
             tv_lbl_cus_satisfaction = (TextView) rootView.findViewById(R.id.tv_lbl_cus_satisfaction);
             tv_lbl_cus_remarks = (TextView) rootView.findViewById(R.id.tv_lbl_cus_remarks);
-            tv_lbl_cus_sign = (TextView) rootView.findViewById(R.id.tv_lbl_cus_sign);
+          //  tv_lbl_cus_sign = (TextView) rootView.findViewById(R.id.tv_lbl_cus_sign);
             tv_lbl_tech_remarks = (TextView) rootView.findViewById(R.id.tv_lbl_tech_remarks);
             img_signature = (ImageView) rootView.findViewById(R.id.img_signature);
             // logo changes R id
@@ -217,14 +219,12 @@ public class Fragment_PM_RateService extends Fragment
             iv_poor = (ImageView) rootView.findViewById(R.id.iv_Satisfactory);
 
             til_remarks_detail = (CustomTextInputLayout) rootView.findViewById(R.id.til_remarks_detail);
-            til_customer_remarks =
-                    (CustomTextInputLayout) rootView.findViewById(R.id.til_customer_remarks);
-            tie_customer_remarks = (TextInputEditText) rootView.findViewById(R.id.tie_customer_remarks);
+
 
             tv_select_customer_rank = (TextView) rootView.findViewById(R.id.tv_select_customer_rank);
             tv_select_signstatus = (TextView) rootView.findViewById(R.id.tv_select_signstatus);
             signaturePad = (SignaturePad) rootView.findViewById(R.id.signaturePad);
-            btnSave = (Button) rootView.findViewById(R.id.btnSave);
+            btnSave = (FloatingActionButton) rootView.findViewById(R.id.btnSave);
             btnClear = (Button) rootView.findViewById(R.id.btnClear);
             setupActionBar();
         } catch (Exception ex) {
@@ -263,7 +263,7 @@ public class Fragment_PM_RateService extends Fragment
             tv_select_signstatus.setTypeface(font.getHelveticaRegular());
             til_remarks_detail.setTypeface(font.getHelveticaRegular());
 
-            btnSave.setTypeface(font.getHelveticaRegular());
+
             btnClear.setTypeface(font.getHelveticaRegular());
 
             btnSave.setOnClickListener(this);
@@ -475,7 +475,7 @@ public class Fragment_PM_RateService extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);
@@ -573,9 +573,7 @@ public class Fragment_PM_RateService extends Fragment
         }
         public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
-                case R.id.tie_customer_remarks:
-                    validateCustomerRemarks();
-                    break;
+
             }
         }
     }

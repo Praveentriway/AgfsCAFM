@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/navigation_nested"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".72"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            >
+
+            <TextView
+               android:id="@+id/txt_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_home_apps"
+                android:drawablePadding="20dp"
+                android:paddingLeft="15dp"
+                android:text="Home"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#F7F7F7" />
+
+            <TextView
+                android:id="@+id/txt_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_contacts_24px"
+                android:drawablePadding="20dp"
+                android:paddingLeft="15dp"
+                android:text="Profile"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#F7F7F7"  />
+            <TextView
+                android:id="@+id/txt_change_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_change_password"
+                android:drawablePadding="20dp"
+                android:paddingLeft="15dp"
+                android:text="Change Password"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#F7F7F7"  />
+            <TextView
+                android:id="@+id/txt_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_logout_menu"
+                android:drawablePadding="20dp"
+                android:paddingLeft="15dp"
+                android:text="Logout"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#F7F7F7"  />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView >
+    <TextView
+        android:id="@+id/txt_appversion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="10dp"
+        android:text="AGFS V 1.20"
+        android:textColor="@color/colorPrimary"
+        android:textSize="9sp" />
+
+
+</LinearLayout>

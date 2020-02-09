@@ -29,7 +29,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.repository.remote.GetLogComplaintPopupService;
+import com.daemon.emco_android.repository.remote.GetLogComplaintPopupRepository;
 import com.daemon.emco_android.repository.remote.PostLogComplaintService;
 import com.daemon.emco_android.ui.components.CustomTextInputLayout;
 import com.daemon.emco_android.ui.components.FilterableListDialog;
@@ -49,7 +49,7 @@ import com.daemon.emco_android.repository.db.entity.PriorityEntity;
 import com.daemon.emco_android.repository.db.entity.SiteAreaEntity;
 import com.daemon.emco_android.repository.db.entity.WorkTypeEntity;
 import com.daemon.emco_android.repository.db.entity.ZoneEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.BuildingDetailsListener;
 import com.daemon.emco_android.listeners.CategoryListener;
 import com.daemon.emco_android.listeners.JobNoListener;
@@ -112,7 +112,7 @@ public class Fragment_RM_LogComplaint extends Fragment
             tv_select_property;
     private Button btnSaveComplaint;
     private Toolbar mToolbar;
-    private GetLogComplaintPopupService mGetComplaintPopupService;
+    private GetLogComplaintPopupRepository mGetComplaintPopupService;
     /**
      * Global variables for post log complaint data
      */
@@ -223,7 +223,7 @@ public class Fragment_RM_LogComplaint extends Fragment
             }
             if (mStrEmployeeId != null)
                 mGetComplaintPopupService =
-                        new GetLogComplaintPopupService(
+                        new GetLogComplaintPopupRepository(
                                 mActivity, new EmployeeIdRequest(mStrEmployeeId, null, null, null));
 
             getPopupDataFromServer();
@@ -981,7 +981,7 @@ public class Fragment_RM_LogComplaint extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

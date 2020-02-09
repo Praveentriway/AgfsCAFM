@@ -29,7 +29,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.repository.remote.GetLogComplaintPopupService;
+import com.daemon.emco_android.repository.remote.GetLogComplaintPopupRepository;
 import com.daemon.emco_android.repository.remote.PostLogComplaintService;
 import com.daemon.emco_android.ui.components.CustomTextInputLayout;
 import com.daemon.emco_android.ui.components.FilterableListDialog;
@@ -38,7 +38,7 @@ import com.daemon.emco_android.repository.db.dbhelper.LogComplaintDbInitializer;
 import com.daemon.emco_android.repository.db.dbhelper.ZoneDbInitializer;
 import com.daemon.emco_android.repository.db.entity.LogComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.ZoneEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.LCUserInputListener;
 import com.daemon.emco_android.listeners.LogComplaint_Listener;
 import com.daemon.emco_android.listeners.ZoneListener;
@@ -86,7 +86,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     private TextView tv_contract_title, tv_contract_no, tv_select_zone;
     private Button btnSaveComplaint;
     private Toolbar mToolbar;
-    private GetLogComplaintPopupService mGetComplaintPopupService;
+    private GetLogComplaintPopupRepository mGetComplaintPopupService;
     private int checkLoad;
     private String mStrEmployeeId = null,
             mCompanyCode = null,
@@ -174,7 +174,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
             }
             if (mStrEmployeeId != null)
                 mGetComplaintPopupService =
-                        new GetLogComplaintPopupService(
+                        new GetLogComplaintPopupRepository(
                                 mActivity, new EmployeeIdRequest(null, mStrEmployeeId, null, null));
 
         } catch (Exception ex) {
@@ -669,7 +669,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new Fragment_Main();
+                Fragment _fragment = new MainLandingUI();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

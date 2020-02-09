@@ -19,9 +19,7 @@ public class CustomRecyclerViewDataAdapter extends RecyclerView.Adapter<CustomRe
     private ImageListnerR listnerR;
     private Context _con;
     private boolean loading;
-
     private String type=null;
-
 
     public CustomRecyclerViewDataAdapter(List<CustomRecyclerViewItem> viewItemList, int imgCount, ImageListner lstn, Context con,boolean loading) {
 

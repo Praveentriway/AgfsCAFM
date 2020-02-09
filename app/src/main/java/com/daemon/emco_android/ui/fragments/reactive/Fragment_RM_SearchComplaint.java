@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.repository.remote.GetLogComplaintPopupService;
+import com.daemon.emco_android.repository.remote.GetLogComplaintPopupRepository;
 import com.daemon.emco_android.repository.remote.GetSearchComplaintService;
 import com.daemon.emco_android.ui.components.CustomTextInputLayout;
 import com.daemon.emco_android.ui.components.FilterableListDialog;
@@ -37,7 +37,7 @@ import com.daemon.emco_android.repository.db.dbhelper.SiteAreaDbInitializer;
 import com.daemon.emco_android.repository.db.entity.MultiSearchComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.SingleSearchComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.SiteAreaEntity;
-import com.daemon.emco_android.ui.fragments.common.Fragment_Main;
+import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.ui.fragments.reactive.viewcomplaint.Fragment_RM_ViewComplaint;
 import com.daemon.emco_android.listeners.SearchComplaintListener;
 import com.daemon.emco_android.listeners.SiteListener;
@@ -62,7 +62,7 @@ public class Fragment_RM_SearchComplaint extends Fragment
   private Context mContext;
   private Font font = App.getInstance().getFontInstance();
   private SharedPreferences mPreferences;
-  private GetLogComplaintPopupService mGetComplaintPopupService;
+  private GetLogComplaintPopupRepository mGetComplaintPopupService;
   private SharedPreferences.Editor mEditor;
   private FragmentManager mManager;
   private TextView tv_lbl_complaint_ref_no, tv_lbl_goto_multi_search, tv_toolbar_title,tv_select_site, tv_lbl_site;
@@ -101,7 +101,7 @@ private CustomTextInputLayout til_complaint_ref;
       font = App.getInstance().getFontInstance();
       // mArgs = getArguments().getString(ARGS_BUNDLE_MESSAGE);
       mGetComplaintPopupService =
-          new GetLogComplaintPopupService(
+          new GetLogComplaintPopupRepository(
               mActivity,
               new EmployeeIdRequest(
                   mUserData.getEmployeeId(),
@@ -401,7 +401,7 @@ private CustomTextInputLayout til_complaint_ref;
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
           fm.popBackStack();
         }
-        Fragment _fragment = new Fragment_Main();
+        Fragment _fragment = new MainLandingUI();
         FragmentTransaction _transaction = mManager.beginTransaction();
         _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         _transaction.replace(R.id.frame_container, _fragment);

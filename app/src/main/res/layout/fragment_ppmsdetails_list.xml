@@ -29,9 +29,12 @@
 
             <TextView
                 android:id="@+id/tv_building"
-                style="@style/btn_wrap_content_gray"
+                style="@style/btn_wrap_content_gray2"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:paddingLeft="@dimen/_7sdp"
                 android:text="@string/building_zone_floor_flat_sub_location" />
 
         </LinearLayout>
@@ -69,6 +72,13 @@
                 android:layout_gravity="center"
                 android:layout_weight="1.08"
                 android:text="S.No" />
+            <TextView
+                android:id="@+id/tv_ppm_no"
+                style="@style/btn_wrap_content_gray"
+                android:layout_gravity="center"
+                android:layout_weight="0.98"
+                android:text="PPM No" />
+
 
             <TextView
                 android:id="@+id/tv_location_name"
