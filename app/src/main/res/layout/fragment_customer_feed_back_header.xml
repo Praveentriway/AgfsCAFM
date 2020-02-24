@@ -78,6 +78,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_custcode"
                             android:text="@string/customer_code"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -136,6 +137,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_contract_no"
                             android:text="Contract No"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -174,7 +176,6 @@
                     card_view:cardElevation="4dp"
                     card_view:cardUseCompatPadding="true">
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -194,6 +195,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_reference"
                             android:text="Survey Ref"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -254,6 +256,7 @@
                             android:id="@+id/tv_lbl_tenant_name"
                             android:text="Tenant Name"
                             android:textSize="@dimen/elementTextTitleSize"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -292,7 +295,6 @@
                     card_view:cardElevation="4dp"
                     card_view:cardUseCompatPadding="true">
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -311,6 +313,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_location"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:text="Location"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
@@ -350,7 +353,6 @@
                     card_view:cardElevation="4dp"
                     card_view:cardUseCompatPadding="true">
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -368,6 +370,7 @@
                             android:gravity="center"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:id="@+id/tv_lbl_client_name"
                             android:text="Reviewer Name"
                             android:textSize="@dimen/elementTextTitleSize"
@@ -399,7 +402,6 @@
 
                 </androidx.cardview.widget.CardView>
 
-
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"
                     android:background="@color/colorFormMasterElementBackground"
@@ -409,7 +411,6 @@
                     card_view:cardCornerRadius="0dp"
                     card_view:cardElevation="4dp"
                     card_view:cardUseCompatPadding="true">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -429,6 +430,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_designation"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:text="Designation"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
@@ -469,7 +471,6 @@
                     card_view:cardElevation="4dp"
                     card_view:cardUseCompatPadding="true">
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -490,6 +491,7 @@
                             android:id="@+id/tv_lbl_contact"
                             android:text="Contact No"
                             android:textSize="@dimen/elementTextTitleSize"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -529,7 +531,6 @@
                     card_view:cardElevation="4dp"
                     card_view:cardUseCompatPadding="true">
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -551,6 +552,7 @@
                             android:text="Email ID"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
 
@@ -642,6 +644,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:visibility="gone"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/arrow" />
 

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.samigehi:loadingview:1.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-loadingview-1.1.aar/034a31acad51576f72b3a4dbc6755d81/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-loadingview-1.1.aar/034a31acad51576f72b3a4dbc6755d81/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.samigehi/loadingview/1.1/60809dbadd670f79cdbd258592cb6af632992e7b/loadingview-1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

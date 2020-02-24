@@ -30,7 +30,7 @@
                     android:orientation="vertical"
                     android:background="@color/colorFormMasterElementBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_85sdp"
+                    android:layout_height="@dimen/_55sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     card_view:cardCornerRadius="0dp"
                     card_view:cardElevation="4dp"
@@ -50,6 +50,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:id="@+id/tv_lbl_suggestion"
                             android:layout_gravity="center_vertical"
                             android:layout_height="match_parent"
@@ -83,9 +84,9 @@
 
                 </androidx.cardview.widget.CardView>
 
-
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"
+                    android:id="@+id/cardSignature"
                     android:background="@color/colorFormMasterElementBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -109,6 +110,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
                             android:id="@+id/tv_lbl_signature"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="match_parent"
                             android:gravity="center"
@@ -163,15 +165,56 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:orientation="vertical"
+                    android:id="@+id/like_text"
+                    android:layout_marginTop="65dp"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_marginTop="1dp"
+                            android:layout_width="150dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_review_like"
+                            />
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginTop="5dp"
+                        fontPath="fonts/HelveticaBold.otf"
+                        android:text="Thank you for the Feedback. This will help us to improve our service."
+                        android:textSize="18sp"/>
 
+                        <ImageView
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/image"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_five_start"
+                           />
 
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
 
         </ScrollView>
-
-
-
 
     </RelativeLayout>
 

@@ -1,6 +1,7 @@
 package com.daemon.emco_android.ui.fragments.common;
 
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +35,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.listeners.UserListener;
+import com.daemon.emco_android.model.request.LoginRequest;
+import com.daemon.emco_android.model.response.CommonResponse;
+import com.daemon.emco_android.repository.db.entity.UserToken;
+import com.daemon.emco_android.repository.remote.EmployeeGpsRepository;
+import com.daemon.emco_android.repository.remote.UserService;
+import com.daemon.emco_android.service.EmployeeTrackingService;
 import com.daemon.emco_android.ui.activities.LoginActivity;
 import com.daemon.emco_android.repository.db.database.AppDatabase;
 import com.daemon.emco_android.repository.db.dbhelper.ReceiveComplaintItemDbInitializer;
@@ -54,8 +61,13 @@ import com.daemon.emco_android.utils.Font;
 import com.daemon.emco_android.utils.SessionManager;
 import com.daemon.emco_android.utils.Utils;
 import com.github.florent37.expectanim.ExpectAnim;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.shashank.sony.fancydialoglib.Animation;
 import com.shashank.sony.fancydialoglib.FancyAlertDialog;
 import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
@@ -66,7 +78,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.daemon.emco_android.utils.AppUtils.ARGS_SURVEYTYPE;
+import static com.daemon.emco_android.utils.AppUtils.MODE_REMOTE;
 import static com.daemon.emco_android.utils.AppUtils.getGreeting;
 import static com.daemon.emco_android.utils.Utils.TAG_LOG_COMPLAINT;
 import static com.github.florent37.expectanim.core.Expectations.atItsOriginalPosition;
@@ -74,10 +88,11 @@ import static com.github.florent37.expectanim.core.Expectations.invisible;
 import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
 import static com.github.florent37.expectanim.core.Expectations.visible;
 
-public class MainLandingUI extends Fragment implements View.OnClickListener {
+public class MainLandingUI extends Fragment implements View.OnClickListener, UserListener,EmployeeGpsRepository.EmployeeGPSListener {
     private static final String TAG = MainLandingUI.class.getSimpleName();
     final Handler handler = new Handler();
     private AppCompatActivity mActivity;
+    Intent  mServiceIntent;
     private Font font = App.getInstance().getFontInstance();
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
@@ -104,6 +119,7 @@ public class MainLandingUI extends Fragment implements View.OnClickListener {
     private TimerTask mTimerTask;
     private Timer t = new Timer();
     private FloatingActionButton fab_menu;
+    private String mStrEmpId=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,14 +127,18 @@ public class MainLandingUI extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         try {
             mActivity = (AppCompatActivity) getActivity();
-            mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
+            mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, MODE_PRIVATE);
             mEditor = mPreferences.edit();
             mStringJson = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+
+
             mManager = mActivity.getSupportFragmentManager();
             font = App.getInstance().getFontInstance();
             mArgs = getArguments();
             if (mStringJson != null) {
                 user = gson.fromJson(mStringJson, Login.class);
+                mStrEmpId = user.getEmployeeId();
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -162,6 +182,34 @@ public class MainLandingUI extends Fragment implements View.OnClickListener {
         t.scheduleAtFixedRate(mTimerTask, AppUtils.TIMEOUT_NEW, AppUtils.TIMEOUT);
     }
 
+    String token;
+
+    public void clearToken(){
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("", "getInstanceId failed", task.getException());
+                            return;
+                        }
+                        token = task.getResult().getToken();
+
+                        deleteToken();
+                    }
+                });
+
+    }
+    public void deleteToken(){
+        UserToken user=new UserToken();
+        user.setUserId(mStrEmpId);
+        user.setToken(token);
+        new UserService(mActivity, this).deleteToken(user);
+
+    }
+
+
     public void cleartime() {
         if (mTimerTask != null) {
             mTimerTask.cancel();
@@ -193,6 +241,8 @@ public class MainLandingUI extends Fragment implements View.OnClickListener {
             rootView = (View) inflater.inflate(R.layout.fragment_main, container, false);
             initUI(rootView);
             setProperties();
+            validateUser();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -224,7 +274,7 @@ public class MainLandingUI extends Fragment implements View.OnClickListener {
             new ExpectAnim()
                     .expect(ll_main_tech)
                     .toBe(
-                            outOfScreen(Gravity.TOP),
+                            outOfScreen(Gravity.LEFT),
                             invisible()
                     )
                     .toAnimation()
@@ -234,7 +284,7 @@ public class MainLandingUI extends Fragment implements View.OnClickListener {
 
                     .expect(ll_main_tech2)
                     .toBe(
-                            outOfScreen(Gravity.BOTTOM),
+                            outOfScreen(Gravity.RIGHT),
                             invisible()
                     )
                     .toAnimation()
@@ -335,6 +385,18 @@ public class MainLandingUI extends Fragment implements View.OnClickListener {
         });
     }
 
+    public void validateUser(){
+
+        mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, MODE_PRIVATE);
+        mEditor = mPreferences.edit();
+        String loginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+        Login login = gson.fromJson(loginData, Login.class);
+        mStrEmpId = login.getEmployeeId();
+        LoginRequest loginRequest = new LoginRequest(login.getEmployeeId(), login.getPassword());
+        new UserService(mActivity, this).getLoginData(loginRequest);
+
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -389,9 +451,7 @@ public class MainLandingUI extends Fragment implements View.OnClickListener {
     }
 
     public void loadFragment(final Fragment fragment, final String tag) {
-
         linear_toolbar.setVisibility(View.GONE);
-
         Log.d(TAG, "loadFragment");
         // update the main content by replacing fragments
         FragmentTransaction fragmentTransaction =
@@ -488,14 +548,23 @@ public class MainLandingUI extends Fragment implements View.OnClickListener {
             icon = R.drawable.logo_mbm_png_no_bg_white;
         }
 
+        String colorval="";
+
+        if(getString(R.string.app_name).equalsIgnoreCase("AGFS CAFM")){
+            colorval="#D7164B";
+        }
+        else{
+            colorval="#00ADEF";
+        }
+
         new FancyAlertDialog.Builder(mActivity)
                 .setTitle(getString(R.string.customer_survey))
-                .setBackgroundColor(R.color.colorPrimary)  //Don't pass R.color.colorvalue
+                .setBackgroundColor(Color.parseColor(colorval))  //Don't pass R.color.colorvalue
                 .setMessage(getString(R.string.survey_msg))
                 .setNegativeBtnText("Customer")
                 .setPositiveBtnBackground(Color.parseColor("#FFA9A7A8"))  //Don't pass R.color.colorvalue
                 .setPositiveBtnText("Tenant")
-                .setNegativeBtnBackground(R.color.colorPrimary)  //Don't pass R.color.colorvalue
+                .setNegativeBtnBackground(Color.parseColor(colorval))  //Don't pass R.color.colorvalue
                 .setAnimation(Animation.POP)
                 .isCancellable(true)
                 .setIcon(icon, Icon.Visible)
@@ -516,6 +585,65 @@ public class MainLandingUI extends Fragment implements View.OnClickListener {
                     }
                 })
                 .build();
+    }
+
+    public void onLoginDataReceivedSuccess(Login login, String totalNumberOfRows){
+        Gson gson = new GsonBuilder().create();
+        String loginJson = gson.toJson(login);
+        mEditor.putString(AppUtils.SHARED_LOGIN, loginJson);
+        mEditor.commit();
+
+        // start tracking service
+        if(login.getTrackingFlag()!=null && login.getTrackingFlag().equalsIgnoreCase("Y")){
+            // setting track flag for double check the gps cache vals upload to server --
+            startTracking();
+
+        }
+        else{
+            stopTracking();
+        }
+    }
+
+    public void onSuccessGpsUpdate(String strMsg, int mode){}
+
+    public void onFailureGpsUpdate(String strErr, int mode){}
+
+    public void onUserDataReceivedSuccess(CommonResponse response){}
+
+    public void onUserDataReceivedFailure(String strErr){}
+
+    public void stopTracking(){
+        mServiceIntent = new Intent(mActivity, EmployeeTrackingService.class);
+        if (isMyServiceRunning( EmployeeTrackingService.class)) {
+            mActivity.stopService(mServiceIntent);
+        }
+    }
+
+    private void startTracking() {
+
+        EmployeeTrackingService employeeTrackingService = new EmployeeTrackingService(mActivity);
+        mServiceIntent = new Intent(mActivity, employeeTrackingService.getClass());
+        if (!isMyServiceRunning(employeeTrackingService.getClass())) {
+            mActivity.startService(mServiceIntent);
+        }
+        {
+            new EmployeeGpsRepository(mActivity, MainLandingUI.this).updateEmployeeGps(null,MODE_REMOTE);
+        }
+
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) mActivity.getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager != null) {
+            for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+                if (serviceClass.getName().equals(service.service.getClassName())) {
+                    Log.i ("isMyServiceRunning?", true+"");
+                    return true;
+                }
+            }
+        }
+        Log.i ("isMyServiceRunning?", false+"");
+        return false;
     }
 
 }

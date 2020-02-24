@@ -15,6 +15,12 @@ import androidx.annotation.NonNull;
 import com.daemon.emco_android.BuildConfig;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.os.Build;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +47,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -55,6 +62,8 @@ import java.util.regex.Pattern;
 public class AppUtils extends Dialog {
 
   public static final int TIMEOUT = 90000;
+
+  public static final int TRACKINGTIME = 20000;
 
   public static final int TIMEOUT_NEW = 21600000;
 
@@ -106,6 +115,12 @@ public class AppUtils extends Dialog {
   public static final String mRESPONDED = "Responded";
   public static final String CLOSEWITHSIGN = "Close With Signature";
   public static final String CLOSEWITHOUTSIGN = "Close Without Signature";
+
+
+  public static final int MODE_REMOTE = 1000;
+  public static final int MODE_OFFLINE = 1010;
+
+
 
   // Reactive maintenance dashboard pie data
   public static final String ARGS_REACTIVE_MAINTENANCE_DASHBOARD_DATA =
@@ -759,6 +774,7 @@ public class AppUtils extends Dialog {
       return null;
     }
   }
+
   /*public static String convertToJson(List<Response> listLanguages)
   {
       Log.d(TAG,"convertToJson");
@@ -803,7 +819,8 @@ public class AppUtils extends Dialog {
         }
         else{
           return true;
-        } }
+        }
+      }
       else{
       return true;
       }
@@ -853,7 +870,7 @@ public class AppUtils extends Dialog {
     else{
       return "";
     }
-
   }
+
 
 }

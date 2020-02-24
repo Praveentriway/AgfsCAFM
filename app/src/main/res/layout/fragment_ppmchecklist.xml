@@ -92,6 +92,7 @@
                         <TextView
                             style="@style/btn_wrap_content_gray"
                             android:gravity="center"
+                            android:layout_gravity="center"
                             android:id="@+id/txt_ppm_title"
                             android:text="SPLIT UNIT PPM - MONTHLY SERVICE" />
                     </LinearLayout>

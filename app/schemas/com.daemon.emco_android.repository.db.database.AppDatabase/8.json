@@ -1,0 +1,2076 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 8,
+    "identityHash": "cf59053f9df8be3ee68f3be62a86156e",
+    "entities": [
+      {
+        "tableName": "logComplaintEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`complainWebNumber` TEXT NOT NULL, `companyCode` TEXT, `complainBy` TEXT, `complainDate` TEXT, `complainSite` TEXT, `complaintDetail` TEXT, `complaintEmail` TEXT, `complaintMobile` TEXT, `complaintPhone` TEXT, `complaintYear` TEXT, `jobNumber` TEXT, `location` TEXT, `subLocation` TEXT, `natureOfWork` TEXT, `propertyDetail` TEXT, `user` TEXT, `zoneCode` TEXT, `complaintPriority` TEXT, `workType` TEXT, PRIMARY KEY(`complainWebNumber`))",
+        "fields": [
+          {
+            "fieldPath": "complainWebNumber",
+            "columnName": "complainWebNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "companyCode",
+            "columnName": "companyCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complainBy",
+            "columnName": "complainBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complainDate",
+            "columnName": "complainDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complainSite",
+            "columnName": "complainSite",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintDetail",
+            "columnName": "complaintDetail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintEmail",
+            "columnName": "complaintEmail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintMobile",
+            "columnName": "complaintMobile",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintPhone",
+            "columnName": "complaintPhone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintYear",
+            "columnName": "complaintYear",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobNumber",
+            "columnName": "jobNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "subLocation",
+            "columnName": "subLocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "natureOfWork",
+            "columnName": "natureOfWork",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "propertyDetail",
+            "columnName": "propertyDetail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user",
+            "columnName": "user",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "zoneCode",
+            "columnName": "zoneCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintPriority",
+            "columnName": "complaintPriority",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "workType",
+            "columnName": "workType",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "complainWebNumber"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "contractEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`customerCode` TEXT NOT NULL, `opco` TEXT, `jobNo` TEXT, `customerName` TEXT, `jobDescription` TEXT, `siteCode` TEXT, `siteDescription` TEXT, PRIMARY KEY(`customerCode`))",
+        "fields": [
+          {
+            "fieldPath": "customerCode",
+            "columnName": "customerCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobNo",
+            "columnName": "jobNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerName",
+            "columnName": "customerName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobDescription",
+            "columnName": "jobDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "siteCode",
+            "columnName": "siteCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "siteDescription",
+            "columnName": "siteDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "customerCode"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "categoryEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`natureCode` TEXT NOT NULL, `opco` TEXT, `jobNo` INTEGER, `natureDescription` TEXT, PRIMARY KEY(`natureCode`))",
+        "fields": [
+          {
+            "fieldPath": "natureCode",
+            "columnName": "natureCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobNo",
+            "columnName": "jobNo",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "natureDescription",
+            "columnName": "natureDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "natureCode"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "AssetDetailsEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`opco` TEXT, `assetCode` TEXT, `jobNo` TEXT, `assetType` TEXT, `regionCode` TEXT, `regionName` TEXT, `zoneCode` TEXT, `zoneName` TEXT, `buildingCode` TEXT, `buildingNAE` TEXT, `floor` TEXT, `floorName` TEXT, `flat` TEXT, `flatName` TEXT, `room` TEXT, `roomName` TEXT, `assetNature` TEXT, `natureDescription` TEXT, `equipmentCode` TEXT, `equipmentName` TEXT, `assetBarCode` TEXT NOT NULL, `assetDescription` TEXT, `shortDescription` TEXT, `assetMake` TEXT, `assetModel` TEXT, `assetSize` TEXT, `clientBarcode` TEXT, PRIMARY KEY(`assetBarCode`))",
+        "fields": [
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetCode",
+            "columnName": "assetCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobNo",
+            "columnName": "jobNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetType",
+            "columnName": "assetType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "regionCode",
+            "columnName": "regionCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "regionName",
+            "columnName": "regionName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "zoneCode",
+            "columnName": "zoneCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "zoneName",
+            "columnName": "zoneName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "buildingCode",
+            "columnName": "buildingCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "buildingNAE",
+            "columnName": "buildingNAE",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "floor",
+            "columnName": "floor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "floorName",
+            "columnName": "floorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "flat",
+            "columnName": "flat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "flatName",
+            "columnName": "flatName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "room",
+            "columnName": "room",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "roomName",
+            "columnName": "roomName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetNature",
+            "columnName": "assetNature",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "natureDescription",
+            "columnName": "natureDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "equipmentCode",
+            "columnName": "equipmentCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "equipmentName",
+            "columnName": "equipmentName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetBarCode",
+            "columnName": "assetBarCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "assetDescription",
+            "columnName": "assetDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shortDescription",
+            "columnName": "shortDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetMake",
+            "columnName": "assetMake",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetModel",
+            "columnName": "assetModel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetSize",
+            "columnName": "assetSize",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clientBarcode",
+            "columnName": "clientBarcode",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "assetBarCode"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ReceiveComplaintRespondEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`complaintNumber` TEXT NOT NULL, `opco` TEXT, `complaintSite` TEXT, `responseDetails` TEXT, `complaintStatus` TEXT, `responseDate` TEXT, `floor` TEXT, `flat` TEXT, `assetBarCode` TEXT, `assetCode` TEXT, `modifiedBy` TEXT, `locationCode` TEXT, PRIMARY KEY(`complaintNumber`))",
+        "fields": [
+          {
+            "fieldPath": "complaintNumber",
+            "columnName": "complaintNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintSite",
+            "columnName": "complaintSite",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "responseDetails",
+            "columnName": "responseDetails",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintStatus",
+            "columnName": "complaintStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "responseDate",
+            "columnName": "responseDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "floor",
+            "columnName": "floor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "flat",
+            "columnName": "flat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetBarCode",
+            "columnName": "assetBarCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetCode",
+            "columnName": "assetCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "modifiedBy",
+            "columnName": "modifiedBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "locationCode",
+            "columnName": "locationCode",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "complaintNumber"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ReceiveComplaintItemEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`opco` TEXT NOT NULL, `siteCode` TEXT NOT NULL, `complaintNumber` TEXT NOT NULL, `complainRefrenceNumber` TEXT, `complainDate` TEXT, `workType` TEXT, `workTypeDescription` TEXT, `priority` TEXT, `location` TEXT, `complainDetails` TEXT, `customerRefrenceNumber` TEXT, `status` TEXT, `statusDesription` TEXT, `forwardedToEmployee` TEXT, `contractNumber` TEXT, `zoneCode` TEXT, `checked` INTEGER NOT NULL, PRIMARY KEY(`opco`, `siteCode`, `complaintNumber`))",
+        "fields": [
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "siteCode",
+            "columnName": "siteCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "complaintNumber",
+            "columnName": "complaintNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "complainRefrenceNumber",
+            "columnName": "complainRefrenceNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complainDate",
+            "columnName": "complainDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "workType",
+            "columnName": "workType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "workTypeDescription",
+            "columnName": "workTypeDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "priority",
+            "columnName": "priority",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complainDetails",
+            "columnName": "complainDetails",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerRefrenceNumber",
+            "columnName": "customerRefrenceNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "statusDesription",
+            "columnName": "statusDesription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "forwardedToEmployee",
+            "columnName": "forwardedToEmployee",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contractNumber",
+            "columnName": "contractNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "zoneCode",
+            "columnName": "zoneCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "checked",
+            "columnName": "checked",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "opco",
+            "siteCode",
+            "complaintNumber"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ReceiveComplaintViewEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`opco` TEXT NOT NULL, `complaintSite` TEXT NOT NULL, `complaintNumber` TEXT NOT NULL, `complaintYear` TEXT, `complaintDate` TEXT, `complaintType` TEXT, `region` TEXT, `regionName` TEXT, `jobType` TEXT, `jobTypeName` TEXT, `jobDescription` TEXT, `jobNumber` TEXT, `zoneCode` TEXT, `zoneName` TEXT, `buildingCode` TEXT, `buildingName` TEXT, `location` TEXT, `locationCode` TEXT, `locationDescription` TEXT, `workCategory` TEXT, `vendorCode` TEXT, `complaintCode` TEXT, `complaintDetails` TEXT, `complaintBy` TEXT, `complaintByPhoneNumber` TEXT, `complaintStatus` TEXT, `forwardedDate` TEXT, `forwardedEmployeeId` TEXT, `responseDate` TEXT, `responseDetails` TEXT, `feedbackDate` TEXT, `workStatus` TEXT, `feedbackInformation` TEXT, `otherInfo` TEXT, `pendingResponseCode` TEXT, `otherPendingRemarks` TEXT, `tentativeDate` TEXT, `floor` TEXT, `flat` TEXT, `customerReferenceNumber` TEXT, `complaintPhoneNumber` TEXT, `complaintMobileNumber` TEXT, `customerFeedback` TEXT, `createdBy` TEXT, `createdDate` TEXT, `customerRemarks` TEXT, `webComplaintReferenceNo` TEXT, `workType` TEXT, `priority` TEXT, `quotationJob` TEXT, `containmentDate` TEXT, `contractNo` TEXT, `email` TEXT, `assetBarCode` TEXT, `clientBarcode` TEXT, `assetCode` TEXT, `supervisorRemark` TEXT, `checkedBy` TEXT, `attendedBy` TEXT, `supervisor` TEXT, `engineer` TEXT, `modifiedBy` TEXT, `confirm` INTEGER, `modifiedDate` TEXT, `customerSignStatus` TEXT, `assetMake` TEXT, `assetModel` TEXT, `assetSize` TEXT, `equipmentName` TEXT, `customerSignStatusNew` TEXT, `mode` INTEGER NOT NULL, `defect` TEXT, `otherDefects` TEXT, `workDone` TEXT, `otherWorkDone` TEXT, PRIMARY KEY(`opco`, `complaintSite`, `complaintNumber`))",
+        "fields": [
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "complaintSite",
+            "columnName": "complaintSite",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "complaintNumber",
+            "columnName": "complaintNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "complaintYear",
+            "columnName": "complaintYear",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintDate",
+            "columnName": "complaintDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintType",
+            "columnName": "complaintType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "region",
+            "columnName": "region",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "regionName",
+            "columnName": "regionName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobType",
+            "columnName": "jobType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobTypeName",
+            "columnName": "jobTypeName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobDescription",
+            "columnName": "jobDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobNumber",
+            "columnName": "jobNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "zoneCode",
+            "columnName": "zoneCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "zoneName",
+            "columnName": "zoneName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "buildingCode",
+            "columnName": "buildingCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "buildingName",
+            "columnName": "buildingName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "locationCode",
+            "columnName": "locationCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "locationDescription",
+            "columnName": "locationDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "workCategory",
+            "columnName": "workCategory",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vendorCode",
+            "columnName": "vendorCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintCode",
+            "columnName": "complaintCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintDetails",
+            "columnName": "complaintDetails",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintBy",
+            "columnName": "complaintBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintByPhoneNumber",
+            "columnName": "complaintByPhoneNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintStatus",
+            "columnName": "complaintStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "forwardedDate",
+            "columnName": "forwardedDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "forwardedEmployeeId",
+            "columnName": "forwardedEmployeeId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "responseDate",
+            "columnName": "responseDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "responseDetails",
+            "columnName": "responseDetails",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "feedbackDate",
+            "columnName": "feedbackDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "workStatus",
+            "columnName": "workStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "feedbackInformation",
+            "columnName": "feedbackInformation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "otherInfo",
+            "columnName": "otherInfo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pendingResponseCode",
+            "columnName": "pendingResponseCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "otherPendingRemarks",
+            "columnName": "otherPendingRemarks",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tentativeDate",
+            "columnName": "tentativeDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "floor",
+            "columnName": "floor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "flat",
+            "columnName": "flat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerReferenceNumber",
+            "columnName": "customerReferenceNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintPhoneNumber",
+            "columnName": "complaintPhoneNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintMobileNumber",
+            "columnName": "complaintMobileNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerFeedback",
+            "columnName": "customerFeedback",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "createdDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerRemarks",
+            "columnName": "customerRemarks",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "webComplaintReferenceNo",
+            "columnName": "webComplaintReferenceNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "workType",
+            "columnName": "workType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "priority",
+            "columnName": "priority",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "quotationJob",
+            "columnName": "quotationJob",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "containmentDate",
+            "columnName": "containmentDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contractNo",
+            "columnName": "contractNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetBarCode",
+            "columnName": "assetBarCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clientBarcode",
+            "columnName": "clientBarcode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetCode",
+            "columnName": "assetCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "supervisorRemark",
+            "columnName": "supervisorRemark",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "checkedBy",
+            "columnName": "checkedBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "attendedBy",
+            "columnName": "attendedBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "supervisor",
+            "columnName": "supervisor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "engineer",
+            "columnName": "engineer",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "modifiedBy",
+            "columnName": "modifiedBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "confirm",
+            "columnName": "confirm",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "modifiedDate",
+            "columnName": "modifiedDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerSignStatus",
+            "columnName": "customerSignStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetMake",
+            "columnName": "assetMake",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetModel",
+            "columnName": "assetModel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "assetSize",
+            "columnName": "assetSize",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "equipmentName",
+            "columnName": "equipmentName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerSignStatusNew",
+            "columnName": "customerSignStatusNew",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mode",
+            "columnName": "mode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "defect",
+            "columnName": "defect",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "otherDefects",
+            "columnName": "otherDefects",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "workDone",
+            "columnName": "workDone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "otherWorkDone",
+            "columnName": "otherWorkDone",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "opco",
+            "complaintSite",
+            "complaintNumber"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "receiveComplaintsStatusUpdate",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`newComplaint` TEXT NOT NULL, `oldComplaint` TEXT, PRIMARY KEY(`newComplaint`))",
+        "fields": [
+          {
+            "fieldPath": "newComplaint",
+            "columnName": "newComplaint",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "oldComplaint",
+            "columnName": "oldComplaint",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "newComplaint"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "workDefectEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`complaintCode` TEXT, `defectCode` TEXT NOT NULL, `defectDescription` TEXT NOT NULL, `workCategory` TEXT, PRIMARY KEY(`defectCode`, `defectDescription`))",
+        "fields": [
+          {
+            "fieldPath": "mComplaintCode",
+            "columnName": "complaintCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mDefectCode",
+            "columnName": "defectCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mDefectDescription",
+            "columnName": "defectDescription",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mWorkCategory",
+            "columnName": "workCategory",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "defectCode",
+            "defectDescription"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "workStatusEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`description` TEXT, `pendingCode` TEXT NOT NULL, PRIMARY KEY(`pendingCode`))",
+        "fields": [
+          {
+            "fieldPath": "mDescription",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mPendingCode",
+            "columnName": "pendingCode",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "pendingCode"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "MaterialMaster",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`opco` TEXT, `materialCode` TEXT NOT NULL, `materialName` TEXT, `units` TEXT, `uom` TEXT, `materialSize` TEXT, `materialMake` TEXT, `status` TEXT, `itemQuantity` TEXT, `remarks` TEXT, PRIMARY KEY(`materialCode`))",
+        "fields": [
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "materialCode",
+            "columnName": "materialCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "materialName",
+            "columnName": "materialName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "units",
+            "columnName": "units",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "uom",
+            "columnName": "uom",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "materialSize",
+            "columnName": "materialSize",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "materialMake",
+            "columnName": "materialMake",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemQuantity",
+            "columnName": "itemQuantity",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remarks",
+            "columnName": "remarks",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "materialCode"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "SaveMaterialEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`companyCode` TEXT NOT NULL, `transactionType` TEXT NOT NULL, `docType` TEXT, `complainSite` TEXT NOT NULL, `complaintNumber` TEXT NOT NULL, `refrenceDocNumber` TEXT, `refrenceDocDate` TEXT, `jobNumber` TEXT, `itemCode` TEXT NOT NULL, `itemQuantity` TEXT, `remarks` TEXT, `itemDescription` TEXT, `user` TEXT, `mode` INTEGER NOT NULL, PRIMARY KEY(`companyCode`, `complainSite`, `complaintNumber`, `transactionType`, `itemCode`))",
+        "fields": [
+          {
+            "fieldPath": "companyCode",
+            "columnName": "companyCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionType",
+            "columnName": "transactionType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "docType",
+            "columnName": "docType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complainSite",
+            "columnName": "complainSite",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "complaintNumber",
+            "columnName": "complaintNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "refrenceDocNumber",
+            "columnName": "refrenceDocNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "refrenceDocDate",
+            "columnName": "refrenceDocDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobNumber",
+            "columnName": "jobNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemCode",
+            "columnName": "itemCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemQuantity",
+            "columnName": "itemQuantity",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remarks",
+            "columnName": "remarks",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemDescription",
+            "columnName": "itemDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user",
+            "columnName": "user",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mode",
+            "columnName": "mode",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "companyCode",
+            "complainSite",
+            "complaintNumber",
+            "transactionType",
+            "itemCode"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "workPendingReasonEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reasonCode` TEXT NOT NULL, `reasonDescription` TEXT, PRIMARY KEY(`reasonCode`))",
+        "fields": [
+          {
+            "fieldPath": "mReasonCode",
+            "columnName": "reasonCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mReasonDescription",
+            "columnName": "reasonDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "reasonCode"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "zoneEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contractNo` TEXT, `opco` TEXT, `zoneCode` TEXT NOT NULL, `zoneName` TEXT, PRIMARY KEY(`zoneCode`))",
+        "fields": [
+          {
+            "fieldPath": "contractNo",
+            "columnName": "contractNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "zoneCode",
+            "columnName": "zoneCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zoneName",
+            "columnName": "zoneName",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "zoneCode"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "workDoneEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`complaintCode` TEXT, `defectCode` TEXT, `workCategory` TEXT, `workDoneCode` TEXT, `workDoneDescription` TEXT NOT NULL, PRIMARY KEY(`workDoneDescription`))",
+        "fields": [
+          {
+            "fieldPath": "mComplaintCode",
+            "columnName": "complaintCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mDefectCode",
+            "columnName": "defectCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mWorkCategory",
+            "columnName": "workCategory",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mWorkDoneCode",
+            "columnName": "workDoneCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mWorkDoneDescription",
+            "columnName": "workDoneDescription",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "workDoneDescription"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ppeNameEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cType` TEXT, `code` TEXT NOT NULL, `name` TEXT, `ppeUsed` TEXT, PRIMARY KEY(`code`))",
+        "fields": [
+          {
+            "fieldPath": "mCType",
+            "columnName": "cType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mCode",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mName",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ppeUsed",
+            "columnName": "ppeUsed",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "code"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "PriorityEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`code` TEXT NOT NULL, `description` TEXT, PRIMARY KEY(`code`))",
+        "fields": [
+          {
+            "fieldPath": "mCode",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mDescription",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "code"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "PPEFetchSaveEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`companyCode` TEXT, `complainNumber` TEXT, `createdUser` TEXT, `jobNumber` TEXT, `modifiedBy` TEXT, `ppeCode` TEXT, `ppeName` TEXT, `ppeRefrenceNumber` TEXT, `ppeUsed` TEXT, `siteCode` TEXT, `workType` TEXT, `mode` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "mCompanyCode",
+            "columnName": "companyCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mComplainNumber",
+            "columnName": "complainNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mCreatedUser",
+            "columnName": "createdUser",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mJobNumber",
+            "columnName": "jobNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mModifiedBy",
+            "columnName": "modifiedBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mPpeCode",
+            "columnName": "ppeCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mPpeName",
+            "columnName": "ppeName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mPpeRefrenceNumber",
+            "columnName": "ppeRefrenceNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mPpeUsed",
+            "columnName": "ppeUsed",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mSiteCode",
+            "columnName": "siteCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mWorkType",
+            "columnName": "workType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mode",
+            "columnName": "mode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "DFoundWDoneImageEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `opco` TEXT, `complaintSite` TEXT, `complaintNo` TEXT, `ppmRefNo` TEXT, `fileType` TEXT, `transactionType` TEXT, `docType` TEXT, `createdBy` TEXT, `modifiedBy` TEXT, `base64Image` TEXT, `imageCount` INTEGER NOT NULL, `fieldId` TEXT, `imageName` TEXT, `actStartDate` TEXT, `actEndDate` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintSite",
+            "columnName": "complaintSite",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complaintNo",
+            "columnName": "complaintNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ppmRefNo",
+            "columnName": "ppmRefNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fileType",
+            "columnName": "fileType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionType",
+            "columnName": "transactionType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "docType",
+            "columnName": "docType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "modifiedBy",
+            "columnName": "modifiedBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "base64Image",
+            "columnName": "base64Image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imageCount",
+            "columnName": "imageCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fieldId",
+            "columnName": "fieldId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imageName",
+            "columnName": "imageName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "actStartDate",
+            "columnName": "actStartDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "actEndDate",
+            "columnName": "actEndDate",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "WorkTypeEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`code` TEXT NOT NULL, `description` TEXT, `srl` TEXT, PRIMARY KEY(`code`))",
+        "fields": [
+          {
+            "fieldPath": "code",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "srl",
+            "columnName": "srl",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "code"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "siteAreaEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`customerCode` TEXT NOT NULL, `customerName` TEXT, `jobDescription` TEXT, `jobNo` TEXT, `opco` TEXT, `siteCode` TEXT, `siteDescription` TEXT, PRIMARY KEY(`customerCode`))",
+        "fields": [
+          {
+            "fieldPath": "customerCode",
+            "columnName": "customerCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "customerName",
+            "columnName": "customerName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobDescription",
+            "columnName": "jobDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobNo",
+            "columnName": "jobNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "siteCode",
+            "columnName": "siteCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "siteDescription",
+            "columnName": "siteDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "customerCode"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ReportTypesEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reportType` TEXT, `reportSRL` INTEGER NOT NULL, PRIMARY KEY(`reportSRL`))",
+        "fields": [
+          {
+            "fieldPath": "reportType",
+            "columnName": "reportType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reportSRL",
+            "columnName": "reportSRL",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "reportSRL"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "EmployeeDetailsEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`opco` TEXT, `contractNo` TEXT, `workCategory` TEXT, `employeeId` TEXT NOT NULL, `employeeName` TEXT, PRIMARY KEY(`employeeId`))",
+        "fields": [
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contractNo",
+            "columnName": "contractNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "workCategory",
+            "columnName": "workCategory",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "employeeId",
+            "columnName": "employeeId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "employeeName",
+            "columnName": "employeeName",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "employeeId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "SaveFeedbackEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`complaintNumber` TEXT NOT NULL, `opco` TEXT NOT NULL, `complaintSite` TEXT NOT NULL, `attendedBy` TEXT, `checkedBy` TEXT, `feedbackInformation` TEXT, `supRemark` TEXT, `customerSignStatus` TEXT, `createdBy` TEXT, `mode` INTEGER NOT NULL, PRIMARY KEY(`opco`, `complaintSite`, `complaintNumber`))",
+        "fields": [
+          {
+            "fieldPath": "complaintNumber",
+            "columnName": "complaintNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "complaintSite",
+            "columnName": "complaintSite",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attendedBy",
+            "columnName": "attendedBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "checkedBy",
+            "columnName": "checkedBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "feedbackInformation",
+            "columnName": "feedbackInformation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "supRemark",
+            "columnName": "supRemark",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerSignStatus",
+            "columnName": "customerSignStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mode",
+            "columnName": "mode",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "opco",
+            "complaintSite",
+            "complaintNumber"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "SaveRatedServiceEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`complaintNumber` TEXT NOT NULL, `complaintSite` TEXT NOT NULL, `createdBy` TEXT, `customerFeedback` TEXT, `customerRemarks` TEXT, `customerSignStatus` TEXT, `customerSignature` TEXT, `opco` TEXT NOT NULL, `transactionType` TEXT, PRIMARY KEY(`complaintNumber`, `complaintSite`, `opco`))",
+        "fields": [
+          {
+            "fieldPath": "complaintNumber",
+            "columnName": "complaintNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "complaintSite",
+            "columnName": "complaintSite",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerFeedback",
+            "columnName": "customerFeedback",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerRemarks",
+            "columnName": "customerRemarks",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerSignStatus",
+            "columnName": "customerSignStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customerSignature",
+            "columnName": "customerSignature",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "opco",
+            "columnName": "opco",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionType",
+            "columnName": "transactionType",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "complaintNumber",
+            "complaintSite",
+            "opco"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "employeeTrackingDetail",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`employeeId` TEXT, `lat` TEXT, `lng` TEXT, `deviceID` TEXT, `deviceName` TEXT, `trans_date` TEXT NOT NULL, PRIMARY KEY(`trans_date`))",
+        "fields": [
+          {
+            "fieldPath": "employeeId",
+            "columnName": "employeeId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lat",
+            "columnName": "lat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lng",
+            "columnName": "lng",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "deviceID",
+            "columnName": "deviceID",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "deviceName",
+            "columnName": "deviceName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "trans_date",
+            "columnName": "trans_date",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "trans_date"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"cf59053f9df8be3ee68f3be62a86156e\")"
+    ]
+  }
+}

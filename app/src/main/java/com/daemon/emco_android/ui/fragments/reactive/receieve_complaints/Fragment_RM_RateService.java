@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
@@ -83,14 +84,12 @@ public class Fragment_RM_RateService extends Fragment
 
     AppCompatTextView tv_lbl_signature,tv_lbl_cus_remarks;
     private TextView tv_lbl_cus_satisfaction,
-
-            tv_lbl_cus_sign,
             tv_lbl_tech_remarks;
     private TextView tv_select_customer_rank, tv_select_signstatus;
     private SignaturePad signaturePad;
     private Button btnClear;
     private FloatingActionButton btnSave;
-    private TextInputEditText tie_customer_remarks;
+    private AppCompatEditText tie_customer_remarks;
     private ImageView iv_very_good, iv_good, iv_excellent, iv_Satisfactory, iv_poor;
     private LinearLayout ll_remarks_detail;
     private CoordinatorLayout cl_main;
@@ -181,6 +180,7 @@ public class Fragment_RM_RateService extends Fragment
             // logo changes R id
             iv_excellent = (ImageView) rootView.findViewById(R.id.iv_excellent);
             iv_very_good = (ImageView) rootView.findViewById(R.id.iv_poor);
+            tie_customer_remarks= (AppCompatEditText) rootView.findViewById(R.id.tie_customer_remarks);
             iv_good = (ImageView) rootView.findViewById(R.id.iv_very_good);
             iv_Satisfactory = (ImageView) rootView.findViewById(R.id.iv_good);
             iv_poor = (ImageView) rootView.findViewById(R.id.iv_Satisfactory);
@@ -234,7 +234,12 @@ public class Fragment_RM_RateService extends Fragment
             tv_select_customer_rank.setTypeface(font.getHelveticaRegular());
             tv_select_signstatus.setTypeface(font.getHelveticaRegular());
             btnClear.setTypeface(font.getHelveticaRegular());
-            btnSave.setOnClickListener(this);
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    submitForm();
+                }
+            });
             btnClear.setOnClickListener(this);
             signaturePad.setOnSignedListener(this);
             iv_very_good.setOnClickListener(this);
@@ -423,6 +428,7 @@ public class Fragment_RM_RateService extends Fragment
         mCustomerRemarks = tie_customer_remarks.getText().toString().trim();
         if (mCustomerRemarks.isEmpty()) {
            // til_customer_remarks.setError(getString(R.string.msg_enter_remark_detail));
+            AppUtils.showToast(mActivity,getString(R.string.msg_enter_remark_detail));
             requestFocus(tie_customer_remarks);
             return false;
         } else {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -83,14 +84,13 @@ public class Fragment_PM_RateService extends Fragment
     private FragmentManager mManager;
     private TextView tv_lbl_cus_satisfaction,
             tv_lbl_cus_remarks,
-            tv_lbl_cus_sign,
             tv_lbl_tech_remarks;
     private TextView tv_select_customer_rank, tv_select_signstatus;
     private SignaturePad signaturePad;
     private Button  btnClear;
     private FloatingActionButton  btnSave;
-    private CustomTextInputLayout til_remarks_detail, til_customer_remarks;
-    private TextInputEditText tie_customer_remarks;
+    private CustomTextInputLayout til_remarks_detail;
+    private AppCompatEditText tie_customer_remarks;
     private ImageView iv_very_good, iv_good, iv_excellent, iv_Satisfactory, iv_poor;
     private LinearLayout ll_remarks_detail;
     private CoordinatorLayout cl_main;
@@ -214,12 +214,12 @@ public class Fragment_PM_RateService extends Fragment
             // logo changes R id
             iv_excellent = (ImageView) rootView.findViewById(R.id.iv_excellent);
             iv_very_good = (ImageView) rootView.findViewById(R.id.iv_poor);
+            tie_customer_remarks = (AppCompatEditText) rootView.findViewById(R.id.tie_customer_remarks);
             iv_good = (ImageView) rootView.findViewById(R.id.iv_very_good);
             iv_Satisfactory = (ImageView) rootView.findViewById(R.id.iv_good);
             iv_poor = (ImageView) rootView.findViewById(R.id.iv_Satisfactory);
 
             til_remarks_detail = (CustomTextInputLayout) rootView.findViewById(R.id.til_remarks_detail);
-
 
             tv_select_customer_rank = (TextView) rootView.findViewById(R.id.tv_select_customer_rank);
             tv_select_signstatus = (TextView) rootView.findViewById(R.id.tv_select_signstatus);
@@ -257,7 +257,6 @@ public class Fragment_PM_RateService extends Fragment
 
             tv_lbl_cus_satisfaction.setTypeface(font.getHelveticaRegular());
             tv_lbl_cus_remarks.setTypeface(font.getHelveticaRegular());
-            tv_lbl_cus_sign.setTypeface(font.getHelveticaRegular());
             tv_lbl_tech_remarks.setTypeface(font.getHelveticaRegular());
             tv_select_customer_rank.setTypeface(font.getHelveticaRegular());
             tv_select_signstatus.setTypeface(font.getHelveticaRegular());
@@ -266,7 +265,12 @@ public class Fragment_PM_RateService extends Fragment
 
             btnClear.setTypeface(font.getHelveticaRegular());
 
-            btnSave.setOnClickListener(this);
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    submitForm();
+                }
+            });
             btnClear.setOnClickListener(this);
             signaturePad.setOnSignedListener(this);
 
@@ -291,8 +295,7 @@ public class Fragment_PM_RateService extends Fragment
                 // getCustomerRemarks();
                 break;
             case R.id.btnSave:
-                // Bitmap bitmap = signaturePad.getSignatureBitmap();
-                submitForm();
+
                 break;
             case R.id.btnClear:
                 signaturePad.clear();
@@ -426,11 +429,11 @@ public class Fragment_PM_RateService extends Fragment
     private boolean validateCustomerRemarks() {
         mCustomerRemarks = tie_customer_remarks.getText().toString().trim();
         if (mCustomerRemarks.isEmpty()) {
-            til_customer_remarks.setError(getString(R.string.msg_enter_remark_detail));
+            AppUtils.showToast(mActivity,getString(R.string.msg_enter_remark_detail));
             requestFocus(tie_customer_remarks);
             return false;
         } else {
-            til_customer_remarks.setErrorEnabled(false);
+          //  til_customer_remarks.setErrorEnabled(false);
         }
         return true;
     }

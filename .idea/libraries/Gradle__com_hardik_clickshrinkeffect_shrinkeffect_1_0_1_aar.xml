@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.hardik.clickshrinkeffect:shrinkeffect:1.0.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/shrinkeffect-1.0.1.aar/01396155520d1e44e57ffcf259bb19f3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/shrinkeffect-1.0.1.aar/01396155520d1e44e57ffcf259bb19f3/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hardik.clickshrinkeffect/shrinkeffect/1.0.1/b262ab45e0477e3f8b3a0b5edf53064323a64286/shrinkeffect-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

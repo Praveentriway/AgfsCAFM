@@ -403,55 +403,6 @@ public class DownloadService extends IntentService {
         }
     }
 
-  /*private void checkCount(int check){
-      if (check > checkcountloop) {
-        for (int i = check; i > checkcountloop; i++) {
-          GetAllReceiveComplaintViewDataNew(checkcountloop);
-          break;
-        }
-    }
-  }*/
-
- /* public void GetAllReceiveComplaintViewDataNew( int sendLimit) {
-    Log.d(TAG, "GetReceiveComplaintViewData");
-    try {
-      mInterface
-              .getAllReceiveComplaintView_ResultNew(mStrEmployeeId,"0",sendLimit)
-              .enqueue(
-                      new Callback<ReceiveComplaintViewResponse>() {
-                        @Override
-                        public void onResponse(
-                                Call<ReceiveComplaintViewResponse> call,
-                                Response<ReceiveComplaintViewResponse> response) {
-                          if (response.isSuccessful()) {
-                            Log.d(TAG, "onResponse success " + response.body().getMessage());
-                            if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
-                              Log.d(TAG, "onResponse success");
-                              checkcount=response.body().getTotalNumberOfRows();
-                              if (response.body().getReceiveComplaintViewEntity().isEmpty()) return;
-                              new ReceiveComplaintViewDbInitializer(
-                                      mContext, null, response.body().getReceiveComplaintViewEntity())
-                                      .execute(AppUtils.MODE_INSERT);
-                              checkcountloop=checkcountloop+30;
-                              checkCount(checkcount);
-                            }
-                          }
-                          //sendNotification(35);
-                         // GetAllAssetBArCodeDetailsData();
-                        }
-
-                        @Override
-                        public void onFailure(Call<ReceiveComplaintViewResponse> call, Throwable t) {
-                          Log.d(TAG, "onFailure" + t.getMessage());
-                         // sendNotification(35);
-                          //GetAllAssetBArCodeDetailsData();
-                        }
-                      });
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }*/
-
     public void GetAllReceiveComplaintViewData() {
         try {
             mInterface

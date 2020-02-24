@@ -168,7 +168,7 @@
                                 android:maxLength="500"
                                 android:gravity="center"
                                 android:layout_gravity="center"
-                                android:id="@+id/tie_suggestion"
+                                android:id="@+id/tie_customer_remarks"
                                 android:hint="Add your remarks"
                                 android:imeOptions="actionDone"
                                 android:padding="16dp"

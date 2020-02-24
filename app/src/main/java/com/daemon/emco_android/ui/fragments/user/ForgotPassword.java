@@ -130,8 +130,6 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
 
-
-
         try {
             rootView = (View) inflater.inflate(R.layout.fragment_forgot_password, container, false);
             initUI(rootView);
@@ -197,6 +195,7 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
 
     public void setupActionBar() {
         mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
+        mToolbar.setVisibility(View.VISIBLE);
         tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
         tv_toolbar_title.setTypeface(font.getHelveticaRegular());
         //tv_toolbar_title.setText(getString(R.string.lbl_forget_password));
@@ -241,13 +240,8 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
         tie_username.addTextChangedListener(new MyTextWatcher(tie_username));
 
         if(SessionManager.getSession("ip_address",getContext()) !=null || (!SessionManager.getSession("ip_address",getContext()).trim().isEmpty())){
-
             tie_serverurl.setText(SessionManager.getSessionForURL("ip_address",getContext()));
-
         }
-
-
-
     }
 
     private boolean validUrl() {
@@ -258,7 +252,6 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
         } else {
             til_serverurl.setErrorEnabled(false);
         }
-
         return true;
     }
 
@@ -266,11 +259,9 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
         Log.d(TAG, "submitForm");
         try {
            /* AppUtils.closeInput(cl_main);
-
             if (!validateUsername()) {
                 return;
             }*/
-
             if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 new UserService(mActivity, this).getForgotPasswordResult(tie_username.getText().toString());
@@ -280,7 +271,6 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     private boolean validateUsername() {
@@ -291,7 +281,6 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
         } else {
             til_username.setErrorEnabled(false);
         }
-
         return true;
     }
 
@@ -304,7 +293,6 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
 
     @Override
     public void onLoginDataReceivedSuccess(Login login, String totalNumberOfRows) {
-
     }
 
     @Override

@@ -94,7 +94,6 @@
         android:layout_weight="3"
         android:orientation="horizontal">
 
-
         <TextView
 android:visibility="invisible"
             android:layout_height="@dimen/_50sdp"
@@ -108,11 +107,8 @@ OF CLIENTS"
             android:paddingRight="@dimen/_20sdp"
             android:paddingLeft="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_15sdp"
-
             />
 
-
     </LinearLayout>
-
 
 </LinearLayout>

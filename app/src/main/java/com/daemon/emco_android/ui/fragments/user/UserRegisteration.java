@@ -227,6 +227,7 @@ public class UserRegisteration extends Fragment implements View.OnClickListener,
 
         try {
             mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
+            mToolbar.setVisibility(View.VISIBLE);
             mActivity.setSupportActionBar(mToolbar);
             tv_toolbar_title=(TextView)mToolbar.findViewById(R.id.tv_toolbar_title);
             tv_toolbar_title.setText(getString(R.string.lbl_reg));
@@ -381,16 +382,7 @@ public class UserRegisteration extends Fragment implements View.OnClickListener,
 
     protected void submitFormData() {
         try {
-          /*  AppUtils.closeInput(cl_main);
-            validateFname();
-            validateLname();
-            validateEmail();
-            validateTelno();
-            validateMobile();
-            validateProperty();
-            validateBuilding();
-            validateLocation();
-            validUrl();*/
+
             if (validateFname() && validateLname() && validateEmail() && validateTelno()
                     && validateMobile() && validateProperty() && validateBuilding() && validateLocation()) {
                 AddNewUser newUser = new AddNewUser();

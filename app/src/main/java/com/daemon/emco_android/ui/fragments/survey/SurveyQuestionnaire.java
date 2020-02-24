@@ -3,8 +3,8 @@ package com.daemon.emco_android.ui.fragments.survey;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
 import com.daemon.emco_android.utils.AppUtils;
+import com.github.florent37.expectanim.ExpectAnim;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -28,13 +31,22 @@ import com.daemon.emco_android.repository.db.entity.SurveyTransaction;
 import com.daemon.emco_android.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import static com.daemon.emco_android.ui.fragments.survey.SurveyHeader.DETAILED;
+import static com.daemon.emco_android.ui.fragments.survey.SurveyHeader.SUMMARY;
 import static com.daemon.emco_android.utils.AppUtils.ARGS_SUGESSTIONFLAG;
 import static com.daemon.emco_android.utils.AppUtils.ARGS_SURVEYQUES;
 import static com.daemon.emco_android.utils.AppUtils.ARGS_SURVEYTRANS;
+import static com.github.florent37.expectanim.core.Expectations.atItsOriginalPosition;
+import static com.github.florent37.expectanim.core.Expectations.invisible;
+import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
+import static com.github.florent37.expectanim.core.Expectations.visible;
 
 
-public class SurveyQuestionnaire extends Fragment {
+public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAdapter.OptionTouchListner {
 
     View view;
     private AppCompatActivity mActivity;
@@ -47,6 +59,7 @@ public class SurveyQuestionnaire extends Fragment {
     private ArrayList<ServeyQuestionnaire> questionnaires;
     private SurveyTransaction surveyTransaction;
     boolean suggestionFlag;
+    RecyclerView recycler_view;
 
     public SurveyQuestionnaire() {
         // Required empty public constructor
@@ -63,6 +76,7 @@ public class SurveyQuestionnaire extends Fragment {
             questionnaires = (ArrayList<ServeyQuestionnaire>) mArgs.getSerializable(ARGS_SURVEYQUES);
             surveyTransaction = (SurveyTransaction) mArgs.getSerializable(ARGS_SURVEYTRANS);
             suggestionFlag=mArgs.getBoolean(ARGS_SUGESSTIONFLAG);
+
         }
     }
 
@@ -83,21 +97,64 @@ public class SurveyQuestionnaire extends Fragment {
         fab_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(adapter.getQuestionnaire()!=null){
+                processQuest();
+            }
+        });
+        new ExpectAnim()
+                .expect(fab_next)
+                .toBe(
+                        outOfScreen(Gravity.BOTTOM),
+                        invisible()
+                )
+                .toAnimation()
+                .setNow();
+
+
+        recycler_view=(RecyclerView) view.findViewById(R.id.recycler_view);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(mActivity);
+        recycler_view.setLayoutManager(mLayoutManager);
+        recycler_view.setItemAnimator(new DefaultItemAnimator());
+        adapter=new CustomerFeedbackAdapter(mActivity,getQuest(surveyTransaction.getSurveyType()),surveyTransaction.getSurveyType(),this);
+        recycler_view.setAdapter(adapter);
+    }
+
+    public void processQuest(){
+        if(adapter.getQuestionnaire()!=null){
+
+            if(surveyTransaction.getSurveyType().equalsIgnoreCase(SUMMARY)){
+
+                if(adapter.getOptionScore(0)<surveyTransaction.getScore()){
+
+                    showDialog("Please spend few minutes to give us detailed feedback about our service.");
+                }
+                else{
+
+                    surveyTransaction.setQues(adapter.getQuestionnaire());
+                    loadFragment(new SurveyFeedback(), Utils.TAG_FRAGMENT_CUST_FEEDBACK_SUGGESTION);
+
+                }
+            }
+            else{
+
+                if(surveyTransaction.getQues()!=null){
+
+                    List<ServeyQuestionnaire> ques =surveyTransaction.getQues();
+                    ques.addAll(adapter.getQuestionnaire());
+                    surveyTransaction.setQues(ques);
+                    loadFragment(new SurveyFeedback(), Utils.TAG_FRAGMENT_CUST_FEEDBACK_SUGGESTION);
+
+                }
+
+                else{
                     surveyTransaction.setQues(adapter.getQuestionnaire());
                     loadFragment(new SurveyFeedback(), Utils.TAG_FRAGMENT_CUST_FEEDBACK_SUGGESTION);
                 }
-                else{
-                    Toast.makeText(mActivity,"Please fill all the questions.",Toast.LENGTH_SHORT).show();
-                }
             }
-        });
-        RecyclerView recycler_view=(RecyclerView) view.findViewById(R.id.recycler_view);
-        LinearLayoutManager   mLayoutManager = new LinearLayoutManager(mActivity);
-        recycler_view.setLayoutManager(mLayoutManager);
-        recycler_view.setItemAnimator(new DefaultItemAnimator());
-        adapter=new CustomerFeedbackAdapter(mActivity,questionnaires);
-        recycler_view.setAdapter(adapter);
+
+        }
+        else{
+            Toast.makeText(mActivity,"Please fill all the questions.",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void loadFragment(final Fragment fragment, final String tag) {
@@ -119,7 +176,7 @@ public class SurveyQuestionnaire extends Fragment {
         Log.d(TAG, "setupActionBar");
         mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
         tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
-        tv_toolbar_title.setText("Customer Questionnaire");
+        tv_toolbar_title.setText("Rate our service");
         mActivity.setSupportActionBar(mToolbar);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         mToolbar.setNavigationOnClickListener(
@@ -154,5 +211,68 @@ public class SurveyQuestionnaire extends Fragment {
         Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
     }
+
+
+    private void showDialog(final String msg) {
+
+        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mActivity);
+        builder.setMessage(msg).setTitle("Detailed Feedback")
+                .setCancelable(false)
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+
+                        surveyTransaction.setQues(adapter.getQuestionnaire());
+                        surveyTransaction.setSurveyType(DETAILED);
+
+                        adapter=new CustomerFeedbackAdapter(mActivity,getQuest(surveyTransaction.getSurveyType()),surveyTransaction.getSurveyType(),SurveyQuestionnaire.this);
+                        recycler_view.setAdapter(adapter);
+
+                        new ExpectAnim()
+                                .expect(fab_next)
+                                .toBe(
+                                        atItsOriginalPosition(),
+                                        visible()
+                                )
+                                .toAnimation()
+                                .setDuration(800)
+                                .start();
+
+                    }
+                }).setNegativeButton("Not Interested", new DialogInterface.OnClickListener() {
+            public void onClick(final DialogInterface dialog, final int id) {
+                dialog.cancel();
+
+                surveyTransaction.setQues(adapter.getQuestionnaire());
+                loadFragment(new SurveyFeedback(), Utils.TAG_FRAGMENT_CUST_FEEDBACK_SUGGESTION);
+
+            }});
+
+
+        final android.app.AlertDialog alert = builder.create();
+        alert.show();
+
+    }
+
+
+public ArrayList<ServeyQuestionnaire> getQuest(String type){
+
+    ArrayList<ServeyQuestionnaire> temp=new ArrayList<>();
+
+      for(ServeyQuestionnaire ques:questionnaires){
+
+          if(ques.getQuesType().equalsIgnoreCase(type)){
+              temp.add(ques);
+          }
+      }
+        return temp;
+}
+
+
+public void onOptionSelected(){
+    processQuest();
+}
+
+
 
 }

@@ -2355,127 +2355,90 @@ public class Fragment_RC_Respond extends Fragment
         }
         try {
 
-            if (imageEntityB.getBase64Image()!=null && !imageEntityB.getBase64Image().isEmpty() && imageEntityB.getDocType() != null) {
+            if (imageEntityB!=null || imageEntityB.getBase64Image()!=null || !imageEntityB.getBase64Image().isEmpty() || imageEntityB.getDocType() != null) {
 
-                new AsyncTask<Void, Boolean, Boolean>() {
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
+                itemList1 = new ArrayList<CustomRecyclerViewItem>();
+                for (int i = 0; i < imageEntityB.getBase64Image().size(); i++) {
+                    mImageToBeAttachedDefectFound = AppUtils.getDecodedString(imageEntityB.getBase64Image().get(i));
+                    DFoundWDoneImageEntity imageEntity1 = new DFoundWDoneImageEntity("B");
+                    imageEntity1.setOpco(mOpco);
+                    imageEntity1.setComplaintSite(mComplaintSite);
+                    imageEntity1.setComplaintNo(mComplaintNumber);
+                    imageEntity1.setFileType("jpg");
+                    imageEntity1.setTransactionType("R");
+                    imageEntity1.setDocType("B");
+                    imageEntity1.setCreatedBy(mStrEmpId);
+                    imageEntity1.setModifiedBy(mStrEmpId);
+                    imageEntity1.setImageCount(i);
+                    imageEntity1.setActStartDate(DateFormat.getDateTimeInstance().format(new Date()));
+                    if (mImageToBeAttachedDefectFound != null) {
+                        imageEntity1.setBase64Image(AppUtils.getEncodedString(mImageToBeAttachedDefectFound));
                     }
+                    CustomRecyclerViewItem item = new CustomRecyclerViewItem();
+                    item.setDet(imageEntity1);
+                    item.setThums(ThumbnailUtils.extractThumbnail(
+                            mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+                    itemList1.add(item);
+                }
+                setupRecyclerview1();
+                img_upload_count1.setVisibility(View.VISIBLE);
+                img_upload_count1.setText(imageEntityB.getBase64Image().size() + "/" + imageTotalCount + " Image uploaded - Defect Found");
 
-                    @Override
-                    protected Boolean doInBackground(Void... params) {
+                if (fromUpload) {
+                    AppUtils.hideProgressDialog();
+                    AppUtils.showSnackBar(R.id.coordinatorLayout, rootView, "Image has been successfully Saved.");
+                }
 
-
-                        itemList1 = new ArrayList<CustomRecyclerViewItem>();
-                        for(int i=0;i<imageEntityB.getBase64Image().size();i++){
-                            mImageToBeAttachedDefectFound = AppUtils.getDecodedString(imageEntityB.getBase64Image().get(i));
-                            DFoundWDoneImageEntity imageEntity1 = new DFoundWDoneImageEntity("B" );
-                            imageEntity1.setOpco(mOpco);
-                            imageEntity1.setComplaintSite(mComplaintSite);
-                            imageEntity1.setComplaintNo(mComplaintNumber);
-                            imageEntity1.setFileType("jpg");
-                            imageEntity1.setTransactionType("R");
-                            imageEntity1.setDocType("B");
-                            imageEntity1.setCreatedBy(mStrEmpId);
-                            imageEntity1.setModifiedBy(mStrEmpId);
-                            imageEntity1.setImageCount(i);
-                            imageEntity1.setActStartDate(DateFormat.getDateTimeInstance().format(new Date()));
-                            if (mImageToBeAttachedDefectFound != null) {
-                                imageEntity1.setBase64Image(AppUtils.getEncodedString(mImageToBeAttachedDefectFound));
-                            }
-                            CustomRecyclerViewItem item = new CustomRecyclerViewItem();
-                            item.setDet(imageEntity1);
-                            item.setThums(ThumbnailUtils.extractThumbnail(
-                                    mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
-                            itemList1.add(item);
-                        }
-                        return true;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Boolean aVoid) {
-
-                        setupRecyclerview1();
-
-                        img_upload_count1.setVisibility(View.VISIBLE);
-                        img_upload_count1.setText(imageEntityB.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Defect Found");
-                        if(fromUpload){
-                            AppUtils.hideProgressDialog();
-                            AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Image has been successfully Saved.");
-                        }
-
-                        super.onPostExecute(aVoid);
-                    }
-                }.execute(); }
-
-            else{
-                customRecyclerViewDataAdapter1 = new CustomRecyclerViewDataAdapter(itemList1,imageTotalCount,this,getContext(),false,DefectFound);
+            }
+            else {
+                customRecyclerViewDataAdapter1 = new CustomRecyclerViewDataAdapter(itemList1, imageTotalCount, this, getContext(), false, DefectFound);
                 recyclerviewImage1.setAdapter(customRecyclerViewDataAdapter1);
                 img_upload_count1.setVisibility(View.VISIBLE);
-                img_upload_count1.setText(imageEntityB.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Defect Found");
+                img_upload_count1.setText(imageEntityB.getBase64Image().size() + "/" + imageTotalCount + " Image uploaded - Defect Found");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
 
-
             imageCount2=imageEntity.getImageCount();
+            if (imageEntityA!=null || imageEntityA.getBase64Image()!=null || !imageEntityA.getBase64Image().isEmpty() || imageEntityA.getDocType() != null) {
 
-            if (imageEntityA.getBase64Image()!=null && !imageEntityA.getBase64Image().isEmpty() && imageEntityA.getDocType() != null) {
-
-                new AsyncTask<Void, Boolean, Boolean>() {
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
+                itemList2 = new ArrayList<CustomRecyclerViewItem>();
+                for(int i=0;i<imageEntityA.getBase64Image().size();i++){
+                    mImageToBeAttachedDefectFound = AppUtils.getDecodedString(imageEntityA.getBase64Image().get(i));
+                    DFoundWDoneImageEntity imageEntity1 = new DFoundWDoneImageEntity("B" );
+                    imageEntity1.setOpco(mOpco);
+                    imageEntity1.setComplaintSite(mComplaintSite);
+                    imageEntity1.setComplaintNo(mComplaintNumber);
+                    imageEntity1.setFileType("jpg");
+                    imageEntity1.setTransactionType("R");
+                    imageEntity1.setDocType("A");
+                    imageEntity1.setCreatedBy(mStrEmpId);
+                    imageEntity1.setModifiedBy(mStrEmpId);
+                    imageEntity1.setImageCount(i);
+                    imageEntity1.setActStartDate(DateFormat.getDateTimeInstance().format(new Date()));
+                    if (mImageToBeAttachedDefectFound != null) {
+                        imageEntity1.setBase64Image(AppUtils.getEncodedString(mImageToBeAttachedDefectFound));
                     }
+                    CustomRecyclerViewItem item = new CustomRecyclerViewItem();
+                    item.setDet(imageEntity1);
+                    item.setThums(ThumbnailUtils.extractThumbnail(
+                            mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+                    itemList2.add(item);
+                }
 
-                    @Override
-                    protected Boolean doInBackground(Void... params) {
+                setupRecyclerview2();
 
-                        itemList2 = new ArrayList<CustomRecyclerViewItem>();
-                        for(int i=0;i<imageEntityA.getBase64Image().size();i++){
-                            mImageToBeAttachedDefectFound = AppUtils.getDecodedString(imageEntityA.getBase64Image().get(i));
-                            DFoundWDoneImageEntity imageEntity1 = new DFoundWDoneImageEntity("B" );
-                            imageEntity1.setOpco(mOpco);
-                            imageEntity1.setComplaintSite(mComplaintSite);
-                            imageEntity1.setComplaintNo(mComplaintNumber);
-                            imageEntity1.setFileType("jpg");
-                            imageEntity1.setTransactionType("R");
-                            imageEntity1.setDocType("A");
-                            imageEntity1.setCreatedBy(mStrEmpId);
-                            imageEntity1.setModifiedBy(mStrEmpId);
-                            imageEntity1.setImageCount(i);
-                            imageEntity1.setActStartDate(DateFormat.getDateTimeInstance().format(new Date()));
-                            if (mImageToBeAttachedDefectFound != null) {
-                                imageEntity1.setBase64Image(AppUtils.getEncodedString(mImageToBeAttachedDefectFound));
-                            }
-                            CustomRecyclerViewItem item = new CustomRecyclerViewItem();
-                            item.setDet(imageEntity1);
-                            item.setThums(ThumbnailUtils.extractThumbnail(
-                                    mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
-                            itemList2.add(item);
-                        }
-                        return true;
-                    }
+                img_upload_count2.setVisibility(View.VISIBLE);
+                img_upload_count2.setText(imageEntityA.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Work Done");
+                if(fromUpload){
+                    AppUtils.hideProgressDialog();
+                    AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Image has been successfully Saved.");
+                }
 
-                    @Override
-                    protected void onPostExecute(Boolean aVoid) {
-
-                        setupRecyclerview2();
-
-                        img_upload_count2.setVisibility(View.VISIBLE);
-                        img_upload_count2.setText(imageEntityA.getBase64Image().size()+"/"+imageTotalCount+" Image uploaded - Work Done");
-                        if(fromUpload){
-                            AppUtils.hideProgressDialog();
-                            AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Image has been successfully Saved.");
-                        }
-
-                        super.onPostExecute(aVoid);
-                    }
-                }.execute();
             }
 
             else{

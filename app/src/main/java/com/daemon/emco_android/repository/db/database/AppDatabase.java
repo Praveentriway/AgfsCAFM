@@ -8,9 +8,11 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import android.content.Context;
 
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.repository.db.dao.CategoryDao;
 import com.daemon.emco_android.repository.db.dao.ContractDao;
 import com.daemon.emco_android.repository.db.dao.EmployeeDetailsDao;
+import com.daemon.emco_android.repository.db.dao.EmployeeTrackingDao;
 import com.daemon.emco_android.repository.db.dao.ImageUploadDao;
 import com.daemon.emco_android.repository.db.dao.LogComplaintDao;
 import com.daemon.emco_android.repository.db.dao.PPEFetchSaveDao;
@@ -85,9 +87,10 @@ import com.daemon.emco_android.utils.AppUtils;
       ReportTypesEntity.class,
       EmployeeDetailsEntity.class,
       SaveFeedbackEntity.class,
-      SaveRatedServiceEntity.class
+      SaveRatedServiceEntity.class,
+      EmployeeTrackingDetail.class
     },
-    version = 7)
+    version = 9)
 @TypeConverters(SaveFeedbackEntity.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -109,6 +112,7 @@ public abstract class AppDatabase extends RoomDatabase {
               // Don't do this on a real app! See PersistenceBasicSample for an example.
                   //this to remove all the existing data on migration
               .fallbackToDestructiveMigration()
+               .allowMainThreadQueries()
 //              .addMigrations(MIGRATION_4_5)
               .build();
     }
@@ -166,4 +170,6 @@ public abstract class AppDatabase extends RoomDatabase {
   public abstract EmployeeDetailsDao employeeDetailsDao();
 
   public abstract SaveFeedbackDao saveFeedbackDao();
+
+  public abstract EmployeeTrackingDao employeeTrackingDao();
 }

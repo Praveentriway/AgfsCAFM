@@ -690,4 +690,5 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
         AppUtils.hideProgressDialog();
         AppUtils.showDialog(mActivity, strErr);
     }
+
 }

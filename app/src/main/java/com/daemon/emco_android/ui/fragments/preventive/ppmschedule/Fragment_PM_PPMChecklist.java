@@ -293,7 +293,9 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
                         fetchPpmScheduleDocBy.clear();
 
                         return;
+
                     } else {
+
                         getPpmScheduleDocBy = new PpmScheduleDocBy();
                         getPpmScheduleDocBy.setCompanyCode(ppmScheduleDocBy.getCompanyCode());
                         getPpmScheduleDocBy.setWorkOrderNo(ppmScheduleDocBy.getBatchSRL());
@@ -309,6 +311,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
                         getPpmScheduleDocBy.setRemarks(d.getRemarks());
                         getPpmScheduleDocBy.setModifiedBy(mStrEmpId);
                         fetchPpmScheduleDocBy.add(getPpmScheduleDocBy);
+
                     }
                 }
             }

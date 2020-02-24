@@ -98,7 +98,7 @@ android {
                             "\"cafm.emcoqatar.net\"," +
                             "\"10.111.111.41:8080\"," +
                             "\"10.111.111.37:8585\"," +
-                            "\"10.112.112.106:8080\"" +
+                            "\"10.112.112.129:8080\"" +
                             "}"
         }
     }
@@ -115,6 +115,9 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.work:work-runtime:2.3.1'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.guava:guava:28.0-android'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
 
@@ -177,6 +180,11 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation 'com.github.chrisbanes.photoview:library:1.2.4'
+
+    // click effect survey module
+    implementation 'com.hardik.clickshrinkeffect:shrinkeffect:1.0.1'
+
+    
 }
 configurations.all {
     resolutionStrategy.eachDependency {

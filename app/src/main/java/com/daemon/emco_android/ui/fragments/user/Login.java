@@ -1,9 +1,13 @@
 package com.daemon.emco_android.ui.fragments.user;
 
+import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,12 +32,15 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.service.EmployeeTrackingReceiver;
+import com.daemon.emco_android.service.EmployeeTrackingService;
 import com.daemon.emco_android.ui.activities.MainActivity;
 import com.daemon.emco_android.repository.remote.UrlService;
 import com.daemon.emco_android.repository.remote.UserService;
@@ -79,6 +86,7 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
     private Fragment mFragment = null;
     private View rootView;
     private String result="";
+    private ImageView img_header;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,9 +123,8 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
     public void initView() {
         Log.d(TAG, "initView");
         try {
+            img_header= (ImageView) rootView.findViewById(R.id.img_header);
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
-        //    til_uname = (TextInputLayout) rootView.findViewById(R.id.til_username);
-         //   til_password = (TextInputLayout) rootView.findViewById(R.id.til_password);
             tie_username = (EditText) rootView.findViewById(R.id.tie_username);
             tie_password = (EditText) rootView.findViewById(R.id.tie_password);
             tie_password.setTransformationMethod(new PasswordTransformationMethod());
@@ -199,16 +206,21 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
         Log.d(TAG, "setActionBar");
         try {
             mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
+            mToolbar.setVisibility(View.GONE);
             tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
+            ImageView img_toolbar = (ImageView) mToolbar.findViewById(R.id.img_toolbar);
+            img_toolbar.setVisibility(View.GONE);
             LinearLayout linear_toolbar =(LinearLayout) mToolbar.findViewById(R.id.linear_profile) ;
             linear_toolbar.setVisibility(View.GONE);
             mActivity.setSupportActionBar(mToolbar);
 
             if(SessionManager.getSessionForURL("ip_address",mActivity) !=null && (!SessionManager.getSessionForURL("ip_address",mActivity).trim().isEmpty())  && (SessionManager.getSessionForURL("ip_address",mActivity).contains("mbm"))){
-                tv_toolbar_title.setText("Welcome to MBM CAFM");
+                tv_toolbar_title.setText("Login to MBM CAFM");
+                img_header.setImageResource(R.drawable.logo_mbm_png_no_bg);
             }
             else{
-                tv_toolbar_title.setText("Welcome to "+getString(R.string.app_name));
+                tv_toolbar_title.setText("Login to "+getString(R.string.app_name));
+                img_header.setImageResource(R.drawable.headerlogo);
             }
             // mActivity.getSupportActionBar().setTitle(getString(R.string.lbl_login));
             mActivity.getSupportActionBar().setHomeAsUpIndicator(null);
@@ -298,7 +310,6 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
         }
     }
 
-
     public void submitFormData() {
         try {
 
@@ -344,52 +355,33 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
     }
 
     private boolean validateUsername() {
-        /*if (!AppUtils.validateEmail(tie_username.getText().toString().trim()))
-        {
-            til_uname.setError(getString(R.string.msg_email_violation));
-            requestFocus(tie_username);
-            return false;
-        }
-        else */
         if (tie_username.getText().toString().trim().isEmpty()) {
-
             Toast.makeText(getContext(),getString(R.string.msg_username_empty),Toast.LENGTH_SHORT).show();
-
-          //  til_uname.setError(getString(R.string.msg_username_empty));
             return false;
         } else {
-          //  Toast.makeText(getContext(),getString(R.string.msg_username_empty),Toast.LENGTH_SHORT).show();
-           // til_uname.setErrorEnabled(false);
-        }
 
+        }
         return true;
     }
 
     private boolean validatePassword() {
         if (tie_password.getText().toString().trim().isEmpty()) {
-           // til_password.setError(getString(R.string.msg_password_empty));
             Toast.makeText(getContext(),getString(R.string.msg_password_empty),Toast.LENGTH_SHORT).show();
             requestFocus(tie_password);
             return false;
         } else {
-            //til_password.setErrorEnabled(false);
         }
-
         return true;
     }
 
     private boolean validUrl() {
-
         if (tie_serverurl.getText().toString().trim().isEmpty()) {
-
             Toast.makeText(getContext(),getString(R.string.msg_server_url),Toast.LENGTH_SHORT).show();
-         //   til_serverurl.setError(getString(R.string.msg_server_url));
             requestFocus(tie_serverurl);
             return false;
         } else {
-          //  til_serverurl.setErrorEnabled(false);
-        }
 
+        }
         return true;
     }
 
@@ -408,20 +400,15 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
         mEditor.putString(AppUtils.SHARED_LOGIN, loginJson);
         mEditor.commit();
         Log.d(TAG, "ALLFORWARDEDCOMPLAINT" + totalNumberOfRows);
-
-        updateToken(login.getEmployeeId());
-
+        updateToken(login.getEmployeeId());        // update fcm token for pushmsg
         Intent intent = new Intent(mActivity, MainActivity.class);
         intent.putExtra(AppUtils.ALLFORWARDEDCOMPLAINT, totalNumberOfRows);
         startActivity(intent);
         mActivity.finish();
-
-
     }
+
     String token;
     public void updateToken(final String userid){
-
-
 
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -431,14 +418,10 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
                             Log.w(TAG, "getInstanceId failed", task.getException());
                             return;
                         }
-
                         token = task.getResult().getToken();
-
                         updateT(userid);
                     }
                 });
-
-
     }
 
     public  void updateT( String userid){
@@ -448,12 +431,10 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
         new UserService(mActivity, this).addToken(user);
     }
 
-
     @Override
     public void onUserDataReceivedSuccess(CommonResponse response) {
 
     }
-
     @Override
     public void onUserDataReceivedFailure(String strErr) {
         try {
@@ -506,4 +487,8 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
             }
         }
     }
+
+
+
+
 }

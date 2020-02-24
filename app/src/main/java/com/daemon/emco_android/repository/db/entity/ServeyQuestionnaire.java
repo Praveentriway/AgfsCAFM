@@ -32,6 +32,11 @@ public class ServeyQuestionnaire implements Serializable {
     @SerializedName("surveyQuesValue")
     @Expose
     List<String> surveyQuesValue;
+
+    @SerializedName("optionScore")
+    @Expose
+    List<String> optionScore;
+
     @SerializedName("surveyQuesRate")
     @Expose
     String surveyQuesRate;
@@ -39,6 +44,36 @@ public class ServeyQuestionnaire implements Serializable {
     @SerializedName("surveyQuesAns")
     @Expose
     String surveyQuesAns;
+
+    @SerializedName("quesType")
+    @Expose
+    String quesType;
+
+    int surveyOptionScore;
+
+    public String getQuesType() {
+        return quesType;
+    }
+
+    public void setQuesType(String quesType) {
+        this.quesType = quesType;
+    }
+
+    public int getSurveyOptionScore() {
+        return surveyOptionScore;
+    }
+
+    public void setSurveyOptionScore(int surveyOptionScore) {
+        this.surveyOptionScore = surveyOptionScore;
+    }
+
+    public List<String> getOptionScore() {
+        return optionScore;
+    }
+
+    public void setOptionScore(List<String> optionScore) {
+        this.optionScore = optionScore;
+    }
 
     public String getOpco() {
         return opco;

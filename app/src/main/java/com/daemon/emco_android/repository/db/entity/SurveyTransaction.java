@@ -20,7 +20,25 @@ public class SurveyTransaction implements Serializable {
     String surveyFrom;
     String tenantName;
     String createdBy;
+    String surveyType;
+    int score;
     List<ServeyQuestionnaire> ques;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public String getSurveyType() {
+        return surveyType;
+    }
+
+    public void setSurveyType(String surveyType) {
+        this.surveyType = surveyType;
+    }
 
     public String getTenantName() { return tenantName;}
 

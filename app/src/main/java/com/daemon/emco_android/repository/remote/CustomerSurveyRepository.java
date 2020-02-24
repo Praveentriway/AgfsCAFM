@@ -184,10 +184,10 @@ public class CustomerSurveyRepository {
                 });
     }
 
-    public void getSurveyQuestionnaire(String opco, String custCode, String custRef) {
+    public void getSurveyQuestionnaire(String opco, String custCode, String custRef,String surveyType) {
 
         Log.d(TAG, "getSurveyQuestionnaire");
-        Call<SurveyQuestionnaireResponse> getSurveyQuestionnaire = mInterface.getSurveyQuestionnaire(opco, custCode, custRef);
+        Call<SurveyQuestionnaireResponse> getSurveyQuestionnaire = mInterface.getSurveyQuestionnaire(opco, custCode, custRef,surveyType);
 
         getSurveyQuestionnaire.enqueue(
                 new Callback<SurveyQuestionnaireResponse>() {

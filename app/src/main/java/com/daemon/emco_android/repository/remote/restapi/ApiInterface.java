@@ -1,9 +1,11 @@
 package com.daemon.emco_android.repository.remote.restapi;
 
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.model.request.DocumentTransaction;
 import com.daemon.emco_android.model.request.LocationDetail;
 import com.daemon.emco_android.model.response.DocumentDownloadResponse;
 import com.daemon.emco_android.model.response.DocumentTypeResponse;
+import com.daemon.emco_android.model.response.EmployeeGpsReponse;
 import com.daemon.emco_android.model.response.LocationDetailResponse;
 import com.daemon.emco_android.model.response.LocationResponse;
 import com.daemon.emco_android.model.response.OpcoResponse;
@@ -564,7 +566,7 @@ public interface ApiInterface {
 
   @GET(ApiConstant.SURVEYQUESTIONNAIRE)
   Call<SurveyQuestionnaireResponse> getSurveyQuestionnaire(
-          @Query("opco") String opco, @Query("customercode") String customercode, @Query("surveyref") String surveyref);
+          @Query("opco") String opco, @Query("customercode") String customercode, @Query("surveyref") String surveyref,@Query("surveyType") String surveyType);
 
 
   @POST(ApiConstant.SURVEYSAVE)
@@ -592,6 +594,11 @@ public interface ApiInterface {
   @POST(ApiConstant.LOCATIONDETAIL)
   Call<LocationDetailResponse> getLocationDetail
           (@Body LocationDetail loc);
+
+
+  @POST(ApiConstant.UPDATEEMPLOYEEGPS)
+  Call<EmployeeGpsReponse> updateEmployeeGps
+          (@Body  List<EmployeeTrackingDetail> emp);
 
 
 }

@@ -220,6 +220,10 @@ public class ApiConstant {
     public static final String LOCATIONJOBNO = "LocationFinder/getLocationJobNo";
     public static final String LOCATIONDETAIL = "LocationFinder/getLocationDetail";
 
+    /* EMPLOYEE GPS TRACKING URL */
+
+    public static final String UPDATEEMPLOYEEGPS = "EmployeeTrackingApi/updateEmployeeGps";
+
 
     private static Context context;
 

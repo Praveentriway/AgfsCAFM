@@ -32,6 +32,7 @@ import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.response.CommonResponse;
 import com.daemon.emco_android.repository.db.entity.UserToken;
 import com.daemon.emco_android.repository.remote.UserService;
+import com.daemon.emco_android.service.EmployeeTrackingService;
 import com.daemon.emco_android.ui.activities.LoginActivity;
 import com.daemon.emco_android.repository.db.dbhelper.ReceiveComplaintItemDbInitializer;
 import com.daemon.emco_android.utils.AppUtils;
@@ -196,6 +197,11 @@ public class ProfileSettings extends Fragment implements View.OnClickListener, U
                                                     clearPreferences();
                                                     SessionManager.clearSession(mActivity);
                                                     clearToken();
+                                                    // stop tracking service
+//                                                    EmployeeTrackingService employeeTrackingService = new EmployeeTrackingService(getContext());
+////                                                    Intent  mServiceIntent = new Intent(getContext(), employeeTrackingService.getClass());
+////                                                    mActivity.stopService(mServiceIntent);
+
                                                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                                                     startActivity(intent);
                                                     getActivity().finish();

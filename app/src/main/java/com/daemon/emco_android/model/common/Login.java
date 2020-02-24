@@ -35,6 +35,17 @@ public class Login {
     @SerializedName("contractNo")
     private String contractNo;
 
+    @SerializedName("trackingFlag")
+    private String trackingFlag;
+
+    public String getTrackingFlag() {
+        return trackingFlag;
+    }
+
+    public void setTrackingFlag(String trackingFlag) {
+        this.trackingFlag = trackingFlag;
+    }
+
     public String getCreatedUser() {
         return mCreatedUser;
     }

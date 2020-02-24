@@ -8,7 +8,43 @@ public class SurveyMaster {
     String surveyReference;
     String surveyName;
     Boolean suggestionFlag;
+    String customerSurveyFlag;
+    String customerScoreLimit;
+    String tenantSurveyFlag;
+    String tenantScoreLimit;
 
+
+    public String getCustomerSurveyFlag() {
+        return customerSurveyFlag;
+    }
+
+    public void setCustomerSurveyFlag(String customerSurveyFlag) {
+        this.customerSurveyFlag = customerSurveyFlag;
+    }
+
+    public String getCustomerScoreLimit() {
+        return customerScoreLimit;
+    }
+
+    public void setCustomerScoreLimit(String customerScoreLimit) {
+        this.customerScoreLimit = customerScoreLimit;
+    }
+
+    public String getTenantSurveyFlag() {
+        return tenantSurveyFlag;
+    }
+
+    public void setTenantSurveyFlag(String tenantSurveyFlag) {
+        this.tenantSurveyFlag = tenantSurveyFlag;
+    }
+
+    public String getTenantScoreLimit() {
+        return tenantScoreLimit;
+    }
+
+    public void setTenantScoreLimit(String tenantScoreLimit) {
+        this.tenantScoreLimit = tenantScoreLimit;
+    }
 
     public Boolean getSuggestionFlag() {
         return suggestionFlag;
