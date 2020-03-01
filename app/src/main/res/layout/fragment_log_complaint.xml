@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:background="@color/bg_layout"
+    tools:ignore="MissingPrefix"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/_5sdp">
+
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/scroll_bar"
@@ -242,11 +253,6 @@
                     </com.daemon.emco_android.ui.components.CustomTextInputLayout>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnSaveComplaint"
-                    style="@style/btn_common"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:text="@string/lbl_save" />
             </LinearLayout>
 
             <ImageView
@@ -286,3 +292,15 @@
         </RelativeLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
+
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+
+android:id="@+id/btnSaveComplaint"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_gravity="bottom|end"
+android:layout_margin="@dimen/fab_margin"
+android:visibility="gone"
+android:src="@drawable/sharp_search_white_18" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -11,23 +10,23 @@
     android:layout_height="match_parent"
     android:paddingTop="@dimen/_5sdp">
 
-
     <androidx.core.widget.NestedScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         style="@style/match_parent_style"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
     <LinearLayout
         style="@style/match_parent_style"
         android:orientation="vertical">
 
         <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/match_parent_style"
-           >
+            style="@style/match_parent_style">
 
             <LinearLayout
+                android:id="@+id/layout_main"
                 style="@style/match_parent_style"
                 android:layout_marginLeft="@dimen/_30sdp"
                 android:layout_marginRight="@dimen/_30sdp"
@@ -64,6 +63,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_contract"
                             android:text="@string/contract_no"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -84,14 +84,13 @@
                             android:maxLines="1"
                             android:layout_gravity="center_vertical"
                             android:text="@string/select_contract"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:padding="16dp"
                             android:textColor="@color/colorPrimary"/>
                     </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
 
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"
@@ -102,7 +101,6 @@
                     card_view:cardCornerRadius="0dp"
                     card_view:cardElevation="4dp"
                     card_view:cardUseCompatPadding="true">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -123,6 +121,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_search"
                             android:text="@string/search_by"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -145,7 +144,7 @@
                             android:maxLines="1"
                             android:layout_gravity="center_vertical"
                             android:text="@string/select_search_type"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:padding="16dp"
                             android:textColor="@color/colorPrimary"/>
 
@@ -153,8 +152,6 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
-
 
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"
@@ -186,6 +183,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl__ppm_no"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:gravity="center"
                             android:text="@string/ppm_no_workorder_no"
                             android:textSize="@dimen/elementTextTitleSize"
@@ -210,7 +208,7 @@
                             android:maxLines="1"
                             android:id="@+id/tie_ppm_no"
                             android:hint="Enter PPM No"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:padding="16dp"
                             android:textColor="@color/colorPrimary"/>
 
@@ -218,7 +216,6 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
 
 
                 <androidx.cardview.widget.CardView
@@ -248,6 +245,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_asset_barcode"
@@ -273,7 +271,7 @@
                             android:maxLines="1"
                             android:id="@+id/tie_asset_barcode"
                             android:hint="Enter Asset barcode"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:padding="16dp"
                             android:textColor="@color/colorPrimary"/>
 
@@ -281,8 +279,6 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
-
 
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"
@@ -295,7 +291,6 @@
                     card_view:cardCornerRadius="0dp"
                     card_view:cardElevation="4dp"
                     card_view:cardUseCompatPadding="true">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -311,6 +306,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:gravity="center"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:layout_weight="2.5"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
@@ -320,7 +316,6 @@
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
-
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -338,7 +333,7 @@
                             android:maxLines="1"
                             android:id="@+id/tie_location"
                             android:hint="Enter Location"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:padding="16dp"
                             android:textColor="@color/colorPrimary"/>
                     </LinearLayout>
@@ -373,6 +368,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
                             android:gravity="center"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_nature"
@@ -397,7 +393,7 @@
                             android:layout_gravity="center_vertical"
                             android:id="@+id/tv_select_nature"
                             android:text="@string/select_nature"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:padding="16dp"
                             android:textColor="@color/colorPrimary"/>
 
@@ -433,6 +429,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_from_date"
@@ -458,7 +455,7 @@
                             android:layout_gravity="center_vertical"
                             android:id="@+id/tv_select_from_date"
                             android:text="@string/lbl_select_from_date"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:padding="16dp"
                             android:textColor="@color/colorPrimary"/>
 
@@ -492,6 +489,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_to_date"
@@ -519,7 +517,7 @@
                             android:layout_gravity="center_vertical"
                             android:id="@+id/tv_select_to_date"
                             android:text="@string/lbl_select_to_date"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:padding="16dp"
                             android:textColor="@color/colorPrimary"/>
 
@@ -554,6 +552,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_due_date"
@@ -579,7 +578,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:id="@+id/tv_select_due_date"
                                 android:text="Select Due day"
-                                android:imeOptions="actionNext"
+                                android:imeOptions="actionDone"
                                 android:padding="16dp"
                                 android:textColor="@color/colorPrimary"/>
 

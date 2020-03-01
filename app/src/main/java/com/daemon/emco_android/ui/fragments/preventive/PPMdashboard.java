@@ -26,7 +26,7 @@ import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.ui.fragments.common.document.DocumentFilter;
-import com.daemon.emco_android.ui.fragments.preventive.ppmschedule.PPMFilterUI;
+import com.daemon.emco_android.ui.fragments.preventive.ppmschedule.fragment_ppmfilter;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
 import com.daemon.emco_android.utils.Utils;
@@ -136,7 +136,7 @@ public class PPMdashboard extends Fragment implements View.OnClickListener  {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_ppm_schedule:
-                loadFragment(new PPMFilterUI(), Utils.Fragment_PPM_LIST_Filter);
+                loadFragment(new fragment_ppmfilter(), Utils.Fragment_PPM_LIST_Filter);
                 break;
 
             case R.id.btn_ppm_documents:

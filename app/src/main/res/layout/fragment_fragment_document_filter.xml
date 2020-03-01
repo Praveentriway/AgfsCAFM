@@ -26,6 +26,7 @@
             style="@style/match_parent_style">
 
             <LinearLayout
+                android:id="@+id/layout_main"
                 style="@style/match_parent_style"
                 android:layout_marginLeft="@dimen/_30sdp"
                 android:layout_marginRight="@dimen/_30sdp"
@@ -62,6 +63,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_contract"
                             android:text="@string/contract_no"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:gravity="center"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
@@ -123,6 +125,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_search"
                             android:text="@string/search_by"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -183,6 +186,7 @@
                             android:text="@string/asset_code_asset_barcode"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:gravity="center"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -246,6 +250,7 @@
                             android:id="@+id/tv_lbl__rx_no"
                             android:text="@string/rx_no_workorder_no"
                             android:textSize="@dimen/elementTextTitleSize"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -311,7 +316,7 @@
                             android:text="@string/location_name_zone_building"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
-
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
 
@@ -373,6 +378,7 @@
                             android:text="@string/nature"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -434,6 +440,7 @@
                             android:textSize="@dimen/elementTextTitleSize"
                             android:gravity="center"
                             android:padding="16dp"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
                     <LinearLayout
@@ -491,6 +498,7 @@
                             android:text="@string/lbl_to_date"
                             android:gravity="center"
                             android:textSize="@dimen/elementTextTitleSize"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -553,6 +561,7 @@
                             android:id="@+id/tv_lbl_completed_from_date"
                             android:text="Completed From Date"
                             android:textSize="@dimen/elementTextTitleSize"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:gravity="center"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -611,6 +620,7 @@
                             android:id="@+id/tv_completed_lbl_to_date"
                             android:text="Completed To Date"
                             android:gravity="center"
+                            fontPath="fonts/HelveticaBold.ttf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"

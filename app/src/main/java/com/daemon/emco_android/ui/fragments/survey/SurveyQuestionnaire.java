@@ -109,13 +109,13 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
                 .toAnimation()
                 .setNow();
 
-
         recycler_view=(RecyclerView) view.findViewById(R.id.recycler_view);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(mActivity);
         recycler_view.setLayoutManager(mLayoutManager);
         recycler_view.setItemAnimator(new DefaultItemAnimator());
         adapter=new CustomerFeedbackAdapter(mActivity,getQuest(surveyTransaction.getSurveyType()),surveyTransaction.getSurveyType(),this);
         recycler_view.setAdapter(adapter);
+
     }
 
     public void processQuest(){

@@ -60,6 +60,7 @@ android {
                             "}"
 
         }
+
         emcocafm {
             applicationId project.applicationid_emco
             versionCode Integer.parseInt(project.versioncode_emco)
@@ -184,8 +185,8 @@ dependencies {
     // click effect survey module
     implementation 'com.hardik.clickshrinkeffect:shrinkeffect:1.0.1'
 
-    
 }
+
 configurations.all {
     resolutionStrategy.eachDependency {
         DependencyResolveDetails details ->

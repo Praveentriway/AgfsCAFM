@@ -13,14 +13,36 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.work.Data;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
+
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
 import androidx.annotation.NonNull;
 
 import com.daemon.emco_android.BuildConfig;
+import com.daemon.emco_android.WorkManager.EmployeeGPSTracking;
+import com.daemon.emco_android.service.EmployeeTrackingService;
 import com.daemon.emco_android.ui.fragments.user.ChangePassword;
 import com.daemon.emco_android.ui.fragments.user.UserProfile;
 import com.google.android.material.navigation.NavigationView;
@@ -41,6 +63,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import android.util.Log;
 import android.view.Menu;
@@ -49,6 +74,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -116,6 +142,7 @@ import com.github.javiersantos.appupdater.enums.Display;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
@@ -127,8 +154,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.READ_PHONE_STATE;
+import static com.daemon.emco_android.utils.GpsUtils.isNetworkConnected;
 
 public class MainActivity  extends AppCompatActivity
         implements LogComplaint_Listener,
@@ -140,6 +174,8 @@ public class MainActivity  extends AppCompatActivity
         RatedServiceListener,
         RateAndShareListener , UserListener , View.OnClickListener  {
   private final String TAG = MainActivity.class.getSimpleName();
+
+  private final String WORKMANAGER_TAG = "TRACKING_MANAGER";
   private final int PERMISSION_REQUEST_CODE = 1;
   private String mNetworkInfo = null;
   private boolean isLoading = false;
@@ -149,8 +185,7 @@ public class MainActivity  extends AppCompatActivity
   private TextView tv_toolbar_title;
   private ApiInterface mInterface;
   DrawerLayout drawer;
-
-
+  Intent  mServiceIntent;
   private RCRespondDbInitializer complaintRespondDbInitializer;
   private PPEFetchSaveDbInitializer ppeFetchSaveDbInitializer;
   private PostLogComplaintService logComplaint_service;
@@ -171,15 +206,22 @@ public class MainActivity  extends AppCompatActivity
   private Drawable drawableLogout;
   private String mLoginData = null;
   private String mStrEmpId = null;
+  private String trackingFlag = null;
   private String username = null;
   private String email = null;
   private String mobile = null;
   private GetPostRateServiceService mGetPostRateService;
   ActionBarDrawerToggle mDrawerToggle;
+
+  private static final int PERMISSION_REQUEST_CODE_LCOATION = 200;
+
+
   private BroadcastReceiver receiver =
           new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
+              Log.d("BroadcastReceiver", "onReceive");
               try {
                 if (!ConnectivityStatus.isConnected(MainActivity.this)) {
                   Log.d(TAG, "not connected");
@@ -311,6 +353,34 @@ public class MainActivity  extends AppCompatActivity
       nav_user.setText(username+" | "+mobile);
       nav_email.setText(email);
 
+//      // start tracking service
+//      if(trackingFlag!=null && trackingFlag.equalsIgnoreCase("Y")){
+//        startTracking();
+//      }
+      if (!checkLocationPermission()) {
+        ActivityCompat.requestPermissions(this,
+                new String[]{ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_PHONE_STATE}, PERMISSION_REQUEST_CODE);
+      }
+      {
+        statusCheck();
+      }
+
+      // START Worker
+//      Log.i("isWorkScheduled",isWorkScheduled(WORKMANAGER_TAG)+"");
+
+//      if (!(isWorkScheduled(WORKMANAGER_TAG))) {
+//
+//        PeriodicWorkRequest periodicWork = new PeriodicWorkRequest.Builder(EmployeeGPSTracking.class, 15, TimeUnit.MINUTES)
+//                .addTag(WORKMANAGER_TAG)
+//                .build();
+//        WorkManager.getInstance().enqueueUniquePeriodicWork("Location", ExistingPeriodicWorkPolicy.REPLACE, periodicWork);
+//    //    Toast.makeText(MainActivity.this, "Location Worker Started : " + periodicWork.getId(), Toast.LENGTH_SHORT).show();
+//      }
+//      else{
+//
+//      }
+
+
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -324,6 +394,7 @@ public class MainActivity  extends AppCompatActivity
       Gson gson = new Gson();
       Login login = gson.fromJson(mLoginData, Login.class);
       mStrEmpId = login.getEmployeeId();
+      trackingFlag=login.getTrackingFlag();
       username = login.getFirstName().replace("\n", "").replace("\r", "");;
       email = login.getEmailId();
       mobile = login.getMobileNumber();
@@ -340,7 +411,6 @@ public class MainActivity  extends AppCompatActivity
     return NavigationUI.navigateUp(navController, mAppBarConfiguration)
             || super.onSupportNavigateUp();
   }
-
 
   protected void onPause() {
     Log.d(TAG, "onPause");
@@ -359,6 +429,11 @@ public class MainActivity  extends AppCompatActivity
   }
 
   protected void onDestroy() {
+    mServiceIntent = new Intent(this, EmployeeTrackingService.class);
+    if (isMyServiceRunning( EmployeeTrackingService.class)) {
+      stopService(mServiceIntent);
+    }
+
     Log.d(TAG, "onDestroy");
     super.onDestroy();
   }
@@ -375,15 +450,14 @@ public class MainActivity  extends AppCompatActivity
 
       imageInToolbar.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.logo_mbm_png));
     }
-
     else{
       imageInToolbar.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ag_logo_white));
     }
-
     TextView titleTextView = null;
     try {
       Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
       f.setAccessible(true);
+      titleTextView = (TextView) f.get(toolbar);
       titleTextView = (TextView) f.get(toolbar);
       titleTextView.setTypeface(font.getHelveticaRegular());
     } catch (NoSuchFieldException e) {
@@ -441,6 +515,9 @@ public class MainActivity  extends AppCompatActivity
                       clearPreferences();
                       SessionManager.clearSession(mActivity);
                       clearToken();
+                      // stop tracking service
+                     // WorkManager.getInstance().cancelAllWorkByTag(WORKMANAGER_TAG);
+//                      mActivity.stopService(mServiceIntent);
                       Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                       startActivity(intent);
                       finish();
@@ -463,7 +540,6 @@ public class MainActivity  extends AppCompatActivity
         break;
     }
   }
-
 
   private void updateLogComplaint() {
     Log.d(TAG, "updateLogComplaint");
@@ -548,7 +624,10 @@ public class MainActivity  extends AppCompatActivity
                                       dialog.dismiss();
                                       clearPreferences();
                                       SessionManager.clearSession(mActivity);
-                                    clearToken();
+                                      clearToken();
+
+                                      // stop tracking service
+
                                       Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                                       startActivity(intent);
                                       finish();
@@ -569,7 +648,6 @@ public class MainActivity  extends AppCompatActivity
         Log.d(TAG, "search pressed " + item.getTitle());
         break;
     }
-
     return super.onOptionsItemSelected(item);
   }
 
@@ -590,7 +668,6 @@ public class MainActivity  extends AppCompatActivity
                 deleteToken();
               }
             });
-    
   }
 
   public void deleteToken(){
@@ -599,6 +676,31 @@ public class MainActivity  extends AppCompatActivity
     user.setToken(token);
     new UserService(MainActivity.this, this).deleteToken(user);
 
+  }
+
+
+  private void startTracking() {
+
+    EmployeeTrackingService employeeTrackingService = new EmployeeTrackingService(this);
+      mServiceIntent = new Intent(this, employeeTrackingService.getClass());
+    if (!isMyServiceRunning(employeeTrackingService.getClass())) {
+      mActivity.startService(mServiceIntent);
+    }
+
+  }
+
+  private boolean isMyServiceRunning(Class<?> serviceClass) {
+    ActivityManager manager = (ActivityManager) mActivity.getSystemService(Context.ACTIVITY_SERVICE);
+    if (manager != null) {
+      for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+        if (serviceClass.getName().equals(service.service.getClassName())) {
+          Log.i ("isMyServiceRunning?", true+"");
+          return true;
+        }
+      }
+    }
+    Log.i ("isMyServiceRunning?", false+"");
+    return false;
   }
 
   public void clearPreferences() {
@@ -933,6 +1035,7 @@ public class MainActivity  extends AppCompatActivity
   @Override
   public void onPPENameListReceived(List<PPENameEntity> ppeNameEntities, int mode) {}
 
+
   @Override
   public void onPPESaveSuccess(String strMsg, int mode) {
     try {
@@ -1002,23 +1105,6 @@ public class MainActivity  extends AppCompatActivity
     }
   }
 
-  @Override
-  public void onRequestPermissionsResult(
-          int requestCode, String permissions[], int[] grantResults) {
-    switch (requestCode) {
-      case PERMISSION_REQUEST_CODE:
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          //  startService();
-        } else {
-          Snackbar.make(
-                  findViewById(R.id.cl_main),
-                  "Permission Denied, Please allow to proceed !",
-                  Snackbar.LENGTH_LONG)
-                  .show();
-        }
-        break;
-    }
-  }
 
   private boolean isServiceRunning() {
     ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
@@ -1048,7 +1134,6 @@ public class MainActivity  extends AppCompatActivity
           Log.d(TAG, "for ... " + item.getComplaintNumber());
           try {
             postFeedbackDataToServer(item);
-
             item.setMode(AppUtils.MODE_SERVER);
             new FeedbackDbInitializer(mActivity, this, item).execute(AppUtils.MODE_INSERT_SINGLE);
           } catch (Exception ex) {
@@ -1144,6 +1229,12 @@ public class MainActivity  extends AppCompatActivity
 
   @Override
   protected void onResume() {
+
+    if (!isNetworkConnected(mContext)) {
+      buildAlertMessageNoGps("No Internet connection. Please turn on your internet connection and allow application to run properly.");
+    }
+
+
     Log.d(TAG, "onResume");
 
     Log.d(TAG, "onResume");
@@ -1167,6 +1258,15 @@ public class MainActivity  extends AppCompatActivity
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
+                  clearPreferences();
+                  SessionManager.clearSession(mActivity);
+                  clearToken();
+
+                  mServiceIntent = new Intent(MainActivity.this, EmployeeTrackingService.class);
+                  if (isMyServiceRunning( EmployeeTrackingService.class)) {
+                    stopService(mServiceIntent);
+                  }
+
                   updateShow = false;
 
                   final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
@@ -1183,14 +1283,11 @@ public class MainActivity  extends AppCompatActivity
     }
 
     updateShow = true;
-
-
     super.onResume();
   }
 
    @Override
   public void onLoginDataReceivedSuccess(Login login, String totalNumberOfRows){
-
   }
   @Override
   public void onUserDataReceivedSuccess(CommonResponse response){
@@ -1208,6 +1305,89 @@ public class MainActivity  extends AppCompatActivity
 
   public void onDrawerOpen() {
    drawer.openDrawer(GravityCompat.START);
+  }
+
+  private boolean isWorkScheduled(List<WorkInfo> workInfos) {
+
+    boolean running = false;
+
+    if (workInfos == null || workInfos.size() == 0) return false;
+
+    for (WorkInfo workStatus : workInfos) {
+      running = workStatus.getState() == WorkInfo.State.RUNNING | workStatus.getState() == WorkInfo.State.ENQUEUED;
+    }
+
+    return running;
+  }
+
+  /**
+   * All about permission
+   */
+  private boolean checkLocationPermission() {
+    int result3 = ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION);
+    int result4 = ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION);
+    int result5 = ContextCompat.checkSelfPermission(this, READ_PHONE_STATE );
+    return result3 == PackageManager.PERMISSION_GRANTED &&
+            result4 == PackageManager.PERMISSION_GRANTED && result5== PackageManager.PERMISSION_GRANTED;
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    if (requestCode == PERMISSION_REQUEST_CODE) {
+      if (grantResults.length > 0) {
+        boolean coarseLocation = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        boolean fineLocation = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+        boolean phonestate = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+        if (coarseLocation && fineLocation && phonestate){
+         // Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+          statusCheck();
+        }
+
+        else {
+         // Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+
+          AppUtils.showDialog(mActivity,"Permission deny may lead application malfunction. Kindly close the app and reopen to get permission window.");
+
+        }
+      }
+    }
+  }
+
+  public String GPS_MSG="Your GPS seems to be disabled, Please enable it.";
+
+  public void statusCheck() {
+    final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+    if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+      buildAlertMessageNoGps(GPS_MSG);
+    }
+  }
+
+  private void buildAlertMessageNoGps(final String msg) {
+    final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+    builder.setMessage(msg)
+            .setCancelable(false)
+            .setPositiveButton("Turn on", new DialogInterface.OnClickListener() {
+              public void onClick(final DialogInterface dialog, final int id) {
+
+                dialog.cancel();
+
+                if(msg==GPS_MSG){
+                  startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                }
+                else{
+                  startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                }
+
+              }
+            })
+            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+              public void onClick(final DialogInterface dialog, final int id) {
+                dialog.cancel();
+              }
+            });
+    final android.app.AlertDialog alert = builder.create();
+    alert.show();
   }
 
 }

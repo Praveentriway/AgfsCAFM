@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.daemon.emco_android.ui.adapter.CustomerFeedbackAdapter;
+import com.daemon.emco_android.utils.AnimateUtils;
 import com.github.florent37.expectanim.ExpectAnim;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
@@ -170,7 +171,9 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
             }
         });
 
-        showAnimation();
+
+        new AnimateUtils().fabAnimate(fab_next);
+        new AnimateUtils().filterLayoutAnimate(layout_main);
 
         return view;
     }
@@ -351,49 +354,6 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
     }
 
 
-    public void showAnimation(){
-
-        new ExpectAnim()
-                .expect(layout_main)
-                .toBe(
-                        outOfScreen(Gravity.TOP),
-                        invisible()
-                )
-                .toAnimation()
-                .setNow();
-
-
-        new ExpectAnim()
-                .expect(layout_main)
-                .toBe(
-                        atItsOriginalPosition(),
-                        visible()
-                )
-                .toAnimation()
-                .setDuration(800)
-                .start();
-
-
-        new ExpectAnim()
-                .expect(fab_next)
-                .toBe(
-                        outOfScreen(Gravity.BOTTOM),
-                        invisible()
-                )
-                .toAnimation()
-                .setNow();
-
-
-        new ExpectAnim()
-                .expect(fab_next)
-                .toBe(
-                        atItsOriginalPosition(),
-                        visible()
-                )
-                .toAnimation()
-                .setDuration(800)
-                .start();
-    }
 
     public  void showSurveyCustomerDialog(){
 

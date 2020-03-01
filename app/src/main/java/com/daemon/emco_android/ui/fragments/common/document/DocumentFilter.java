@@ -8,7 +8,8 @@ import android.os.Bundle;
 
 import android.os.Handler;
 
-import com.daemon.emco_android.ui.fragments.preventive.ppmschedule.PPMFilterUI;
+import com.daemon.emco_android.ui.fragments.preventive.ppmschedule.fragment_ppmfilter;
+import com.daemon.emco_android.utils.AnimateUtils;
 import com.github.florent37.expectanim.ExpectAnim;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
@@ -49,16 +50,11 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.florent37.expectanim.core.Expectations.atItsOriginalPosition;
-import static com.github.florent37.expectanim.core.Expectations.invisible;
-import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
-import static com.github.florent37.expectanim.core.Expectations.visible;
-
 
 public class DocumentFilter extends Fragment implements View.OnClickListener , DatePickerDialogListener, PpmFilterService.Listener, DateRangePickerFragment.OnDateRangeSelectedListener  {
 
 
-    private static final String TAG = PPMFilterUI.class.getSimpleName();
+    private static final String TAG = fragment_ppmfilter.class.getSimpleName();
     final Handler handler = new Handler();
     private AppCompatActivity mActivity;
     private Toolbar mToolbar;
@@ -78,7 +74,7 @@ public class DocumentFilter extends Fragment implements View.OnClickListener , D
     boolean toDateClicked;
     boolean startCDateClicked;
     boolean toCDateClicked;
-
+LinearLayout layout_main;
     private SharedPreferences mPreferences;
     private String mStrEmpId = null;
     private String mLoginData = null;
@@ -111,7 +107,6 @@ public class DocumentFilter extends Fragment implements View.OnClickListener , D
             "Nature description"
     };
 
-
     public CharSequence[] searchOptionsP  = {"All",
             "Planned Date",
             "PPM NO",
@@ -119,7 +114,6 @@ public class DocumentFilter extends Fragment implements View.OnClickListener , D
             "Nature description","Completed Date",
             "Asset Barcode or Client Barcode"
     };
-
 
     List<ContractDetails> contractDetails;
 
@@ -229,6 +223,7 @@ public class DocumentFilter extends Fragment implements View.OnClickListener , D
 
     public void initView(){
 
+        layout_main=(LinearLayout) rootView.findViewById(R.id. layout_main);
         btnSearchComplaintByFilter=(FloatingActionButton) rootView.findViewById(R.id. btnSearchComplaintByFilter);
         tv_select_contract=(AppCompatTextView) rootView.findViewById(R.id. tv_select_contract);
         tv_select_nature=(AppCompatTextView) rootView.findViewById(R.id. tv_select_nature);
@@ -300,44 +295,17 @@ public class DocumentFilter extends Fragment implements View.OnClickListener , D
         tv_select_to_date.setOnClickListener(this);
         tv_select_completed_from_date.setOnClickListener(this);
         tv_select_completed_to_date.setOnClickListener(this);
-        // tv_select_contract.setTypeface(font.getHelveticaRegular());
+
         tv_select_nature.setTypeface(font.getHelveticaRegular());
         tv_select_search_type.setTypeface(font.getHelveticaRegular());
         tv_select_from_date.setTypeface(font.getHelveticaRegular());
         tv_select_to_date.setTypeface(font.getHelveticaRegular());
-        tv_lbl__rx_no.setTypeface(font.getHelveticaRegular());
-        tv_lbl_location.setTypeface(font.getHelveticaRegular());
-        //  btnSearchComplaintByFilter.setTypeface(font.getHelveticaRegular());
-        tv_lbl_nature.setTypeface(font.getHelveticaRegular());
-        tv_lbl_from_date.setTypeface(font.getHelveticaRegular());
-        tv_lbl_to_date.setTypeface(font.getHelveticaRegular());
-        tv_lbl_contract.setTypeface(font.getHelveticaRegular());
-        tv_lbl_search.setTypeface(font.getHelveticaRegular());
-        tv_lbl_asset_barcode.setTypeface(font.getHelveticaRegular());
-        tv_lbl__rx_no.setTypeface(font.getHelveticaRegular());
 
-
-        new ExpectAnim()
-                .expect(btnSearchComplaintByFilter)
-                .toBe(
-                        outOfScreen(Gravity.BOTTOM),
-                        invisible()
-                )
-                .toAnimation()
-                .setNow();
-
-
-        new ExpectAnim()
-                .expect(btnSearchComplaintByFilter)
-                .toBe(
-                        atItsOriginalPosition(),
-                        visible()
-                )
-                .toAnimation()
-                .setDuration(800)
-                .start();
+        new AnimateUtils().fabAnimate(btnSearchComplaintByFilter);
+        new AnimateUtils().filterLayoutAnimate(layout_main);
 
     }
+
 
 
     @Override
@@ -380,11 +348,10 @@ public class DocumentFilter extends Fragment implements View.OnClickListener , D
                 mActivity.getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
         fragmentTransaction.replace(R.id.frame_container, fragment, tag);
-        // fragmentTransaction.hide(getFragmentManager().findFragmentByTag(Utils.PPMFilterUI));
+        // fragmentTransaction.hide(getFragmentManager().findFragmentByTag(Utils.fragment_ppmfilter));
         fragmentTransaction.addToBackStack(tag);
         fragmentTransaction.commit();
     }
-
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -819,6 +786,7 @@ public class DocumentFilter extends Fragment implements View.OnClickListener , D
                 else{
 
                     if(checkContractNo()){
+
                         ArrayList<String> sDate=new ArrayList<>();
                         sDate.add(completedfromDate);
                         sDate.add(completedtoDate);
@@ -882,6 +850,7 @@ public class DocumentFilter extends Fragment implements View.OnClickListener , D
                         } } }
                 break;
             }
+
 
             case "PPM NO":
             {

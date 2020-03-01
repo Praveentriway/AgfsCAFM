@@ -17,7 +17,7 @@ public class Utils {
     public static final String TAG_FRAGMENT_CUST_FEEDBACK_SUGGESTION = "Fragment_cust_feedback_suggestion";
     public static final String TAG_FRAGMENT_DOC_UPLOAD = "FRAGMENT_DOC_UPLOAD";
     public static final String FRAGMENT_DOC_LIST = "FRAGMENT_DOC_LIST";
-    public static final String Fragment_PPM_LIST_Filter = "PPMFilterUI";
+    public static final String Fragment_PPM_LIST_Filter = "fragment_ppmfilter";
     public static final String Fragment_PPMsubmenu = "Fragment_PPMsubmenu";
 
     public static final String TAG_PM_PPMDETAILS_VIEW = "Fragment_PM_PPMDetails_view";

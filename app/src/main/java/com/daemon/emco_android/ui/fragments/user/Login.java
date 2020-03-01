@@ -287,6 +287,7 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
     }
 
     public void validateUrlfromapi() {
+
         AppUtils.closeInput(cl_main);
         validateUsername();
         validatePassword();
@@ -300,7 +301,7 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
         if (!validUrl()) {
             return;
         }
-        if (!TextUtils.isEmpty(tie_serverurl.getText().toString())){
+        if (!TextUtils.isEmpty(tie_serverurl.getText().toString())) {
             if (ConnectivityStatus.isConnected(getContext())) {
                 showProgressDialog(mActivity, "Loading...", false);
                 new UrlService(mActivity, this, tie_serverurl.getText().toString().trim()).getURLData();
@@ -380,6 +381,8 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
             requestFocus(tie_serverurl);
             return false;
         } else {
+
+
 
         }
         return true;

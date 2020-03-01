@@ -1,7 +1,5 @@
 package com.daemon.emco_android.ui.adapter;
 
-
-import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
@@ -11,17 +9,14 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.repository.db.entity.ServeyQuestionnaire;
 import com.daemon.emco_android.listeners.PpeListener;
 import com.daemon.emco_android.utils.Font;
 import com.hardik.clickshrinkeffect.ClickShrinkEffectKt;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.daemon.emco_android.ui.fragments.survey.SurveyHeader.DETAILED;
 import static com.daemon.emco_android.ui.fragments.survey.SurveyHeader.SUMMARY;
 
@@ -70,10 +65,10 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         TAG = "onCreateViewHolder";
         Log.d(MODULE, TAG);
         RecyclerView.ViewHolder mHolder = null;
-
 
 
             if(surveyType.equalsIgnoreCase(DETAILED)){
@@ -86,6 +81,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
 
         return mHolder;
+
     }
 
     @Override
@@ -100,15 +96,13 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ServeyQuestionnaire current = fetchdata.get(position);
                     holder.txt_sno.setText(position+1+".");
 
-
                 ArrayList<Integer> smileyResource=new ArrayList<>();
 
-                if(surveyType.equalsIgnoreCase(SUMMARY)){
+                if(surveyType.equalsIgnoreCase(SUMMARY)) {
                     smileyResource = getSmileyResource(current.getSurveyQuesValue().size());
                 }
 
                 holder.tv_survey_ques.setText(current.getSurveyQues());
-
 
                if(current.getSurveyQuesValue().size()>0) {
 
@@ -120,11 +114,12 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                        holder.rd_1.setTypeface(font.getHelveticaBold());
                    }
 
-                   if(surveyType.equalsIgnoreCase(SUMMARY)){
+                   if(surveyType.equalsIgnoreCase(SUMMARY)) {
                        holder.rd_1.setButtonDrawable(smileyResource.get(0));
                    }
 
                }
+
                else{
                    holder.rd_1.setVisibility(View.GONE);
                }
@@ -138,11 +133,12 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                         holder.rd_2.setTypeface(font.getHelveticaBold());
                     }
 
-                    if(surveyType.equalsIgnoreCase(SUMMARY)){
+                    if(surveyType.equalsIgnoreCase(SUMMARY)) {
                         holder.rd_2.setButtonDrawable(smileyResource.get(1));
                     }
 
                 }
+
                 else{
                     holder.rd_2.setVisibility(View.GONE);
                 }
@@ -157,14 +153,16 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                         holder.rd_3.setTypeface(font.getHelveticaBold());
                     }
 
-                    if(surveyType.equalsIgnoreCase(SUMMARY)){
+                    if(surveyType.equalsIgnoreCase(SUMMARY)) {
                         holder.rd_3.setButtonDrawable(smileyResource.get(2));
                     }
 
                 }
 
                 else{
+
                     holder.rd_3.setVisibility(View.GONE);
+
                 }
 
                 if(current.getSurveyQuesValue().size()>3) {
@@ -176,7 +174,6 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                         holder.rd_4.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
                         holder.rd_4.setTypeface(font.getHelveticaBold());
                     }
-
 
 
                     if(surveyType.equalsIgnoreCase(SUMMARY)){
@@ -192,7 +189,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                     holder.rd_5.setText(current.getSurveyQuesValue().get(4));
                     if(current.getSurveyQuesAns()!=null)
-                        if(current.getSurveyQuesValue().get(4).equalsIgnoreCase(current.getSurveyQuesAns())){
+                        if(current.getSurveyQuesValue().get(4).equalsIgnoreCase(current.getSurveyQuesAns())) {
                             holder.rd_5.setChecked(true);
                             holder.rd_5.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
                             holder.rd_5.setTypeface(font.getHelveticaBold());
@@ -256,16 +253,8 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     @Override
                     public void onClick(View view) {
 
+                        resetChecked(holder);
                         holder.rd_1.setChecked(true);
-                        holder.rd_2.setChecked(false);
-                        holder.rd_3.setChecked(false);
-                        holder.rd_4.setChecked(false);
-                        holder.rd_5.setChecked(false);
-                        holder.rd_6.setChecked(false);
-                        holder.rd_7.setChecked(false);
-                        holder.rd_8.setChecked(false);
-
-
 
                         setcheckedData(position,holder.rd_1);
 
@@ -281,14 +270,8 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     @Override
                     public void onClick(View view) {
 
-                        holder.rd_1.setChecked(false);
+                        resetChecked(holder);
                         holder.rd_2.setChecked(true);
-                        holder.rd_3.setChecked(false);
-                        holder.rd_4.setChecked(false);
-                        holder.rd_5.setChecked(false);
-                        holder.rd_6.setChecked(false);
-                        holder.rd_7.setChecked(false);
-                        holder.rd_8.setChecked(false);
 
                         setcheckedData(position,holder.rd_2);
 
@@ -302,14 +285,8 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     @Override
                     public void onClick(View view) {
 
-                        holder.rd_1.setChecked(false);
-                        holder.rd_2.setChecked(false);
+                        resetChecked(holder);
                         holder.rd_3.setChecked(true);
-                        holder.rd_4.setChecked(false);
-                        holder.rd_5.setChecked(false);
-                        holder.rd_6.setChecked(false);
-                        holder.rd_7.setChecked(false);
-                        holder.rd_8.setChecked(false);
 
                         setcheckedData(position,holder.rd_3);
                         resetColor(holder);
@@ -323,14 +300,10 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     @Override
                     public void onClick(View view) {
 
-                        holder.rd_1.setChecked(false);
-                        holder.rd_2.setChecked(false);
-                        holder.rd_3.setChecked(false);
+
+                        resetChecked(holder);
                         holder.rd_4.setChecked(true);
-                        holder.rd_5.setChecked(false);
-                        holder.rd_6.setChecked(false);
-                        holder.rd_7.setChecked(false);
-                        holder.rd_8.setChecked(false);
+
 
                         setcheckedData(position,holder.rd_4);
                         resetColor(holder);
@@ -344,15 +317,8 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     @Override
                     public void onClick(View view) {
 
-                        holder.rd_1.setChecked(false);
-                        holder.rd_2.setChecked(false);
-                        holder.rd_3.setChecked(false);
-                        holder.rd_4.setChecked(false);
+                        resetChecked(holder);
                         holder.rd_5.setChecked(true);
-                        holder.rd_6.setChecked(false);
-                        holder.rd_7.setChecked(false);
-                        holder.rd_8.setChecked(false);
-
 
                         setcheckedData(position,holder.rd_5);
                         resetColor(holder);
@@ -365,14 +331,8 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     @Override
                     public void onClick(View view) {
 
-                        holder.rd_1.setChecked(false);
-                        holder.rd_2.setChecked(false);
-                        holder.rd_3.setChecked(false);
-                        holder.rd_4.setChecked(false);
-                        holder.rd_5.setChecked(false);
+                        resetChecked(holder);
                         holder.rd_6.setChecked(true);
-                        holder.rd_7.setChecked(false);
-                        holder.rd_8.setChecked(false);
 
                         setcheckedData(position,holder.rd_6);
                         resetColor(holder);
@@ -386,14 +346,8 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     @Override
                     public void onClick(View view) {
 
-                        holder.rd_1.setChecked(false);
-                        holder.rd_2.setChecked(false);
-                        holder.rd_3.setChecked(false);
-                        holder.rd_4.setChecked(false);
-                        holder.rd_5.setChecked(false);
-                        holder.rd_6.setChecked(false);
+                        resetChecked(holder);
                         holder.rd_7.setChecked(true);
-                        holder.rd_8.setChecked(false);
 
                         setcheckedData(position,holder.rd_7);
                         resetColor(holder);
@@ -407,13 +361,8 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     @Override
                     public void onClick(View view) {
 
-                        holder.rd_1.setChecked(false);
-                        holder.rd_2.setChecked(false);
-                        holder.rd_3.setChecked(false);
-                        holder.rd_4.setChecked(false);
-                        holder.rd_5.setChecked(false);
-                        holder.rd_6.setChecked(false);
-                        holder.rd_7.setChecked(false);
+                        resetChecked(holder);
+
                         holder.rd_8.setChecked(true);
 
                         setcheckedData(position,holder.rd_8);
@@ -451,6 +400,19 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
         holder.rd_6.setTypeface(font.getHelveticaRegular());
         holder.rd_7.setTypeface(font.getHelveticaRegular());
         holder.rd_8.setTypeface(font.getHelveticaRegular());
+
+    }
+
+    public void resetChecked(SurveyQuestion holder){
+
+        holder.rd_1.setChecked(false);
+        holder.rd_2.setChecked(false);
+        holder.rd_3.setChecked(false);
+        holder.rd_4.setChecked(false);
+        holder.rd_5.setChecked(false);
+        holder.rd_6.setChecked(false);
+        holder.rd_7.setChecked(false);
+        holder.rd_8.setChecked(false);
 
     }
 
@@ -580,9 +542,6 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ClickShrinkEffectKt.applyClickShrink(rd_7);
                 ClickShrinkEffectKt.applyClickShrink(rd_8);
 
-//                radiogroup_ppe = (RadioGroup) itemView.findViewById(R.id.radiogroup_ppe);
-//                radiogroup_ppe2= (RadioGroup) itemView.findViewById(R.id.radiogroup_ppe2);
-
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -595,6 +554,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
         void onOptionSelected();
 
     }
+
 
 
     public ArrayList<Integer> getSmileyResource(int size){

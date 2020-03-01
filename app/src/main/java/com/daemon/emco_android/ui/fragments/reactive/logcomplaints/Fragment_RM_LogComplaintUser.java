@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.daemon.emco_android.utils.AnimateUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -22,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -84,7 +88,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
             tv_lbl_sublocation,
             tv_lbl_complaint;
     private TextView tv_contract_title, tv_contract_no, tv_select_zone;
-    private Button btnSaveComplaint;
+    private FloatingActionButton btnSaveComplaint;
     private Toolbar mToolbar;
     private GetLogComplaintPopupRepository mGetComplaintPopupService;
     private int checkLoad;
@@ -107,6 +111,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     private Login mUserData;
     private List<ZoneEntity> listZone = new ArrayList<>();
     private List<LCUserInput> listJobNo = new ArrayList<>();
+
 
     View.OnClickListener _OnClickListener =
             new View.OnClickListener() {
@@ -156,14 +161,15 @@ public class Fragment_RM_LogComplaintUser extends Fragment
             mComplainDate = AppUtils.getDateTime().toUpperCase();
 
             mComplaintYear = AppUtils.getCurrentYear();
-            Log.d(
-                    TAG,
+
+            Log.d( TAG,
                     "mComplainDate : "
                             + mComplainDate
                             + "::: mComplainWebNumber :"
                             + mComplainWebNumber
                             + ":: year :"
                             + mComplaintYear);
+
             mManager = mActivity.getSupportFragmentManager();
             font = App.getInstance().getFontInstance();
             // mArgs = getArguments().getString(ARGS_BUNDLE_MESSAGE);
@@ -287,7 +293,8 @@ public class Fragment_RM_LogComplaintUser extends Fragment
             tie_property = (TextInputEditText) rootView.findViewById(R.id.tie_property);
             tie_complaint = (TextInputEditText) rootView.findViewById(R.id.tie_complaint);
 
-            btnSaveComplaint = (Button) rootView.findViewById(R.id.btnSaveComplaint);
+            btnSaveComplaint = (FloatingActionButton) rootView.findViewById(R.id.btnSaveComplaint);
+
             setupActionBar();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -345,7 +352,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         tie_complaint.setTypeface(font.getHelveticaRegular());
         tie_property.setTypeface(font.getHelveticaRegular());
         tv_contract_no.setTypeface(font.getHelveticaRegular());
-        btnSaveComplaint.setTypeface(font.getHelveticaRegular());
+
         tv_contract_no.setOnClickListener(_OnClickListener);
         btnSaveComplaint.setOnClickListener(_OnClickListener);
 
@@ -355,6 +362,9 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         tie_property.addTextChangedListener(new MyTextWatcher(tie_property));
 
         tv_select_zone.setOnClickListener(_OnClickListener);
+
+        new AnimateUtils().fabAnimate(btnSaveComplaint);
+
     }
 
     private void submitForm() {

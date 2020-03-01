@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.model.common.OpcoDetail;
@@ -51,7 +52,9 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
     List<LocationDetail> locationBuilding;
     List<LocationDetail> locationZone;
     LocationDetail locationDetail=new LocationDetail();
+    LinearLayout layout_main;
     View rootView;
+    FloatingActionButton fab_fetch_location;
 
     public JobLocationFinder() {
         // Required empty public constructor
@@ -105,6 +108,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
     private void initView(View v) {
 
         tv_lbl_opco=(AppCompatTextView) v.findViewById(R.id.tv_lbl_opco);
+        layout_main=(LinearLayout) v.findViewById(R.id.layout_main);
         tv_lbl_contract_no=(AppCompatTextView) v.findViewById(R.id.tv_lbl_contract_no);
         tv_lbl_zone=(AppCompatTextView) v.findViewById(R.id.tv_lbl_zone);
         tv_lbl_building=(AppCompatTextView) v.findViewById(R.id.tv_lbl_building);
@@ -113,7 +117,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
         tv_select_zone=(AppCompatTextView) v.findViewById(R.id.tv_select_zone);
         tv_select_building=(AppCompatTextView) v.findViewById(R.id.tv_select_building);
 
-        FloatingActionButton fab_fetch_location=(FloatingActionButton) v.findViewById(R.id.fab_fetch_location);
+         fab_fetch_location=(FloatingActionButton) v.findViewById(R.id.fab_fetch_location);
         fab_fetch_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,24 +126,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
             }
         });
 
-        new ExpectAnim()
-                .expect(fab_fetch_location)
-                .toBe(
-                        outOfScreen(Gravity.BOTTOM),
-                        invisible()
-                )
-                .toAnimation()
-                .setNow();
-
-        this.expectAnimMove = new ExpectAnim()
-               .expect(fab_fetch_location)
-                .toBe(
-                        atItsOriginalPosition(),
-                        visible()
-                )
-                .toAnimation()
-                .setDuration(800)
-                .start();
+        doAnimate();
 
     }
     private void  setProperties(){
@@ -169,6 +156,48 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
                         mActivity.onBackPressed();
                     }
                 });
+    }
+
+
+    public void doAnimate(){
+        new ExpectAnim()
+                .expect(layout_main)
+                .toBe(
+                        outOfScreen(Gravity.TOP),
+                        invisible()
+                )
+                .toAnimation()
+                .setNow();
+
+        this.expectAnimMove = new ExpectAnim()
+                .expect(layout_main)
+                .toBe(
+                        atItsOriginalPosition(),
+                        visible()
+                )
+                .toAnimation()
+                .setDuration(800)
+                .start();
+
+
+        new ExpectAnim()
+                .expect(fab_fetch_location)
+                .toBe(
+                        outOfScreen(Gravity.BOTTOM),
+                        invisible()
+                )
+                .toAnimation()
+                .setNow();
+
+        this.expectAnimMove = new ExpectAnim()
+                .expect(fab_fetch_location)
+                .toBe(
+                        atItsOriginalPosition(),
+                        visible()
+                )
+                .toAnimation()
+                .setDuration(800)
+                .start();
     }
 
     public void onPrepareOptionsMenu(Menu menu) {

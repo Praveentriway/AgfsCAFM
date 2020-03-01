@@ -8,6 +8,7 @@ import android.os.Handler;
 
 import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.ui.fragments.common.NumberPickerDialog;
+import com.daemon.emco_android.utils.AnimateUtils;
 import com.github.florent37.expectanim.ExpectAnim;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
@@ -56,9 +57,9 @@ import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
 import static com.github.florent37.expectanim.core.Expectations.visible;
 
 
-public class PPMFilterUI extends Fragment implements View.OnClickListener , DatePickerDialogListener, PpmFilterService.Listener, DateRangePickerFragment.OnDateRangeSelectedListener, NumberPicker.OnValueChangeListener {
+public class fragment_ppmfilter extends Fragment implements View.OnClickListener , DatePickerDialogListener, PpmFilterService.Listener, DateRangePickerFragment.OnDateRangeSelectedListener, NumberPicker.OnValueChangeListener {
 
-    private static final String TAG = PPMFilterUI.class.getSimpleName();
+    private static final String TAG = fragment_ppmfilter.class.getSimpleName();
     final Handler handler = new Handler();
     private AppCompatActivity mActivity;
     private Toolbar mToolbar;
@@ -89,10 +90,9 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
     tv_lbl_nature, tv_lbl_from_date,
     tv_lbl_to_date,tv_lbl_contract,tv_lbl_search,tv_lbl_due_date;
     int dialog_pos=-1;
-
+    LinearLayout layout_main;
     String sContractNo="", sContractNo1="", sPPMno="",sNaturaldesc="",sStartdate="",sEnddate="",sLocation="",sAssetcode="",sDuedate;
     PPMFilterRequest ppmfilter ;
-
 
     public CharSequence[] searchOptions = {"All",
             "Date range",
@@ -100,8 +100,10 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
             "Asset code or Asset barcode",
             "Location name or Zone building",
             "Nature description",
-            "Due day"
+            "Due day",
+            "Pending PPM"
     };
+
 
     List<ContractDetails> contractDetails;
 
@@ -142,21 +144,20 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
                 break;
             case R.id.tv_select_due_date :
             {
-
                 showNumberPicker();
-
             }
             break;
         } }
 
-    public PPMFilterUI() {
+
+    public fragment_ppmfilter() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mActivity = (AppCompatActivity) getActivity();
         setHasOptionsMenu(true);
         if (getArguments() != null) {
@@ -176,9 +177,10 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
         tv_select_from_date=(AppCompatTextView) rootView.findViewById(R.id. tv_select_from_date);
         tv_select_to_date=(AppCompatTextView) rootView.findViewById(R.id. tv_select_to_date);
         tv_select_due_date=(AppCompatTextView) rootView.findViewById(R.id. tv_select_due_date);
-        linear_ppmno=(CardView) rootView.findViewById(R.id. linear_ppmno);
+        linear_ppmno=(CardView) rootView.findViewById(R.id.linear_ppmno);
         linear_assetcode=(CardView) rootView.findViewById(R.id. linear_assetcode);
         linear_location_name=(CardView) rootView.findViewById(R.id. linear_location_name);
+        layout_main=(LinearLayout) rootView.findViewById(R.id. layout_main);
         linear_nature=(CardView) rootView.findViewById(R.id. linear_nature);
         linear_fromdate=(CardView) rootView.findViewById(R.id. linear_fromdate);
         linear_todate=(CardView) rootView.findViewById(R.id. linear_todate);
@@ -239,26 +241,8 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
         tv_select_due_date.setOnClickListener(this);
 
 
-
-        new ExpectAnim()
-                .expect(btnSearchComplaintByFilter)
-                .toBe(
-                        outOfScreen(Gravity.BOTTOM),
-                        invisible()
-                )
-                .toAnimation()
-                .setNow();
-
-
-         new ExpectAnim()
-                .expect(btnSearchComplaintByFilter)
-                .toBe(
-                        atItsOriginalPosition(),
-                        visible()
-                )
-                .toAnimation()
-                .setDuration(800)
-                .start();
+        new AnimateUtils().fabAnimate(btnSearchComplaintByFilter);
+        new AnimateUtils().filterLayoutAnimate(layout_main);
 
     }
 
@@ -304,6 +288,7 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
         fragmentTransaction.addToBackStack(tag);
         fragmentTransaction.commit();
     }
+
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -506,6 +491,14 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
             }
             break;
 
+            case "Pending PPM":
+                {
+
+                hideAllLayout();
+
+            }
+            break;
+
         }
     }
 
@@ -673,7 +666,20 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
 
             case "All": {
 
-                if(checkContractNo()){
+                if(checkContractNo())
+                {
+                    loadFragment(new Fragment_PM_PPMDetails_List(), Utils.TAG_PM_PPMDETAILS_LIST);
+                }
+
+            }
+            break;
+
+
+            case "Pending PPM": {
+
+                if(checkContractNo())
+                {
+                    ppmfilter.setPendingPPM(true);
                     loadFragment(new Fragment_PM_PPMDetails_List(), Utils.TAG_PM_PPMDETAILS_LIST);
                 }
 
@@ -773,6 +779,10 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
         else  if(!sDuedate.trim().isEmpty()){
             setFilterFromcache(6);
         }
+
+        else  if(ppmfilter.isPendingPPM()){
+            setFilterFromcache(7);
+        }
         else{
           setFilterFromcache(0);
         }
@@ -841,6 +851,14 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
             }
 
             break;
+
+            case "Pending PPM":
+            {
+                hideAllLayout();
+
+            }
+            break;
+
         }
         sDuedate=""; sContractNo="";sContractNo1=""; sPPMno=""; sNaturaldesc="" ;sStartdate="" ; sEnddate=""; sLocation=""; sAssetcode="";
         }
@@ -857,7 +875,6 @@ public class PPMFilterUI extends Fragment implements View.OnClickListener , Date
         newFragment.setValueChangeListener(this);
         newFragment.show(getActivity().getSupportFragmentManager(), "picker");
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

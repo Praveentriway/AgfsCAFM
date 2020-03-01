@@ -46,6 +46,12 @@ public class PPMFilterRequest implements Serializable  {
     @Expose
     private String dueDate;
 
+    @SerializedName("pendingPPM")
+    @Expose
+    private boolean pendingPPM;
+
+
+
     public PPMFilterRequest(   String employeeId,
              String contractNo,
              String compCode,
@@ -54,7 +60,7 @@ public class PPMFilterRequest implements Serializable  {
              ArrayList<String>  startDate,
              ArrayList<String> endDate,
              String zoneBuilding,
-             String natureDescription,ArrayList<String> completedDate,String dueDate){
+             String natureDescription,ArrayList<String> completedDate,String dueDate ,boolean pendingPPM){
 
         this.employeeId=employeeId;
         this.contractNo=contractNo;
@@ -67,7 +73,7 @@ public class PPMFilterRequest implements Serializable  {
         this.natureDescription=natureDescription;
         this.completedDate=completedDate;
         this.dueDate=dueDate;
-
+        this.pendingPPM=pendingPPM;
     }
     public PPMFilterRequest(){
 
@@ -82,6 +88,16 @@ public class PPMFilterRequest implements Serializable  {
         this.zoneBuilding="";
         this.natureDescription="";
         this.dueDate="";
+        this.pendingPPM=false;
+
+    }
+
+    public boolean isPendingPPM() {
+        return pendingPPM;
+    }
+
+    public void setPendingPPM(boolean pendingPPM) {
+        this.pendingPPM = pendingPPM;
     }
 
     public String getDueDate() {
