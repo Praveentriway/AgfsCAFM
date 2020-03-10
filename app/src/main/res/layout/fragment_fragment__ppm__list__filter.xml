@@ -597,7 +597,7 @@
                         style="@style/btn_common_home_dup"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_weight=".5"
-                        fontPath="fonts/HelveticaRegular.otf"
+                        fontPath="fonts/HelveticaRegular.ttf"
                         android:visibility="gone"
                         android:layout_marginRight="@dimen/_20sdp"
                         android:text="View All PPM" />
@@ -613,7 +613,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                fontPath="fonts/HelveticaRegular.otf"
+                fontPath="fonts/HelveticaRegular.ttf"
                 android:layout_weight=".5"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:layout_marginLeft="@dimen/_100sdp"

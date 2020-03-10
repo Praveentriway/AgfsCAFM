@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
+import com.daemon.emco_android.service.GPSTracker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
@@ -59,6 +61,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVED_COMPALINTS;
 
 /**
@@ -67,8 +70,7 @@ import static com.daemon.emco_android.utils.Utils.TAG_RECEIVED_COMPALINTS;
 public class Fragment_PM_RateService extends Fragment
         implements View.OnClickListener, SignaturePad.OnSignedListener, RateAndShareListener, CustomerFeedback {
     private static final String TAG = Fragment_PM_RateService.class.getSimpleName();
-    private static String mNetworkInfo = null,
-            mCustomerRemarks = null,
+    private static String mCustomerRemarks = null,
             select_customer_rank = null,
             mComplaintno = null,
             mComplaintSite = null,
@@ -180,7 +182,6 @@ public class Fragment_PM_RateService extends Fragment
                 mCustomerFeedbackService.fetchCustomerFeedback(ppmScheduleDocBy.getCompanyCode(),ppmScheduleDocBy.getPpmNo(),this);
 
             }
-
 
         }
     }
@@ -332,9 +333,8 @@ public class Fragment_PM_RateService extends Fragment
     }
 
     private void getCustomerRemarkData() {
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 mGetPostRateService.getCustomerRemarksData();
             } else {
@@ -342,10 +342,9 @@ public class Fragment_PM_RateService extends Fragment
                 Log.d(TAG, "str json :;" + strJsonCr);
                 if (strJsonCr != null && strJsonCr.length() > 0) {
                     listCustomerRank = gson.fromJson(strJsonCr, baseType);
-                } else
-                    AppUtils.showDialog(mActivity, getString(R.string.msg_no_data_found_in_local_db));
+                }
             }
-        }
+
     }
 
     private void customerRemarkUpdate(String CustomerRank) {
@@ -366,11 +365,9 @@ public class Fragment_PM_RateService extends Fragment
             msgErr = getString(R.string.lbl_select_customer_remarks);
         } else AppUtils.setErrorBg(tv_select_customer_rank, false);
 
-        //if (receiveComplaintViewEntity != null)
-        // if (!complaint_number.equals("") && !opco_number.equals("") && !complaint_site.equals("")) {
         if (ppmScheduleDocBy != null) {
             if (signaturePad.isEmpty()) {
-                AppUtils.showDialog(mActivity, "Customer signature empty");
+                AppUtils.showDialog(mActivity, "Customer signature should not be empty");
                 AppUtils.closeInput(cl_main);
                 return;
             }
@@ -379,11 +376,10 @@ public class Fragment_PM_RateService extends Fragment
         // }
 
         if (msgErr != "") {
-            AppUtils.showDialog(mActivity, "Please select values in Mandatory field");
+            AppUtils.showDialog(mActivity, "Please fill all the mandatory fields");
             return;
         }
 
-        //if (signaturePad.isEmpty()) {
         if (ppmScheduleDocBy != null && !signaturePad.isEmpty()) {
             if (checkPPmList.equalsIgnoreCase("ppmcheckList")) {
                 ppmScheduleDocByList = new ArrayList<>();
@@ -468,6 +464,7 @@ public class Fragment_PM_RateService extends Fragment
         menu.findItem(R.id.action_home).setVisible(true);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -506,8 +503,15 @@ public class Fragment_PM_RateService extends Fragment
 
     @Override
     public void onSaveRateShareReceived(String strErr) {
+
+        EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+        emp.setCompCode(ppmScheduleDocBy.getCompanyCode());
+        emp.setTransType("PPM");
+        emp.setRefNo(ppmScheduleDocBy.getPpmNo());
+        new GPSTracker(getContext()).updateFusedLocation(emp);
+
+
         try {
-            Log.d(TAG, "onSaveRateShareReceived");
             AppUtils.hideProgressDialog();
             MaterialDialog.Builder builder =
                     new MaterialDialog.Builder(mActivity)
@@ -520,17 +524,12 @@ public class Fragment_PM_RateService extends Fragment
                                         public void onClick(
                                                 @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                             dialog.dismiss();
-                                            //Bundle mdata = new Bundle();
-                                            //mdata.putString(AppUtils.ARGS_RECEIVECOMPLAINT_PAGETYPE, mUnSignedPage);
 
                                             FragmentManager fm = getActivity().getSupportFragmentManager();
                                             for (int i = 0; i < fm.getBackStackEntryCount()-3; ++i) {
                                                 fm.popBackStack();
                                             }
 
-                                           // Fragment_PM_PPMDetails_List unsignedcomplaintslist = new Fragment_PM_PPMDetails_List();
-                                            //unsignedcomplaintslist.setArguments(mdata);
-                                          //  loadFragment(unsignedcomplaintslist, Utils.TAG_RECEIVED_COMPALINTS);
                                         }
                                     });
 

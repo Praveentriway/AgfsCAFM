@@ -48,6 +48,7 @@
                         android:id="@+id/tv_lbl_complaint"
                         style="@style/textview_label_react"
                         android:layout_width="@dimen/_90sdp"
+                        fontPath="fonts/HelveticaBold.ttf"
                         android:text="@string/lbl_complaint" />
 
                     <TextView
@@ -61,18 +62,21 @@
                 <LinearLayout
                     style="@style/match_wrap_style"
                     android:layout_marginBottom="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_defectsfound"
                         style="@style/textview_label_new"
                         android:layout_width="@dimen/_90sdp"
+                        fontPath="fonts/HelveticaBold.ttf"
                         android:text="@string/lbl_defectsfound" />
 
                     <LinearLayout
                         style="@style/match_wrap_style"
                         android:layout_width="@dimen/_240sdp"
                         android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_gravity="center"
                         android:orientation="vertical">
 
                         <TextView
@@ -89,7 +93,9 @@
                                 android:id="@+id/tie_defectsfound"
                                 style="@style/text_input_edittext_common_new"
                                 android:hint="@string/lbl_defectsfound_comments"
-                                android:maxLength="250" />
+                                android:minHeight="@dimen/_30sdp"
+                                android:maxLength="250"
+                                />
                         </com.daemon.emco_android.ui.components.CustomTextInputLayout>
                     </LinearLayout>
 
@@ -98,6 +104,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:layout_marginLeft="@dimen/_5sdp"
                         android:visibility="visible">
 
                         <TextView
@@ -148,12 +155,15 @@
 
                 <LinearLayout
                     style="@style/match_wrap_style"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_workstatus"
                         style="@style/textview_label_react"
                         android:layout_width="@dimen/_90sdp"
+                        fontPath="fonts/HelveticaBold.ttf"
                         android:text="@string/lbl_workstatus" />
 
                     <TextView
@@ -166,11 +176,14 @@
                 <LinearLayout
                     android:id="@+id/ll_workdone"
                     style="@style/match_wrap_style"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_workdone"
                         style="@style/textview_label_new"
+                        fontPath="fonts/HelveticaBold.ttf"
                         android:layout_width="@dimen/_90sdp"
                         android:text="@string/lbl_workdone" />
 
@@ -178,6 +191,7 @@
                         style="@style/match_wrap_style"
                         android:layout_width="@dimen/_240sdp"
                         android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_gravity="center"
                         android:orientation="vertical">
 
                         <TextView
@@ -194,6 +208,7 @@
                                 android:id="@+id/tie_workdone"
                                 style="@style/text_input_edittext_common_new"
                                 android:hint="@string/lbl_defectsfound_comments"
+                                android:minHeight="@dimen/_30sdp"
                                 android:maxLength="250" />
                         </com.daemon.emco_android.ui.components.CustomTextInputLayout>
                     </LinearLayout>
@@ -203,6 +218,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:layout_marginLeft="@dimen/_5sdp"
                         android:visibility="visible">
 
                         <TextView
@@ -253,17 +269,21 @@
                 <LinearLayout
                     android:id="@+id/ll_pending_reason"
                     style="@style/match_wrap_style"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_reason"
                         style="@style/textview_label_react"
                         android:layout_width="@dimen/_90sdp"
+                        fontPath="fonts/HelveticaBold.ttf"
                         android:text="@string/lbl_reason" />
 
                     <LinearLayout
                         style="@style/match_wrap_style"
                         android:layout_width="@dimen/_240sdp"
+                        android:layout_gravity="center"
                         android:orientation="vertical">
 
                         <TextView
@@ -279,24 +299,26 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/tie_workpending"
                                 style="@style/text_input_edittext_common"
+                                android:minHeight="@dimen/_30sdp"
                                 android:hint="@string/msg_other_pending_work"
                                 android:maxLength="250" />
                         </com.daemon.emco_android.ui.components.CustomTextInputLayout>
 
                     </LinearLayout>
 
-
                 </LinearLayout>
-
 
                 <LinearLayout
                     style="@style/match_wrap_style"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_lbl_tentative_date"
                         style="@style/textview_label_react"
                         android:layout_width="@dimen/_90sdp"
+                        fontPath="fonts/HelveticaBold.ttf"
                         android:text="@string/tentative_date" />
 
                     <TextView
@@ -353,15 +375,25 @@
                         android:text="@string/lbl_material_used" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_respond_save"
-                    style="@style/btn_wrap_content"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_gravity="center"
-                    android:text="@string/lbl_save" />
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:layout_marginLeft="@dimen/_60sdp"
+                    android:layout_marginRight="@dimen/_60sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_respond_save"
+                        style="@style/btn_wrap_content"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_gravity="center"
+                        android:text="@string/lbl_save" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <ImageView
+
                 android:id="@+id/iv_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
@@ -373,6 +405,7 @@
                 android:visibility="gone" />
 
             <LinearLayout
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -384,6 +417,7 @@
                 android:orientation="vertical">
 
                 <TextView
+
                     style="@style/match_wrap_style"
                     android:text="@string/lbl_2017_ags"
                     android:textAlignment="center"

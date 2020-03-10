@@ -43,10 +43,13 @@ import com.daemon.emco_android.listeners.PpeListener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 
 /**
  * Created by Daemonsoft on 7/18/2017.
@@ -80,12 +83,13 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
     private String mStrEmpId = null;
     private String mLoginData = null;
     private Toolbar mToolbar;
+    private FloatingActionButton btn_save;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            Log.d(TAG, "onCreate");
+
             mActivity = (AppCompatActivity) getActivity();
             setHasOptionsMenu(true);
             setRetainInstance(false);
@@ -93,6 +97,7 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
             mSavedInstanceState = savedInstanceState;
             ppeNamesDbInitializer = new PPENamesDbInitializer(this);
             ppeFetchSaveDbInitializer = new PPEFetchSaveDbInitializer(this);
+
 
             mArgs = getArguments();
             ppeService = new PpeService(mActivity, this);
@@ -113,18 +118,17 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_receive_complaint_ppe, container, false);
-        Log.d(TAG, "onCreateView");
         initView(rootView);
         return rootView;
     }
 
     private void getParcelableData() {
-        Log.d(TAG, "getParcelableData");
+
         if (mArgs != null) {
             if (mArgs.containsKey(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS)) {
                 receiveComplaintViewEntity = mArgs.getParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS);
 
-                if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+                if (checkInternet(getContext())) {
                     showLoadingSearch();
                     ppeService.fetchPPEData(receiveComplaintViewEntity.getComplaintNumber());
 
@@ -138,23 +142,27 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
     }
 
     public void initView(View view) {
-        Log.d(TAG, "initView");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-
             tv_lbl_ppe_required = (TextView) view.findViewById(R.id.tv_lbl_ppe_required);
             tv_lbl_yes = (TextView) view.findViewById(R.id.tv_lbl_yes);
             tv_lbl_no = (TextView) view.findViewById(R.id.tv_lbl_no);
             tv_lbl_nr = (TextView) view.findViewById(R.id.tv_lbl_nr);
-
             text_view_loading_message = (TextView) view.findViewById(R.id.text_view_message);
             layout_loading_message = (LinearLayout) view.findViewById(R.id.layout_loading);
-
             layout_loading = (LinearLayout) view.findViewById(R.id.layout_loading);
             layout_empty = (RelativeLayout) view.findViewById(R.id.layout_empty);
             text_view_empty = (TextView) view.findViewById(R.id.text_view_empty);
             text_view_message = (TextView) view.findViewById(R.id.text_view_message);
+            btn_save=(FloatingActionButton) view.findViewById(R.id.btn_save);
+            btn_save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onSubmitClicked();
+                }
+            });
 
             AppUtils.closeInput(cl_main);
             getParcelableData();
@@ -167,9 +175,8 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
 
     public void setupActionBar() {
         mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
-       // mToolbar.setTitle(getResources().getString(R.string.lbl_ppe));
         tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
-        tv_toolbar_title.setText(getString(R.string.lbl_ppe));
+        tv_toolbar_title.setText(getString(R.string.lbl_ppe)+" for Reactive");
         mActivity.setSupportActionBar(mToolbar);
         mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -186,15 +193,6 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
         Log.d(TAG, "setProperties");
         try {
             setManager();
-            tv_lbl_ppe_required.setTypeface(font.getHelveticaRegular());
-            tv_lbl_yes.setTypeface(font.getHelveticaRegular());
-            tv_lbl_no.setTypeface(font.getHelveticaRegular());
-            tv_lbl_nr.setTypeface(font.getHelveticaRegular());
-
-            text_view_empty.setTypeface(font.getHelveticaRegular());
-            text_view_message.setTypeface(font.getHelveticaRegular());
-
-            text_view_loading_message.setTypeface(font.getHelveticaRegular());
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -240,7 +238,7 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
                 savelist.add(request);
             }
 
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, "Saving PPE...", false);
                 ppeService.savePpeData(savelist);
             } else
@@ -253,7 +251,7 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
     }
 
     public void updatePpeList(List<PPEFetchSaveEntity> ppeSaveEntities) {
-        Log.d(TAG, "getPpeNameList");
+
         try {
             savelist = new ArrayList<>();
             for (int i = 0; i < ppeSaveEntities.size(); i++) {
@@ -279,7 +277,7 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
                 savelist.add(request);
             }
 
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, "Updating PPE...", false);
                 ppeService.savePpeData(savelist);
             } else
@@ -291,7 +289,7 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
     }
 
     public void setPpeList(boolean isFetchData) {
-        Log.d(TAG, "setPpeList");
+
         try {
             Log.w(TAG, fetchlist.size() + " mList : " + mNameList.size());
             if ((isFetchData ? fetchlist.size() : mNameList.size()) > 0) {
@@ -322,7 +320,7 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
     }
 
     public void showLoadingSearch() {
-        Log.d(TAG, "showLoadingSearch");
+
         try {
             if (layout_empty != null) layout_empty.setVisibility(View.GONE);
             if (layout_loading != null) layout_loading.setVisibility(View.VISIBLE);
@@ -334,7 +332,6 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
     }
 
     public void showEmptyView(String Str_Msg) {
-        Log.d(TAG, "showEmptyView");
         try {
             if (text_view_empty != null) {
                 text_view_empty.setText(Str_Msg);
@@ -350,7 +347,6 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_home).setVisible(true);
     }
@@ -399,18 +395,23 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
         }
     }
 
-    @Override
-    public void onPPESaveClicked(List<PPENameEntity> ppeNameEntities, List<PPEFetchSaveEntity> ppeSaveEntities, boolean isFetchdata) {
-        if (isFetchdata) {
-            updatePpeList(ppeSaveEntities);
-        } else {
-            savePpeList(ppeNameEntities);
-        }
+   public void onSubmitClicked(){
+
+       if (adapter.isFetchdata()) {
+           updatePpeList(adapter.getPPEFetchSaveEntity());
+       } else {
+           savePpeList(adapter.getPPENameEntity());
+       }
+
+   }
+
+   public void onPPESaveClicked(List<PPENameEntity> ppeNameEntities, List<PPEFetchSaveEntity> ppeSaveEntities, boolean isFetchdata){
+
     }
+
 
     @Override
     public void onPPEFetchListSuccess(List<PPEFetchSaveEntity> ppeSaveEntities, int mode) {
-        Log.d(TAG, "onPPEFetchSaveSuccess ");
         AppUtils.hideProgressDialog();
         fetchlist.clear();
         for (PPEFetchSaveEntity ppeFetchSaveEntity : ppeSaveEntities) {
@@ -465,4 +466,7 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
         Log.d(TAG, "onPPENameListFailure ");
         if (fetchlist.size() < 0) showEmptyView(strErr);
     }
+
+    @Override
+    public void onPPEFetchListFailure2(String strErr, int mode) {}
 }

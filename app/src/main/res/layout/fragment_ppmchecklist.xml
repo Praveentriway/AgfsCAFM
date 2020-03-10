@@ -3,28 +3,18 @@
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/match_parent_style"
-    android:fillViewport="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
     <LinearLayout
         style="@style/match_wrap_style"
-        android:layout_gravity="center"
-        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_40sdp"
             android:gravity="center"
             android:id="@+id/ll_top_lay"
             android:orientation="horizontal"
@@ -34,6 +24,7 @@
                 android:id="@+id/btn_ppe"
                 style="@style/btn_common_gray"
                 android:layout_weight="1"
+                android:textSize="@dimen/_9sdp"
                 android:text="@string/lbl_ppe" />
 
 
@@ -41,17 +32,20 @@
                 android:id="@+id/btn_risk"
                 style="@style/btn_common_gray"
                 android:layout_weight="1"
+                android:textSize="@dimen/_9sdp"
                 android:text="@string/lbl_risk_assessment" />
 
             <Button
                 android:id="@+id/btn_equip"
                 style="@style/btn_common_gray"
                 android:layout_weight="1"
+                android:textSize="@dimen/_9sdp"
                 android:text="@string/lbl_equipment_tools" />
             <Button
                 android:id="@+id/btn_material_req"
                 style="@style/btn_common_gray"
                 android:layout_weight="1"
+                android:textSize="@dimen/_9sdp"
                 android:text="@string/lbl_material_reqd" />
         </LinearLayout>
 
@@ -73,7 +67,7 @@
 
             <LinearLayout
                 style="@style/match_wrap_style"
-                android:layout_marginBottom="@dimen/_50sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:orientation="vertical">
@@ -84,7 +78,6 @@
 
                     <LinearLayout
                         style="@style/match_wrap_style"
-                        android:layout_marginTop="@dimen/_4sdp"
                         android:background="@color/color_gray"
                         android:orientation="horizontal"
                         android:visibility="visible">
@@ -94,7 +87,10 @@
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:id="@+id/txt_ppm_title"
+                            fontPath="fonts/HelveticaBold.ttf"
+                            android:textSize="@dimen/_9sdp"
                             android:text="SPLIT UNIT PPM - MONTHLY SERVICE" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -134,16 +130,9 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view"
                         android:scrollbars="vertical"
+                        android:paddingBottom="@dimen/_1sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_145sdp" />
-                    <!--   <Button
-                          style="@style/btn_wrap_content_red"
-                          android:layout_gravity="center"
-                          android:layout_margin="@dimen/_5sdp"
-                          android:paddingLeft="@dimen/_10sdp"
-                          android:paddingRight="@dimen/_10sdp"
-                          android:text="@string/lbl_save"
-                          android:visibility="visible" />-->
+                        android:layout_height="fill_parent" />
 
                     <LinearLayout
                         style="@style/match_wrap_style"
@@ -224,7 +213,7 @@
         </RelativeLayout>
 
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+
 
 
     <io.github.yavski.fabspeeddial.FabSpeedDial

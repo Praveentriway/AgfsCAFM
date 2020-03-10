@@ -34,7 +34,7 @@
                     <TextView
                         android:id="@+id/tv_lbl_from_date"
                         style="@style/textview_label"
-                        fontPath="fonts/HelveticaBold.otf"
+                        fontPath="fonts/HelveticaBold.ttf"
                         android:layout_weight=".6"
                         android:text="Date" />
 

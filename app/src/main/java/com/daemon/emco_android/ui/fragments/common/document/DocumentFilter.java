@@ -50,6 +50,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+
 
 public class DocumentFilter extends Fragment implements View.OnClickListener , DatePickerDialogListener, PpmFilterService.Listener, DateRangePickerFragment.OnDateRangeSelectedListener  {
 
@@ -215,9 +217,16 @@ LinearLayout layout_main;
             mStrEmpId = login.getEmployeeId();
         }
 
-        AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
-        new PpmFilterService(getContext(),this).getContractDetails(mStrEmpId,type);
-        // Inflate the layout for this fragment
+
+
+        if (checkInternet(getContext())) {
+
+            AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
+            new PpmFilterService(getContext(),this).getContractDetails(mStrEmpId,type);
+
+        }
+
+
         return rootView;
     }
 

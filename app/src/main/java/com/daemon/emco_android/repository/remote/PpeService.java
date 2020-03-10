@@ -215,15 +215,15 @@ public class PpeService {
                                             mCallback.onPPEFetchListSuccess(
                                                     response.body().getObject(), AppUtils.MODE_SERVER);
                                         } else
-                                            mCallback.onPPEFetchListFailure(
+                                            mCallback.onPPEFetchListFailure2(
                                                     response.body().getMessage(), AppUtils.MODE_SERVER);
-                                    } else mCallback.onPPEFetchListFailure(response.message(), AppUtils.MODE_SERVER);
+                                    } else mCallback.onPPEFetchListFailure2(response.message(), AppUtils.MODE_SERVER);
                                 }
 
                                 @Override
                                 public void onFailure(Call<PpeAfterSaveResponse> call, Throwable t) {
                                     Log.d(TAG, "onFailure" + t.getMessage());
-                                    mCallback.onPPEFetchListFailure(
+                                    mCallback.onPPEFetchListFailure2(
                                             mContext.getString(R.string.msg_request_error_occurred),
                                             AppUtils.MODE_SERVER);
                                 }

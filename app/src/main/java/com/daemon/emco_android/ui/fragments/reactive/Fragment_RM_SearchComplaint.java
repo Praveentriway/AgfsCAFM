@@ -53,11 +53,12 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+
 /** Created by subbu on 25/11/16. */
 public class Fragment_RM_SearchComplaint extends Fragment
     implements View.OnClickListener, SearchComplaintListener, SiteListener {
   private final String TAG = Fragment_RM_SearchComplaint.class.getSimpleName();
-  private String mNetworkInfo = null;
   private AppCompatActivity mActivity;
   private Context mContext;
   private Font font = App.getInstance().getFontInstance();
@@ -65,7 +66,7 @@ public class Fragment_RM_SearchComplaint extends Fragment
   private GetLogComplaintPopupRepository mGetComplaintPopupService;
   private SharedPreferences.Editor mEditor;
   private FragmentManager mManager;
-  private TextView tv_lbl_complaint_ref_no, tv_lbl_goto_multi_search, tv_toolbar_title,tv_select_site, tv_lbl_site;
+  private TextView tv_lbl_complaint_ref_no, tv_toolbar_title,tv_select_site, tv_lbl_site;
   private TextInputEditText tie_complaint_ref_no;
   private AppCompatButton btnGotoMultipleComplaints, btnSearchComplaint;
   private String mComplaintRefNo = null, mEmployeeId = null, mOpco = null;
@@ -116,14 +117,13 @@ private CustomTextInputLayout til_complaint_ref;
   }
 
   private void gettingSiteName() {
-    mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-    if (mNetworkInfo.length() > 0) {
-      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+      if (checkInternet(getContext())) {
         AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
         mGetComplaintPopupService.getSiteAreaData(this);
       }
       else new SiteAreaDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
-    }
+
   }
 
   @Nullable
@@ -157,7 +157,6 @@ private CustomTextInputLayout til_complaint_ref;
     try {
       cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
       tv_lbl_complaint_ref_no = (TextView) rootView.findViewById(R.id.tv_lbl_complaint_ref_no);
-      tv_lbl_goto_multi_search = (TextView) rootView.findViewById(R.id.tv_lbl_goto_multi_search);
       tie_complaint_ref_no = (TextInputEditText) rootView.findViewById(R.id.tie_complaint_ref_no);
       btnSearchComplaint = (AppCompatButton) rootView.findViewById(R.id.btnSearchComplaint);
       btnGotoMultipleComplaints =
@@ -177,7 +176,6 @@ private CustomTextInputLayout til_complaint_ref;
     mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
     tv_toolbar_title=(TextView)mToolbar.findViewById(R.id.tv_toolbar_title);
     tv_toolbar_title.setText(getString(R.string.lbl_view_complaint_status));
-    //mToolbar.setTitle(getResources().getString(R.string.lbl_view_complaint_status));
     mActivity.setSupportActionBar(mToolbar);
     mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -191,19 +189,11 @@ private CustomTextInputLayout til_complaint_ref;
   }
 
   private void setProperties() {
-    Log.d(TAG, "setProperties");
+
     try {
       tv_lbl_site.setText(Html.fromHtml(getString(R.string.lbl_site)));
       tv_lbl_complaint_ref_no.setText(
-          Html.fromHtml(getString(R.string.lbl_complaint_ref_no) + AppUtils.mandatory));
-
-      tv_lbl_complaint_ref_no.setTypeface(font.getHelveticaRegular());
-      tv_lbl_goto_multi_search.setTypeface(font.getHelveticaRegular());
-      tie_complaint_ref_no.setTypeface(font.getHelveticaRegular());
-      btnSearchComplaint.setTypeface(font.getHelveticaRegular());
-      btnGotoMultipleComplaints.setTypeface(font.getHelveticaRegular());
-      tv_select_site.setTypeface(font.getHelveticaRegular());
-      tv_lbl_site.setTypeface(font.getHelveticaRegular());
+              Html.fromHtml(getString(R.string.lbl_complaint_ref_no) + AppUtils.mandatory));
 
       tv_select_site.setOnClickListener(this);
       btnSearchComplaint.setOnClickListener(this);
@@ -223,6 +213,7 @@ private CustomTextInputLayout til_complaint_ref;
     } catch (Exception e) {
       e.printStackTrace();
     }
+
   }
 
   private boolean validateComplaintRefNo() {
@@ -294,22 +285,10 @@ private CustomTextInputLayout til_complaint_ref;
   private void getDataFromServer() {
     Log.d(TAG, "getDataFromServer");
     try {
-     /* if (mStrSiteCode == null) {
-        AppUtils.setErrorBg(tv_select_site, true);
-        AppUtils.showDialog(mActivity, "Please select values in Mandatory field");
-        return;
-      } else {
-        AppUtils.setErrorBg(tv_select_site, false);
-      }*/
-     /* if (mOpco == null) {
-        AppUtils.showDialog(mActivity, "Opco code invalid");
-        return;
-      } else if (!validateComplaintRefNo()) return;*/
+
 
      if(TextUtils.isEmpty(tie_complaint_ref_no.getText().toString())){
-      // AppUtils.showDialog(mActivity, "Please select values in Mandatory field");
-       //AppUtils.setErrorBg(til_complaint_ref, false);
-      // til_complaint_ref.setError(getString(R.string.lbl_please_select_complaint_ref));
+
        validateComplaintRefNo();
        return;
      }else{

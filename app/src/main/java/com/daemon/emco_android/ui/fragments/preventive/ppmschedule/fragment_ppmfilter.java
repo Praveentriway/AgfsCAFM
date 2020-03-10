@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-
 import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.ui.fragments.common.NumberPickerDialog;
 import com.daemon.emco_android.utils.AnimateUtils;
-import com.github.florent37.expectanim.ExpectAnim;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,7 +18,6 @@ import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +29,6 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.repository.remote.PpmFilterService;
@@ -47,20 +42,12 @@ import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
 import com.daemon.emco_android.utils.Utils;
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.github.florent37.expectanim.core.Expectations.atItsOriginalPosition;
-import static com.github.florent37.expectanim.core.Expectations.invisible;
-import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
-import static com.github.florent37.expectanim.core.Expectations.visible;
-
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 
 public class fragment_ppmfilter extends Fragment implements View.OnClickListener , DatePickerDialogListener, PpmFilterService.Listener, DateRangePickerFragment.OnDateRangeSelectedListener, NumberPicker.OnValueChangeListener {
 
-    private static final String TAG = fragment_ppmfilter.class.getSimpleName();
-    final Handler handler = new Handler();
     private AppCompatActivity mActivity;
     private Toolbar mToolbar;
     private AppCompatTextView tv_select_nature,tv_select_from_date,tv_select_to_date;
@@ -94,6 +81,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
     String sContractNo="", sContractNo1="", sPPMno="",sNaturaldesc="",sStartdate="",sEnddate="",sLocation="",sAssetcode="",sDuedate;
     PPMFilterRequest ppmfilter ;
 
+
     public CharSequence[] searchOptions = {"All",
             "Date range",
             "PPM no or Workorder no",
@@ -103,7 +91,6 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
             "Due day",
             "Pending PPM"
     };
-
 
     List<ContractDetails> contractDetails;
 
@@ -167,8 +154,12 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         rootView=inflater.inflate(R.layout.fragment_fragment__ppm__list__filter, container, false);
+        init();
+        return rootView;
+    }
+
+    public void init(){
         btnSearchComplaintForAll=(Button) rootView.findViewById(R.id. btnSearchComplaintForAll);
         btnSearchComplaintByFilter=(FloatingActionButton) rootView.findViewById(R.id. btnSearchComplaintByFilter);
         tv_select_contract=(AppCompatTextView) rootView.findViewById(R.id. tv_select_contract);
@@ -200,12 +191,12 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
         tv_lbl_due_date=(TextView) rootView.findViewById(R.id. tv_lbl_due_date);
         setProps();
         setupActionBar();
-         if(ppmfilter!=null){
-               findFilterItem();
-           }
-            else{
-               ppmfilter =new PPMFilterRequest();
-              }
+        if(ppmfilter!=null){
+            findFilterItem();
+        }
+        else{
+            ppmfilter =new PPMFilterRequest();
+        }
         mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
         mLoginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
         if (mLoginData != null) {
@@ -214,10 +205,14 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
             mStrEmpId = login.getEmployeeId();
         }
 
-        AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
-        new PpmFilterService(getContext(),this).getContractDetails(mStrEmpId,"PPMF");
-        // Inflate the layout for this fragment
-        return rootView;
+        if (checkInternet(getContext())) {
+
+            AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
+            new PpmFilterService(getContext(),this).getContractDetails(mStrEmpId,"PPMF");
+
+        }
+
+
     }
 
     public  void setProps(){
@@ -262,7 +257,6 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
         LinearLayout  linear_toolbar =(LinearLayout) mToolbar.findViewById(R.id.linear_profile) ;
         linear_toolbar.setVisibility(View.GONE);
         tv_toolbar_title.setText("PPM Schedule Filter");
-        // mToolbar.setTitle(getResources().getString(R.string.lbl_ppm_details));
         mActivity.setSupportActionBar(mToolbar);
         mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -276,8 +270,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
     }
 
     public void loadFragment(final Fragment fragment, final String tag) {
-        Log.d(TAG, "loadFragment");
-        // update the main content by replacing fragments
+
         Bundle mdata = new Bundle();
         mdata.putSerializable(AppUtils.ARGS_PPMFILTER,ppmfilter);
         fragment.setArguments(mdata);
@@ -292,7 +285,6 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_home).setVisible(true);
     }
@@ -310,7 +302,6 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
 
     @Override
     public void onNatureDescReceived(List<String> natureDesc) {
-       // AppUtils.hideProgressDialog();
         AppUtils.hideProgressDialog();
         this.natureDesc=natureDesc;
         showNaturalDescDialog();
@@ -359,11 +350,14 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
         Log.i("","no data to show");
         }
     }
+
+
     public  void showNaturalDescDialog(){
 
         if(natureDesc!=null && natureDesc.size()>0){
 
             try {
+
                 ArrayList strArraySiteName = new ArrayList(natureDesc);
                 strArraySiteName.add("");
                 strArraySiteName.add("");
@@ -410,6 +404,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                     }
                 });
     }
+
 
     public void showDialog(Context context, String title, String[] btnText,
                            DialogInterface.OnClickListener listener) {
@@ -485,20 +480,15 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
             break;
 
             case "All":{
-
                 hideAllLayout();
-
             }
             break;
 
             case "Pending PPM":
                 {
-
                 hideAllLayout();
-
             }
             break;
-
         }
     }
 
@@ -519,7 +509,6 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
 
     @Override
     public void onDateReceivedSuccess(String strDate) {
-        Log.d(TAG, "onDateReceivedSuccess " + strDate);
         if(startDateClicked){
                 fromDate=(strDate);
                 tv_select_from_date.setText(strDate);
@@ -629,7 +618,6 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
             case "Location name or Zone building":
             {
                 if(tie_location.getText().toString().trim().isEmpty()){
-                  //  til_location.setError("Location Name / Zone Building field should not be empty.");
                     Toast.makeText(mActivity,"Location Name / Zone Building field should not be empty.",Toast.LENGTH_SHORT).show();
 
                 }
@@ -705,7 +693,6 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
              default:
              {
                  AppUtils.showDialog(getContext(),"Select all the mandatory fields");
-
                  break;
              }
         }
@@ -724,7 +711,6 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
 
     public boolean checkPPMValidation(){
         if(tie_ppm_no.getText().toString().trim().length()<=2 ){
-          //  til_ppm_no.setError("PPM No / WorkOrder No. field should contain more than two characters.");
             Toast.makeText(mActivity,"PPM No / WorkOrder No. field should contain more than two characters.",Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -747,9 +733,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
 
     public boolean checkLocationValidation(){
         if(tie_location.getText().toString().trim().length()<=2 ){
-
             Toast.makeText(mActivity,"Location Name or Zone Building field should contain more than two characters.",Toast.LENGTH_SHORT).show();
-
             return false;
         }
         else{
@@ -761,33 +745,33 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
             tv_select_contract.setText(sContractNo1);
         }
         if(!sStartdate.trim().isEmpty()){
-            setFilterFromcache(1);
+            setFilterFromCache(1);
         }
         else  if(!sPPMno.trim().isEmpty()){
-            setFilterFromcache(2);
+            setFilterFromCache(2);
         }
         else  if(!sAssetcode.trim().isEmpty()){
-            setFilterFromcache(3);
+            setFilterFromCache(3);
         }
 
         else  if(!sLocation.trim().isEmpty()){
-            setFilterFromcache(4);
+            setFilterFromCache(4);
         }
         else  if(!sNaturaldesc.trim().isEmpty()){
-            setFilterFromcache(5);
+            setFilterFromCache(5);
         }
         else  if(!sDuedate.trim().isEmpty()){
-            setFilterFromcache(6);
+            setFilterFromCache(6);
         }
 
         else  if(ppmfilter.isPendingPPM()){
-            setFilterFromcache(7);
+            setFilterFromCache(7);
         }
         else{
-          setFilterFromcache(0);
+            setFilterFromCache(0);
         }
     }
-    public void setFilterFromcache(int pos){
+    public void setFilterFromCache(int pos){
         dialog_pos=pos;
         tv_select_search_type.setText(searchOptions[pos].toString());
 
@@ -796,7 +780,6 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
             case "All":
                hideAllLayout();
                 break;
-
             case "Date range":
             {
                 hideAllLayout();
@@ -841,7 +824,6 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                 tv_select_nature.setTypeface(font.getHelveticaBold());
             }
             break;
-
             case "Due day":
             {
                 hideAllLayout();
@@ -851,11 +833,9 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
             }
 
             break;
-
             case "Pending PPM":
             {
                 hideAllLayout();
-
             }
             break;
 
@@ -893,5 +873,4 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

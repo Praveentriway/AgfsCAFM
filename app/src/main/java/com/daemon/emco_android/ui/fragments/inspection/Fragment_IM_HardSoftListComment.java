@@ -86,6 +86,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_FRAGMENT_IM_HARDSOFTLIST;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_RESPOND;
 
@@ -464,7 +465,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+                if (checkInternet(getContext())) {
                     AppUtils.showProgressDialog(mActivity, "Loading...", true);
                     saveDataServer();
                 }
@@ -495,7 +496,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
         });
 
         if (mTitle.equalsIgnoreCase(getResources().getString(R.string.title_reactive_hard_services))) {
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
               //  AppUtils.showProgressDialog(mActivity, "Loading...", true);
                 HardSoftRequest loginRequest = new HardSoftRequest();
                 loginRequest.setOpco(receiveComplaintItemEntity.getOpco());
@@ -506,7 +507,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
             }
         }
         if (mTitle.equalsIgnoreCase(getResources().getString(R.string.title_reactive_soft_services))) {
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
               //  AppUtils.showProgressDialog(mActivity, "Loading...", true);
                 HardSoftRequest loginRequest = new HardSoftRequest();
                 loginRequest.setOpco(receiveComplaintItemEntity.getOpco());
@@ -517,7 +518,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
             }
         }
         if (mTitle.equalsIgnoreCase(getResources().getString(R.string.title_ppm_request_verification_hard))) {
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 HardSoftRequest loginRequest = new HardSoftRequest();
                 loginRequest.setPpmNo(receiveComplaintItemEntity.getOpco());
                 new HardSoftService(mActivity, this, this)
@@ -525,7 +526,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
             }
         }
         if (mTitle.equalsIgnoreCase(getResources().getString(R.string.title_ppm_request_verification_soft))) {
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 HardSoftRequest loginRequest = new HardSoftRequest();
                 loginRequest.setPpmNo(receiveComplaintItemEntity.getOpco());
                 new HardSoftService(mActivity, this, this)

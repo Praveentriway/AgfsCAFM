@@ -40,6 +40,7 @@ import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
 import com.google.gson.Gson;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.AppUtils.showProgressDialog;
 
 /**
@@ -220,7 +221,8 @@ public class ChangePassword extends Fragment implements ChangePasswordListener {
                 dialog.show();
                 return;
             } else {
-                if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+                if (checkInternet(getContext())) {
+
                     showProgressDialog(mActivity, "Loading...", true);
                     ChangePasswordRequest loginRequest = new ChangePasswordRequest(mStrEmployeeId, tv_old_pass.getText().toString().trim(), tv_new_password.getText().toString().trim());
                     new ChangePasswordRepository(mActivity, this).getPasswordData(loginRequest);

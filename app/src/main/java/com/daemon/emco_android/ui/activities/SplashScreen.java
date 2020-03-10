@@ -14,8 +14,10 @@ import android.widget.TextView;
 
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.utils.AnimateUtils;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
+import com.daemon.emco_android.utils.Utils;
 import com.github.florent37.expectanim.ExpectAnim;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.Display;
@@ -27,15 +29,13 @@ import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
 import static com.github.florent37.expectanim.core.Expectations.visible;
 
 /**
- * Created by subbu on 7/7/17.
+ * Created by praba on 7/12/19.
  */
+
 public class SplashScreen extends AppCompatActivity {
-    private static final int SPLASH_TIME_OUT = 1000;
+
     private TextView tv_login,tv_signup;
-    private ExpectAnim expectAnimMove;
     private SharedPreferences mPreferences;
-    private static final String TAG = SplashScreen.class.getSimpleName();
-    private SharedPreferences.Editor mEditor;
     boolean updateShow=false;
     private Font font = App.getInstance().getFontInstance();
 
@@ -44,91 +44,14 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        tv_login=(TextView)findViewById(R.id.tv_login);
-        tv_signup=(TextView)findViewById(R.id.tv_signup);
-
-        tv_login.setTypeface(font.getHelveticaRegular());
-
-        tv_signup.setTypeface(font.getHelveticaRegular());
-
-        mPreferences = this.getSharedPreferences(AppUtils.SHARED_PREFS, MODE_PRIVATE);
-        mEditor = mPreferences.edit();
-        String loginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
-        if (loginData != null && loginData.length() > 0) {
-            Intent mainActivity = new Intent(this, MainActivity.class);
-            startActivity(mainActivity);
-            finish();
-            return;
-        }
-        /*else{
-            Intent i = new Intent(SplashScreen.this, LoginActivity.class);
-            startActivity(i);
-        }*/
-
-        tv_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(SplashScreen.this, LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
-        tv_signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(SplashScreen.this, RegisterActivity.class);
-                startActivity(i);
-            }
-        });
-
-
-
-        new ExpectAnim()
-
-                .expect(tv_login)
-                .toBe(
-                        outOfScreen(Gravity.TOP),
-                        invisible()
-                )
-                .toAnimation()
-                .setNow();
-
-
-        new ExpectAnim()
-
-                .expect(tv_signup)
-                .toBe(
-                        outOfScreen(Gravity.BOTTOM),
-                        invisible()
-                )
-                .toAnimation()
-                .setNow();
-
-
-        this.expectAnimMove = new ExpectAnim()
-                .expect(tv_login)
-                .toBe(
-                        atItsOriginalPosition(),
-                        visible()
-                ).expect(tv_signup)
-                .toBe(
-                        atItsOriginalPosition(),
-                        visible()
-                )
-                .toAnimation()
-                .setDuration(800)
-                .start();
-
-
-
+        initView();
+        checkDirectLogin();
+        new AnimateUtils().splashAnimate(tv_login,tv_signup);
 
     }
 
-
     @Override
     protected void onResume() {
-        Log.d(TAG, "onResume");
 
         if (!updateShow) {
 
@@ -153,14 +76,43 @@ public class SplashScreen extends AppCompatActivity {
                         }
 
                     }).start();
-
         }
 
         updateShow = true;
-
-
         super.onResume();
     }
 
+    public void initView(){
+
+        tv_login=(TextView)findViewById(R.id.tv_login);
+        tv_signup=(TextView)findViewById(R.id.tv_signup);
+
+        tv_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+                finish();
+            }
+        });
+
+        tv_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SplashScreen.this, RegisterActivity.class));
+            }
+        });
 
     }
+
+    public void checkDirectLogin(){
+        mPreferences = this.getSharedPreferences(AppUtils.SHARED_PREFS, MODE_PRIVATE);
+        String loginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+        if (loginData != null && loginData.length() > 0) {
+            Intent mainActivity = new Intent(this, MainActivity.class);
+            startActivity(mainActivity);
+            finish();
+            return;
+        }
+    }
+    }
+

@@ -188,12 +188,6 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
-       // btnLogComplaint.setTypeface(font.getHelveticaRegular());
-       // btnReceiveComplaint.setTypeface(font.getHelveticaRegular());
-       // btnViewComplaintStatus.setTypeface(font.getHelveticaRegular());
-       // btnPendingSignature.setTypeface(font.getHelveticaRegular());
-       // btnDashboard.setTypeface(font.getHelveticaRegular());
 
         btnLogComplaint.setOnClickListener(this);
         btnReceiveComplaint.setOnClickListener(this);
@@ -229,13 +223,7 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
             case R.id.btn_view_complaint:
                 loadFragment(new Fragment_RM_SearchComplaint(), Utils.TAG_SINGLE_SEARCH_COMPLAINT);
                 break;
-            /*case R.id.btn_pending_client_signature:
-                Bundle mdata = new Bundle();
-                mdata.putString(AppUtils.ARGS_RECEIVECOMPLAINT_PAGETYPE, AppUtils.ARGS_RECEIVECOMPLAINTUNSIGNED_PAGE);
-                Fragment_RC_List unsignedcomplaintslist = new Fragment_RC_List();
-                unsignedcomplaintslist.setArguments(mdata);
-                loadFragment(unsignedcomplaintslist, Utils.TAG_RECEIVED_COMPALINTS);
-                break;*/
+
             case R.id.btn_dashboard:
                 loadFragment(new Fragment_RM_Dashboard(), Utils.TAG_DASHBOARD);
                 break;

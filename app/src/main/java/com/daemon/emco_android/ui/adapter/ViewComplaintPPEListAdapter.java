@@ -123,40 +123,34 @@ public class ViewComplaintPPEListAdapter extends RecyclerView.Adapter<RecyclerVi
                     }
                 });
 
-//                // Last view for list.
-//                if (!(isFetchData ? fetchdata : data).isEmpty() || (isFetchData ? fetchdata : data) == null) {
-//                    if (position == (isFetchData ? fetchdata.size() : data.size()) - 1) {
 
-                if (position ==  data.size() - 1) {
-
-                    holder.btnSavePpe.setVisibility(View.VISIBLE);
-                    holder.btnSavePpe.setTypeface(font.getHelveticaRegular());
-                    holder.btnSavePpe.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mCallBack.onPPESaveClicked(data, fetchdata, isFetchData);
-
-                        }
-                    });
-                }
-
-                if (position ==  fetchdata.size() - 1) {
-
-                    holder.btnSavePpe.setVisibility(View.VISIBLE);
-                    holder.btnSavePpe.setTypeface(font.getHelveticaRegular());
-                    holder.btnSavePpe.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mCallBack.onPPESaveClicked(data, fetchdata, isFetchData);
-
-                        }
-                    });
-                }
-
-
-
-//                    }
+//                if (position ==  data.size() - 1) {
+//
+//                    holder.btnSavePpe.setVisibility(View.VISIBLE);
+//                    holder.btnSavePpe.setTypeface(font.getHelveticaRegular());
+//                    holder.btnSavePpe.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            mCallBack.onPPESaveClicked(data, fetchdata, isFetchData);
+//
+//                        }
+//                    });
 //                }
+//
+//                if (position ==  fetchdata.size() - 1) {
+//
+//                    holder.btnSavePpe.setVisibility(View.VISIBLE);
+//                    holder.btnSavePpe.setTypeface(font.getHelveticaRegular());
+//                    holder.btnSavePpe.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            mCallBack.onPPESaveClicked(data, fetchdata, isFetchData);
+//
+//                        }
+//                    });
+//                }
+
+
             } else if (mHolder instanceof LoadingMessageHolder) {
                 LoadingMessageHolder holder = (LoadingMessageHolder) mHolder;
                 holder.layout_loading_message.setVisibility(View.VISIBLE);
@@ -165,6 +159,21 @@ public class ViewComplaintPPEListAdapter extends RecyclerView.Adapter<RecyclerVi
             ex.printStackTrace();
         }
     }
+
+    public boolean isFetchdata(){
+
+        return  isFetchData;
+
+    }
+
+    public List<PPEFetchSaveEntity> getPPEFetchSaveEntity(){
+        return fetchdata;
+    }
+
+    public List<PPENameEntity> getPPENameEntity(){
+        return data;
+    }
+
 
     public void setcheckedData(int position, int checkedRadioButtonId) {
         switch (checkedRadioButtonId) {

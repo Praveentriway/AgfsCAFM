@@ -108,7 +108,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+
+    dataBinding {
+        enabled = true
+    }
+
 }
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
@@ -185,6 +191,10 @@ dependencies {
     // click effect survey module
     implementation 'com.hardik.clickshrinkeffect:shrinkeffect:1.0.1'
 
+    // custom toast
+
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
+
 }
 
 configurations.all {
@@ -197,4 +207,6 @@ configurations.all {
                 }
             }
     }
+
+
 }

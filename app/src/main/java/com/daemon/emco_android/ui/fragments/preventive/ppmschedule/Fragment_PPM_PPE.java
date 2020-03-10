@@ -50,11 +50,13 @@ import com.daemon.emco_android.model.response.ObjectPPM;
 import com.daemon.emco_android.model.response.PpmFeedBackResponse;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.AppUtils.showProgressDialog;
 
 /**
@@ -109,11 +111,13 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
             mActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
             mLoginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+
             if (mLoginData != null) {
                 Gson gson = new Gson();
                 Login login = gson.fromJson(mLoginData, Login.class);
                 mStrEmpId = login.getEmployeeId();
             }
+
             if (mArgs != null && mArgs.size() > 0) {
                 showProgressDialog(mActivity, "Loading...", false);
                 ppmScheduleDocBy = mArgs.getParcelable(AppUtils.ARG_PPE_PPM);
@@ -138,18 +142,14 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
            // if (mArgs.containsKey(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS)) {
                 scheduleDetails = mArgs.getParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS);
           //  showProgressDialog(mActivity, "Loading...", false);
-                if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+                if (checkInternet(getContext())) {
                     showLoadingSearch();
-                    //
                     RiskAssListRequest riskAssListResponse=new RiskAssListRequest(ppmScheduleDocBy.getCompanyCode()
                     ,ppmScheduleDocBy.getJobNo(),ppmScheduleDocBy.getPpmNo(),ppmScheduleDocBy.getChkCode(),"");
                     new PpeService(mActivity, this).getSavePpePpm(riskAssListResponse);
-                   // ppeService.getPpeNamesData();
                 } else {
-                   // ppeNamesDbInitializer.populateAsync(AppDatabase.getAppDatabase(mActivity), AppUtils.MODE_GETALL);
-                    //ppeFetchSaveDbInitializer.populateAsync(AppDatabase.getAppDatabase(mActivity), receiveComplaintViewEntity.getComplaintNumber(), AppUtils.MODE_GET);
+
                 }
-         //   }
         }
     }
 
@@ -172,6 +172,17 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
             text_view_empty = (TextView) view.findViewById(R.id.text_view_empty);
             text_view_message = (TextView) view.findViewById(R.id.text_view_message);
 
+            FloatingActionButton   btn_save=(FloatingActionButton) view.findViewById(R.id.btn_save);
+
+            btn_save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    onSubmitClicked();
+
+                }
+            });
+
             AppUtils.closeInput(cl_main);
             getParcelableData();
             setupActionBar();
@@ -181,9 +192,20 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
         }
     }
 
+    public void onSubmitClicked(){
+
+        if (adapter.isFetchdata()) {
+            updatePpeList(adapter.getPPEFetchSaveEntity());
+        } else {
+            savePpeList(adapter.getPPENameEntity());
+        }
+
+    }
+
     public void setupActionBar() {
         mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
-        mToolbar.setTitle(getResources().getString(R.string.lbl_ppe));
+        TextView  tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
+        tv_toolbar_title.setText(getResources().getString(R.string.lbl_ppe)+" for PPM");
         mActivity.setSupportActionBar(mToolbar);
         mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -196,6 +218,7 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
     }
 
     public void setProperties() {
+
         Log.d(TAG, "setProperties");
         try {
             setManager();
@@ -212,9 +235,11 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
     }
 
     public void setManager() {
+
         Log.d(TAG, "setManager");
         try {
             mLayoutManager = new LinearLayoutManager(mActivity);
@@ -224,9 +249,11 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
     }
 
     public void savePpeList(List<PPENameEntity> ppeNameEntities) {
+
         Log.d(TAG, "getPpeNameList");
         try {
             savelist = new ArrayList<>();
@@ -251,9 +278,10 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
                 request.setMode(AppUtils.MODE_LOCAL);
                 request.setId(scheduleDetails.getAssetBarCode() + entity.getCode());
                 savelist.add(request);
+
             }
 
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, "Saving PPE...", false);
                 ppeService.savePpeDataPPM(savelist);
             } else
@@ -266,6 +294,7 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
     }
 
     public void updatePpeList(List<PPEFetchSaveEntity> ppeSaveEntities) {
+
         Log.d(TAG, "getPpeNameList");
         try {
             savelist = new ArrayList<>();
@@ -292,7 +321,7 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
                 savelist.add(request);
             }
 
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, "Updating PPE...", false);
                 ppeService.savePpeDataPPM(savelist);
             } else
@@ -301,9 +330,11 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public void setPpeList(boolean isFetchData) {
+
         Log.d(TAG, "setPpeList");
         try {
             Log.w(TAG, fetchlist.size() + " mList : " + mNameList.size());
@@ -326,15 +357,19 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
     }
 
     public void showList() {
+
         if (recyclerView != null) recyclerView.setVisibility(View.VISIBLE);
         if (layout_loading != null) layout_loading.setVisibility(View.GONE);
         if (layout_empty != null) layout_empty.setVisibility(View.GONE);
+
     }
 
     public void showLoadingSearch() {
+
         Log.d(TAG, "showLoadingSearch");
         try {
             if (layout_empty != null) layout_empty.setVisibility(View.GONE);
@@ -347,6 +382,7 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
     }
 
     public void showEmptyView(String Str_Msg) {
+
         Log.d(TAG, "showEmptyView");
         try {
             if (text_view_empty != null) {
@@ -362,15 +398,20 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
 
 
     public void onPrepareOptionsMenu(Menu menu) {
+
         super.onPrepareOptionsMenu(menu);
         Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_home).setVisible(true);
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+
             case R.id.action_home:
                 Log.d(TAG, "onOptionsItemSelected : home");
                 //mActivity.onBackPressed();
@@ -384,9 +425,10 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
                 _transaction.replace(R.id.frame_container, _fragment);
                 break;
         }
-        return super.onOptionsItemSelected(item);
-    }
 
+        return super.onOptionsItemSelected(item);
+
+    }
 
     @Override
     public void onPPESaveSuccess(String strMsg, int mode) {
@@ -443,6 +485,7 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
         }
     }
 
+
     @Override
     public void onPPENameListReceived(List<PPENameEntity> ppeNameEntities, int mode) {
         Log.d(TAG, "onPPENamesReceived ");
@@ -456,21 +499,29 @@ public class Fragment_PPM_PPE extends Fragment implements PpeListener,RiskeAssLi
         if (mode == AppUtils.MODE_SERVER) {
             ppeNamesDbInitializer.populateAsync(AppDatabase.getAppDatabase(mActivity), mNameList, AppUtils.MODE_INSERT);
         }
-
     }
 
     @Override
     public void onPPEFetchListFailure(String strErr, int mode) {
+
         Log.d(TAG, "onPPEFetchListFailure ");
-        //AppUtils.hideProgressDialog();
-        /*if (mNameList.size() > 0) {
-            setPpeList(false);
-        } else showEmptyView(strErr);*/
 
         FetchPpeForPpmReq fetchPpeForPpmReq = new FetchPpeForPpmReq();
-        fetchPpeForPpmReq.setCheckListCode(ppmScheduleDocBy.getChkCode());
-        fetchPpeForPpmReq.setPpeType("PE");
-        ppeService.fetchPPEDataPPM(fetchPpeForPpmReq);
+            fetchPpeForPpmReq.setCheckListCode(ppmScheduleDocBy.getChkCode());
+            fetchPpeForPpmReq.setPpeType("PE");
+            ppeService.fetchPPEDataPPM(fetchPpeForPpmReq);
+
+    }
+
+    @Override
+    public void onPPEFetchListFailure2(String strErr, int mode) {
+
+        Log.d(TAG, "onPPEFetchListFailure 2");
+
+        AppUtils.hideProgressDialog();
+
+        AppUtils.showDialogToFinish(getActivity(),"PPE",strErr);
+
     }
 
     @Override

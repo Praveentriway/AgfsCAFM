@@ -38,6 +38,44 @@ public class EmployeeTrackingDetail {
     @ColumnInfo(name = "trans_date")
     String trans_date;
 
+    @SerializedName("compCode")
+    @ColumnInfo(name = "compCode")
+    String compCode;
+
+    @SerializedName("transType")
+    @ColumnInfo(name = "transType")
+    String transType;
+
+
+    @SerializedName("refNo")
+    @ColumnInfo(name = "refNo")
+    String refNo;
+
+
+    public String getCompCode() {
+        return compCode;
+    }
+
+    public void setCompCode(String compCode) {
+        this.compCode = compCode;
+    }
+
+    public String getTransType() {
+        return transType;
+    }
+
+    public void setTransType(String transType) {
+        this.transType = transType;
+    }
+
+    public String getRefNo() {
+        return refNo;
+    }
+
+    public void setRefNo(String refNo) {
+        this.refNo = refNo;
+    }
+
     public String getTrans_date() {
         return trans_date;
     }

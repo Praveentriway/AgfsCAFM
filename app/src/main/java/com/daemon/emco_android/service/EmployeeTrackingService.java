@@ -85,7 +85,7 @@ public class EmployeeTrackingService extends Service implements EmployeeGpsRepos
 
     public EmployeeTrackingService(Context applicationContext) {
         super();
-        Log.i("HERE", "here I am!");
+
     }
 
     public EmployeeTrackingService() {
@@ -190,7 +190,7 @@ public class EmployeeTrackingService extends Service implements EmployeeGpsRepos
         } else {
             showTurnOnNotification("Mobile data");
         }
-        getLocationFused();
+        new GPSTracker(getApplicationContext()).updateFusedLocation(null);
     }
 
     @Nullable
@@ -218,9 +218,8 @@ public class EmployeeTrackingService extends Service implements EmployeeGpsRepos
             Date startDate = dateFormat.parse(DEFAULT_START_TIME);
             Date endDate = dateFormat.parse(DEFAULT_END_TIME);
             if (currentDate.after(startDate) && currentDate.before(endDate)) {
-                //getLocation_ByGPS();
 
-                getLocationFused();
+               new GPSTracker(getApplicationContext()).updateFusedLocation(null);
 
             } else {
                 Log.d(this.getClass().getName(), "Time up to get location. Your time is : " + DEFAULT_START_TIME + " to " + DEFAULT_END_TIME);
@@ -245,81 +244,8 @@ public class EmployeeTrackingService extends Service implements EmployeeGpsRepos
         }
     }
 
-    public void processLocation(double latitude, double longitude) {
-
-        String currentDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
-
-      //  showNotificationForTest("Sys time :"+currentDate+" -- Lat"+latitude+" Lng "+longitude);
-
-        mPreferences = this.getSharedPreferences(AppUtils.SHARED_PREFS, MODE_PRIVATE);
-        mEditor = mPreferences.edit();
-        Gson gson = new Gson();
-        String loginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
-        Login login = gson.fromJson(loginData, Login.class);
-        EmployeeTrackingDetail emp = new EmployeeTrackingDetail();
-        emp.setEmployeeId(login.getEmployeeId());
-        emp.setLat(latitude + "");
-        emp.setLng(longitude + "");
-      //  String currentDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
-        emp.setTrans_date(currentDate);
-        try {
-            emp.setDeviceID(getDeviceID(mContext));
-            emp.setDeviceName(getSerialNumber());
-            Log.i("SerialNumber", "" + getSerialNumber());
-            Log.i("Device ID", "" + getDeviceID(mContext));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (isNetworkConnected(mContext)) {
-            new EmployeeGpsRepository(this, this).updateEmployeeGps(emp, MODE_REMOTE);
-        } else {
-            new EmployeeGpsRepository(this, this).updateEmployeeGps(emp, MODE_OFFLINE);
-        }
-    }
-
-    /**
-     * get gps by fused location client
-     * */
-
-    public void getLocationFused() {
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext);
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-            }
-        };
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        try {
-            mFusedLocationClient
-                    .getLastLocation()
-                    .addOnCompleteListener(new OnCompleteListener<Location>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Location> task) {
-                            if (task.isSuccessful() && task.getResult() != null) {
-                                mLocation = task.getResult();
-                                processLocation(mLocation.getLatitude(), mLocation.getLongitude());
-                                mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-                            } else {
-                                Log.w(this.getClass().getName(), "Failed to get location.");
-                            }
-                        }
-                    });
-        } catch (SecurityException unlikely) {
-            Log.e(this.getClass().getName(), "Lost location permission." + unlikely);
-        }
-        try {
-            mFusedLocationClient.requestLocationUpdates(mLocationRequest, null);
-        } catch (SecurityException unlikely) {
-            Log.e(this.getClass().getName(), "Lost location permission. Could not request updates. " + unlikely);
-        }
-    }
-
     private void startMyOwnForeground() {
+
         String NOTIFICATION_CHANNEL_ID = "com.daemon.emco_android";
         String channelName = "My Background Service";
         NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
@@ -339,6 +265,7 @@ public class EmployeeTrackingService extends Service implements EmployeeGpsRepos
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .build();
         startForeground(2, notification);
+
     }
 
     @Override
@@ -416,7 +343,6 @@ public class EmployeeTrackingService extends Service implements EmployeeGpsRepos
         notificationManager.notify(1001, builder.build());
 
     }
-
 
     public void onSuccessGpsUpdate(String strMsg, int mode) {
 

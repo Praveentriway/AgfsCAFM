@@ -50,7 +50,9 @@ import android.widget.TextView;
 
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.ui.activities.BarcodeCaptureActivity;
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
+import com.daemon.emco_android.service.GPSTracker;
+import com.daemon.emco_android.utils.BarcodeCaptureActivity;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewDataAdapter;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewItem;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintRespondService;
@@ -88,6 +90,7 @@ import java.util.List;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_PPM_FINDING;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_FEEDBACK;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_MATERIALREQUIRED;
@@ -118,7 +121,6 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
     private final int THUMBNAIL_SIZE = 75;
     boolean asyncRunning=false;
     private ImageLoader imageLoader;
-    private String mNetworkInfo = null;
     private ReceiveComplaintRespondService receiveComplaintRespond_service;
     private Button btn_save;
     private int imageCount=0;
@@ -134,7 +136,7 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick");
+
                     AppUtils.closeInput(cl_main);
                     switch (v.getId()) {
                         case R.id.btn_feedback:
@@ -225,7 +227,7 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             btn_next = (Button) rootView.findViewById(R.id.btn_feedback);
@@ -285,18 +287,14 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
 
         AppUtils.closeInput(cl_main);
 
-
         tv_header.setText(ppmScheduleDocBy.getPpmNo()+" - "+ppmScheduleDocBy.getLocation());
 
-
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
+        if (checkInternet(getContext())) {
             if (mImageToBeAttachedDefectFound == null) {
-                if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+                if (checkInternet(getContext())) {
                     // Download defect found image
                     RCDownloadImageRequest imageRequest = new RCDownloadImageRequest();
                     imageRequest.setOpco(ppmScheduleDocBy.getCompanyCode());
@@ -418,9 +416,8 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
                     }
                 });
         builder.show();
-        // }
-    }
 
+    }
 
     private void noImageAvailabe(int count,String base64) {
         AppUtils.showProgressDialog(
@@ -520,13 +517,9 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
 
             @Override
             protected RCDownloadImage doInBackground(Void... params) {
-                // your async action
-
-                // new RCDownloadImage(AppUtils.getEncodedString(mImageToBeAttachedDefectFound), "B");
 
                 ArrayList<String> images=new ArrayList<>();
                 images.add(base64);
-
                 return  new RCDownloadImage(images, "A",0);
             }
 
@@ -785,9 +778,9 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
 
     private void postImageToServer(DFoundWDoneImageEntity saveRequest) {
         Log.d(TAG, "postImageToServer");
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+        if (checkInternet(getContext())) {
+            if (checkInternet(getContext())) {
                 receiveComplaintRespond_service.saveComplaintRespondImageData1(saveRequest, getActivity());
             } else {
                 new DefectDoneImageDbInitializer(mActivity, saveRequest, this)
@@ -851,6 +844,12 @@ public class Fragment_PM_afterppm extends Fragment implements ImagePickListener,
     @Override
     public void onImageSaveReceivedSuccess1(RCDownloadImage imageEntity, int mode) {
         processImage(imageEntity,true);
+
+        EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+        emp.setCompCode(ppmScheduleDocBy.getCompanyCode());
+        emp.setTransType("PPM");
+        emp.setRefNo(ppmScheduleDocBy.getPpmNo());
+        new GPSTracker(getContext()).updateFusedLocation(emp);
     }
 
     @Override

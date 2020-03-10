@@ -50,6 +50,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+
 public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsService.Listener,
         SearchView.OnQueryTextListener,SearchComplaintPreventiveListener
 ,MenuItem.OnMenuItemClickListener{
@@ -273,9 +275,7 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
     TAG = "saveReceiveComplaintCCformService";
     Log.d(MODULE, TAG);
     try {
-      if (mPreferences
-          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-          .contains(AppUtils.NETWORK_AVAILABLE)) {
+      if (checkInternet(getContext())) {
         AppUtils.showProgressDialog(mActivity, getString(R.string.re_assigning_to_cc), false);
         new PPMDetailsService(mActivity, this).postppmCCCData(data_ccc_requrest);
       } else showEmptyView(getString(R.string.lbl_alert_network_not_available));
@@ -323,7 +323,7 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
                 if (total > 0)
                   if ((total - 1) == lastVisibleItemCount){
 
-                    Log.i("status","Load more");
+                    Log.d("status","Load more");
 
                     if(!searchEnabled){
 
@@ -394,9 +394,7 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
         if (adapter != null) adapter.notifyDataSetChanged();
         showLoadingReceiveComplaint();
       }
-      if (mPreferences
-          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-          .contains(AppUtils.NETWORK_AVAILABLE)) {
+      if (checkInternet(getContext())) {
         Log.d(MODULE, "getReceivecomplaintListFromServer");
         isLoading = true;
 
@@ -414,7 +412,7 @@ public class Fragment_PM_PPMDetails_List extends Fragment implements PPMDetailsS
 
   public void setReceivecomplaintList() {
     TAG = "setPpeNameList";
-    Log.w(MODULE, TAG);
+    Log.d(MODULE, TAG);
     try {
       if (mList != null && mList.size() > 0) {
         Log.w(MODULE, TAG + " mList : " + mList.size());

@@ -46,6 +46,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_VIEW;
 
 /**
@@ -257,7 +258,7 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
     private void saveReceiveComplaintCCformService(List<ReceiveComplainCCRequest> data_ccc_requrest) {
         Log.d(TAG, "saveReceiveComplaintCCformService");
         try {
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.re_assigning_to_cc), false);
                 new ReceiveComplaintListService(mActivity, this).PostReceiveComplaintCCData(data_ccc_requrest);
             } else showEmptyView(getString(R.string.lbl_alert_network_not_available));
@@ -326,7 +327,7 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
                 if (adapter != null) adapter.notifyDataSetChanged();
                 showLoadingReceiveComplaint();
             }
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 isLoading = true;
               //  new ReceiveComplaintListService(mActivity, this).GetReceiveComplaintListData(mStrEmpId, ARGS_RCLIST_F ? "F" : "A", startIndex , mUnSignedPage);
                 new HardSoftService(mActivity, this,null)

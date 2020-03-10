@@ -45,6 +45,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.AppUtils.showProgressDialog;
 
 public class Fragment_PPMDetails_List extends Fragment
@@ -108,8 +109,6 @@ public class Fragment_PPMDetails_List extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            TAG = "onCreate";
-            Log.d(MODULE, TAG);
             mActivity = (AppCompatActivity) getActivity();
             setHasOptionsMenu(true);
             setRetainInstance(false);
@@ -121,31 +120,35 @@ public class Fragment_PPMDetails_List extends Fragment
                     .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
             mLoginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+
             if (mLoginData != null) {
                 Gson gson = new Gson();
                 Login login = gson.fromJson(mLoginData, Login.class);
                 mStrEmpId = login.getEmployeeId();
             }
+
             if (mArgs != null && mArgs.size() > 0) {
+
                 fetchRequest = new FetchPpmScheduleDetailsRequest();
                 ppmDetails = mArgs.getParcelable(AppUtils.ARGS_PPMDetails_List);
                 fetchRequest.setCompCode(ppmDetails.getCompCode());
                 fetchRequest.setContractNo(ppmDetails.getContractNo());
                 fetchRequest.setWorkOrderNo(ppmDetails.getWorkOrderNo());
                 getReceiveComplainFromService(mCurrentnoOfRows);
+
             }
 
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             ex.printStackTrace();
         }
+
     }
 
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_ppmsdetails_list, container, false);
-        TAG = "onCreateView";
-        Log.d(MODULE, TAG);
         initView(rootView);
         setProperties();
         setupActionBar();
@@ -153,8 +156,6 @@ public class Fragment_PPMDetails_List extends Fragment
     }
 
     public void initView(View view) {
-        TAG = "initView";
-        Log.d(MODULE, TAG);
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -164,16 +165,13 @@ public class Fragment_PPMDetails_List extends Fragment
             tv_proposed_start_date = (TextView) view.findViewById(R.id.tv_start_date);
             tv_proposed_end_date = (TextView) view.findViewById(R.id.tv_end_date);
             tv_status = (TextView) view.findViewById(R.id.tv_status);
-
             text_view_loading_message = (TextView) view.findViewById(R.id.text_view_message);
             layout_loading_message = (LinearLayout) view.findViewById(R.id.layout_loading);
-
             layout_loading = (LinearLayout) view.findViewById(R.id.layout_loading);
             layout_empty = (RelativeLayout) view.findViewById(R.id.layout_empty);
             footer_container = (RelativeLayout) view.findViewById(R.id.footer_container);
             text_view_empty = (TextView) view.findViewById(R.id.text_view_empty);
             text_view_message = (TextView) view.findViewById(R.id.text_view_message);
-
             btn_custmsign = (Button) view.findViewById(R.id.btn_custmsign);
             if (mList != null && mList.isEmpty()) {
                 showLoadingReceiveComplaint();
@@ -200,8 +198,6 @@ public class Fragment_PPMDetails_List extends Fragment
     }
 
     public void setProperties() {
-        TAG = "setProperties";
-        Log.d(MODULE, TAG);
         try {
             setManager();
             tv_building.setTypeface(font.getHelveticaRegular());
@@ -212,9 +208,7 @@ public class Fragment_PPMDetails_List extends Fragment
             text_view_empty.setTypeface(font.getHelveticaRegular());
             text_view_message.setTypeface(font.getHelveticaRegular());
             btn_custmsign.setTypeface(font.getHelveticaRegular());
-
             text_view_loading_message.setTypeface(font.getHelveticaRegular());
-
             btn_custmsign.setOnClickListener(_OnClickListener);
 
             recyclerView.addOnScrollListener(
@@ -259,8 +253,6 @@ public class Fragment_PPMDetails_List extends Fragment
     }
 
     public void setManager() {
-        TAG = "setManager";
-        Log.d(MODULE, TAG);
         try {
             mLayoutManager = new LinearLayoutManager(mActivity);
             recyclerView.setLayoutManager(mLayoutManager);
@@ -270,8 +262,6 @@ public class Fragment_PPMDetails_List extends Fragment
     }
 
     public void getReceiveComplainFromService(int startIndex) {
-        TAG = "getReceiveComplainFromService";
-        Log.d(MODULE, TAG);
         try {
             if (mCurrentnoOfRows == 0) {
                 mList.clear();
@@ -279,10 +269,7 @@ public class Fragment_PPMDetails_List extends Fragment
                 if (adapter != null) adapter.notifyDataSetChanged();
                 showLoadingReceiveComplaint();
             }
-            if (mPreferences
-                    .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-                    .contains(AppUtils.NETWORK_AVAILABLE)) {
-                Log.d(MODULE, "getReceivecomplaintListFromServer");
+            if (checkInternet(getContext())) {
                 isLoading = true;
                 new PPMScheduleDetailsService(mActivity, this).getppmListData(startIndex, fetchRequest);
             } else showEmptyView(getString(R.string.lbl_alert_network_not_available));
@@ -292,8 +279,6 @@ public class Fragment_PPMDetails_List extends Fragment
     }
 
     public void setReceivecomplaintList() {
-        TAG = "setPpeNameList";
-        Log.w(MODULE, TAG);
         try {
             if (mList != null && mList.size() > 0) {
                 Log.w(MODULE, TAG + " mList : " + mList.size());
@@ -310,6 +295,7 @@ public class Fragment_PPMDetails_List extends Fragment
             ex.printStackTrace();
         }
     }
+
 
     public void showList() {
         if (btn_custmsign != null) btn_custmsign.setVisibility(View.VISIBLE);
@@ -431,7 +417,7 @@ public class Fragment_PPMDetails_List extends Fragment
             mSavedInstanceState = getSavedState();
             Bundle mdata = new Bundle();
             mdata.putParcelable(AppUtils.ARGS_PPMSCHEDULEDOCBYREQUEST, ppmScheduleDocByRequest);
-            Fragment_PM_PPMDetails_View fragment = new Fragment_PM_PPMDetails_View();
+            Fragment_BeforePPM fragment = new Fragment_BeforePPM();
             fragment.setArguments(mdata);
             FragmentManager fragmentManager = mActivity.getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

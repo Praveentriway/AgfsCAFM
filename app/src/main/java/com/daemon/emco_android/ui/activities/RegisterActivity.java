@@ -28,26 +28,14 @@ import java.lang.reflect.Field;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.daemon.emco_android.ui.activities.LoginActivity.IP_ADDRESS;
+import static com.daemon.emco_android.ui.activities.LoginActivity.MBM;
+
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private Font font = App.getInstance().getFontInstance();
-    private boolean isReceiver = false;
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!ConnectivityStatus.isConnected(RegisterActivity.this)) {
-                Log.d(TAG, "not connected");
-                mEditor.putString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE);
-                mEditor.commit();
-            } else {
-                Log.d(TAG, "connected");
-                mEditor.putString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_AVAILABLE);
-                mEditor.commit();
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             } else loadFragment();
 
-            registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
             setupActionbar();
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,25 +62,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Log.d(TAG, "onResume");
-        try {
-            // only one time register connectivity register
-            if (isReceiver) {
-                registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-            } else isReceiver = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         super.onResume();
     }
 
     protected void onPause() {
-        Log.d(TAG, "onPause");
-        try {
-            if (receiver != null) unregisterReceiver(receiver);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         super.onPause();
     }
 
@@ -102,7 +76,9 @@ public class RegisterActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.app_name);
         final ImageView imageInToolbar = (ImageView) toolbar.findViewById(R.id.img_toolbar);
         setSupportActionBar(toolbar);
-        if(SessionManager.getSessionForURL("ip_address",this) !=null && (!SessionManager.getSessionForURL("ip_address",this).trim().isEmpty())  &&  (SessionManager.getSessionForURL("ip_address",this).contains("mbm"))){
+        if(SessionManager.getSessionForURL(IP_ADDRESS,this) !=null
+                && (!SessionManager.getSessionForURL(IP_ADDRESS,this).trim().isEmpty())
+                &&  (SessionManager.getSessionForURL(IP_ADDRESS,this).contains(MBM))){
             imageInToolbar.setImageDrawable(ContextCompat.getDrawable(RegisterActivity.this, R.drawable.logo_mbm_png));
         }
         else{
@@ -123,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void loadFragment() {
-        Log.d(TAG, "loadFragment");
+
         // update the main content by replacing fragments
         Fragment fragment = new UserRegisteration();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

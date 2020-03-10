@@ -28,8 +28,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.repository.remote.CustomerSurveyRepository;
 import com.daemon.emco_android.repository.db.entity.SurveyTransaction;
@@ -38,6 +36,7 @@ import com.daemon.emco_android.utils.AppUtils;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 import static com.daemon.emco_android.utils.AppUtils.ARGS_SUGESSTIONFLAG;
 import static com.daemon.emco_android.utils.AppUtils.ARGS_SURVEYTRANS;
+import static com.daemon.emco_android.utils.AppUtils.showErrorToast;
 import static com.github.florent37.expectanim.core.Expectations.atItsOriginalPosition;
 import static com.github.florent37.expectanim.core.Expectations.invisible;
 import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
@@ -179,11 +178,12 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
     }
 
     public  void saveSurvey(){
-       if(tie_suggestion.getText().toString().equalsIgnoreCase("") && suggestionFlag ){
-           Toast.makeText(mActivity,"Suggestion should not be empty.",Toast.LENGTH_SHORT).show();
+       if(tie_suggestion.getText().toString().isEmpty() && suggestionFlag ){
+
+           showErrorToast(mActivity,"Suggestion should not be empty.");
        }
        else if(signaturePad.isEmpty()){
-           Toast.makeText(mActivity,"Customer Signature should not be empty.",Toast.LENGTH_SHORT).show();
+           showErrorToast(mActivity,"Customer Signature should not be empty.");
        }
        else{
            AppUtils.showProgressDialog(mActivity,"Loading...",true);
@@ -199,7 +199,6 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
 
    public void onSuccessSaveSurvey(String strMsg, int mode){
        AppUtils.hideProgressDialog();
-//       Toast.makeText(mActivity,"Survey saved successfully.",Toast.LENGTH_SHORT).show();
        homebtnEnabled=true;
        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
        cardSignature.setVisibility(View.GONE);
@@ -219,7 +218,7 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
 
     public void onFailureSaveSurvey(String strErr, int mode){
        AppUtils.hideProgressDialog();
-       Toast.makeText(mActivity,strErr,Toast.LENGTH_SHORT).show();
+        showErrorToast(mActivity,strErr);
     }
 
     public void navigatehome(){

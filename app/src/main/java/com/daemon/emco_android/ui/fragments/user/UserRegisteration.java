@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.daemon.emco_android.ui.base.BaseFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.fragment.app.Fragment;
@@ -49,6 +51,7 @@ import com.daemon.emco_android.utils.Utils;
 
 import java.lang.reflect.Field;
 
+import static com.daemon.emco_android.ui.activities.LoginActivity.IP_ADDRESS;
 import static com.daemon.emco_android.utils.AppUtils.serverurls;
 import static com.daemon.emco_android.utils.AppUtils.showProgressDialog;
 
@@ -56,7 +59,7 @@ import static com.daemon.emco_android.utils.AppUtils.showProgressDialog;
  * Created by vikram on 14/7/17.
  */
 
-public class UserRegisteration extends Fragment implements View.OnClickListener, UserListener,URLListener {
+public class UserRegisteration extends BaseFragment implements View.OnClickListener, UserListener,URLListener {
     private static final String TAG = UserRegisteration.class.getSimpleName();
     private AppCompatActivity mActivity;
     private SharedPreferences mPreferences;
@@ -71,7 +74,7 @@ public class UserRegisteration extends Fragment implements View.OnClickListener,
             tie_property_des, tie_building_name, tie_location_details;
     private TextView tv_lbl_fname, tv_lbl_lname, tv_lbl_telno, tv_lbl_mobile_no, tv_lbl_email,
             tv_lbl_property_des, tv_lbl_building_name, tv_lbl_location_details,tv_toolbar_title,tv_serverurl;
-    private TextView tv_forgot_password, tv_login;
+    private TextView  tv_login;
     private Button btn_Login;
     private Fragment mFragment = null;
     private View rootView;
@@ -107,7 +110,7 @@ public class UserRegisteration extends Fragment implements View.OnClickListener,
 
         rootView = inflater.inflate(R.layout.fragment_reg, container, false);
         initView();
-        setUpActionBar();
+        setupToolBarOnly(mActivity,getString(R.string.lbl_reg));
         setProperties();
         AppUtils.closeInput(cl_main);
 
@@ -140,7 +143,6 @@ public class UserRegisteration extends Fragment implements View.OnClickListener,
             tie_location_details = (TextInputEditText) rootView.findViewById(R.id.tie_location_details);
 
             tv_login = (TextView) rootView.findViewById(R.id.tv_login);
-            tv_forgot_password = (TextView) rootView.findViewById(R.id.tv_forgot_password);
 
             tv_lbl_fname = (TextView) rootView.findViewById(R.id.tv_lbl_name);
             tv_lbl_lname = (TextView) rootView.findViewById(R.id.tv_lbl_lname);
@@ -222,38 +224,6 @@ public class UserRegisteration extends Fragment implements View.OnClickListener,
         builder.show();
     }
 
-    public void setUpActionBar() {
-        Log.d(TAG, "setActionBar");
-
-        try {
-            mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
-            mToolbar.setVisibility(View.VISIBLE);
-            mActivity.setSupportActionBar(mToolbar);
-            tv_toolbar_title=(TextView)mToolbar.findViewById(R.id.tv_toolbar_title);
-            tv_toolbar_title.setText(getString(R.string.lbl_reg));
-            LinearLayout linear_toolbar =(LinearLayout) mToolbar.findViewById(R.id.linear_profile) ;
-            linear_toolbar.setVisibility(View.GONE);
-
-           // mActivity.getSupportActionBar().setTitle(getString(R.string.lbl_reg));
-            mActivity.getSupportActionBar().setHomeAsUpIndicator(null);
-            mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-            TextView titleTextView = null;
-            try {
-                Field f = mToolbar.getClass().getDeclaredField("mTitleTextView");
-                f.setAccessible(true);
-                titleTextView = (TextView) f.get(mToolbar);
-                titleTextView.setTypeface(font.getHelveticaRegular());
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     @Override
     public void onClick(View view) {
@@ -274,6 +244,7 @@ public class UserRegisteration extends Fragment implements View.OnClickListener,
     }
 
     public void validateUrlfromapi() {
+
         AppUtils.closeInput(cl_main);
         validateFname();
         validateLname();
@@ -349,7 +320,6 @@ public class UserRegisteration extends Fragment implements View.OnClickListener,
         btn_Login.setTypeface(font.getHelveticaRegular());
 
         btn_Login.setOnClickListener(this);
-        tv_forgot_password.setOnClickListener(this);
 
         tie_fname.addTextChangedListener(new UserRegisteration.MyTextWatcher(tie_fname));
         tie_lname.addTextChangedListener(new UserRegisteration.MyTextWatcher(tie_lname));
@@ -361,9 +331,9 @@ public class UserRegisteration extends Fragment implements View.OnClickListener,
         tie_location_details.addTextChangedListener(new UserRegisteration.MyTextWatcher(tie_location_details));
 
 
-        if(SessionManager.getSession("ip_address",getContext()) !=null || (!SessionManager.getSession("ip_address",getContext()).trim().isEmpty())){
+        if(SessionManager.getSession(IP_ADDRESS,getContext()) !=null || (!SessionManager.getSession(IP_ADDRESS,getContext()).trim().isEmpty())){
 
-            tie_serverurl.setText(SessionManager.getSessionForURL("ip_address",getContext()));
+            tie_serverurl.setText(SessionManager.getSessionForURL(IP_ADDRESS,getContext()));
 
         }
 

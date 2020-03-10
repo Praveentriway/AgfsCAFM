@@ -79,6 +79,8 @@ import java.util.TimerTask;
 
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.daemon.emco_android.ui.activities.LoginActivity.IP_ADDRESS;
+import static com.daemon.emco_android.ui.activities.LoginActivity.MBM;
 import static com.daemon.emco_android.utils.AppUtils.ARGS_SURVEYTYPE;
 import static com.daemon.emco_android.utils.AppUtils.MODE_REMOTE;
 import static com.daemon.emco_android.utils.AppUtils.getGreeting;
@@ -325,7 +327,7 @@ public class MainLandingUI extends Fragment implements View.OnClickListener, Use
         tv_user_name = (TextView) mToolbar.findViewById(R.id.tv_user_name);
         profile_action = (ImageView) mToolbar.findViewById(R.id.profile_action);
 
-        if (SessionManager.getSessionForURL("ip_address", mActivity) != null && (!SessionManager.getSessionForURL("ip_address", mActivity).trim().isEmpty()) && (SessionManager.getSessionForURL("ip_address", mActivity).contains("mbm"))) {
+        if (SessionManager.getSessionForURL(IP_ADDRESS, mActivity) != null && (!SessionManager.getSessionForURL("ip_address", mActivity).trim().isEmpty()) && (SessionManager.getSessionForURL("ip_address", mActivity).contains("mbm"))) {
             tv_toolbar_title.setText(getString(R.string.app_name_mbm));
 
         } else {
@@ -544,7 +546,7 @@ public class MainLandingUI extends Fragment implements View.OnClickListener, Use
 
     public void showSurvey() {
         int icon = R.drawable.logo_new;
-        if (SessionManager.getSessionForURL("ip_address", mActivity) != null && (!SessionManager.getSessionForURL("ip_address", mActivity).trim().isEmpty()) && (SessionManager.getSessionForURL("ip_address", mActivity).contains("mbm"))) {
+        if (SessionManager.getSessionForURL(IP_ADDRESS, mActivity) != null && (!SessionManager.getSessionForURL(IP_ADDRESS, mActivity).trim().isEmpty()) && (SessionManager.getSessionForURL(IP_ADDRESS, mActivity).contains(MBM))) {
             icon = R.drawable.logo_mbm_png_no_bg_white;
         }
 

@@ -2,9 +2,11 @@ package com.daemon.emco_android.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -14,6 +16,8 @@ import androidx.annotation.NonNull;
 
 import com.daemon.emco_android.BuildConfig;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.location.LocationManager;
@@ -23,10 +27,14 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,25 +66,19 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** Created by subbu on 7/7/17. */
+import es.dmoral.toasty.Toasty;
+
+/** Created by praba on 7/9/19. */
+
 public class AppUtils extends Dialog {
 
   public static final int TIMEOUT = 90000;
-
-  public static final int TRACKINGTIME = 20000;
 
   public static final int TIMEOUT_NEW = 21600000;
 
   public static GifLoadingView mGifLoadingView;
 
-  // list of Domain URL
-   // public static CharSequence[] serverurls = { "my.agfacilities.com:8585","cafm.agfacilities.com","cafm.mbm.ae","10.111.111.41:8080", "10.111.111.37:8585","10.112.112.106:8080"};
-
-
   public static CharSequence[] serverurls= BuildConfig.URL_ARRAY;
-  // public static CharSequence[] serverurls = { "my.agfacilities.com:8585","cafm.agfacilities.com","cafm.mbm.ae"};
-
-    // 21600000pref
 
   // Room database variables
   public static final String EMCO_DATABASE = "emco_database";
@@ -116,11 +118,8 @@ public class AppUtils extends Dialog {
   public static final String CLOSEWITHSIGN = "Close With Signature";
   public static final String CLOSEWITHOUTSIGN = "Close Without Signature";
 
-
   public static final int MODE_REMOTE = 1000;
   public static final int MODE_OFFLINE = 1010;
-
-
 
   // Reactive maintenance dashboard pie data
   public static final String ARGS_REACTIVE_MAINTENANCE_DASHBOARD_DATA =
@@ -293,9 +292,17 @@ public class AppUtils extends Dialog {
               .show();
   }
 
-  public static  void showToast(Activity mact, String msg){
 
+  public static  void showToast(Activity mact, String msg){
     Toast.makeText(mact,msg,Toast.LENGTH_SHORT).show();
+  }
+
+  public static  void showErrorToast(Activity mact, String msg){
+    Toasty.error(mact, msg, Toast.LENGTH_SHORT, true).show();
+  }
+
+  public static  void showSuccessToast(Activity mact, String msg){
+    Toasty.success(mact, msg, Toast.LENGTH_SHORT, true).show();
   }
 
 
@@ -307,23 +314,40 @@ public class AppUtils extends Dialog {
       mGifLoadingView.setBlurredActionBar(true);
       mGifLoadingView.setDimming(true);
       mGifLoadingView.setRadius(1);
-      mGifLoadingView.setDownScaleFactor( 2.0f);
-    //  mGifLoadingView.setImageResource(R.drawable.gear);
+      mGifLoadingView.setDownScaleFactor(2.0f);
       mGifLoadingView.setImageResource(R.drawable.gear);
       mGifLoadingView.show(mActivity.getFragmentManager());
 
-//      progressDialog =
-//          new MaterialDialog.Builder(mActivity)
-//              .title(Str_Msg)
-//              .progress(true, 0)
-//              .cancelable(setCancelable)
-//              .progressIndeterminateStyle(true)
-//              .show();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
+
+  public static void showDialogToFinish(final Activity activity, String strTitle, String StrMsg) {
+    try {
+      MaterialDialog.Builder builder =
+              new MaterialDialog.Builder(activity)
+                      .content(StrMsg)
+                      .title(strTitle)
+                      .positiveText(R.string.lbl_okay)
+                      .stackingBehavior(StackingBehavior.ADAPTIVE)
+                      .onPositive(
+                              new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(
+                                        @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                  dialog.dismiss();
+                                  activity.onBackPressed();
+                                }
+                              });
+
+      MaterialDialog dialog = builder.build();
+      dialog.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   public static void showProgressDialog2(
           AppCompatActivity mActivity, String Str_Msg, boolean setCancelable) {
@@ -338,31 +362,30 @@ public class AppUtils extends Dialog {
       mGifLoadingView.setImageResource(R.drawable.searchgif);
       mGifLoadingView.show(mActivity.getFragmentManager());
 
-//      progressDialog =
-//          new MaterialDialog.Builder(mActivity)
-//              .title(Str_Msg)
-//              .progress(true, 0)
-//              .cancelable(setCancelable)
-//              .progressIndeterminateStyle(true)
-//              .show();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
 
+  public boolean isMyServiceRunning(Class<?> serviceClass, Activity mActivity) {
+    ActivityManager manager = (ActivityManager) mActivity.getSystemService(Context.ACTIVITY_SERVICE);
+    if (manager != null) {
+      for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+        if (serviceClass.getName().equals(service.service.getClassName())) {
+          Log.i ("isMyServiceRunning?", true+"");
+          return true;
+        }
+      }
+    }
+    Log.i ("isMyServiceRunning?", false+"");
+    return false;
+  }
+
 
   public static void showProgressDialog(
       AppCompatActivity mActivity, String Str_Title, String Str_Msg, boolean setCancelable) {
     try {
-//      progressDialog =
-//          new MaterialDialog.Builder(mActivity)
-//              .title(Str_Title)
-//              .content(Str_Msg)
-//              .progress(true, 0)
-//              .cancelable(setCancelable)
-//              .progressIndeterminateStyle(true)
-//              .show();
 
       mGifLoadingView = new GifLoadingView();
       mGifLoadingView.setBlurredActionBar(true);
@@ -383,11 +406,6 @@ public class AppUtils extends Dialog {
 
       mGifLoadingView.dismiss();
 
-//      if (progressDialog == null) {
-//      } else {
-//        progressDialog.hide();
-//        progressDialog.dismiss();
-//      }
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -434,29 +452,9 @@ public class AppUtils extends Dialog {
   }
 
   // time zone formate "yyyy-MM-dd'T'HH:mm:ss.ZZZZ"
-  public static String getDateTimeChange(String inputString) {
-    String outputString = inputString;
-    DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
-    Date date = null;
-    try {
-      date = inputFormat.parse(inputString);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    // Format date into output format
-    DateFormat outputFormat = new SimpleDateFormat("dd-MMM-yyyy");
-    outputString = outputFormat.format(date);
-    return outputString;
-  }
-
-  // time zone formate "yyyy-MM-dd'T'HH:mm:ss.ZZZZ"
   public static String getDateTime(String inputString) {
     String outputString = inputString;
     try {
-      // Convert input string into a date
-      /*DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
-      Date date = inputFormat.parse(inputString);*/
 
       DateFormat inputFormat = new SimpleDateFormat("dd-MMM-yyyy");
       Date date = inputFormat.parse(inputString);
@@ -509,63 +507,6 @@ public class AppUtils extends Dialog {
     return new Gson().fromJson(jsonString, type);
   }
 
-  public static boolean IsFileExist(File dir, File file) {
-    TAG = "IsFileExist";
-    Log.d(MODULE, TAG);
-
-    boolean RetValue = false;
-    File[] Files_Array = dir.listFiles();
-    if (Files_Array != null) {
-      if (Files_Array.length > 0) {
-        for (int i = 0; i < Files_Array.length; i++) {
-          if (file.equals(Files_Array[i])) {
-            RetValue = true;
-          }
-        }
-      }
-    }
-    return RetValue;
-  }
-
-  public static void saveImage(Bitmap photo, AppCompatActivity mActivity, String Str_Name) {
-    File sdIconStorageDir = new File(getProfilePicturePath(mActivity));
-    sdIconStorageDir.mkdirs();
-    try {
-      String filePath = sdIconStorageDir.toString() + "/" + Str_Name + ".png";
-      FileOutputStream fileOutputStream = new FileOutputStream(filePath);
-      BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
-      photo.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-      bos.flush();
-      bos.close();
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-      Log.d("TAG", "Error saving image file: " + e.getMessage());
-    } catch (IOException e) {
-      e.printStackTrace();
-      Log.d("TAG", "Error saving image file: " + e.getMessage());
-    }
-  }
-
-  public static String getProfilePicturePath(Context context) {
-    String profilePicturePath = AppUtils.PHOTO_ALBUM;
-    return profilePicturePath;
-  }
-
-  public static Bitmap getScaledBitmap(Bitmap bitmap, int newWidth, int newHeight) {
-    int width = bitmap.getWidth();
-    int height = bitmap.getHeight();
-    float scaleWidth = ((float) newWidth) / width;
-    float scaleHeight = ((float) newHeight) / height;
-
-    // CREATE A MATRIX FOR THE MANIPULATION
-    Matrix matrix = new Matrix();
-    // RESIZE THE BIT MAP
-    matrix.postScale(scaleWidth, scaleHeight);
-
-    // RECREATE THE NEW BITMAP
-    Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
-    return resizedBitmap;
-  }
 
   public static void datePickerDialog(
       AppCompatActivity mActivity, DatePickerDialogListener listener, Date minDate, Date maxDate) {
@@ -596,34 +537,6 @@ public class AppUtils extends Dialog {
     datePickerDialog.show();
   }
 
-  public static void datePickerDialogNew(
-      AppCompatActivity mActivity, DatePickerDialogListener listener, Date minDate, Date maxDate) {
-    mCallback = listener;
-    /*  final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss",
-    Locale.getDefault());*/
-    final SimpleDateFormat simpleDateFormat =
-        new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-
-    DatePickerDialog datePickerDialog =
-        new DatePickerDialog(
-            mActivity,
-            new DatePickerDialog.OnDateSetListener() {
-
-              public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                strDate = (simpleDateFormat.format(newDate.getTime()));
-                Log.d(TAG, "datePickerDialog " + strDate);
-                mCallback.onDateReceivedSuccess(strDate);
-              }
-            },
-            newCalendar.get(Calendar.YEAR),
-            newCalendar.get(Calendar.MONTH),
-            newCalendar.get(Calendar.DAY_OF_MONTH));
-    if (minDate != null) datePickerDialog.getDatePicker().setMinDate(minDate.getTime());
-    if (maxDate != null) datePickerDialog.getDatePicker().setMaxDate(maxDate.getTime());
-    datePickerDialog.show();
-  }
 
   public static DisplayImageOptions getOptions() {
     DisplayImageOptions options =
@@ -718,12 +631,7 @@ public class AppUtils extends Dialog {
       scaled.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
       byte[] byteArray = byteArrayOutputStream.toByteArray();
       String Str_Encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-//      String resize = resizeBase64Image(Str_Encoded);
-//      if (resize.length() > 13000) {
-//        resize = resizeBase64ImageChange(Str_Encoded);
-//      }
-      // TAG = "getEncodedString size" + Str_Encoded.length();
-      // System.out.println(resize.length()+"aaaaaaaaas"+Str_Encoded.length());
+
       Log.w(MODULE, TAG);
       return Str_Encoded;
     } catch (Exception ex) {
@@ -774,40 +682,6 @@ public class AppUtils extends Dialog {
       return null;
     }
   }
-
-  /*public static String convertToJson(List<Response> listLanguages)
-  {
-      Log.d(TAG,"convertToJson");
-      Gson gson = new GsonBuilder().create();
-      JsonArray languageArray = gson.toJsonTree(listLanguages).getAsJsonArray();
-
-      Log.d(TAG,"response json array :"+ languageArray.toString());
-      return languageArray.toString();
-  }
-
-  //conversion of json string to language list
-  public static List<Response> convertJsonToResponseList(String jsonArray)
-  {
-      Log.d(TAG,"convertJsonToResponseList");
-
-      Type listType = new TypeToken<List<Response>>() {}.getType();
-      List<Response> listResponseLanguages = new Gson().fromJson(jsonArray.toString(), listType);
-
-      //Log.d(TAG,"response collection array :"+ listResponseLanguages.get(0).getCategory());
-      Log.d(TAG,"converting");
-      return listResponseLanguages;
-  }
-
-  //conversion of json string to language list
-  public static List<Languages> convertJsonToList(String jsonArray)
-  {
-      Log.d(TAG,"convertJsonToList");
-
-      Type listType = new TypeToken<List<Languages>>() {}.getType();
-      List<Languages> listLanguages = new Gson().fromJson(jsonArray.toString(), listType);
-
-      return listLanguages;
-  }*/
 
   public static boolean checkEmptyTv(TextView tv) {
     try {
@@ -870,6 +744,20 @@ public class AppUtils extends Dialog {
     else{
       return "";
     }
+  }
+
+
+
+  public static boolean checkInternet(Context mContext) {
+    ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+    if((cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected())==false){
+
+      Toasty.info(mContext, mContext.getResources().getString(R.string.no_internet_msg), Toast.LENGTH_SHORT, true).show();
+
+    }
+    return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+
   }
 
 

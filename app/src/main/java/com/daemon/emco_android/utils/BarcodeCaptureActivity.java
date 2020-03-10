@@ -1,4 +1,4 @@
-package com.daemon.emco_android.ui.activities;
+package com.daemon.emco_android.utils;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

@@ -5,9 +5,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.daemon.emco_android.ui.adapter.CustomerFeedbackAdapter;
 import com.daemon.emco_android.utils.AnimateUtils;
-import com.github.florent37.expectanim.ExpectAnim;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,11 +15,9 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +27,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.repository.remote.CustomerSurveyRepository;
@@ -52,12 +47,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import static com.daemon.emco_android.utils.AppUtils.ARGS_SURVEYTYPE;
-import static com.github.florent37.expectanim.core.Expectations.atItsOriginalPosition;
-import static com.github.florent37.expectanim.core.Expectations.invisible;
-import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
-import static com.github.florent37.expectanim.core.Expectations.visible;
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+import static com.daemon.emco_android.utils.AppUtils.showErrorToast;
 
 
 public class SurveyHeader extends Fragment implements CustomerSurveyRepository.Listener, View.OnClickListener {
@@ -105,7 +97,9 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
             case R.id.tv_select_reference:{
 
                 if(customerCode.equalsIgnoreCase("")){
-                    Toast.makeText(mActivity, "Customer should not be empty.", Toast.LENGTH_SHORT).show();
+
+                    showErrorToast(mActivity,"Customer should not be empty.");
+
                 }
                 else{
                     new CustomerSurveyRepository(mActivity,this).getSurveyRefernce(customerCode);
@@ -120,7 +114,9 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                 }
                 else{
                     if(customerCode.equalsIgnoreCase("")){
-                        Toast.makeText(mActivity, "Customer should not be empty.", Toast.LENGTH_SHORT).show();
+
+                        showErrorToast(mActivity,"Customer should not be empty.");
+
                     }
                     else{
                         new CustomerSurveyRepository(mActivity,this).getSurveyContract(customerCode);
@@ -162,7 +158,9 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_customer_feed_back_header, container, false);
         setupActionBar();
+        setProps();
         setCacheVals();
+
         fab_next=(FloatingActionButton) view.findViewById(R.id.fab_next);
         fab_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +193,10 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                         mActivity.onBackPressed();
                     }
                 });
+
+    }
+
+    public void setProps(){
 
         layout_main=(LinearLayout) view.findViewById(R.id.layout_main);
         linear1=(CardView) layout_main.findViewById(R.id.linear1);
@@ -230,22 +232,26 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         tv_select_customer.setOnClickListener(this);
         tv_select_reference.setOnClickListener(this);
 
+        if (checkInternet(getContext())) {
 
-        if(type.equalsIgnoreCase("Tenant")){
-            layout_main.removeView(linear1);
-            layout_main.removeView(linear2);
-            layout_main.addView(linear2,0);
-            layout_main.addView(linear1,1);
-            linear1.setVisibility(View.GONE);
-            linear3.setVisibility(View.VISIBLE);
-            tv_lbl_contract_no.setText(Html.fromHtml("Contract No" + AppUtils.mandatory));
-            AppUtils.showProgressDialog2(mActivity,"Loading..",true);
-            new CustomerSurveyRepository(mActivity,this).getSurveyContract("");
+            if(type.equalsIgnoreCase("Tenant")){
+                layout_main.removeView(linear1);
+                layout_main.removeView(linear2);
+                layout_main.addView(linear2,0);
+                layout_main.addView(linear1,1);
+                linear1.setVisibility(View.GONE);
+                linear3.setVisibility(View.VISIBLE);
+                tv_lbl_contract_no.setText(Html.fromHtml("Contract No" + AppUtils.mandatory));
+                AppUtils.showProgressDialog2(mActivity,"Loading..",true);
+                new CustomerSurveyRepository(mActivity,this).getSurveyContract("");
+            }
+            else{
+                AppUtils.showProgressDialog2(mActivity,"Loading..",true);
+                new CustomerSurveyRepository(getContext(),this).getSurveyCustomer();
+            }
+
         }
-        else{
-            AppUtils.showProgressDialog2(mActivity,"Loading..",true);
-            new CustomerSurveyRepository(getContext(),this).getSurveyCustomer();
-        }
+
 
         final Handler handler = new Handler();
         Timer timer = new Timer(false);
@@ -300,7 +306,9 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
     }
 
     public void onReceiveFailureSurveyCustomer(String strErr, int mode){
-        Toast.makeText(mActivity,strErr,Toast.LENGTH_SHORT).show();
+
+        showErrorToast(mActivity,strErr);
+
     }
 
     public  void onReceiveSurveyContract(List<SurveyContract> contracts, int mode){
@@ -315,7 +323,7 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
     }
 
     public void onReceiveFailureSurveyContract(String strErr, int mode){
-        Toast.makeText(mActivity,strErr,Toast.LENGTH_SHORT).show();
+        showErrorToast(mActivity,strErr);
     }
 
     public void onReceiveSurveyRefernce(List<SurveyMaster> refernces, int mode){
@@ -324,7 +332,7 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
     }
 
     public void onReceiveFailureSurveyRefernce(String strErr, int mode){
-        Toast.makeText(mActivity,strErr,Toast.LENGTH_SHORT).show();
+        showErrorToast(mActivity,strErr);
     }
 
     public void onReceiveSurveyQuestionnaire(List<ServeyQuestionnaire> questions, int mode){
@@ -333,7 +341,7 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
     }
 
     public void onReceiveFailureSurveyQuestionnaire(String strErr, int mode){
-        Toast.makeText(mActivity,strErr,Toast.LENGTH_SHORT).show();
+        showErrorToast(mActivity,strErr);
     }
 
     public void onReceiveSurveyLocation(List<SurveyLocation> questions, int mode){
@@ -513,14 +521,11 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         }
     }
 
-
     public  void loadQuestions(){
         new CustomerSurveyRepository(mActivity,this).getSurveyQuestionnaire(surveyTransaction.getOpco(),customerCode,surveyTransaction.getSurveyReference(),surveyTransaction.getSurveyType());
     }
 
     public void proceed_questionnaire(){
-
-        //   new CustomerSurveyRepository(mActivity,this).getSurveyQuestionnaire("999","100046","CS000001");
 
         if(checkForEmpty()){
 
@@ -529,25 +534,29 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
             AppUtils.showProgressDialog2(mActivity,"Loading...",true);
             loadQuestions();
         }
+
     }
 
     public boolean checkForEmpty(){
 
         if(customerCode.equalsIgnoreCase("")){
-            Toast.makeText(mActivity,"Customer should not be empty",Toast.LENGTH_SHORT).show();
+
+            showErrorToast(mActivity,"Customer should not be empty");
             return true;
         }
 
         if(type.equalsIgnoreCase("Tenant")){
 
             if(contract.equalsIgnoreCase("")){
-                Toast.makeText(mActivity,"Contract No should not be empty",Toast.LENGTH_SHORT).show();
+
+                showErrorToast(mActivity,"Contract No should not be empty");
                 return true;
             }
         }
 
         if(reference.equalsIgnoreCase("")){
-            Toast.makeText(mActivity,"Survey Reference should not be empty",Toast.LENGTH_SHORT).show();
+
+            showErrorToast(mActivity,"Survey Reference should not be empty");
             return true;
         }
 
@@ -556,7 +565,7 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         if(type.equalsIgnoreCase("Tenant") ){
 
             if(AppUtils.checkEmptyEdt(tie_tenant_name)){
-                Toast.makeText(mActivity,"Tenant name should not be empty",Toast.LENGTH_SHORT).show();
+                showErrorToast(mActivity,"Tenant name should not be empty");
                 return true;
             }
             else{
@@ -565,7 +574,7 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         }
 
         if(AppUtils.checkEmptyEdt(tie_location_name)){
-            Toast.makeText(mActivity,"Location should not be empty",Toast.LENGTH_SHORT).show();
+            showErrorToast(mActivity,"Location should not be empty");
             return true;
         }
         else{
@@ -573,14 +582,17 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         }
 
         if(AppUtils.checkEmptyEdt(tie_client_name)){
-            Toast.makeText(mActivity,"Reviewer name should not be empty",Toast.LENGTH_SHORT).show();
+
+            showErrorToast(mActivity,"Reviewer name should not be empty");
             return true;
         }
         else{
             surveyTransaction.setClientName(tie_client_name.getText().toString());
         }
         if(AppUtils.checkEmptyEdt(tie_designation)){
-            Toast.makeText(mActivity,"Designation should not be empty",Toast.LENGTH_SHORT).show();
+
+            showErrorToast(mActivity,"Designation should not be empty");
+
             return true;
         }
         else{
@@ -589,12 +601,16 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
 
 
         if(AppUtils.checkEmptyEdt(tie_contact_no) ){
-            Toast.makeText(mActivity,"Contact should not be empty",Toast.LENGTH_SHORT).show();
+
+            showErrorToast(mActivity,"Contact should not be empty");
+
             return true;
         }
 
         else if(tie_contact_no.getText().toString().length()<5){
-            Toast.makeText(mActivity,"Please enter a valid Contact No.",Toast.LENGTH_SHORT).show();
+
+            showErrorToast(mActivity,"Please enter a valid Contact No.");
+
             return true;
         }
 
@@ -603,12 +619,14 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         }
 
         if(AppUtils.checkEmptyEdt(tie_email)){
-            Toast.makeText(mActivity,"Email id should not be empty",Toast.LENGTH_SHORT).show();
+
+            showErrorToast(mActivity,"Email id should not be empty");
             return true;
         }
 
         else if(!AppUtils.validateEmail(tie_email.getText().toString())){
-            Toast.makeText(mActivity,"Please enter a valid E-mail address.",Toast.LENGTH_SHORT).show();
+            showErrorToast(mActivity,"Please enter a valid E-mail address.");
+
             return true;
         }
 
@@ -621,21 +639,21 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
 
 
     public void setCacheVals(){
-        if(!customerName.equalsIgnoreCase("")){
+        if(!customerName.isEmpty()){
             tv_select_customer.setText(customerName);
         }
 
-        if(!contractNo.equalsIgnoreCase("")){
+        if(!contractNo.isEmpty()){
             tv_select_contract.setText(contractNo);
         }
 
-        if(!surveyReference.equalsIgnoreCase("")){
+        if(!surveyReference.isEmpty()){
             tv_select_reference.setText(surveyReference);
         }
     }
 
 
-    public void  clearTextOnCustomerChange(){
+    public void  clearTextOnCustomerChange() {
 
         tv_select_contract.setText("Select the Contract No");
         tv_select_reference.setText("Select the Survey ref");
@@ -645,22 +663,5 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         contractNo="";
 
     }
-
-
-    private void showDialog() {
-        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mActivity);
-        builder.setMessage("Please fill all the mandatory fields before going into the survey.").setTitle("Hello User,")
-                .setCancelable(false)
-                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-
-
-                    }
-                });
-        final android.app.AlertDialog alert = builder.create();
-        alert.show();
-    }
-
 
 }

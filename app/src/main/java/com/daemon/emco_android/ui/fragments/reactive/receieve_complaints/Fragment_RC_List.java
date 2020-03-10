@@ -1,6 +1,7 @@
 package com.daemon.emco_android.ui.fragments.reactive.receieve_complaints;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -66,6 +67,7 @@ import java.util.TimerTask;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_VIEW;
 
 /** Created by Daemonsoft on 7/18/2017. */
@@ -405,8 +407,7 @@ public class Fragment_RC_List extends Fragment
   }
 
   public void loadFragment(final Fragment fragment, final String tag) {
-    Log.d(TAG, "loadFragment");
-    // update the main content by replacing fragments
+
     FragmentTransaction fragmentTransaction =
             mActivity.getSupportFragmentManager().beginTransaction();
     fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
@@ -425,12 +426,7 @@ public class Fragment_RC_List extends Fragment
                 mUnSignedPage == AppUtils.ARGS_RECEIVECOMPLAINT_PAGE
                     ? R.string.lbl_receive_complaints
                     : R.string.lbl_pending_client_signature));
-    /*mToolbar.setTitle(
-    getResources()
-        .getString(
-            mUnSignedPage == AppUtils.ARGS_RECEIVECOMPLAINT_PAGE
-                ? R.string.lbl_receive_complaints
-                : R.string.lbl_pending_client_signature));*/
+
     mActivity.setSupportActionBar(mToolbar);
     mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -438,8 +434,6 @@ public class Fragment_RC_List extends Fragment
         new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-         //   mActivity.onBackPressed();
-
             mManager.popBackStack();
 
           }
@@ -449,9 +443,7 @@ public class Fragment_RC_List extends Fragment
   private void saveReceiveComplaintCCformService(List<ReceiveComplainCCRequest> data_ccc_requrest) {
     Log.d(TAG, "saveReceiveComplaintCCformService");
     try {
-      if (mPreferences
-          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-          .contains(AppUtils.NETWORK_AVAILABLE)) {
+      if (checkInternet(getContext())) {
         AppUtils.showProgressDialog(mActivity, getString(R.string.re_assigning_to_cc), false);
         receiveComplaintListService.PostReceiveComplaintCCData(data_ccc_requrest);
       } else showEmptyView(getString(R.string.lbl_alert_network_not_available));
@@ -461,26 +453,11 @@ public class Fragment_RC_List extends Fragment
   }
 
   public void setProperties() {
-    Log.d(TAG, "setProperties");
+
     try {
       setManager();
       searchView.setIconifiedByDefault(false);
       searchView.setOnQueryTextListener(this);
-
-      tv_complaint_no.setTypeface(font.getHelveticaRegular());
-      tv_time.setTypeface(font.getHelveticaRegular());
-      tv_work_type.setTypeface(font.getHelveticaRegular());
-      tv_priority.setTypeface(font.getHelveticaRegular());
-      tv_site_location.setTypeface(font.getHelveticaRegular());
-      tv_complaint_details.setTypeface(font.getHelveticaRegular());
-      tv_status.setTypeface(font.getHelveticaRegular());
-      tv_customer_ref.setTypeface(font.getHelveticaRegular());
-
-      text_view_empty.setTypeface(font.getHelveticaRegular());
-      text_view_message.setTypeface(font.getHelveticaRegular());
-   //   btn_reassign_ccc.setTypeface(font.getHelveticaRegular());
-
-      text_view_loading_message.setTypeface(font.getHelveticaRegular());
 
       adapter = new ReceivecomplaintListAdapter(mActivity, mList);
       adapter.setListener(this);
@@ -529,9 +506,7 @@ public class Fragment_RC_List extends Fragment
         if (adapter != null) adapter.notifyDataSetChanged();
         showLoadingReceiveComplaint();
       }
-      if (mPreferences
-          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-          .contains(AppUtils.NETWORK_AVAILABLE)) {
+      if (checkInternet(getContext())) {
         isLoading = true;
         receiveComplaintListService.GetReceiveComplaintListData(
             mStrEmpId, ARGS_RCLIST_C ? "C" : "A", startIndex, mUnSignedPage);
@@ -605,12 +580,8 @@ public class Fragment_RC_List extends Fragment
   @Override
   public void onReceiveComplaintListReceived(
       List<ReceiveComplaintItemEntity> receiveComplaintItemList, String noOfRows, int from) {
-    try {
 
-      /* if (receiveComplaintItemList != null) {
-        showMsg(noOfRows);
-        return;
-      }*/
+    try {
 
       Log.d(
           TAG, mCurrentnoOfRows + " onReceiveComplaintListReceived totalnoOfRows " + totalnoOfRows);
@@ -662,24 +633,21 @@ public class Fragment_RC_List extends Fragment
       int from) {
     if(!ARGS_RCLIST_C)
     showMsg(complaintStatusEntityne.getNewComplaint(), complaintStatusEntityne.getOldComplaint());
-    /* new ReceiveComplaintItemDbInitializer(mActivity, complaintStatusEntityne,this)
-    .execute(AppUtils.MODE_INSERT);*/
   }
 
   private void showMsg(String newcomplaint, String pendingComplaint) {
     Log.d(TAG, "showMsg " + newcomplaint);
     if (newcomplaint != null && pendingComplaint != null) {
-      int n1 = Integer.parseInt(newcomplaint);
-      int n2 = Integer.parseInt(pendingComplaint);
-      int addValues = n1 + n2;
       String StrMsg;
+      String title=
+              "Welcome "
+                      + user.getFirstName().replaceAll("(\\r|\\n)", "")
+                      + " "
+                      + user.getLastName().replaceAll("(\\r|\\n)", "");
+
       if (Integer.valueOf(newcomplaint) == 0 && Integer.valueOf(pendingComplaint) != 0) {
-        StrMsg =
-            "Welcome "
-                + user.getFirstName()
-                + " "
-                + user.getLastName()
-                + ",\nYou have no new complaints, "
+
+        StrMsg = "You have no new complaints received, "
                 + "\n"
                 + "Pending complaints :"
                 + " "
@@ -689,38 +657,27 @@ public class Fragment_RC_List extends Fragment
                 + " "
                 + pendingComplaint;
 
-        commonAlert(StrMsg);
+        commonAlert(title,StrMsg);
 
       } else if (Integer.valueOf(pendingComplaint) == 0 && Integer.valueOf(newcomplaint) != 0) {
-        StrMsg =
-            "Welcome "
-                + user.getFirstName()
-                + " "
-                + user.getLastName()
-                + ",\nYou have "
+        StrMsg = "You have "
                 + newcomplaint
-                + " new complaints, "
+                + " new complaints received, "
                 + "\nno pending complaints "
                 + ","
                 + "\nTotal complaints : "
                 + pendingComplaint;
-        commonAlert(StrMsg);
+        commonAlert(title,StrMsg);
 
       } else if (Integer.valueOf(newcomplaint) == 0 && Integer.valueOf(pendingComplaint) == 0) {
-        StrMsg =
-            "Welcome " + user.getFirstName() + " " + user.getLastName() + " You have no complaints";
-        commonAlert(StrMsg);
+        StrMsg = "You have no complaints received";
+        commonAlert(title,StrMsg);
 
       } else {
         if (Integer.valueOf(newcomplaint) > 1) {
-          StrMsg =
-              "Welcome "
-                  + user.getFirstName()
-                  + " "
-                  + user.getLastName()
-                  + ",\nYou have "
+          StrMsg = "You have "
                   + newcomplaint
-                  + " new complaints, "
+                  + " new complaints received, "
                   + "\n"
                   + pendingComplaint
                   + " pending complaints "
@@ -728,24 +685,18 @@ public class Fragment_RC_List extends Fragment
                   + "\nTotal complaints : "
                   + pendingComplaint;
 
-          commonAlert(StrMsg);
+          commonAlert(title,StrMsg);
         } else {
-          StrMsg =
-              "Welcome "
-                  + user.getFirstName()
-                  + " "
-                  + user.getLastName()
-                  + ",\nYou have "
+          StrMsg = "You have "
                   + newcomplaint
-                  + " new complaints, "
+                  + " new complaints received, "
                   + "\n"
                   + pendingComplaint
                   + " pending complaints "
                   + "."
                   + "\nTotal complaint : "
                   + pendingComplaint;
-
-          commonAlert(StrMsg);
+          commonAlert(title,StrMsg);
         }
       }
     }
@@ -777,24 +728,23 @@ public class Fragment_RC_List extends Fragment
     }
   }
 
-  private void commonAlert(String alert) {
-    MaterialDialog.Builder builder =
-        new MaterialDialog.Builder(mActivity)
-            .content(alert)
-            .positiveText(R.string.lbl_okay)
-            .stackingBehavior(StackingBehavior.ADAPTIVE)
-            .onPositive(
-                new MaterialDialog.SingleButtonCallback() {
-                  @Override
-                  public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    dialog.dismiss();
 
-                  }
-                });
+  private void commonAlert(String title,String msg) {
+    final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mActivity);
+    builder.setMessage(msg).setTitle(title)
+            .setCancelable(false)
+            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+              public void onClick(final DialogInterface dialog, final int id) {
+                dialog.cancel();
 
-    MaterialDialog dialog = builder.build();
-    dialog.show();
+              }
+            });
+
+    final android.app.AlertDialog alert = builder.create();
+    alert.show();
   }
+
+
 
   @Override
   public void onReceiveComplaintListReceivedError(String Str_Msg, int mode) {
@@ -854,7 +804,6 @@ public class Fragment_RC_List extends Fragment
 
   public void gotoFragmentReceiveComplaintView(
       List<ReceiveComplaintItemEntity> data, int position) {
-    Log.d(TAG, "gotoFragmentReceiveComplaintView");
     try {
       mSavedInstanceState = getSavedState();
       Bundle mdata = new Bundle();
@@ -878,7 +827,6 @@ public class Fragment_RC_List extends Fragment
 
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    Log.d(TAG, "onPrepareOptionsMenu ");
     MenuItem searchItem = menu.findItem(R.id.action_search).setVisible(true);
     MenuItem refreshItem = menu.findItem(R.id.action_refresh).setVisible(true);
     menu.findItem(R.id.action_logout).setVisible(false);
@@ -922,8 +870,6 @@ public class Fragment_RC_List extends Fragment
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_home:
-        Log.d(TAG, "onOptionsItemSelected : home");
-      //  mActivity.onBackPressed();
 
         for (int i = 0; i < mManager.getBackStackEntryCount(); ++i) {
           mManager.popBackStack();
@@ -951,7 +897,6 @@ public class Fragment_RC_List extends Fragment
     outState.putInt(AppUtils.ARG_SELECTED_POSITION, mSelectedPosition);
     outState.putParcelableArrayList(
         AppUtils.ARG_RC_LIST, (ArrayList<ReceiveComplaintItemEntity>) mList);
-    Log.d(TAG, "getSavedStateOnPause");
     return outState;
   }
 
@@ -986,7 +931,7 @@ public class Fragment_RC_List extends Fragment
   }
 
   void filter(String text) {
-    Log.d(TAG, "filter");
+
     try {
       if (mList != null && !mList.isEmpty()) {
         if (temp != null) {
@@ -1011,14 +956,13 @@ public class Fragment_RC_List extends Fragment
 
   @Override
   public boolean onMenuItemClick(MenuItem menuItem) {
-    Log.d(TAG, "onMenuItemClick");
     if (isLoading) return false;
     getReceiveComplainFromService(0);
     return false;
   }
 
   private void showNewMsg() {
-    Log.d(TAG, "showNewMsg");
+
     if (mPreferences.getString("rc_day", null) != null) {
       Date dateTime = null;
       try {
@@ -1029,12 +973,6 @@ public class Fragment_RC_List extends Fragment
       }
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(dateTime);
-      Calendar today = Calendar.getInstance();
-
-      // if (calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)
-      //   && calendar.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) {
-      // "Today "
-      // } else {
 
       if (ConnectivityStatus.isConnected(mActivity)) {
         receiveComplaintListService.getallforwardedcomplaintbyemployeeid(mStrEmpId);
@@ -1047,9 +985,7 @@ public class Fragment_RC_List extends Fragment
 
 
     } else {
-      if (mPreferences
-          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-          .contains(AppUtils.NETWORK_AVAILABLE)) {
+      if (checkInternet(getContext())) {
         //  receiveComplaintListService.getallforwardedcomplaintbyemployeeid(mStrEmpId);
       } else {
         getReceiveComplainFromService(0);

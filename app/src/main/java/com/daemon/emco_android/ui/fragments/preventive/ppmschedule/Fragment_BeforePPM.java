@@ -27,6 +27,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
+import com.daemon.emco_android.service.GPSTracker;
 import com.daemon.emco_android.ui.fragments.common.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
@@ -62,7 +64,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.ui.activities.BarcodeCaptureActivity;
+import com.daemon.emco_android.utils.BarcodeCaptureActivity;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewDataAdapter;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewItem;
 import com.daemon.emco_android.repository.remote.PPMScheduleByService;
@@ -108,10 +110,11 @@ import java.util.Date;
 import java.util.List;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 
-public class Fragment_PM_PPMDetails_View extends Fragment
+public class Fragment_BeforePPM extends Fragment
         implements PPMScheduleByService.Listener, ReceivecomplaintView_Listener, ImagePickListener, DefectDoneImage_Listener, CustomRecyclerViewDataAdapter.ImageListner {
-    private static final String TAG = Fragment_PM_PPMDetails_View.class.getSimpleName();
+    private static final String TAG = Fragment_BeforePPM.class.getSimpleName();
     private static final int RC_BARCODE_CAPTURE = 9001;
     private final int REQUEST_WRITE_EXTERNAL_STORAGE = 4;
     private final int REQUEST_READ_EXTERNAL_STORAGE = 5;
@@ -120,7 +123,6 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     private final int THUMBNAIL_SIZE = 75;
     public Bundle mSavedInstanceState;
     private AppCompatActivity mActivity;
-    private Font font = App.getInstance().getFontInstance();
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private FragmentManager mManager;
@@ -146,7 +148,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     private TextView tv_lbl_nature, tv_nature, tv_lbl_startdate, tv_startdate, tv_lbl_enddate, tv_enddate, tv_lbl_assetcode;
     private TextView tv_lbl_model, tv_model, tv_lbl_make, tv_make, tv_lbl_assettype, tv_assettype,img_upload_count;
     private EditText tv_assetcode,tv_clientBarcode;
-    private static final String LOG_TAG = Fragment_PM_PPMDetails_View.class.getSimpleName();
+    private static final String LOG_TAG = Fragment_BeforePPM.class.getSimpleName();
     private RecyclerView recyclerView = null;
     private ArrayList<CustomRecyclerViewItem> itemList  =new ArrayList<>();
     private CustomRecyclerViewDataAdapter customRecyclerViewDataAdapter = null;
@@ -158,13 +160,12 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     private List<AssetDetailsEntity> assetDetailsEntitiesUp;
     private AssetDetailsEntity assetDetailsEntity;
     private boolean checkImageLoad = false;
-    private String mNetworkInfo = null;
     private String mStrEmpId = null;
     View.OnClickListener _OnClickListener =
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick");
+
                     AppUtils.closeInput(cl_main);
                     switch (v.getId()) {
                         case R.id.btn_ppm_checklist:
@@ -173,7 +174,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
                             }
                             break;
                         case R.id.btn_save:
-                            // submitForm();
+
                             AppUtils.showProgressDialog(
                                     mActivity, getString(R.string.lbl_image_uploading), false);
                             new Handler()
@@ -227,9 +228,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
             mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
             mEditor = mPreferences.edit();
             imageLoader = ImageLoader.getInstance();
-            font = App.getInstance().getFontInstance();
             receiveComplaintRespond_service = new ReceiveComplaintRespondService(mActivity);
-            // receiveComplaintRespond_service.setmCallback(this);
             receiveComplaintRespond_service.setmCallbackImages(this);
             mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
             mLoginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
@@ -312,7 +311,6 @@ public class Fragment_PM_PPMDetails_View extends Fragment
                 }
             });
 
-
             // Create the recyclerview.
              recyclerView = (RecyclerView)rootView.findViewById(R.id.custom_refresh_recycler_view);
             // Create the grid layout manager with 2 columns.
@@ -382,15 +380,14 @@ public class Fragment_PM_PPMDetails_View extends Fragment
 
     private void postImageToServer(DFoundWDoneImageEntity saveRequest) {
         Log.d(TAG, "postImageToServer" + saveRequest.getPpmRefNo());
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+            if (checkInternet(getContext())) {
                 receiveComplaintRespond_service.saveComplaintRespondImageData1(saveRequest, getActivity());
             } else {
                 new DefectDoneImageDbInitializer(mActivity, saveRequest, this)
                         .execute(AppUtils.MODE_INSERT);
             }
-        }
+
     }
 
     public void setupActionBar() {
@@ -409,18 +406,12 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
 
-        tv_lbl_job_no.setTypeface(font.getHelveticaRegular());
-        tv_job_no.setTypeface(font.getHelveticaRegular());
-        btn_save.setTypeface(font.getHelveticaRegular());
-        btn_barcode_scan.setTypeface(font.getHelveticaRegular());
-        btn_ppm_checklist.setTypeface(font.getHelveticaRegular());
         btn_save.setOnClickListener(_OnClickListener);
         btn_ppm_checklist.setOnClickListener(_OnClickListener);
         btn_barcode_scan.setOnClickListener(_OnClickListener);
         tv_assetcode.addTextChangedListener(
-                new Fragment_PM_PPMDetails_View.MyTextWatcher(tv_assetcode));
+                new Fragment_BeforePPM.MyTextWatcher(tv_assetcode));
         tv_assetcode.setOnEditorActionListener(
                 new TextView.OnEditorActionListener() {
                     @Override
@@ -446,11 +437,11 @@ public class Fragment_PM_PPMDetails_View extends Fragment
                     btn_save.setEnabled(true);
                     if (mImageToBeAttachedDefectFound != null) {
                         if (checkImageLoad) {
-                          //  displayAttachImageDialog("");
+
                         }
                     } else {
                         if (checkImageLoad) {
-                         //   displayAttachImageDialog("");
+
                         } } } }});
 
         if (mSavedInstanceState != null) {
@@ -564,7 +555,6 @@ public class Fragment_PM_PPMDetails_View extends Fragment
         alert.show();
 
     }
-
 
 
     private void noImageAvailabe(int count,String base64) {
@@ -686,9 +676,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     }
 
     private void getBarcodeDetailsService() {
-        if (mPreferences
-                .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-                .contains(AppUtils.NETWORK_AVAILABLE)) {
+        if (checkInternet(getContext())) {
             if (ppmScheduleDocBy != null) {
                 AssetDetailsRequest assetDetailsRequest =
                         new AssetDetailsRequest(
@@ -745,10 +733,10 @@ public class Fragment_PM_PPMDetails_View extends Fragment
             } else Log.d(TAG, "setReceiveComplaintViewValue null");
 
             PpmScheduleDocByUpdate = complaintViewValue;
-            mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-            if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
+
+            if (checkInternet(getContext())) {
                 if (mImageToBeAttachedDefectFound == null) {
-                    if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+                    if (checkInternet(getContext())) {
                         // Download defect found image
                         RCDownloadImageRequest imageRequest = new RCDownloadImageRequest();
                         imageRequest.setOpco(complaintViewValue.getCompanyCode());
@@ -774,7 +762,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     }
 
     private void setReceiveComplaintViewAssetDetailsValue(AssetDetailsEntity assetDetailsValue) {
-        Log.d(TAG, "setReceiveComplaintViewAssetDetailsValue");
+
         try {
             if (assetDetailsValue != null) {
                 this.assetDetailsEntity = assetDetailsValue;
@@ -817,48 +805,32 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     }
 
     public void getReceiveComplainViewFromService() {
-        Log.d(TAG, "getReceiveComplainViewFromService");
+
         try {
-            mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-            if (mNetworkInfo.length() > 0) {
-                if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
-                    Log.d(TAG, "getReceiveComplainViewFromServer");
+
+
+                if (checkInternet(getContext())) {
+
                     AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                     new PPMScheduleByService(mActivity, this).getppmData(ppmScheduleDocByRequest);
-                } else
-                    AppUtils.showDialog(mActivity, getString(R.string.lbl_alert_network_not_available));
-            } else
-                AppUtils.showDialog(mActivity, getString(R.string.lbl_alert_network_not_available));
+                }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private void postDataToServer(ReceiveComplaintRespondEntity respondRequest) {
-        Log.d(TAG, "postDataToServer");
-
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
-
-            }
-        }
-    }
 
     @Override
     public void onReceiveComplaintRemarksReceived(List<String> remarkList, int mode) {
     }
 
     public void onReceiveComplaintRespondReceived(String strMsg, String complaintNumber, int mode) {
-        Log.d(TAG, "onReceiveComplaintRespondReceived");
+
         try {
 
             AppUtils.hideProgressDialog();
-            /*if (strMsg.equalsIgnoreCase("True")) {
-                AppUtils.showDialog(getActivity(), strMsg);
-                AppUtils.hideProgressDialog();
-                setReceiveComplaintViewAssetDetailsValue(assetDetailsEntitiesUp.get(0));
-            }*/
+
             if (!TextUtils.isEmpty(strMsg)) {
                 MaterialDialog.Builder builder =
                         new MaterialDialog.Builder(mActivity)
@@ -871,13 +843,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
                                             public void onClick(
                                                     @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                                 dialog.dismiss();
-                                              /*  Fragment frg = null;
-                                                frg =mActivity.getSupportFragmentManager().findFragmentByTag(Utils.TAG_PM_PPMDETAILS_VIEW);
-                                                final FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
-                                                ft.detach(frg);
-                                                ft.attach(frg);
-                                                ft.commit();*/
-                                                // gotoNextPage();
+
                                             }
                                         });
 
@@ -896,7 +862,6 @@ public class Fragment_PM_PPMDetails_View extends Fragment
 
     @Override
     public void onReceiveComplaintViewReceivedError(String msg, int mode) {
-        Log.d(TAG, "onReceiveComplaintViewReceivedError");
 
         tv_assetcode.setError("Enter a valid barcode");
 
@@ -1005,7 +970,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
                                     //AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
 
                                     // to save the details to table
-                                    new ReceiveComplaintViewService(mActivity, Fragment_PM_PPMDetails_View.this)
+                                    new ReceiveComplaintViewService(mActivity, Fragment_BeforePPM.this)
                                             .getAssestBarCodePPM(assetDetailsRequest);
                                     }
 
@@ -1013,7 +978,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
 
                                 if (from == AppUtils.MODE_SERVER) {
                                     Log.d(TAG, "onReceiveComplaintViewAssetDetailsReceived");
-                                    new RCAssetDetailsDbInitializer(mActivity,Fragment_PM_PPMDetails_View.this,assetDetailsEntity).execute(
+                                    new RCAssetDetailsDbInitializer(mActivity, Fragment_BeforePPM.this,assetDetailsEntity).execute(
                                             AppUtils.MODE_INSERT_SINGLE);
                                 }
 
@@ -1180,7 +1145,7 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     @Override
     public void onSingleImagePicked(String Str_Path) {
         try {
-         //   AppUtils.showProgressDialog(mActivity, "Processing image", false);
+
             Str_Path = "file://" + Str_Path;
             imageLoader.loadImage(
                     Str_Path,
@@ -1236,6 +1201,13 @@ public class Fragment_PM_PPMDetails_View extends Fragment
     @Override
     public void onImageSaveReceivedSuccess1(RCDownloadImage imageEntity, int mode) {
         processImage(imageEntity,true);
+
+        EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+        emp.setCompCode(PpmScheduleDocByUpdate.getCompanyCode());
+        emp.setTransType("PPM");
+        emp.setRefNo(PpmScheduleDocByUpdate.getPpmNo());
+        new GPSTracker(getContext()).updateFusedLocation(emp);
+
     }
 
 

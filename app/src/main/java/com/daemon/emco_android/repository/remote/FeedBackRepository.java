@@ -330,8 +330,6 @@ public class FeedBackRepository {
     }
   }
 
-
-
     public void getPendingReasons(final PendingReasonsListner listener) {
         Log.d(TAG, "getNatureDescription");
         Call<PendingReasonsResponse> getPendingReasons = mInterface.getPendingReasons();
@@ -364,6 +362,5 @@ public class FeedBackRepository {
                     }
                 });
     }
-
 
 }

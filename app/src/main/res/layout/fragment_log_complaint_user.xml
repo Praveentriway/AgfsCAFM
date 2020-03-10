@@ -50,6 +50,7 @@
                     <TextView
                         android:id="@+id/tv_lbl_contract_title"
                         style="@style/textview_label"
+                        android:gravity="center_vertical"
                         android:layout_weight=".6"
                         android:text="@string/lbl_contract_title" />
 
@@ -67,6 +68,7 @@
                     <TextView
                         android:id="@+id/tv_lbl_contractno"
                         style="@style/textview_label"
+                        android:gravity="center_vertical"
                         android:layout_weight=".6"
                         android:text="@string/lbl_job_no" />
 
@@ -85,6 +87,7 @@
                         android:id="@+id/tv_lbl_zone"
                         style="@style/textview_label"
                         android:layout_weight=".6"
+                        android:gravity="center_vertical"
                         android:text="@string/lbl_zone" />
 
                     <TextView
@@ -101,12 +104,16 @@
                     <TextView
                         android:id="@+id/tv_lbl_property"
                         style="@style/textview_label"
+                        android:layout_marginTop="7dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:layout_weight=".6"
                         android:text="@string/lbl_property_details" />
 
                     <com.daemon.emco_android.ui.components.CustomTextInputLayout
                         android:id="@+id/til_property"
                         style="@style/text_input_layout_common"
+                        android:paddingRight="5dp"
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -124,12 +131,16 @@
                     <TextView
                         android:id="@+id/tv_lbl_location"
                         style="@style/textview_label"
+                        android:layout_marginTop="7dp"
                         android:layout_weight=".6"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:text="@string/lbl_location_details" />
 
                     <com.daemon.emco_android.ui.components.CustomTextInputLayout
                         android:id="@+id/til_location"
                         style="@style/text_input_layout_common"
+                        android:paddingRight="5dp"
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -147,12 +158,16 @@
                     <TextView
                         android:id="@+id/tv_lbl_sublocation"
                         style="@style/textview_label"
+                        android:layout_marginTop="7dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:layout_weight=".6"
                         android:text="@string/lbl_sublocation" />
 
                     <com.daemon.emco_android.ui.components.CustomTextInputLayout
                         android:id="@+id/til_sublocation"
                         style="@style/text_input_layout_common"
+                        android:paddingRight="5dp"
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -170,13 +185,16 @@
                     <TextView
                         android:id="@+id/tv_lbl_complaint_details"
                         style="@style/textview_label"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:layout_weight=".6"
+                        android:layout_marginTop="7dp"
                         android:text="@string/lbl_complaint_details" />
 
                     <com.daemon.emco_android.ui.components.CustomTextInputLayout
                         android:id="@+id/til_complaint"
                         style="@style/text_input_layout_common"
-                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:paddingRight="5dp"
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -186,6 +204,7 @@
                             android:imeOptions="actionDone"
                             android:inputType="textMultiLine"
                             android:maxLength="250"
+                            android:layout_gravity="center"
                             android:maxLines="7" />
                     </com.daemon.emco_android.ui.components.CustomTextInputLayout>
                 </LinearLayout>
@@ -238,6 +257,6 @@ android:layout_height="wrap_content"
 android:layout_gravity="bottom|end"
 android:layout_margin="@dimen/fab_margin"
 android:visibility="gone"
-android:src="@drawable/sharp_search_white_18" />
+android:src="@drawable/arrow" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

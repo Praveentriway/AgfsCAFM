@@ -57,6 +57,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+
 /**
  * Created by subbu on 18/7/17.
  */
@@ -67,7 +69,6 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
         SearchComplaintListener,
         BuildingDetailsListener {
     private static final String TAG = Fragment_RM_MultiSearchComplaint.class.getSimpleName();
-    private static String mNetworkInfo = null;
     private static String mRowsExpected = "10", mStartIndex = "0";
     // root view of fragment
     View rootView = null;
@@ -199,37 +200,34 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
     }
 
     private void gettingBuildingDetails(BuildingDetailsRequest buildingDetailsRequest) {
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+            if ( checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 mGetComplaintPopupService.getBuildingDetailsData(this, buildingDetailsRequest);
             }
-            //else AppUtils.showDialog(mActivity, getString(R.string.lbl_alert_network_not_available));
-        }
+
+
     }
 
     private void gettingZoneName() {
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), true);
                 ZoneEntity zoneEntity = new ZoneEntity();
                 zoneEntity.setOpco(mOpco);
                 zoneEntity.setContractNo(mContractNo);
                 mGetComplaintPopupService.getZoneListData(zoneEntity, this);
             } else new ZoneDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
-        }
+
     }
 
     private void gettingSiteName() {
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+            if ( checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 mGetComplaintPopupService.getSiteAreaData(this);
             } else new SiteAreaDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
-        }
+
     }
 
     @Override
@@ -285,19 +283,6 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
                 Html.fromHtml(getString(R.string.lbl_building_property_detail) + AppUtils.mandatory));
         tv_lbl_from_date.setText(Html.fromHtml(getString(R.string.lbl_from_date) + AppUtils.mandatory));
         tv_lbl_to_date.setText(Html.fromHtml(getString(R.string.lbl_to_date) + AppUtils.mandatory));
-
-        tv_lbl_site.setTypeface(font.getHelveticaRegular());
-        tv_lbl_zone.setTypeface(font.getHelveticaRegular());
-        tv_lbl_property.setTypeface(font.getHelveticaRegular());
-        tv_lbl_from_date.setTypeface(font.getHelveticaRegular());
-        tv_lbl_to_date.setTypeface(font.getHelveticaRegular());
-
-        tv_select_from_date.setTypeface(font.getHelveticaRegular());
-        tv_select_to_date.setTypeface(font.getHelveticaRegular());
-        tv_select_site.setTypeface(font.getHelveticaRegular());
-        tv_select_property.setTypeface(font.getHelveticaRegular());
-        tv_select_zone.setTypeface(font.getHelveticaRegular());
-        btnSearchComplaint.setTypeface(font.getHelveticaRegular());
 
         btnSearchComplaint.setOnClickListener(_OnClickListener);
 
@@ -367,7 +352,6 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
             if(ConnectivityStatus.isConnected(mActivity)){
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 _request = new MultiSearchRequest();
-                // _request.setEmployeeId(mStrEmployeeId);
                 if (mUserData.getUserType().equalsIgnoreCase(AppUtils.CUSTOMER)) {
                     _request.setUserCode(mStrEmployeeId);
                 } else {
@@ -385,7 +369,8 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
                 _request.setRowsExpected(mRowsExpected);
                 mGetSearchData = new GetSearchComplaintService(mActivity, this, this);
                 mGetSearchData.getMultiSearchData(_request, false);
-            }else {
+            }
+            else {
                 Toast.makeText(mActivity,(R.string.msg_no_data_found_in_local_db),Toast.LENGTH_SHORT).show();
             }
 
@@ -485,16 +470,7 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
                         public void onItemSelected(String text) {
                             AppUtils.setErrorBg(tv_select_zone, false);
                             mZoneCode = text;
-                            // if (text.toString().equals("ALL")) {
-                            //  tv_select_zone.setText(mZoneCode);
-                            // tv_select_zone.setTypeface(font.getHelveticaBold());
 
-                            // clear listBuildingDetails
-                            //  listBuildingDetails.clear();
-                            //  mBuildingCode = null;
-                            //  tv_select_property.setText("");
-                            // tv_select_property.setHint(getString(R.string.lbl_building_property_detail));
-                            //} else {
                             tv_select_zone.setText(text.toString());
                             tv_select_zone.setTypeface(font.getHelveticaBold());
                             for (ZoneEntity item : listZone) {

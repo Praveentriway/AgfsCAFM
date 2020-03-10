@@ -28,6 +28,7 @@
                 android:layout_marginBottom="@dimen/bottom_view_margin"
                 android:layout_marginLeft="@dimen/_30sdp"
                 android:layout_marginRight="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -71,30 +72,26 @@
                     </com.daemon.emco_android.ui.components.CustomTextInputLayout>
                 </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnSearchComplaint"
-                    style="@style/btn_common_home"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:layout_marginLeft="@dimen/_140sdp"
-                    android:layout_marginRight="@dimen/_140sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:text="@string/lbl_search" />
-
                 <LinearLayout
                     style="@style/match_wrap_style"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_lbl_goto_multi_search"
-                        style="@style/textview_label"
-                        android:layout_weight=".6"
-                        android:text="@string/lbl_for_multiple_complaint" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnGotoMultipleComplaints"
                         style="@style/btn_common"
-                        android:layout_weight=".4"
-                        android:text="@string/lbl_click_here" />
+                        android:layout_weight=".5"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:text="@string/lbl_for_multiple_complaint" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnSearchComplaint"
+                        style="@style/btn_common"
+                        android:layout_weight=".5"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:text="Search Complaint" />
+
+
                 </LinearLayout>
             </LinearLayout>
 

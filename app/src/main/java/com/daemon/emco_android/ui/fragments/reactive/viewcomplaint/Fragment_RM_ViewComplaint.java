@@ -159,25 +159,7 @@ public class Fragment_RM_ViewComplaint extends Fragment {
 
     private void setProperties() {
         try {
-            Log.d(TAG, "setProperties");
-            tv_lbl_complaint_no.setTypeface(font.getHelveticaRegular());
-            tv_lbl_site.setTypeface(font.getHelveticaRegular());
-            tv_lbl_location.setTypeface(font.getHelveticaRegular());
-            tv_lbl_flat_office_villa.setTypeface(font.getHelveticaRegular());
-            tv_lbl_complaint_details.setTypeface(font.getHelveticaRegular());
-            tv_lbl_complaint_status.setTypeface(font.getHelveticaRegular());
 
-            tv_complaint_no.setTypeface(font.getHelveticaRegular());
-            tv_site.setTypeface(font.getHelveticaRegular());
-            tv_location.setTypeface(font.getHelveticaRegular());
-            tv_flat_office_villa.setTypeface(font.getHelveticaRegular());
-            tv_complaint_details.setTypeface(font.getHelveticaRegular());
-            tv_complaint_status.setTypeface(font.getHelveticaRegular());
-
-            tv_lbl_zone_area.setTypeface(font.getHelveticaRegular());
-            tv_zone_area.setTypeface(font.getHelveticaRegular());
-            tv_lbl_building.setTypeface(font.getHelveticaRegular());
-            tv_building.setTypeface(font.getHelveticaRegular());
 
             if (mArgs != null) {
                 mSingleSearchData = mArgs.getParcelable(ARGS_SEARCH_COMPLAINT_RESULT);

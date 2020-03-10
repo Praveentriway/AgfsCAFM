@@ -1,4 +1,4 @@
-package com.daemon.emco_android.ui.activities;
+package com.daemon.emco_android.utils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-import static com.daemon.emco_android.ui.activities.BarcodeCaptureActivity.BarcodeObject;
+import static com.daemon.emco_android.utils.BarcodeCaptureActivity.BarcodeObject;
 
 
 public class ZxingScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {

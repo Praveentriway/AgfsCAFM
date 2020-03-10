@@ -49,6 +49,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+
 /** Created by Daemonsoft on 7/26/2017. */
 public class Fragment_RM_Material extends Fragment implements Material_Listener {
 
@@ -191,13 +193,6 @@ public class Fragment_RM_Material extends Fragment implements Material_Listener 
     Log.d(TAG, "setProperties");
 
     try {
-      text_view_empty.setTypeface(font.getHelveticaRegular());
-      text_view_message.setTypeface(font.getHelveticaRegular());
-      tv_itemcode.setTypeface(font.getHelveticaRegular());
-      tv_description.setTypeface(font.getHelveticaRegular());
-      tv_quantity.setTypeface(font.getHelveticaRegular());
-      tv_remarks.setTypeface(font.getHelveticaRegular());
-      text_view_loading_message.setTypeface(font.getHelveticaRegular());
 
       sac_material_search.setQueryHint(getString(R.string.lbl_search));
       sac_material_search.setIconifiedByDefault(false);
@@ -289,9 +284,7 @@ public class Fragment_RM_Material extends Fragment implements Material_Listener 
     Log.d(TAG, "postSaveMaterialData");
     try {
       boolean network_available =
-          mPreferences
-              .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-              .contains(AppUtils.NETWORK_AVAILABLE);
+              checkInternet(getContext());
       saveMaterialRequests = new ArrayList<>();
       if (isGetMaterial) {
         List<SaveMaterialEntity> mSavegetList = adapter.onRCMaterialUpdate();
@@ -410,9 +403,7 @@ public class Fragment_RM_Material extends Fragment implements Material_Listener 
         showLoadingMaterial();
       }
       isLoading = true;
-      if (mPreferences
-          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-          .contains(AppUtils.NETWORK_AVAILABLE)) {
+      if (checkInternet(getContext())) {
         rcMaterial_service.getRCMeterialRequiredListData(mOpco, mQuery, mCurrentnoOfRows + "");
       } else {
         new RCMaterialDbInitializer(mActivity, this, mQuery, mCurrentnoOfRows)
@@ -431,9 +422,7 @@ public class Fragment_RM_Material extends Fragment implements Material_Listener 
         showLoadingMaterial();
       }
       isLoading = true;
-      if (mPreferences
-          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-          .contains(AppUtils.NETWORK_AVAILABLE)) {
+      if (checkInternet(getContext())) {
         rcMaterial_service.getRCMeterialListData(
             mComplaintNumber,
             isMaterialRequired ? AppUtils.REQUIRED : AppUtils.USED,
@@ -582,7 +571,7 @@ public class Fragment_RM_Material extends Fragment implements Material_Listener 
   @Override
   public void onRCMaterialListReceived(
       List<MaterialMasterEntity> materialRequiredEntities, String noOfRows, int from) {
-    Log.d(TAG, "onReceiveComplaintMaterialrequiredListReceived");
+
 
     try {
       isLoading = false;
@@ -620,7 +609,7 @@ public class Fragment_RM_Material extends Fragment implements Material_Listener 
   @Override
   public void onRCMaterialGetListReceived(
       List<SaveMaterialEntity> getMaterialEntities, String noOfRows, int from) {
-    Log.d(TAG, "onRCMaterialGetListReceived");
+
     try {
       Log.d(TAG, mCurrentnoOfRows + " onRCMaterialGetListReceived totalnoOfRows " + totalnoOfRows);
       isLoading = false;
@@ -660,7 +649,7 @@ public class Fragment_RM_Material extends Fragment implements Material_Listener 
 
   @Override
   public void onRCMaterialListReceivedError(String strErr, int from) {
-    Log.d(TAG, "onRCMaterialListReceivedError");
+
     try {
       AppUtils.hideProgressDialog();
       showEmptyView(strErr);

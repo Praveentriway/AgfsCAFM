@@ -58,7 +58,6 @@ import java.util.ArrayList;
 public class Fragment_RM_PieChart extends Fragment
         implements OnChartValueSelectedListener, SearchComplaintListener, IValueFormatter {
     private static final String TAG = Fragment_RM_PieChart.class.getSimpleName();
-    private static String mNetworkInfo = null;
     private static String mRowsExpected = "10", mStartIndex = "0";
     public Bundle mSavedInstanceState;
     // root view of fragment
@@ -84,7 +83,6 @@ public class Fragment_RM_PieChart extends Fragment
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
         try {
@@ -118,7 +116,6 @@ public class Fragment_RM_PieChart extends Fragment
     }
 
     private void getParcelableData() {
-        Log.d(TAG, "getParcelableData");
         try {
             if (mArgs != null) {
                 if (mArgs.containsKey(AppUtils.ARGS_REACTIVE_MAINTENANCE_DASHBOARD_DATA)) {
@@ -144,7 +141,6 @@ public class Fragment_RM_PieChart extends Fragment
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
         try {
             rootView = (View) inflater.inflate(R.layout.fragment_piecharts, container, false);
             initUI(rootView);
@@ -156,7 +152,6 @@ public class Fragment_RM_PieChart extends Fragment
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             mChart = (PieChart) rootView.findViewById(R.id.pieChart);
@@ -169,7 +164,6 @@ public class Fragment_RM_PieChart extends Fragment
     }
 
     public void setupActionBar() {
-        Log.d(TAG, "setupActionBar");
         mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
         tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
         tv_toolbar_title.setText(getString(R.string.lbl_dashboard));
@@ -187,7 +181,6 @@ public class Fragment_RM_PieChart extends Fragment
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
 
         mChart.setUsePercentValues(false);
         mChart.getDescription().setText("");
@@ -224,12 +217,6 @@ public class Fragment_RM_PieChart extends Fragment
     protected PieData generatePieData() {
         ArrayList<PieEntry> entries = new ArrayList<>();
         try {
-      /*Collections.sort(dashboardPieDatas, new Comparator<DashboardPieData>() {
-        @Override
-        public int compare(DashboardPieData lhs, DashboardPieData rhs) {
-          return lhs.getTotalNoOfRows().compareTo(rhs.getTotalNoOfRows());
-        }
-      });*/
 
             for (int i = 0; i < dashboardPieDatas.size(); i++) {
                 DashboardPieData pieData = dashboardPieDatas.get(i);
@@ -239,6 +226,7 @@ public class Fragment_RM_PieChart extends Fragment
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         PieDataSet ds1 = new PieDataSet(entries, "");
         ds1.setColors(AppUtils.MATERIAL_COLORS);
         ds1.setSliceSpace(1f);
@@ -251,14 +239,6 @@ public class Fragment_RM_PieChart extends Fragment
         d.setValueFormatter(this);
 
         return d;
-    }
-
-    private SpannableString generateCenterText() {
-        SpannableString s =
-                new SpannableString(pieChartRequest.getFromDate() + "\n" + pieChartRequest.getToDate());
-        s.setSpan(new RelativeSizeSpan(2f), 0, 8, 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), 8, s.length(), 0);
-        return s;
     }
 
     @Override
@@ -274,7 +254,7 @@ public class Fragment_RM_PieChart extends Fragment
                 pieChartRequest.setStartIndex(mStartIndex);
                 pieChartRequest.setRowsExpected(mRowsExpected);
                 if (mUserData.getUserType().equalsIgnoreCase(AppUtils.CUSTOMER)) {
-                    // pieChartRequest.setUserCode(mStrEmployeeId);
+
                 }
                 mGetSearchData.getMultiSearchData(pieChartRequest, true);
             } else {
@@ -288,7 +268,6 @@ public class Fragment_RM_PieChart extends Fragment
 
     private void gotoFragmentViewComplaintList(
             ArrayList<MultiSearchComplaintEntity> searchComplaintEntities, String noOfRows) {
-        Log.d(TAG, "gotoFragmentViewComplaintList");
         Bundle data = new Bundle();
         data.putParcelableArrayList(AppUtils.ARGS_MULTISEARC_COMPLAINT_LIST, searchComplaintEntities);
         data.putParcelable(AppUtils.ARGS_MULTISEARC_COMPLAINT_REQUEST, pieChartRequest);
@@ -314,7 +293,6 @@ public class Fragment_RM_PieChart extends Fragment
     @Override
     public void onComplaintReceivedSuccess(
             ArrayList<MultiSearchComplaintEntity> searchComplaintEntities, String noOfRows) {
-        Log.d(TAG, "onComplaintReceivedSuccess");
         AppUtils.hideProgressDialog();
         if (searchComplaintEntities.size() > 0)
             gotoFragmentViewComplaintList(searchComplaintEntities, noOfRows);
@@ -342,7 +320,6 @@ public class Fragment_RM_PieChart extends Fragment
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_home).setVisible(true);
     }
@@ -351,8 +328,6 @@ public class Fragment_RM_PieChart extends Fragment
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                Log.d(TAG, "onOptionsItemSelected : home");
-                // mActivity.onBackPressed();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();

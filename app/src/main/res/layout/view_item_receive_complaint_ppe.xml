@@ -38,6 +38,7 @@
     <Button
         android:id="@+id/btnSavePpe"
         style="@style/btn_common"
+        android:visibility="gone"
         android:text="@string/lbl_save"  />
 
 </LinearLayout>

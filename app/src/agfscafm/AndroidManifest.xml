@@ -65,11 +65,11 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.activities.BarcodeCaptureActivity"
+            android:name=".utils.BarcodeCaptureActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".ui.activities.ZxingScannerActivity"
+            android:name=".utils.ZxingScannerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="sensorLandscape" />
         <activity

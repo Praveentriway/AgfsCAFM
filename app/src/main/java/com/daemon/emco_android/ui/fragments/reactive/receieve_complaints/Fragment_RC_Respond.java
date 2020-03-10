@@ -27,6 +27,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
+import com.daemon.emco_android.service.GPSTracker;
 import com.daemon.emco_android.ui.fragments.common.ImagePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
@@ -128,6 +130,7 @@ import java.util.Locale;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RATE_AND_SHARE;
 import static com.daemon.emco_android.utils.Utils.TAG_REACTIVE_MAINTENANCE;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_FEEDBACK;
@@ -142,7 +145,6 @@ public class Fragment_RC_Respond extends Fragment
         DefectDoneImage_Listener, CustomRecyclerViewDataAdapter.ImageListnerR {
     private final String TAG = Fragment_RC_Respond.class.getSimpleName();
     ReceiveComplaintViewEntity requestToServer;
-    boolean asyncRunning=false;
     private final int REQUEST_WRITE_EXTERNAL_STORAGE = 4;
     private final int REQUEST_READ_EXTERNAL_STORAGE = 5;
     private FeedBackRepository feedBackService;
@@ -158,7 +160,7 @@ public class Fragment_RC_Respond extends Fragment
     private int imageTotalCount=0;
 
     private String DefectFound="DefectFound",WorkDone="WorkDone";
-    private String mNetworkInfo = null,
+    private String
             mComplaintCode = null,
             mComplaintStatus = null,
             mComplaintNumber = null,
@@ -347,7 +349,7 @@ public class Fragment_RC_Respond extends Fragment
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
+
         try {
             rootView = inflater.inflate(R.layout.fragment_receivecomplaints_respond, container, false);
             initUI(rootView);
@@ -372,7 +374,7 @@ public class Fragment_RC_Respond extends Fragment
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             ll_pending_reason = (LinearLayout) rootView.findViewById(R.id.ll_pending_reason);
@@ -405,8 +407,7 @@ public class Fragment_RC_Respond extends Fragment
 
             iv_defectfound = (ImageView) rootView.findViewById(R.id.iv_defectfound);
             iv_workdone = (ImageView) rootView.findViewById(R.id.iv_workdone);
-            // iv_workdone.setEnabled(false);
-            // iv_defectfound.setEnabled(false);
+
             pb_defectfound = (ProgressBar) rootView.findViewById(R.id.pb_defectfound);
             pb_workdone = (ProgressBar) rootView.findViewById(R.id.pb_workdone);
 
@@ -487,11 +488,7 @@ public class Fragment_RC_Respond extends Fragment
         try {
             Log.d(TAG, "setProperties");
             AppUtils.closeInput(cl_main);
-            // ll_materials_required.setVisibility(View.GONE);
-            // ll_pending_reason.setVisibility(View.GONE);
 
-            tv_lbl_complaint.setTypeface(font.getHelveticaRegular());
-            tv_complaint.setTypeface(font.getHelveticaRegular());
             if (mComplaint != null) tv_complaint.setText(mComplaint);
 
             tv_lbl_defectsfound.setText(
@@ -503,29 +500,6 @@ public class Fragment_RC_Respond extends Fragment
             tv_lbl_tentative_date.setText(
                     Html.fromHtml(getString(R.string.tentative_date) + AppUtils.mandatory));
 
-            tv_lbl_defectsfound.setTypeface(font.getHelveticaRegular());
-            tv_lbl_workdone.setTypeface(font.getHelveticaRegular());
-            tv_lbl_workstatus.setTypeface(font.getHelveticaRegular());
-            tv_lbl_reason.setTypeface(font.getHelveticaRegular());
-            tv_lbl_tentative_date.setTypeface(font.getHelveticaRegular());
-
-            tv_select_reason.setTypeface(font.getHelveticaRegular());
-            tv_select_workstatus.setTypeface(font.getHelveticaRegular());
-            tv_select_defectsfound.setTypeface(font.getHelveticaRegular());
-            tv_select_workdone.setTypeface(font.getHelveticaRegular());
-            tv_select_tentative_date.setTypeface(font.getHelveticaRegular());
-
-            tie_defectsfound.setTypeface(font.getHelveticaRegular());
-            tie_workdone.setTypeface(font.getHelveticaRegular());
-
-            btn_defect_save.setTypeface(font.getHelveticaRegular());
-            btn_done_save.setTypeface(font.getHelveticaRegular());
-            btn_respond_save.setTypeface(font.getHelveticaRegular());
-
-            btn_ppe.setTypeface(font.getHelveticaRegular());
-            btn_feedback.setTypeface(font.getHelveticaRegular());
-            btn_material_reqd.setTypeface(font.getHelveticaRegular());
-            btn_material_used.setTypeface(font.getHelveticaRegular());
 
             btn_respond_save.setOnClickListener(_OnClickListener);
 
@@ -587,8 +561,6 @@ public class Fragment_RC_Respond extends Fragment
                     mSelectedPosition =
                             mSavedInstanceState.getInt(AppUtils.ARGS_RECEIVEDCOMPLAINT_ITEM_POSITION);
                     mWorkStatusCode = mReceiveComplaintView.getWorkStatus();
-
-
 
                     if(mSavedInstanceState.getParcelableArrayList(AppUtils.ARGS_IMAGE_LIST_DFECT_FOUND)!=null) {
                         itemList1=new ArrayList<CustomRecyclerViewItem>();
@@ -665,9 +637,6 @@ public class Fragment_RC_Respond extends Fragment
                 if (mSelectWorkStatus != null) {
                     tv_select_workstatus.setText(mSelectWorkStatus);
 
-                    // if (mWorkStatusCode.equals(AppUtils.PENDING)) {
-                    // ll_pending_reason.setVisibility(View.VISIBLE);
-
                     if (mSelectPendingReason != null) {
                         tv_select_reason.setText(mSelectPendingReason);
 
@@ -687,7 +656,6 @@ public class Fragment_RC_Respond extends Fragment
                         }
                     }
 
-
                 }
                 if (mSelectDate != null)
                     tv_select_tentative_date.setText(mSelectDate);
@@ -699,11 +667,11 @@ public class Fragment_RC_Respond extends Fragment
                     btn_ppe.setVisibility(View.GONE);
                 }
 
-                mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-                if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
+
+                if (checkInternet(getContext())) {
 
                     if (mImageToBeAttachedDefectFound == null) {
-                        if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+                        if (checkInternet(getContext())) {
                             // Download defect found image
                             RCDownloadImageRequest imageRequest = new RCDownloadImageRequest();
                             imageRequest.setOpco(mOpco);
@@ -723,7 +691,7 @@ public class Fragment_RC_Respond extends Fragment
                                         mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
                     }
                     if (mImageToBeAttached == null) {
-                        if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+                        if (checkInternet(getContext())) {
                             // Download work done image
                             RCDownloadImageRequest doneimageRequest = new RCDownloadImageRequest();
                             doneimageRequest.setOpco(mOpco);
@@ -763,8 +731,6 @@ public class Fragment_RC_Respond extends Fragment
             displayAttachImageDialog(pos,base64);
 
         }
-
-
     }
 
     private void getParcelableData() {
@@ -843,8 +809,6 @@ public class Fragment_RC_Respond extends Fragment
     }
 
 
-
-
     private void gotoPPEPage() {
         mSavedInstanceState = getSavedState();
         try {
@@ -921,7 +885,6 @@ public class Fragment_RC_Respond extends Fragment
 
     public void gotoFragment_Rate_And_Share() {
         mSavedInstanceState = getSavedState();
-        Log.d(TAG, "gotoFragment_Rate_And_Share");
         try {
             if (mComplaintStatus.equals("C")) {
                 mSavedInstanceState = getSavedState();
@@ -944,7 +907,7 @@ public class Fragment_RC_Respond extends Fragment
     }
 
     private void submitForm() {
-        Log.d(TAG, "submitForm");
+
         try {
             AppUtils.closeInput(cl_main);
 
@@ -1024,7 +987,7 @@ public class Fragment_RC_Respond extends Fragment
                     } else {
                         request.setOtherWorkDone(tie_workdone.getText().toString());
                     }
-                    // else request.setOtherWorkDone(null);
+
                 } else {
 
                     if(tv_select_workstatus.getText().toString().equalsIgnoreCase("Completed")){
@@ -1058,8 +1021,8 @@ public class Fragment_RC_Respond extends Fragment
             }
 
             if (msgErr != "") {
-                //   AppUtils.showDialog(mActivity, "Please select values in Mandatory field");
-                AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Please select values in Mandatory field");
+
+                AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Please fill all the mandatory fields.");
 
                 return;
             }
@@ -1129,11 +1092,10 @@ public class Fragment_RC_Respond extends Fragment
                                 if (mSelectDefect.equals(getString(R.string.lbl_other))) {
                                     til_defectsfound.setVisibility(View.VISIBLE);
                                 } else {
-                                    // til_defectsfound.setVisibility(View.GONE);
+
                                 }
                                 AppUtils.setErrorBg(tv_select_defectsfound, false);
                             }
-
 
                         }
                     })
@@ -1296,7 +1258,6 @@ public class Fragment_RC_Respond extends Fragment
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         try {
             menu.findItem(R.id.action_logout).setVisible(false);
             menu.findItem(R.id.action_home).setVisible(true);
@@ -1310,8 +1271,6 @@ public class Fragment_RC_Respond extends Fragment
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                Log.d(TAG, "onOptionsItemSelected : home");
-                // mActivity.onBackPressed();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
@@ -1474,6 +1433,14 @@ public class Fragment_RC_Respond extends Fragment
 
     @Override
     public void onComplaintRespondSaveReceived(final RCRespond rcRespond, int mode) {
+
+        EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+        emp.setCompCode(mOpco);
+        emp.setTransType("Reactive");
+        emp.setRefNo(requestToServer.getComplaintNumber());
+        new GPSTracker(getContext()).updateFusedLocation(emp);
+
+
         Log.d(TAG, "onComplaintRespondSaveReceived ");
         try {
             AppUtils.hideProgressDialog();
@@ -1581,9 +1548,9 @@ public class Fragment_RC_Respond extends Fragment
     }
 
     private void gettingWorkPending() {
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+        if (checkInternet(getContext())) {
+            if (checkInternet(getContext())) {
                 receiveComplaintRespond_service.getWorkPendingReasonData();
             } else
                 mWorkPendingInitializer.populateAsync(
@@ -1593,10 +1560,10 @@ public class Fragment_RC_Respond extends Fragment
 
     private void gettingWorkDone(String mDefectCode) {
         try {
-            mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-            if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
+
+            if (checkInternet(getContext())) {
                 WorkDoneRequest request = new WorkDoneRequest(mComplaintCode, mDefectCode, mWorkCategory);
-                if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+                if (checkInternet(getContext())) {
                     // AppUtils.showProgressDialog(mActivity, getString(R.string.fetching_work_done_details),
                     // false);
                     receiveComplaintRespond_service.getWorkDoneData(request);
@@ -1610,10 +1577,10 @@ public class Fragment_RC_Respond extends Fragment
     }
 
     private void gettingWorkDefects() {
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
+
+        if (checkInternet(getContext())) {
             WorkDefectRequest request = new WorkDefectRequest(mComplaintCode, mWorkCategory);
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 receiveComplaintRespond_service.getWorkDefectData(request);
             } else
@@ -1622,9 +1589,9 @@ public class Fragment_RC_Respond extends Fragment
     }
 
     private void gettingWorkStatus() {
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+        if (checkInternet(getContext())) {
+            if (checkInternet(getContext())) {
                 receiveComplaintRespond_service.getWorkStatusData();
             } else
                 mWorkStatusInitializer.populateAsync(
@@ -1635,9 +1602,9 @@ public class Fragment_RC_Respond extends Fragment
     private void postDataToServer(ReceiveComplaintViewEntity saveRequest) {
         Log.d(TAG, "postDataToServer");
 
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+        if (checkInternet(getContext())) {
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 receiveComplaintRespond_service.getComplaintRespondSaveData(saveRequest);
             } else {
@@ -1697,9 +1664,9 @@ public class Fragment_RC_Respond extends Fragment
 
     private void postImageToServer(DFoundWDoneImageEntity saveRequest) {
         Log.d(TAG, "postImageToServer");
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+        if (checkInternet(getContext())) {
+            if (checkInternet(getContext())) {
                 receiveComplaintRespond_service.saveComplaintRespondImageData1(saveRequest, mContext);
             } else {
                 new DefectDoneImageDbInitializer(mActivity, saveRequest, this)
@@ -1725,14 +1692,13 @@ public class Fragment_RC_Respond extends Fragment
             outState.putParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS, mReceiveComplaintView);
             outState.putInt(AppUtils.ARGS_RECEIVEDCOMPLAINT_ITEM_POSITION, mSelectedPosition);
 
-
             ArrayList<CustomRecyclerViewItem> tt1=itemList1;
             tt1.removeAll(Collections.singleton(null));
             outState.putParcelableArrayList(AppUtils.ARGS_IMAGE_LIST_DFECT_FOUND,tt1);
 
             ArrayList<CustomRecyclerViewItem> tt2=itemList2;
             tt2.removeAll(Collections.singleton(null));
-            outState.putParcelableArrayList(AppUtils.ARGS_IMAGE_LIST_WORK_DONE,tt2);
+            outState.putParcelableArrayList( AppUtils.ARGS_IMAGE_LIST_WORK_DONE,tt2);
 
 
             Log.d(TAG, "getSavedState");
@@ -1800,6 +1766,7 @@ public class Fragment_RC_Respond extends Fragment
         builder.show();
     }
 
+
     public void showNoImageAlert(final int count){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
@@ -1817,15 +1784,6 @@ public class Fragment_RC_Respond extends Fragment
                 });
         AlertDialog alert = builder.create();
         alert.show();
-
-    }
-
-    public String convertImageviewBase64(){
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
-        ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] image=stream.toByteArray();
-        return Base64.encodeToString(image, 0);
     }
 
     private void dispatchViewPhotoIntent(final String base64) {
@@ -2339,11 +2297,17 @@ public class Fragment_RC_Respond extends Fragment
     @Override
     public void onImageSaveReceivedSuccess1(RCDownloadImage imageEntity, int mode) {
         processImage(imageEntity,true);
+
+
+        EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+        emp.setCompCode(mOpco);
+        emp.setTransType("Reactive");
+        emp.setRefNo(mComplaintNumber);
+        new GPSTracker(getContext()).updateFusedLocation(emp);
+
     }
 
-
     public void processImage(final RCDownloadImage imageEntity, final boolean fromUpload) {
-
 
         imageTotalCount=imageEntity.getImageCount();
 
@@ -2465,4 +2429,7 @@ public class Fragment_RC_Respond extends Fragment
         recyclerviewImage2.setAdapter(customRecyclerViewDataAdapter2);
 
     }
+
+    @Override
+    public void onPPEFetchListFailure2(String strErr, int mode) {}
 }

@@ -201,7 +201,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                 }
                 else{
-                    holder.rd_5.setVisibility(View.GONE);
+                    holder.rd_5.setVisibility(View.INVISIBLE);
                 }
 
 
@@ -216,7 +216,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                         }
                 }
                 else{
-                    holder.rd_6.setVisibility(View.GONE);
+                    holder.rd_6.setVisibility(View.INVISIBLE);
                 }
 
 
@@ -231,7 +231,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                         }
                 }
                 else{
-                    holder.rd_7.setVisibility(View.GONE);
+                    holder.rd_7.setVisibility(View.INVISIBLE);
                 }
 
                 if(current.getSurveyQuesValue().size()>7) {
@@ -245,7 +245,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                         }
                 }
                 else{
-                    holder.rd_8.setVisibility(View.GONE);
+                    holder.rd_8.setVisibility(View.INVISIBLE);
                 }
 
 

@@ -2,13 +2,13 @@
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.core.widget.NestedScrollView
     style="@style/scroll_bar"
     android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -27,8 +27,7 @@
             android:src="@drawable/emco_logo_with_name"
             android:visibility="gone" />
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <RelativeLayout
             style="@style/match_parent_style"
             android:background="@color/colorWhite">
 
@@ -259,25 +258,30 @@
                 <Button
                     android:id="@+id/btn_Login"
                     style="@style/btn_common2"
-
                     android:layout_marginTop="@dimen/_25sdp"
                     android:layout_marginLeft="@dimen/_35sdp"
                     android:layout_marginRight="@dimen/_35sdp"
                     android:text="@string/lbl_submit" />
 
                 <TextView
-                    android:id="@+id/tv_forgot_password"
-                    style="@style/textview_label"
-                    android:text="@string/msg_forget_password"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/colorPrimary"
-                    android:visibility="gone" />
+
+                    style="@style/textview_label_new2"
+                    fontPath="fonts/HelveticaRegular.ttf"
+                    android:layout_height="23dp"
+                    android:layout_gravity="center"
+                    android:text="(or)"
+                    android:textSize="@dimen/_8sdp"
+                    android:textAlignment="textEnd" />
 
                 <TextView
                     android:id="@+id/tv_login"
-                    fontPath="fonts/HelveticaRegular.ttf"
                     style="@style/textview_label_new2"
+                    fontPath="fonts/HelveticaRegular.ttf"
+                    android:layout_height="23dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/color_blue"
                     android:text="@string/already_registered_login_now"
+                    android:textSize="@dimen/_8sdp"
                     android:textAlignment="textEnd" />
             </LinearLayout>
 

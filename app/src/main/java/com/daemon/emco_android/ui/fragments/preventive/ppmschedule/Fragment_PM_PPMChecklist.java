@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
+import com.daemon.emco_android.service.GPSTracker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -69,7 +72,6 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
     private FragmentManager mManager;
     private Bundle mArgs;
     private RecyclerView recyclerView;
-    private FloatingActionButton  fab;
     private CoordinatorLayout cl_main;
     private PPMCheckListAdapter adapter;
     private LinearLayoutManager mLayoutManager;
@@ -77,7 +79,6 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
     private Button btn_next, btn_save, btn_ppe, btn_risk, btn_equip, btn_save_new,btn_material_req;
     private Toolbar mToolbar;
     private View rootView;
-    private String mNetworkInfo = null;
     private String mLoginData = null;
     private PpmScheduleDocBy ppmScheduleDocBy;
 
@@ -87,26 +88,24 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick");
+
                     AppUtils.closeInput(cl_main);
                     switch (v.getId()) {
                         case R.id.btn_ppe:
                             gotoPPEPage();
                             break;
                         case R.id.btn_risk:
-                            //thirumal working
-                            //gotoNextPage();
+
                             gotoRiskPage();
                             break;
                         case R.id.btn_equip:
-                            //thirumal working
-                            //gotoNextPage();
+
                             gotoEquipPage();
                             break;
                         case R.id.btn_next:
                             nextPressed=true;
                             insertData = adapter.onInsertData();
-                            saveDataServer();
+                            saveDataServer(false);
 
                             break;
 
@@ -121,14 +120,13 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
                     }
                 }
             };
-    private GetPPMRecomResponse mGetPostRateService;
+
     private GetPpmResponseService getPostRateService_service;
     private List<PpmScheduleDocBy> fetchPpmScheduleDocBy = new ArrayList<>();
     private PpmScheduleDocBy getPpmScheduleDocBy = null;
-    private List<SaveCheckListData> updateData = new ArrayList<>();
     private List<Object> insertData = new ArrayList<>();
     private String mStrEmpId = null;
-    private List<ObjectMonthly> objectCodeValue = new ArrayList<>();
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -156,7 +154,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
             if (mArgs != null && mArgs.size() > 0) {
                 // Check if true material required page other wise material used page
                 ppmScheduleDocBy = mArgs.getParcelable(AppUtils.ARGS_PPMSCHEDULEDOCBY);
-                // getReceiveComplainMaterialFromService(mCurrentnoOfRows);
+
             }
 
         } catch (Exception ex) {
@@ -167,7 +165,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
+
         try {
             rootView = inflater.inflate(R.layout.fragment_ppmchecklist, container, false);
             initUI(rootView);
@@ -180,7 +178,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             btn_save_new = (Button) rootView.findViewById(R.id.btn_save_new);
@@ -205,7 +203,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
 
                             nextPressed=false;
                             insertData = adapter.onInsertData();
-                            saveDataServer();
+                            saveDataServer(true);
 
                             break;
 
@@ -213,7 +211,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
 
                     nextPressed=true;
                     insertData = adapter.onInsertData();
-                    saveDataServer();
+                    saveDataServer(false);
                             break;
                     }
                     return false;
@@ -244,13 +242,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
-        btn_ppe.setTypeface(font.getHelveticaRegular());
-        btn_risk.setTypeface(font.getHelveticaRegular());
-        btn_equip.setTypeface(font.getHelveticaRegular());
-        btn_material_req.setTypeface(font.getHelveticaRegular());
-        btn_next.setTypeface(font.getHelveticaRegular());
-        btn_save.setTypeface(font.getHelveticaRegular());
+
         btn_ppe.setOnClickListener(_OnClickListener);
         btn_risk.setOnClickListener(_OnClickListener);
         btn_equip.setOnClickListener(_OnClickListener);
@@ -265,7 +257,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
             public void onClick(View view) {
                 nextPressed=false;
                 insertData = adapter.onInsertData();
-                saveDataServer();
+                saveDataServer(true);
             }
         });
 
@@ -280,15 +272,14 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
         getPostRateService_service.getSavePpmCheckList(ratedServiceRequest);
     }
 
-    private void saveDataServer() {
+    private void saveDataServer(boolean isSave) {
         if (insertData != null && !insertData.isEmpty()) {
             for (int i = 0; i < insertData.size(); i++) {
                 if (insertData.get(i) instanceof ObjectMonthly) {
                     ObjectMonthly d = (ObjectMonthly) insertData.get(i);
                     if (TextUtils.isEmpty(d.getParamValue())) {
-                   //     AppUtils.showDialog(mActivity, "All Fields Mandatory");
 
-                        AppUtils.showSnackBar(R.id.coordinatorLayout,rootView,  "All Fields Mandatory");
+                        AppUtils.showSnackBar(R.id.coordinatorLayout,rootView,  "Please fill all the mandatory fields.");
 
                         fetchPpmScheduleDocBy.clear();
 
@@ -316,6 +307,16 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
                 }
             }
             sendServer(fetchPpmScheduleDocBy);
+
+            if(isSave){
+                EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+                emp.setCompCode(getPpmScheduleDocBy.getCompanyCode());
+                emp.setTransType("PPM");
+                emp.setRefNo(getPpmScheduleDocBy.getPpmNo());
+                new GPSTracker(getContext()).updateFusedLocation(emp);
+            }
+
+
         }
     }
 
@@ -453,8 +454,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
     public void onReceivedSucess(List<ObjectMonthly> customerRemarks) {
         AppUtils.hideProgressDialog();
         List<ObjectMonthly> value = new ArrayList<>();
-        objectCodeValue = customerRemarks;
-        txt_ppm_title.setText(customerRemarks.get(0).getCheckListDesc());
+        txt_ppm_title.setText(customerRemarks.get(0).getCheckListDesc().replaceAll("(\\r|\\n)", ""));
         LinkedHashMap<String, ArrayList<ObjectMonthly>> hashMap = new LinkedHashMap<>();
         ArrayList<Object> list = new ArrayList<>();
         for (ObjectMonthly customerRemark : customerRemarks) {
@@ -498,17 +498,13 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
             gotoNextPage();
         }
         else{
-           // AppUtils.showDialog(mActivity, customerRemarks);
 
             AppUtils.showSnackBar(R.id.coordinatorLayout,rootView,  customerRemarks);
         }
-
     }
-
 
     private void gotoMaterialRequired() {
         try {
-            // if (mArgs != null && mArgs.size() > 0) {
             Bundle data = new Bundle();
             data.putParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS, ppmScheduleDocBy);
             data.putString(AppUtils.ARGS_MATERIAL_PAGE_STRING, AppUtils.ARGS_MATERIAL_REQUIRED_STRING);
@@ -520,7 +516,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
                     R.id.frame_container, fragment, TAG_RECEIVE_COMPLAINT_MATERIALREQUIRED);
             fragmentTransaction.addToBackStack(TAG_RECEIVE_COMPLAINT_MATERIALREQUIRED);
             fragmentTransaction.commit();
-            // }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

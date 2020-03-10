@@ -269,15 +269,7 @@ public class Fragment_PPM_Finding extends Fragment implements RiskeAssListener
                         dialog.dismiss();
 
                         mManager.popBackStack();
-//                        Bundle data = new Bundle();
-//                        data.putParcelable(AppUtils.ARGS_PPMSCHEDULEDOCBY, ppmScheduleDocBy);
-//                        Fragment_PM_PPMChecklist fragment = new Fragment_PM_PPMChecklist();
-//                        fragment.setArguments(data);
-//                        FragmentTransaction fragmentTransaction = mManager.beginTransaction();
-//                        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-//                        fragmentTransaction.replace(R.id.frame_container, fragment, TAG_PM_PPMCHECKLIST);
-//                        fragmentTransaction.addToBackStack(TAG_PM_PPMCHECKLIST);
-//                        fragmentTransaction.commit();
+
                     }
                 });
         MaterialDialog dialog = builder.build();

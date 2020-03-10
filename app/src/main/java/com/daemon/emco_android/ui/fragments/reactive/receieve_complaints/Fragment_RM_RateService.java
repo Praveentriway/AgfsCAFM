@@ -10,6 +10,8 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
+import com.daemon.emco_android.service.GPSTracker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
@@ -56,19 +58,20 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVED_COMPALINTS;
 
 /**
  * Created by subbu on 25/11/16.
  */
+
 public class Fragment_RM_RateService extends Fragment
         implements View.OnClickListener,
         SignaturePad.OnSignedListener,
         RateAndShareListener,
         RatedServiceListener {
     private static final String TAG = Fragment_RM_RateService.class.getSimpleName();
-    private static String mNetworkInfo = null,
-            mCustomerRemarks = null,
+    private static String mCustomerRemarks = null,
             select_customer_rank = null,
             mComplaintno = null,
             mComplaintSite = null,
@@ -76,16 +79,12 @@ public class Fragment_RM_RateService extends Fragment
     private Gson gson = new Gson();
     private Handler mHandler;
     private AppCompatActivity mActivity;
-    private Context mContext;
     private Font font = App.getInstance().getFontInstance();
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private FragmentManager mManager;
-
     AppCompatTextView tv_lbl_signature,tv_lbl_cus_remarks;
-    private TextView tv_lbl_cus_satisfaction,
-            tv_lbl_tech_remarks;
-    private TextView tv_select_customer_rank, tv_select_signstatus;
+    private TextView tv_select_customer_rank,tv_lbl_tech_remarks;
     private SignaturePad signaturePad;
     private Button btnClear;
     private FloatingActionButton btnSave;
@@ -106,7 +105,7 @@ public class Fragment_RM_RateService extends Fragment
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         try {
             mActivity = (AppCompatActivity) getActivity();
@@ -134,7 +133,7 @@ public class Fragment_RM_RateService extends Fragment
     }
 
     private void getParcelableData() {
-        Log.d(TAG, "getParcelableData");
+
         try {
             if (mArgs != null && mArgs.containsKey(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS)) {
                 receiveComplaintViewEntity =
@@ -143,19 +142,19 @@ public class Fragment_RM_RateService extends Fragment
                 mComplaintSite = receiveComplaintViewEntity.getComplaintSite();
                 mOpco = receiveComplaintViewEntity.getOpco();
                 mUnSignedPage = mArgs.getString(AppUtils.ARGS_RECEIVECOMPLAINT_PAGETYPE);
-
                 getCustomerRemarkData();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     @Nullable
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
+
         View rootView = null;
         try {
             rootView = (View) inflater.inflate(R.layout.fragment_rate_service, container, false);
@@ -168,16 +167,13 @@ public class Fragment_RM_RateService extends Fragment
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             ll_remarks_detail = (LinearLayout) rootView.findViewById(R.id.ll_remarks_detail);
-            tv_lbl_cus_satisfaction = (TextView) rootView.findViewById(R.id.tv_lbl_cus_satisfaction);
             tv_lbl_cus_remarks = (AppCompatTextView) rootView.findViewById(R.id.tv_lbl_cus_remarks);
             tv_lbl_signature = (AppCompatTextView) rootView.findViewById(R.id.tv_lbl_signature);
             tv_lbl_tech_remarks = (TextView) rootView.findViewById(R.id.tv_lbl_tech_remarks);
 
-            // logo changes R id
             iv_excellent = (ImageView) rootView.findViewById(R.id.iv_excellent);
             iv_very_good = (ImageView) rootView.findViewById(R.id.iv_poor);
             tie_customer_remarks= (AppCompatEditText) rootView.findViewById(R.id.tie_customer_remarks);
@@ -186,7 +182,6 @@ public class Fragment_RM_RateService extends Fragment
             iv_poor = (ImageView) rootView.findViewById(R.id.iv_Satisfactory);
 
             tv_select_customer_rank = (TextView) rootView.findViewById(R.id.tv_select_customer_rank);
-            tv_select_signstatus = (TextView) rootView.findViewById(R.id.tv_select_signstatus);
             signaturePad = (SignaturePad) rootView.findViewById(R.id.signaturePad);
             btnSave = (FloatingActionButton) rootView.findViewById(R.id.btnSave);
             btnClear = (Button) rootView.findViewById(R.id.btnClear);
@@ -194,7 +189,6 @@ public class Fragment_RM_RateService extends Fragment
 
             FragmentManager fm=getFragmentManager();
             for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-                // fm.popBackStack();
                 Log.i(TAG, "Found fragment: " + fm.getBackStackEntryAt(i).getId());
             }
 
@@ -219,7 +213,7 @@ public class Fragment_RM_RateService extends Fragment
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
+
         try {
             tv_lbl_cus_remarks.setText(
                     Html.fromHtml(getString(R.string.lbl_customer_remarks) + AppUtils.mandatory));
@@ -227,13 +221,6 @@ public class Fragment_RM_RateService extends Fragment
                     Html.fromHtml(getString(R.string.lbl_tech_remarks) + AppUtils.mandatory));
 
             tv_lbl_signature.setText(Html.fromHtml("Customer Signature " + AppUtils.mandatory));
-            tv_lbl_cus_satisfaction.setTypeface(font.getHelveticaRegular());
-            tv_lbl_cus_remarks.setTypeface(font.getHelveticaRegular());
-            tv_lbl_signature.setTypeface(font.getHelveticaRegular());
-            tv_lbl_tech_remarks.setTypeface(font.getHelveticaRegular());
-            tv_select_customer_rank.setTypeface(font.getHelveticaRegular());
-            tv_select_signstatus.setTypeface(font.getHelveticaRegular());
-            btnClear.setTypeface(font.getHelveticaRegular());
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -250,7 +237,6 @@ public class Fragment_RM_RateService extends Fragment
             tie_customer_remarks.addTextChangedListener(new MyTextWatcher(tie_customer_remarks));
 
             if (receiveComplaintViewEntity != null) {
-
                 if (receiveComplaintViewEntity.getCustomerFeedback() != null) {
                     select_customer_rank = receiveComplaintViewEntity.getCustomerFeedback();
                     tv_select_customer_rank.setText(receiveComplaintViewEntity.getCustomerFeedback());
@@ -258,7 +244,6 @@ public class Fragment_RM_RateService extends Fragment
             }
 
             AppUtils.closeInput(cl_main);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -268,10 +253,8 @@ public class Fragment_RM_RateService extends Fragment
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_select_customer_rank:
-                // getCustomerRemarks();
                 break;
             case R.id.btnSave:
-                // Bitmap bitmap = signaturePad.getSignatureBitmap();
                 submitForm();
                 break;
             case R.id.btnClear:
@@ -296,9 +279,8 @@ public class Fragment_RM_RateService extends Fragment
     }
 
     private void getCustomerRemarkData() {
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 mGetPostRateService.getCustomerRemarksData();
 
@@ -310,7 +292,7 @@ public class Fragment_RM_RateService extends Fragment
                 } else
                     AppUtils.showDialog(mActivity, getString(R.string.msg_no_data_found_in_local_db));
             }
-        }
+
     }
 
     private void customerRemarkUpdate(String CustomerRank) {
@@ -321,7 +303,7 @@ public class Fragment_RM_RateService extends Fragment
     }
 
     private void submitForm() {
-        Log.d(TAG, "submitForm");
+
         try {
             AppUtils.closeInput(cl_main);
             String msgErr = "";
@@ -336,7 +318,7 @@ public class Fragment_RM_RateService extends Fragment
                 if (receiveComplaintViewEntity.getCustomerSignStatus() != null) {
                     if (receiveComplaintViewEntity.getCustomerSignStatus().equals(AppUtils.CLOSEWITHSIGN)) {
                         if (signaturePad.isEmpty()) {
-                            AppUtils.showDialog(mActivity, "Customer signature empty");
+                            AppUtils.showDialog(mActivity, "Customer signature should not be empty.");
                             AppUtils.closeInput(cl_main);
                             return;
                         }
@@ -344,12 +326,12 @@ public class Fragment_RM_RateService extends Fragment
                 }
 
             if (msgErr != "") {
-                AppUtils.showDialog(mActivity, "Please select values in Mandatory field");
+                AppUtils.showDialog(mActivity, "Please fill all the mandatory fields");
                 return;
             }
 
             if (signaturePad.isEmpty()) {
-                AppUtils.showDialog(mActivity, "Signature Mandatory");
+                AppUtils.showDialog(mActivity, "Signature is mandatory");
                 return;
 
             } else {
@@ -365,9 +347,7 @@ public class Fragment_RM_RateService extends Fragment
                 serviceRequest.setCustomerSignature(AppUtils.getEncodedString(signaturePad.getSignatureBitmap()));
                 serviceRequest.setTransactionType("R");
 
-                mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-                if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
-                    if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+                    if (checkInternet(getContext())) {
                         AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
 
                         mGetPostRateService.saveCustomerFeedbackRM(serviceRequest, this);
@@ -375,64 +355,22 @@ public class Fragment_RM_RateService extends Fragment
                         new SaveRatedServiceDbInitializer(mActivity, this, serviceRequest)
                                 .execute(AppUtils.MODE_INSERT_SINGLE);
                     }
-                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void getCustomerRemarks() {
-        Log.d(TAG, "getCustomerRemarks");
-        try {
-            if (listCustomerRank.size() > 0) {
-                new MaterialDialog.Builder(mActivity)
-                        .title(R.string.lbl_select_customer_remarks)
-                        .items(listCustomerRank)
-                        .itemsCallbackSingleChoice(
-                                -1,
-                                new MaterialDialog.ListCallbackSingleChoice() {
-                                    @Override
-                                    public boolean onSelection(
-                                            MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        if (which >= 0) {
-                                            select_customer_rank = text.toString();
-                                            tv_select_customer_rank.setText(text.toString());
-                                            tv_select_customer_rank.setTypeface(font.getHelveticaBold());
-                                            AppUtils.setErrorBg(tv_select_customer_rank, false);
-                                        } else {
-                                            select_customer_rank = null;
-                                            tv_select_customer_rank.setText("");
-                                            tv_select_customer_rank.setHint(
-                                                    getString(R.string.lbl_select_customer_remarks));
-                                            AppUtils.showDialog(
-                                                    mActivity, getString(R.string.no_value_has_been_selected));
-                                            AppUtils.setErrorBg(tv_select_customer_rank, true);
-                                        }
-                                        AppUtils.closeInput(cl_main);
-                                        return true;
-                                    }
-                                })
-                        .canceledOnTouchOutside(false)
-                        .positiveText(R.string.lbl_done)
-                        .negativeText(R.string.lbl_close)
-                        .show();
-            } else
-                AppUtils.showDialog(mActivity, getString(R.string.msg_no_data_found_in_local_db));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     private boolean validateCustomerRemarks() {
         mCustomerRemarks = tie_customer_remarks.getText().toString().trim();
         if (mCustomerRemarks.isEmpty()) {
-           // til_customer_remarks.setError(getString(R.string.msg_enter_remark_detail));
             AppUtils.showToast(mActivity,getString(R.string.msg_enter_remark_detail));
             requestFocus(tie_customer_remarks);
             return false;
         } else {
-           // til_customer_remarks.setErrorEnabled(false);
+
         }
         return true;
     }
@@ -462,7 +400,6 @@ public class Fragment_RM_RateService extends Fragment
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_home).setVisible(true);
     }
@@ -471,8 +408,6 @@ public class Fragment_RM_RateService extends Fragment
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                Log.d(TAG, "onOptionsItemSelected : home");
-                // mActivity.onBackPressed();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
@@ -488,7 +423,6 @@ public class Fragment_RM_RateService extends Fragment
 
     @Override
     public void onCustomerRemarksReceived(List<String> customerRemarks) {
-        Log.d(TAG, "onCustomerRemarksReceived");
         listCustomerRank = customerRemarks;
         AppUtils.hideProgressDialog();
         String strCusRemarks = gson.toJson(customerRemarks, baseType);
@@ -498,15 +432,20 @@ public class Fragment_RM_RateService extends Fragment
 
     @Override
     public void onRateShareReceivedError(String strErr) {
-        Log.d(TAG, "onRateShareReceivedError");
         AppUtils.hideProgressDialog();
         AppUtils.showDialog(mActivity, strErr);
     }
 
     @Override
     public void onSaveRateShareReceived(String strErr) {
+
+        EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+        emp.setCompCode(mOpco);
+        emp.setTransType("Reactive");
+        emp.setRefNo(mComplaintno);
+        new GPSTracker(getContext()).updateFusedLocation(emp);
+
         try {
-            Log.d(TAG, "onSaveRateShareReceived");
             AppUtils.hideProgressDialog();
             MaterialDialog.Builder builder =
                     new MaterialDialog.Builder(mActivity)
@@ -541,7 +480,6 @@ public class Fragment_RM_RateService extends Fragment
         }
     }
     public void loadFragment(final Fragment fragment, final String tag) {
-        Log.d(TAG, "loadFragment");
 
         Runnable mPendingRunnable =
                 new Runnable() {

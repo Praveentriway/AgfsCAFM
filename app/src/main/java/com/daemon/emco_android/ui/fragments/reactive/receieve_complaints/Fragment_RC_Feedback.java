@@ -29,6 +29,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.repository.remote.FeedBackRepository;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintViewService;
 import com.daemon.emco_android.repository.db.dbhelper.FbEmployeeDbInitializer;
@@ -40,6 +41,7 @@ import com.daemon.emco_android.repository.db.entity.ReceiveComplaintItemEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintRespondEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
 import com.daemon.emco_android.repository.db.entity.SaveFeedbackEntity;
+import com.daemon.emco_android.service.GPSTracker;
 import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.FeedbackListener;
 import com.daemon.emco_android.listeners.ReceivecomplaintView_Listener;
@@ -50,6 +52,7 @@ import com.daemon.emco_android.model.request.ReceiveComplaintViewRequest;
 import com.daemon.emco_android.model.response.PpmEmployeeFeedResponse;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -57,6 +60,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RATE_AND_SHARE;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_RATE__AND_FEEDBACK;
 
@@ -86,7 +90,7 @@ public class Fragment_RC_Feedback extends Fragment
       tv_lbl_supervisorremarks;
   private TextView tv_select_checkedby, tv_select_attendedby, tv_select_signstatus;
   private EditText et_technfeedback, et_supervisorremarks;
-  private Button btn_feedback_save;
+  private FloatingActionButton btn_feedback_save;
   private Toolbar mToolbar;
   private View rootView;
   private ReceiveComplaintViewService complaintView_service;
@@ -99,7 +103,7 @@ public class Fragment_RC_Feedback extends Fragment
   private List<EmployeeDetailsEntity> checkedby = new ArrayList<>();
   private List<EmployeeDetailsEntity> attendedby_response = new ArrayList<>();
   private List<EmployeeDetailsEntity> attendedby = new ArrayList<>();
-  private String mStrEmpId = null, select_signstatus = null, mLoginData = null, mNetworkInfo = null;
+  private String mStrEmpId = null, select_signstatus = null, mLoginData = null;
   private List<String> listSignStatus = null;
   View.OnClickListener _OnClickListener =
       new View.OnClickListener() {
@@ -108,9 +112,7 @@ public class Fragment_RC_Feedback extends Fragment
           Log.d(TAG, "onClick");
           AppUtils.closeInput(cl_main);
           switch (v.getId()) {
-            case R.id.btn_feedback_save:
-              submitForm();
-              break;
+
             case R.id.tv_select_signstatus:
               getTechRemarks();
               break;
@@ -126,7 +128,6 @@ public class Fragment_RC_Feedback extends Fragment
           }
         }
       };
-  private String signSignatore = "";
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -177,9 +178,7 @@ public class Fragment_RC_Feedback extends Fragment
                 receiveComplaintItemEntity.getContractNumber());
             receiveComplaintViewEntity.setComplaintSite(receiveComplaintItemEntity.getSiteCode());
 
-            if (mPreferences
-                .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-                .contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
               AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
               complaintView_service.GetReceiveComplaintViewData(
                   new ReceiveComplaintViewRequest(
@@ -230,7 +229,16 @@ public class Fragment_RC_Feedback extends Fragment
       tv_lbl_tech_remarks = (TextView) rootView.findViewById(R.id.tv_lbl_tech_remarks);
       tv_select_checkedby = (TextView) rootView.findViewById(R.id.tv_select_checkedby);
       tv_select_attendedby = (TextView) rootView.findViewById(R.id.tv_select_attendedby);
-      btn_feedback_save = (Button) rootView.findViewById(R.id.btn_feedback_save);
+      btn_feedback_save = (FloatingActionButton) rootView.findViewById(R.id.btn_feedback_save);
+
+      btn_feedback_save.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+          submitForm();
+
+        }
+      });
 
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -267,40 +275,14 @@ public class Fragment_RC_Feedback extends Fragment
     tv_lbl_tech_remarks.setText(
         Html.fromHtml(getString(R.string.lbl_tech_remarks) + AppUtils.mandatory));
 
-    tv_lbl_tech_remarks.setTypeface(font.getHelveticaRegular());
-    tv_select_signstatus.setTypeface(font.getHelveticaRegular());
-    tv_lbl_checkedby.setTypeface(font.getHelveticaRegular());
-    tv_lbl_attendedby.setTypeface(font.getHelveticaRegular());
-    tv_lbl_technfeedback.setTypeface(font.getHelveticaRegular());
-    tv_lbl_supervisorremarks.setTypeface(font.getHelveticaRegular());
-
-    tv_select_checkedby.setTypeface(font.getHelveticaRegular());
-    tv_select_attendedby.setTypeface(font.getHelveticaRegular());
-
-    et_technfeedback.setTypeface(font.getHelveticaRegular());
-    et_supervisorremarks.setTypeface(font.getHelveticaRegular());
-
-    btn_feedback_save.setTypeface(font.getHelveticaRegular());
 
     tv_select_checkedby.setOnClickListener(_OnClickListener);
     tv_select_attendedby.setOnClickListener(_OnClickListener);
-    btn_feedback_save.setOnClickListener(_OnClickListener);
     tv_select_signstatus.setOnClickListener(_OnClickListener);
 
-//    if (receiveComplaintViewEntity != null) {
-//      if (receiveComplaintViewEntity.getComplaintStatus() != null) {
-//        if (receiveComplaintViewEntity.getComplaintStatus().equals(AppUtils.COMPLETED)) {
-//          btn_feedback_save.setVisibility(View.GONE);
-//        } else {
-//          btn_feedback_save.setVisibility(View.VISIBLE);
-//        }
-//      }
-//    }
+
     if (receiveComplaintViewEntity != null) {
-//      if (receiveComplaintViewEntity.getComplaintStatus() != null) {
-//        btn_feedback_save.setVisibility(
-//            receiveComplaintViewEntity.getComplaintStatus().equals("C") ? View.GONE : View.VISIBLE);
-//      }
+
 
       if (receiveComplaintViewEntity.getCustomerSignStatus() != null) {
         select_signstatus = receiveComplaintViewEntity.getCustomerSignStatus();
@@ -330,9 +312,7 @@ public class Fragment_RC_Feedback extends Fragment
                   : receiveComplaintViewEntity.getJobNumber());
           request.setWorkCategory(receiveComplaintViewEntity.getWorkCategory());
 
-          if (mPreferences
-              .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-              .contains(AppUtils.NETWORK_AVAILABLE)) {
+          if (checkInternet(getContext())) {
             feedBackService.fetchFeedbackDetailsData(feedbackRequest);
 
             AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
@@ -406,9 +386,7 @@ public class Fragment_RC_Feedback extends Fragment
           postFeedbackEntity.setFeedbackInformation(et_technfeedback.getText().toString());
           postFeedbackEntity.setSupRemark(et_supervisorremarks.getText().toString());
 
-          if (mPreferences
-              .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-              .contains(AppUtils.NETWORK_AVAILABLE)) {
+          if (checkInternet(getContext())) {
 
             AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
             feedBackService.postFeedbackDetailsData(postFeedbackEntity);
@@ -685,16 +663,7 @@ public class Fragment_RC_Feedback extends Fragment
           new FeedbackDbInitializer(mActivity, this, rcFeedbackEntity)
               .execute(AppUtils.MODE_INSERT_SINGLE);
         }
-        // if (receiveComplaintViewEntity != null)
 
-        /* if (receiveComplaintViewEntity != null
-                    && !receiveComplaintViewEntity.getComplaintNumber().equals("")) {
-                  tv_select_checkedby.setClickable(false);
-                  tv_select_checkedby.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                  tv_select_attendedby.setClickable(false);
-                  tv_select_attendedby.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                }
-        */
       } else AppUtils.showDialog(mActivity, "No previous Data Found Feedback");
     } catch (Exception e) {
       e.printStackTrace();
@@ -711,6 +680,14 @@ public class Fragment_RC_Feedback extends Fragment
 
   @Override
   public void onFeedbackEmployeeDetailsSaveSuccess(String strMsg, int mode) {
+
+      EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+      emp.setCompCode(postFeedbackEntity.getOpco());
+      emp.setTransType("Reactive");
+      emp.setRefNo(postFeedbackEntity.getComplaintNumber());
+      new GPSTracker(getContext()).updateFusedLocation(emp);
+
+
     Log.d(TAG, "onFeedbackEmployeeDetailsSaveSuccess" + strMsg);
     try {
       if (mode == AppUtils.MODE_SERVER)

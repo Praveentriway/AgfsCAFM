@@ -30,6 +30,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.repository.remote.FeedBackRepository;
 import com.daemon.emco_android.repository.remote.PpeService;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintViewService;
@@ -44,6 +45,7 @@ import com.daemon.emco_android.repository.db.entity.ReceiveComplaintRespondEntit
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
 import com.daemon.emco_android.repository.db.entity.SaveFeedbackEntity;
 import com.daemon.emco_android.repository.db.entity.SaveFeedbackEntityNew;
+import com.daemon.emco_android.service.GPSTracker;
 import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.DatePickerDialogListener;
 import com.daemon.emco_android.listeners.FeedbackListener;
@@ -67,6 +69,7 @@ import com.daemon.emco_android.model.response.PpmEmployeeFeedResponse;
 import com.daemon.emco_android.model.response.PpmFeedBackResponse;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -77,6 +80,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RATE_AND_SHARE_PPM;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_RATE__AND_FEEDBACK;
 
@@ -106,37 +110,26 @@ public class Fragment_PPM_Feedback extends Fragment
             tv_lbl_supervisorremarks,tv_select_from_date,tv_lbl_from_date;
     private TextView tv_select_checkedby, tv_select_attendedby, edt_status,txt_pending_reasons, tv_select_signstatus,tv_lbl_to_date,tv_select_to_date;
     private EditText et_technfeedback, et_supervisorremarks;
-    private Button btn_feedback_save;
+    private FloatingActionButton btn_feedback_save;
     private LinearLayout linear_pending_reasons, linear_todate, linear_fromdate;
     String fromDate="",toDate="";
     boolean startDateClicked;
     private Toolbar mToolbar;
     private View rootView;
-    private int mModeDate;
-    private String mStrRemark = null;
     private String ppmStatusArr = "";
-    private String mFromDate = null, mToDate = null;
-    private List<String> dailogItems = new ArrayList<>();
     private ReceiveComplaintViewService complaintView_service;
     private FeedBackRepository feedBackService;
-    // private List<EmployeeDetailsEntity> entityList = new ArrayList<>();
     private List<ObjectFeedBack> checkedbyList_ppm = new ArrayList<>();
     private List<ObjectFeedBack> attentedList_ppm = new ArrayList<>();
-    private ObjectPPM ObjectPPM;
-    private List<ReceiveComplaintViewEntity> entityListNew = new ArrayList<>();
     private PpeService ppeService;
     private List<CheckedBy> checkedby_response_ppm = new ArrayList<>();
     private List<CheckedBy> empDetailsCheckBy = new ArrayList<>();
     private List<AttendedBy> empDetailsAttenBy = new ArrayList<>();
-    private String actualDate = "";
     private List<CheckedBy> checkedby_ppm = new ArrayList<>();
-    //private List<EmployeeDetailsEntity> attendedby_response = new ArrayList<>();
     private List<AttendedBy> attendedby_response_ppm = new ArrayList<>();
-    //private List<EmployeeDetailsEntity> attendedby = new ArrayList<>();
     private List<AttendedBy> attendedby_ppm = new ArrayList<>();
-    private String mStrEmpId = null, select_signstatus = null, mLoginData = null, mNetworkInfo = null;
+    private String mStrEmpId = null, select_signstatus = null, mLoginData = null;
     private List<String> listSignStatus = null;
-    private String signSignatore = "";
     private PpmFeedBackResponse editppmFeedBack;
     private PpmEmployeeFeedResponse insertPpmFeedback = null;
     private List<String> ppmFeedbackStatus = new ArrayList<>();
@@ -153,12 +146,10 @@ public class Fragment_PPM_Feedback extends Fragment
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick");
+
                     AppUtils.closeInput(cl_main);
                     switch (v.getId()) {
-                        case R.id.btn_feedback_save:
-                            submitForm();
-                            break;
+
                         case R.id.tv_select_signstatus:
                             getTechRemarks();
                             break;
@@ -216,14 +207,11 @@ public class Fragment_PPM_Feedback extends Fragment
             }
             feedBackService = new FeedBackRepository(mActivity, this);
 
-
-
             complaintView_service = new ReceiveComplaintViewService(mActivity, this);
             if (mArgs != null && mArgs.size() > 0) {
                 ppmScheduleDocBy =
                         mArgs.getParcelable(AppUtils.ARGS_FEEDBACK_VIEW_DETAILS);
-               /* scheduleDetails =
-                        mArgs.getParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS);*/
+
                 if (mArgs.getString("complaint_number") != null && mArgs.getString("opco_number") != null && mArgs.getString("complaint_site") != null)
                     if (!mArgs.getString("complaint_number").equals("") && !mArgs.getString("opco_number").equals("") &&
                             !mArgs.getString("complaint_site").equals("")) {
@@ -231,7 +219,6 @@ public class Fragment_PPM_Feedback extends Fragment
                         opco_number = mArgs.getString("opco_number");
                         complaint_site = mArgs.getString("complaint_site");
                     }
-
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -241,7 +228,6 @@ public class Fragment_PPM_Feedback extends Fragment
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
         try {
             rootView = inflater.inflate(R.layout.fragment_ppm_feedback, container, false);
             initUI(rootView);
@@ -255,7 +241,7 @@ public class Fragment_PPM_Feedback extends Fragment
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
 
@@ -263,9 +249,8 @@ public class Fragment_PPM_Feedback extends Fragment
             tv_lbl_attendedby = (TextView) rootView.findViewById(R.id.tv_lbl_attendedby);
             tv_lbl_technfeedback = (TextView) rootView.findViewById(R.id.tv_lbl_technfeedback);
             tv_lbl_supervisorremarks = (TextView) rootView.findViewById(R.id.tv_lbl_supervisorremarks);
-
             tv_select_from_date= (TextView) rootView.findViewById(R.id.tv_select_from_date);
-                    tv_lbl_from_date= (TextView) rootView.findViewById(R.id.tv_lbl_from_date);
+            tv_lbl_from_date= (TextView) rootView.findViewById(R.id.tv_lbl_from_date);
             et_technfeedback = (EditText) rootView.findViewById(R.id.et_technfeedback);
             et_supervisorremarks = (EditText) rootView.findViewById(R.id.et_supervisorremarks);
             tv_select_signstatus = (TextView) rootView.findViewById(R.id.tv_select_signstatus);
@@ -277,13 +262,12 @@ public class Fragment_PPM_Feedback extends Fragment
             tv_lbl_status = (TextView) rootView.findViewById(R.id.tv_lbl_status);
             tv_select_checkedby = (TextView) rootView.findViewById(R.id.tv_select_checkedby);
             tv_select_attendedby = (TextView) rootView.findViewById(R.id.tv_select_attendedby);
-            btn_feedback_save = (Button) rootView.findViewById(R.id.btn_feedback_save);
+            btn_feedback_save = (FloatingActionButton) rootView.findViewById(R.id.btn_feedback_save);
             edt_start_date = (EditText) rootView.findViewById(R.id.edt_start_date);
             edt_end_date = (EditText) rootView.findViewById(R.id.edt_end_date);
             et_remarks = (EditText) rootView.findViewById(R.id.et_remarks);
             edt_status = (TextView) rootView.findViewById(R.id.edt_status);
             txt_pending_reasons = (TextView) rootView.findViewById(R.id.txt_pending_reasons);
-
             linear_pending_reasons = (LinearLayout) rootView.findViewById(R.id.linear_pending_reasons);
             linear_fromdate = (LinearLayout) rootView.findViewById(R.id.linear_fromdate);
             linear_todate = (LinearLayout) rootView.findViewById(R.id.linear_todate);
@@ -312,8 +296,6 @@ public class Fragment_PPM_Feedback extends Fragment
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
-
         tv_lbl_checkedby.setText(Html.fromHtml(getString(R.string.lbl_checkedby) + AppUtils.mandatory));
         tv_lbl_attendedby.setText(
                 Html.fromHtml(getString(R.string.lbl_attendedby) + AppUtils.mandatory));
@@ -323,35 +305,14 @@ public class Fragment_PPM_Feedback extends Fragment
         tv_lbl_tech_remarks.setText(
                 Html.fromHtml(getString(R.string.lbl_tech_remarks) + AppUtils.mandatory));
 
-        tv_lbl_tech_remarks.setTypeface(font.getHelveticaRegular());
-        tv_lbl_startdate.setTypeface(font.getHelveticaRegular());
-        tv_lbl_enddate.setTypeface(font.getHelveticaRegular());
-        tv_lbl_status.setTypeface(font.getHelveticaRegular());
-        tv_select_signstatus.setTypeface(font.getHelveticaRegular());
-        tv_lbl_to_date.setTypeface(font.getHelveticaRegular());
-        tv_select_to_date.setTypeface(font.getHelveticaRegular());
-        tv_lbl_checkedby.setTypeface(font.getHelveticaRegular());
-        tv_lbl_attendedby.setTypeface(font.getHelveticaRegular());
-        tv_lbl_technfeedback.setTypeface(font.getHelveticaRegular());
-        tv_lbl_supervisorremarks.setTypeface(font.getHelveticaRegular());
-        tv_select_from_date.setTypeface(font.getHelveticaRegular());
-        tv_lbl_from_date.setTypeface(font.getHelveticaRegular());
-        edt_start_date.setTypeface(font.getHelveticaRegular());
-        et_remarks.setTypeface(font.getHelveticaRegular());
-        edt_end_date.setTypeface(font.getHelveticaRegular());
-        edt_status.setTypeface(font.getHelveticaRegular());
-        txt_pending_reasons.setTypeface(font.getHelveticaRegular());
-        tv_select_checkedby.setTypeface(font.getHelveticaRegular());
-        tv_select_attendedby.setTypeface(font.getHelveticaRegular());
-
-        et_technfeedback.setTypeface(font.getHelveticaRegular());
-       // et_supervisorremarks.setTypeface(font.getHelveticaRegular());
-
-        btn_feedback_save.setTypeface(font.getHelveticaRegular());
-
         tv_select_checkedby.setOnClickListener(_OnClickListener);
         tv_select_attendedby.setOnClickListener(_OnClickListener);
-        btn_feedback_save.setOnClickListener(_OnClickListener);
+        btn_feedback_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitForm();
+            }
+        });
         tv_select_signstatus.setOnClickListener(_OnClickListener);
 
         tv_select_from_date.setOnClickListener(_OnClickListener);
@@ -386,19 +347,17 @@ public class Fragment_PPM_Feedback extends Fragment
             }
         });
 
-
-
     }
 
-
-
     private void fetchFeedbackData() {
+
         try {
-            mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-            if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
-                if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+            if (checkInternet(getContext())) {
+                if (checkInternet(getContext())) {
 
                     if (ppmScheduleDocBy != null) {
+
                         AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                         RiskAssListRequest request = new RiskAssListRequest(ppmScheduleDocBy.getPpmNo());
                         new RiskAssessmentService(mActivity, this).getPpmDetails(request);
@@ -471,6 +430,7 @@ public class Fragment_PPM_Feedback extends Fragment
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private boolean editSubmit(PpmFeedBackResponse ppmFeedBackResponse, PpmEmployeeFeedResponse ppmEmployeeFeedResponse) {
@@ -499,13 +459,11 @@ public class Fragment_PPM_Feedback extends Fragment
                     AppUtils.setErrorBg(tv_select_from_date, false);
                 }
 
-
                 if(tv_select_to_date.getText().toString().equalsIgnoreCase(getString(R.string.lbl_select_to_date))) {
                     AppUtils.setErrorBg(tv_select_to_date, true);
                     msgErr = getString(R.string.lbl_select_to_date);
                     return false;
                 }
-
             }
 
             if (ppmFeedBackResponse != null) {
@@ -602,9 +560,7 @@ public class Fragment_PPM_Feedback extends Fragment
         if (ppmScheduleDocBy != null) {
             SaveFeedbackEntityNew request =
                     new SaveFeedbackEntityNew(ppmScheduleDocBy.getCompanyCode());
-            if (mPreferences
-                    .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-                    .contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 request.setOpco(ppmScheduleDocBy.getCompanyCode());
                 request.setCreatedBy(mStrEmpId);
                 if (editppmFeedBack != null) {
@@ -895,8 +851,7 @@ public class Fragment_PPM_Feedback extends Fragment
     }
 
     @Override
-    public void onAllFeedbackDetailsReceivedSuccess(
-            List<SaveFeedbackEntity> saveFeedbackEntities, int mode) {
+    public void onAllFeedbackDetailsReceivedSuccess(List<SaveFeedbackEntity> saveFeedbackEntities, int mode) {
     }
 
     @Override
@@ -928,8 +883,15 @@ public class Fragment_PPM_Feedback extends Fragment
 
     @Override
     public void onFeedbackEmployeeDetailsSaveSuccess(String strMsg, int mode) {
-        Log.d(TAG, "onFeedbackEmployeeDetailsSaveSuccess" + strMsg);
+
+        EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+        emp.setCompCode(ppmScheduleDocBy.getCompanyCode());
+        emp.setTransType("PPM");
+        emp.setRefNo(ppmScheduleDocBy.getPpmNo());
+        new GPSTracker(getContext()).updateFusedLocation(emp);
+
         try {
+
             AppUtils.hideProgressDialog();
             MaterialDialog.Builder builder =
                     new MaterialDialog.Builder(mActivity)
@@ -985,6 +947,7 @@ public class Fragment_PPM_Feedback extends Fragment
 
             MaterialDialog dialog = builder.build();
             dialog.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1041,7 +1004,6 @@ public class Fragment_PPM_Feedback extends Fragment
 
                             } else {
                                 AppUtils.setErrorBg(tv_select_remarks, true);
-                                mStrRemark = null;
                                 tv_select_remarks.setText("");
                                 tv_select_remarks.setHint(getString(R.string.lbl_select_remarks));
                                 AppUtils.showDialog(mActivity, getString(R.string.no_value_has_been_selected));
@@ -1074,11 +1036,9 @@ public class Fragment_PPM_Feedback extends Fragment
                     //  select_signstatus = null;
                     tv_select_signstatus.setText("");
                     tv_select_signstatus.setHint(getString(R.string.lbl_select_tech_remarks));
-                   /* AppUtils.showDialog(
-                            mActivity, getString(R.string.no_value_has_been_selected));
-                    AppUtils.setErrorBg(tv_select_signstatus, true);*/
+
                 } else {
-                    // select_signstatus = null;
+
                     tv_select_signstatus.setText("");
                     tv_select_signstatus.setHint(getString(R.string.lbl_select_tech_remarks));
                     if (strErr.contains("Data not found"))
@@ -1103,8 +1063,6 @@ public class Fragment_PPM_Feedback extends Fragment
         try {
             switch (item.getItemId()) {
                 case R.id.action_home:
-                    Log.d(TAG, "onOptionsItemSelected : home");
-                    // mActivity.onBackPressed();
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                         fm.popBackStack();
@@ -1124,7 +1082,6 @@ public class Fragment_PPM_Feedback extends Fragment
     @Override
     public void onTechRemarksReceived(List<String> technicalRemarks) {
 
-        Log.d(TAG, "onTechnicalRemarksReceived");
         listSignStatus = technicalRemarks;
         AppUtils.hideProgressDialog();
         String strTechRemarks = gson.toJson(technicalRemarks, baseType);
@@ -1295,8 +1252,6 @@ public class Fragment_PPM_Feedback extends Fragment
                 }
             }
 
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1326,7 +1281,6 @@ public class Fragment_PPM_Feedback extends Fragment
     @Override
     public void onPPENameListReceived(List<PPENameEntity> ppeNameEntities, int mode){
 
-
     }
 
     @Override
@@ -1350,9 +1304,6 @@ public class Fragment_PPM_Feedback extends Fragment
         RiskAssListRequest request = new RiskAssListRequest(ppmScheduleDocBy.getCompanyCode(), ppmScheduleDocBy.getJobNo(),
                 ppmScheduleDocBy.getPpmNo(), ppmScheduleDocBy.getChkCode());
         new RiskAssessmentService(mActivity, this).getRiskassesList(request);
-
-
-
 
     }
 
@@ -1429,7 +1380,6 @@ public class Fragment_PPM_Feedback extends Fragment
                             } else {
                                 AppUtils.setErrorBg(txt_pending_reasons, true);
 
-                            //    txt_pending_reasons.setText("");
                                 txt_pending_reasons.setHint(getString(R.string.lbl_select_remarks));
                                 AppUtils.showDialog(mActivity, getString(R.string.no_value_has_been_selected));
                             }
@@ -1443,14 +1393,9 @@ public class Fragment_PPM_Feedback extends Fragment
 
         }
 
-
         else{
-
             feedBackService.getPendingReasons(this);
-
         }
-
-
     }
 
 
@@ -1467,7 +1412,6 @@ public class Fragment_PPM_Feedback extends Fragment
        catch (Exception e){
            return  dt;
        }
-
     }
 
     public boolean checkEmpty(String ss){
@@ -1478,7 +1422,6 @@ public class Fragment_PPM_Feedback extends Fragment
         else{
             return true;
         }
-
     }
 
 
@@ -1488,15 +1431,15 @@ public class Fragment_PPM_Feedback extends Fragment
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
             Date newDate = format.parse(dt);
-
             format = new SimpleDateFormat("dd-MMM-yyyy");
             return   format.format(newDate);
         }
         catch (Exception e){
             return  dt;
         }
-
     }
 
+    @Override
+    public void onPPEFetchListFailure2(String strErr, int mode) {}
 
 }

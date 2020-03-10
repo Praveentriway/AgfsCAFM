@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/match_parent_style"
-    android:fillViewport="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    tools:ignore="MissingPrefix"
+    android:layout_height="match_parent"
+    android:background="@color/bg_layout"
+    >
+
+    <androidx.core.widget.NestedScrollView
+        style="@style/scroll_bar"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <LinearLayout
         style="@style/match_parent_style"
         android:orientation="vertical">
@@ -26,7 +37,8 @@
             <LinearLayout
                 style="@style/match_parent_style"
                 android:layout_marginBottom="@dimen/bottom_view_margin"
-                android:layout_marginRight="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_30sdp"
                 android:orientation="vertical">
 
@@ -99,7 +111,7 @@
                         android:gravity="start"
                         android:hint="@string/lbl_technfeedback"
                         android:imeOptions="actionDone"
-                        android:minHeight="@dimen/_40sdp" />
+                        android:minHeight="@dimen/_25sdp" />
 
                 </LinearLayout>
 
@@ -125,13 +137,6 @@
                         android:minHeight="@dimen/_40sdp" />
 
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/btn_feedback_save"
-                    style="@style/btn_wrap_content"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_gravity="center"
-                    android:text="@string/lbl_save" />
 
             </LinearLayout>
 
@@ -172,3 +177,14 @@
         </RelativeLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_feedback_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/completed" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

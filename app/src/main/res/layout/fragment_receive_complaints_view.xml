@@ -19,9 +19,7 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/emco_logo_with_name" />
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            style="@style/match_parent_style">
+        <RelativeLayout style="@style/match_parent_style">
 
             <LinearLayout
                 style="@style/match_wrap_style"
@@ -312,6 +310,7 @@
                     <Button
                         android:id="@+id/btn_respond"
                         style="@style/btn_wrap_content_new"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/lbl_respond" />
 

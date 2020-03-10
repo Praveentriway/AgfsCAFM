@@ -47,7 +47,7 @@
     <string name="lbl_username">Username</string>
     <string name="lbl_username_new">Username/Email</string>
     <string name="lbl_login">Login</string>
-    <string name="lbl_reg">Register</string>//Registration for new user
+    <string name="lbl_reg">Registration for new user</string>//Registration for new user
     <string name="msg_enter_username">Enter your username</string>
     <string name="msg_enter_password">Enter your password</string>
     <string name="msg_server_url">Enter server URL</string>

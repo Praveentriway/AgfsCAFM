@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.ui.activities.BarcodeCaptureActivity;
+import com.daemon.emco_android.utils.BarcodeCaptureActivity;
 import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.ui.fragments.reactive.receieve_complaints.Fragment_RC_Respond;
 import com.daemon.emco_android.model.common.Login;

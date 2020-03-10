@@ -249,7 +249,8 @@ public class Fragment_PM_Risk_List extends Fragment implements RiskeAssListener 
     }
 
     @Override
-    public void onListAssFailure(String login) {
+    public void onListAssFailure(String strErr) {
         AppUtils.hideProgressDialog();
+        AppUtils.showDialogToFinish(getActivity(),"Risk Assessment",strErr);
     }
 }

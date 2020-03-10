@@ -63,6 +63,46 @@ public class AnimateUtils {
 
     }
 
+    public void splashAnimate(View tv_login ,View tv_signup){
+
+              new ExpectAnim()
+
+                .expect(tv_login)
+                .toBe(
+                        outOfScreen(Gravity.TOP),
+                        invisible()
+                )
+                .toAnimation()
+                .setNow();
+
+
+              new ExpectAnim()
+
+                .expect(tv_signup)
+                .toBe(
+                        outOfScreen(Gravity.BOTTOM),
+                        invisible()
+                )
+                .toAnimation()
+                .setNow();
+
+
+                 new ExpectAnim()
+                .expect(tv_login)
+                .toBe(
+                        atItsOriginalPosition(),
+                        visible()
+                ).expect(tv_signup)
+                .toBe(
+                        atItsOriginalPosition(),
+                        visible()
+                )
+                .toAnimation()
+                .setDuration(800)
+                .start();
+
+    }
+
 
 
 }

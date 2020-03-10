@@ -118,7 +118,8 @@
                 <Button
                     android:id="@+id/btnEnter"
                     style="@style/btn_common"
-                    android:text="@string/lbl_enter" />
+                    android:layout_margin="@dimen/_10sdp"
+                    android:text="Get Report" />
             </LinearLayout>
 
             <ImageView

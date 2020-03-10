@@ -39,6 +39,8 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+
 /**
  * Created by Daemonsoft on 7/18/2017.
  */
@@ -144,20 +146,7 @@ public class Fragment_RM_ViewComplaintList extends Fragment implements SearchCom
         Log.d(TAG, "setProperties");
         try {
             setManager();
-            tv_complaint_no.setTypeface(font.getHelveticaRegular());
-            tv_date.setTypeface(font.getHelveticaRegular());
-            tv_site_location.setTypeface(font.getHelveticaRegular());
-            tv_request_details.setTypeface(font.getHelveticaRegular());
-            tv_nature.setTypeface(font.getHelveticaRegular());
-            tv_status.setTypeface(font.getHelveticaRegular());
-            tv_coutumer_ref.setTypeface(font.getHelveticaRegular());
-            tv_zone_area.setTypeface(font.getHelveticaRegular());
-            tv_property.setTypeface(font.getHelveticaRegular());
 
-            text_view_empty.setTypeface(font.getHelveticaRegular());
-            text_view_message.setTypeface(font.getHelveticaRegular());
-
-            text_view_loading_message.setTypeface(font.getHelveticaRegular());
             setSearchComplaintList();
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -209,8 +198,7 @@ public class Fragment_RM_ViewComplaintList extends Fragment implements SearchCom
     }
 
     private void getMoreData() {
-        if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).equals(AppUtils.NETWORK_NOT_AVAILABLE)) {
-            AppUtils.showDialog(mActivity, getString(R.string.lbl_alert_network_not_available));
+        if (checkInternet(getContext())) {
             return;
         }
         if (mCurrentnoOfRows == 0) {

@@ -11,6 +11,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
+import com.daemon.emco_android.service.GPSTracker;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -40,8 +43,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.ui.activities.BarcodeCaptureActivity;
-import com.daemon.emco_android.ui.activities.ZxingScannerActivity;
+import com.daemon.emco_android.utils.BarcodeCaptureActivity;
+import com.daemon.emco_android.utils.ZxingScannerActivity;
 import com.daemon.emco_android.ui.adapter.ReceivecomplaintListAdapter;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintViewService;
 import com.daemon.emco_android.ui.components.CustomTextInputLayout;
@@ -73,6 +76,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_RESPOND;
 
 /** Created by vikram on 14/7/17. */
@@ -130,7 +134,6 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
   private int mSelectedPosition = 0;
   private ReceiveComplaintViewEntity complaintViewEntity;
   private AssetDetailsEntity assetDetailsEntity;
-  private String mNetworkInfo = null;
   private RCRespondDbInitializer complaintRespondDbInitializer;
   private List<AssetDetailsEntity> assetDetails;
 
@@ -214,8 +217,6 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
 
       complaintView_service = new ReceiveComplaintViewService(mActivity, this);
 
-      //  mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS,
-      // Context.MODE_PRIVATE);
       mLoginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
       if (mLoginData != null) {
         Gson gson = new Gson();
@@ -242,7 +243,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
   @Override
   public View onCreateView(
       LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Log.d(TAG, "onCreate");
+
     try {
       rootView = inflater.inflate(R.layout.fragment_receive_complaints_view, container, false);
       initUI(rootView);
@@ -255,7 +256,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
   }
 
   private void initUI(View rootView) {
-    Log.d(TAG, "initUI");
+
     try {
       cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
       tv_lbl_remarks = (TextView) rootView.findViewById(R.id.tv_lbl_remarks);
@@ -331,25 +332,6 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
     // only respond after move this page
     btn_next.setEnabled(false);
 
-    tv_lbl_remarks.setTypeface(font.getHelveticaRegular());
-    tv_select_remarks.setTypeface(font.getHelveticaRegular());
-    tie_region.setTypeface(font.getHelveticaRegular());
-    tie_contract_title.setTypeface(font.getHelveticaRegular());
-    tie_job_no.setTypeface(font.getHelveticaRegular());
-    tie_zone_area.setTypeface(font.getHelveticaRegular());
-    tie_date.setTypeface(font.getHelveticaRegular());
-    tie_building.setTypeface(font.getHelveticaRegular());
-    tie_location.setTypeface(font.getHelveticaRegular());
-    tie_location_description.setTypeface(font.getHelveticaRegular());
-    tie_asset_code.setTypeface(font.getHelveticaRegular());
-    tie_main_eqpt.setTypeface(font.getHelveticaRegular());
-    tie_size.setTypeface(font.getHelveticaRegular());
-    tie_make.setTypeface(font.getHelveticaRegular());
-    tie_model.setTypeface(font.getHelveticaRegular());
-    tie_remarks_others.setTypeface(font.getHelveticaRegular());
-    btn_respond.setTypeface(font.getHelveticaRegular());
-    btn_barcode_scan.setTypeface(font.getHelveticaRegular());
-    btn_next.setTypeface(font.getHelveticaRegular());
     btn_respond.setOnClickListener(_OnClickListener);
     btn_next.setOnClickListener(_OnClickListener);
     btn_barcode_scan.setOnClickListener(_OnClickListener);
@@ -407,9 +389,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
   }
 
   private void getBarcodeDetailsService(int check) {
-    if (mPreferences
-        .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-        .contains(AppUtils.NETWORK_AVAILABLE)) {
+    if (checkInternet(getContext())) {
       if (complaintViewEntity != null) {
         if (check == 1) {
           AssetDetailsRequest assetDetailsRequest =
@@ -607,7 +587,6 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
         request.setFlat(complaintViewEntity.getFlat());
         request.setFloor(complaintViewEntity.getFloor());
         request.setLocationCode(complaintViewEntity.getLocation());
-        // request.setResponseDate(AppUtils.getDateTime(complaintViewEntity.getComplaintDate()));
         request.setResponseDate(complaintViewEntity.getComplaintDate());
         request.setModifiedBy(mStrEmpId);
         request.setComplaintStatus("R");
@@ -620,12 +599,6 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
           request.setAssetBarCode(tie_bar_code.getText().toString());
 
         }
-        /* if (TextUtils.isEmpty(tie_bar_code.getText().toString())) {
-            til_bar_code.setError(getString(R.string.lbl_no_barcode_found));
-        } else if (TextUtils.isEmpty(tie_asset_code.getText().toString())) {
-            til_asset_code.setError(getString(R.string.lbl_no_barcode_found));
-            tie_asset_code.requestFocus();
-        } else*/
 
         if (mStrRemark == null) {
           AppUtils.setErrorBg(tv_select_remarks, true);
@@ -653,9 +626,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
       ReceiveComplaintItemEntity receiveComplaintItemEntity) {
     Log.d(TAG, "getReceiveComplainViewFromService");
     try {
-      if (mPreferences
-          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-          .contains(AppUtils.NETWORK_AVAILABLE)) {
+      if (checkInternet(getContext())) {
         Log.d(TAG, "getReceiveComplainViewFromServer");
         AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
         complaintView_service.GetReceiveComplaintViewData(
@@ -688,16 +659,14 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
   }
 
   private void postDataToServer(ReceiveComplaintRespondEntity respondRequest) {
-    Log.d(TAG, "postDataToServer");
-    mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-    if (mNetworkInfo.length() > 0) {
-      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+      if (checkInternet(getContext())) {
         AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
         complaintView_service.postReceiveComplaintViewData(respondRequest);
       } else
         complaintRespondDbInitializer.populateAsync(
             AppDatabase.getAppDatabase(mActivity), respondRequest, AppUtils.MODE_INSERT);
-    }
+
   }
 
   @Override
@@ -710,7 +679,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
 
   @Override
   public void onReceiveComplaintRespondReceived(String strMsg, String complaintNumber, int mode) {
-    Log.d(TAG, "onReceiveComplaintRespondReceived");
+
     try {
       if (mode == AppUtils.MODE_SERVER)
         complaintRespondDbInitializer.populateAsync(
@@ -743,6 +712,13 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+    EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+    emp.setCompCode(complaintViewEntity.getOpco());
+    emp.setTransType("Reactive");
+    emp.setRefNo(complaintNumber);
+    new GPSTracker(getContext()).updateFusedLocation(emp);
+
   }
 
   @Override
@@ -760,7 +736,6 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
   @Override
   public void onReceiveComplaintViewAssetDetailsReceived(
       final List<AssetDetailsEntity> assetDetailsEntities,final int from) {
-
 
     if(assetDetailsEntities.size()>0){
 
@@ -821,7 +796,6 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
         sb.append( "Model - ");
       }
 
-
       AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
       builder.setTitle("Asset Detail").setMessage(sb.toString())
 
@@ -839,9 +813,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
                             .execute(AppUtils.MODE_INSERT_SINGLE);
                   }
                   if (checkApiCAll == 1) {
-                    if (mPreferences
-                            .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-                            .contains(AppUtils.NETWORK_AVAILABLE)) {
+                    if (checkInternet(getContext())) {
                       if (complaintViewEntity != null) {
                         SaveRatedServiceRequest assetDetailsRequest = new SaveRatedServiceRequest();
                         assetDetailsRequest.setComplaintNumber(complaintViewEntity.getComplaintNumber());
@@ -912,7 +884,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
       ReceiveComplaintRespondEntity complaintRespondEntity, int modeLocal) {}
 
   public void getRemarks() {
-    Log.d(TAG, "getStatus");
+
     try {
       if (remarkList.isEmpty()) return;
       MaterialDialog.Builder dialog = new MaterialDialog.Builder(mActivity);
@@ -957,7 +929,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
 
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    Log.d(TAG, "onPrepareOptionsMenu ");
+
     menu.findItem(R.id.action_logout).setVisible(false);
     menu.findItem(R.id.action_home).setVisible(true);
   }
@@ -966,8 +938,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_home:
-        Log.d(TAG, "onOptionsItemSelected : home");
-        // mActivity.onBackPressed();
+
         FragmentManager fm = getActivity().getSupportFragmentManager();
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
           fm.popBackStack();

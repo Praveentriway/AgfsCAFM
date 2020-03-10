@@ -55,6 +55,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+
 /** Created by subbu on 17/8/17. */
 public class Fragment_RM_Dashboard extends Fragment
     implements ZoneListener,
@@ -63,7 +65,7 @@ public class Fragment_RM_Dashboard extends Fragment
         ReportTypesListener,
         ReactiveDashboard_Listener {
   private static final String TAG = Fragment_RM_Dashboard.class.getSimpleName();
-  private static String mNetworkInfo = null;
+
   // Offline storage
   private static ReportTypesDbInitializer mReportTypesDb;
   // root view of fragment
@@ -101,7 +103,6 @@ public class Fragment_RM_Dashboard extends Fragment
       new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          Log.d(TAG, "_OnClickListener");
           switch (v.getId()) {
             case R.id.btnEnter:
               submitForm();
@@ -175,7 +176,7 @@ public class Fragment_RM_Dashboard extends Fragment
   @Override
   public View onCreateView(
       LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Log.d(TAG, "onCreateView");
+
     try {
       rootView = (View) inflater.inflate(R.layout.fragment_rm_dashboard, container, false);
       initUI(rootView);
@@ -187,26 +188,23 @@ public class Fragment_RM_Dashboard extends Fragment
   }
 
   private void getPopupDataFromServer() {
-    Log.d(TAG, "getPopupDataFromServer");
-    gettingSiteName();
 
+    gettingSiteName();
     gettingReportTypes();
   }
 
   private void gettingReportTypes() {
-    mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-    if (mNetworkInfo.length() > 0) {
-      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+      if (checkInternet(getContext())) {
         mGetComplaintPopupService.getAllReportTypesListData(this);
       } else
         mReportTypesDb.populateAsync(AppDatabase.getAppDatabase(mActivity), AppUtils.MODE_GETALL);
-    }
+
   }
 
   private void gettingZoneName() {
-    mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-    if (mNetworkInfo.length() > 0) {
-      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+      if (checkInternet(getContext())) {
          AppUtils.showProgressDialog(mActivity,getString(R.string.lbl_loading),true);
         ZoneEntity zoneEntity = new ZoneEntity();
         zoneEntity.setOpco(mOpco);
@@ -214,22 +212,20 @@ public class Fragment_RM_Dashboard extends Fragment
         mGetComplaintPopupService.getZoneListData(zoneEntity, this);
       }
       else new ZoneDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
-    }
+
   }
 
   private void gettingSiteName() {
-    mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-    if (mNetworkInfo.length() > 0) {
-      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+      if (checkInternet(getContext())) {
         AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
         mGetComplaintPopupService.getSiteAreaData(this);
       }
       else new SiteAreaDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
-    }
+
   }
 
   private void initUI(View rootView) {
-    Log.d(TAG, "initUI");
     try {
       cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
       tv_lbl_from_date = (TextView) rootView.findViewById(R.id.tv_lbl_from_date);
@@ -252,7 +248,7 @@ public class Fragment_RM_Dashboard extends Fragment
   }
 
   public void setupActionBar() {
-    Log.d(TAG, "setupActionBar");
+
     mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
     tv_toolbar_title=(TextView)mToolbar.findViewById(R.id.tv_toolbar_title);
     tv_toolbar_title.setText(getString(R.string.lbl_dashboard));
@@ -270,27 +266,14 @@ public class Fragment_RM_Dashboard extends Fragment
   }
 
   private void setProperties() {
-    Log.d(TAG, "setProperties");
+
 
     tv_lbl_site.setText(Html.fromHtml(getString(R.string.lbl_site) + AppUtils.mandatory));
-    // tv_lbl_zone.setText(Html.fromHtml(getString(R.string.lbl_zone) + AppUtils.mandatory));
     tv_lbl_reporttypes.setText(
         Html.fromHtml(getString(R.string.lbl_reporttypes) + AppUtils.mandatory));
     tv_lbl_from_date.setText(Html.fromHtml(getString(R.string.lbl_from_date) + AppUtils.mandatory));
     tv_lbl_to_date.setText(Html.fromHtml(getString(R.string.lbl_to_date) + AppUtils.mandatory));
 
-    tv_lbl_site.setTypeface(font.getHelveticaRegular());
-    tv_lbl_zone.setTypeface(font.getHelveticaRegular());
-    tv_lbl_reporttypes.setTypeface(font.getHelveticaRegular());
-    tv_lbl_from_date.setTypeface(font.getHelveticaRegular());
-    tv_lbl_to_date.setTypeface(font.getHelveticaRegular());
-
-    tv_select_from_date.setTypeface(font.getHelveticaRegular());
-    tv_select_to_date.setTypeface(font.getHelveticaRegular());
-    tv_select_site.setTypeface(font.getHelveticaRegular());
-    tv_select_reporttypes.setTypeface(font.getHelveticaRegular());
-    tv_select_zone.setTypeface(font.getHelveticaRegular());
-    btnSearch.setTypeface(font.getHelveticaRegular());
 
     btnSearch.setOnClickListener(_OnClickListener);
 
@@ -388,7 +371,7 @@ public class Fragment_RM_Dashboard extends Fragment
   }
 
   public void getDate(int mode) {
-    Log.d(TAG, "getDate");
+
     try {
       mModeDate = mode;
       SimpleDateFormat originalFormat = new SimpleDateFormat("dd");
@@ -429,7 +412,7 @@ public class Fragment_RM_Dashboard extends Fragment
   }
 
   public void getSiteName() {
-    Log.d(TAG, "getSiteName");
+
     try {
       ArrayList strArraySiteName = new ArrayList();
       for (SiteAreaEntity entity : listSiteArea) {
@@ -463,7 +446,7 @@ public class Fragment_RM_Dashboard extends Fragment
   }
 
   public void getZone() {
-    Log.d(TAG, "getZone");
+
     try {
       ArrayList strArrayZone = new ArrayList();
       for (int i = 0; i < listZone.size(); i++) {
@@ -489,61 +472,20 @@ public class Fragment_RM_Dashboard extends Fragment
                       if (mZoneCode.equals(item.getZoneName())) {
                         mZoneCode = item.getZoneCode();
                         mZoneName = item.getZoneName();
-                       /* mContractNo = item.getContractNo();
-                        mOpco = item.getOpco();*/
                       }
                     }
                   }
                 }
               })
           .show();
-      /*
-      new MaterialDialog.Builder(mActivity)
-              .title()
-              .items(strArrayZone)
-              .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-                  @Override
-                  public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                      if (which >= 0) {
-                          AppUtils.setErrorBg(tv_select_zone, false);
-                          mZoneCode = text.toString();
-                          if (text.toString().equals("ALL")) {
-                              tv_select_zone.setText(mZoneCode);
-                              tv_select_zone.setTypeface(font.getHelveticaBold());
-                              return true;
-                          }
-                          tv_select_zone.setText(text.toString());
-                          tv_select_zone.setTypeface(font.getHelveticaBold());
-                          for (ZoneEntity item : listZone) {
-                              if (mZoneCode.equals(item.getZoneName())) {
-                                  mZoneCode = item.getZoneCode();
-                                  mContractNo = item.getContractNo();
-                                  mOpco = item.getOpco();
 
-                              }
-                          }
-                      } else {
-                          mZoneCode = "ALL";
-                          tv_select_zone.setText("");
-                          tv_select_zone.setHint(getString(R.string.lbl_select_zone));
-                          AppUtils.showDialog(mActivity, getString(R.string.no_value_has_been_selected));
-                          //AppUtils.setErrorBg(tv_select_zone, true);
-                      }
-                      AppUtils.closeInput(cl_main);
-                      return true;
-                  }
-              })
-              .canceledOnTouchOutside(false)
-              .positiveText(R.string.lbl_done)
-              .negativeText(R.string.lbl_close)
-              .show();*/
     } catch (Exception ex) {
       ex.printStackTrace();
     }
   }
 
   public void getReportTypes() {
-    Log.d(TAG, "getReportTypes");
+
     try {
       ArrayList strArrayReportTypes = new ArrayList();
       for (int i = 0; i < listReportTypes.size(); i++) {
@@ -644,8 +586,6 @@ public class Fragment_RM_Dashboard extends Fragment
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_home:
-        Log.d(TAG, "onOptionsItemSelected : home");
-        // mActivity.onBackPressed();
         FragmentManager fm = getActivity().getSupportFragmentManager();
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
           fm.popBackStack();
@@ -674,4 +614,5 @@ public class Fragment_RM_Dashboard extends Fragment
     AppUtils.showDialog(mActivity, strErr);
     btnSearch.setEnabled(true);
   }
+
 }

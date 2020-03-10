@@ -39,26 +39,14 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_PHONE_STATE;
 
 public class LoginActivity extends AppCompatActivity {
+
     private static final String TAG = LoginActivity.class.getSimpleName();
     private SharedPreferences mPreferences;
-    private SharedPreferences.Editor mEditor;
-    private Font font = App.getInstance().getFontInstance();
     private final int PERMISSION_REQUEST_CODE = 1;
-    private boolean isReceiver = false;
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!ConnectivityStatus.isConnected(LoginActivity.this)) {
-                Log.d(TAG, "not connected");
-                mEditor.putString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE);
-                mEditor.commit();
-            } else {
-                Log.d(TAG, "connected");
-                mEditor.putString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_AVAILABLE);
-                mEditor.commit();
-            }
-        }
-    };
+
+    public static String IP_ADDRESS="ip_address";
+
+    public static String MBM ="mbm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,22 +63,17 @@ public class LoginActivity extends AppCompatActivity {
 
         try {
             mPreferences = this.getSharedPreferences(AppUtils.SHARED_PREFS, MODE_PRIVATE);
-            mEditor = mPreferences.edit();
 
             String loginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
             if (loginData != null && loginData.length() > 0) {
                 loadFragment();
-                Log.d(TAG, "getLoginData " + loginData.toString());
                 Intent mainActivity = new Intent(this, MainActivity.class);
                 startActivity(mainActivity);
                 finish();
                 return;
             } else loadFragment();
 
-            registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
             setupActionbar();
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,26 +82,11 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Log.d(TAG, "onResume");
 
-        try {
-            // only one time register connectivity register
-            if (isReceiver) {
-                registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-            } else isReceiver = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         super.onResume();
     }
 
     protected void onPause() {
-        Log.d(TAG, "onPause");
-        try {
-            if (receiver != null) unregisterReceiver(receiver);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         super.onPause();
     }
 
@@ -130,29 +98,19 @@ public class LoginActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        if(SessionManager.getSessionForURL("ip_address",this) !=null && (!SessionManager.getSessionForURL("ip_address",this).trim().isEmpty())  && (SessionManager.getSessionForURL("ip_address",this).contains("mbm"))){
+        if(SessionManager.getSessionForURL(IP_ADDRESS,this) !=null
+                &&  (!SessionManager.getSessionForURL(IP_ADDRESS,this).trim().isEmpty())
+                &&  (SessionManager.getSessionForURL(IP_ADDRESS,this).contains(MBM))) {
+
             imageInToolbar.setImageDrawable(ContextCompat.getDrawable(LoginActivity.this, R.drawable.logo_mbm_png_9));
         }
         else{
             imageInToolbar.setImageDrawable(ContextCompat.getDrawable(LoginActivity.this, R.drawable.ag_logo_white));
         }
 
-        TextView titleTextView = null;
-        try {
-            Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
-            f.setAccessible(true);
-            titleTextView = (TextView) f.get(toolbar);
-            titleTextView.setTypeface(font.getHelveticaRegular());
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
     }
 
     public void loadFragment() {
-        Log.d(TAG, "loadFragment");
-        // update the main content by replacing fragments
         Fragment fragment = new Login();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -184,14 +142,14 @@ public class LoginActivity extends AppCompatActivity {
                 boolean fineLocation = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                 boolean phonestate = grantResults[2] == PackageManager.PERMISSION_GRANTED;
                 if (coarseLocation && fineLocation && phonestate){
-                   // Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+
                     statusCheck();
+
                 }
 
                 else {
-                    // Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
 
-                    AppUtils.showDialog(this,"Permission deny may lead application malfunction. Kindly close the app and reopen to get permission window.");
+                    AppUtils.showDialog(this,getResources().getString(R.string.permission_msg));
 
                 }
             }

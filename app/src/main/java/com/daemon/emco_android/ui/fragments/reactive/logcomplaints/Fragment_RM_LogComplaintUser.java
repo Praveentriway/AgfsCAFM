@@ -24,10 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
@@ -55,10 +52,10 @@ import com.daemon.emco_android.utils.Font;
 import com.daemon.emco_android.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 
 /**
  * Created by subbu on 18/7/17.
@@ -68,7 +65,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     private final String TAG = Fragment_RM_LogComplaintUser.class.getSimpleName();
     // root view of fragment
     View rootView = null;
-    private String mNetworkInfo = null;
     private Gson gson = new Gson();
     private Type baseType = new TypeToken<List<LCUserInput>>() {
     }.getType();
@@ -91,7 +87,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     private FloatingActionButton btnSaveComplaint;
     private Toolbar mToolbar;
     private GetLogComplaintPopupRepository mGetComplaintPopupService;
-    private int checkLoad;
     private String mStrEmployeeId = null,
             mCompanyCode = null,
             mComplainBy = null,
@@ -117,7 +112,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick");
+
                     AppUtils.closeInput(cl_main);
                     switch (v.getId()) {
                         case R.id.btnSaveComplaint:
@@ -137,7 +132,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
         try {
@@ -172,7 +166,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
 
             mManager = mActivity.getSupportFragmentManager();
             font = App.getInstance().getFontInstance();
-            // mArgs = getArguments().getString(ARGS_BUNDLE_MESSAGE);
             if (mActivity.getCurrentFocus() != null) {
                 InputMethodManager imm =
                         (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -189,29 +182,30 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     }
 
     private void getPopupDataFromServer() {
-        Log.d(TAG, "getPopupDataFromServer");
+
         gettingLCUserInput();
     }
 
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
+
         try {
+
             rootView = (View) inflater.inflate(R.layout.fragment_log_complaint_user, container, false);
             initUI(rootView);
             setProperties();
             getPopupDataFromServer();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
         return rootView;
     }
 
     private void gettingLCUserInput() {
-        Log.d(TAG, "gettingLCUserInput");
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo.length() > 0) {
+
             if (ConnectivityStatus.isConnected(mActivity)) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 mGetComplaintPopupService.getLCUserInputData(this);
@@ -240,23 +234,8 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                 } else
                     AppUtils.showDialog(mActivity, getString(R.string.msg_no_data_found_in_local_db));
             }
-            /*if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
 
-            } else {
-
-            }*/
-        }
     }
-
-    /*private void gettingZoneName() {
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-        if (mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
-
-            } else new ZoneDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
-        }
-    }*/
-
 
 
     @Override
@@ -266,33 +245,27 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
-
             tv_lbl_contract_title = (TextView) rootView.findViewById(R.id.tv_lbl_contract_title);
             tv_lbl_contract_no = (TextView) rootView.findViewById(R.id.tv_lbl_contractno);
             tv_lbl_zone = (TextView) rootView.findViewById(R.id.tv_lbl_zone);
-
             tv_lbl_location = (TextView) rootView.findViewById(R.id.tv_lbl_location);
             tv_lbl_sublocation = (TextView) rootView.findViewById(R.id.tv_lbl_sublocation);
             tv_lbl_property = (TextView) rootView.findViewById(R.id.tv_lbl_property);
             tv_lbl_complaint = (TextView) rootView.findViewById(R.id.tv_lbl_complaint_details);
-
             tv_contract_title = (TextView) rootView.findViewById(R.id.tv_contract_title);
             tv_contract_no = (TextView) rootView.findViewById(R.id.tv_contract_no);
             tv_select_zone = (TextView) rootView.findViewById(R.id.tv_select_zone);
-
             til_location = (CustomTextInputLayout) rootView.findViewById(R.id.til_location);
             til_sublocation = (CustomTextInputLayout) rootView.findViewById(R.id.til_sublocation);
             til_complaint = (CustomTextInputLayout) rootView.findViewById(R.id.til_complaint);
             til_property = (CustomTextInputLayout) rootView.findViewById(R.id.til_property);
-
             tie_location = (TextInputEditText) rootView.findViewById(R.id.tie_location);
             tie_sublocation = (TextInputEditText) rootView.findViewById(R.id.tie_sublocation);
             tie_property = (TextInputEditText) rootView.findViewById(R.id.tie_property);
             tie_complaint = (TextInputEditText) rootView.findViewById(R.id.tie_complaint);
-
             btnSaveComplaint = (FloatingActionButton) rootView.findViewById(R.id.btnSaveComplaint);
 
             setupActionBar();
@@ -319,15 +292,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
-
-        tv_lbl_contract_title.setTypeface(font.getHelveticaRegular());
-        tv_lbl_contract_no.setTypeface(font.getHelveticaRegular());
-        tv_lbl_property.setTypeface(font.getHelveticaRegular());
-        tv_lbl_zone.setTypeface(font.getHelveticaRegular());
-        tv_lbl_location.setTypeface(font.getHelveticaRegular());
-        tv_lbl_complaint.setTypeface(font.getHelveticaRegular());
-        tv_lbl_sublocation.setTypeface(font.getHelveticaRegular());
 
         tv_lbl_contract_title.setText(
                 Html.fromHtml(getString(R.string.lbl_contract_title) + AppUtils.mandatory));
@@ -343,32 +307,19 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         tv_lbl_complaint.setText(
                 Html.fromHtml(getString(R.string.lbl_complaint_details) + AppUtils.mandatory));
 
-        tv_contract_title.setTypeface(font.getHelveticaRegular());
-        tv_contract_no.setTypeface(font.getHelveticaRegular());
-        tv_select_zone.setTypeface(font.getHelveticaRegular());
-
-        tie_location.setTypeface(font.getHelveticaRegular());
-        tie_sublocation.setTypeface(font.getHelveticaRegular());
-        tie_complaint.setTypeface(font.getHelveticaRegular());
-        tie_property.setTypeface(font.getHelveticaRegular());
-        tv_contract_no.setTypeface(font.getHelveticaRegular());
-
         tv_contract_no.setOnClickListener(_OnClickListener);
         btnSaveComplaint.setOnClickListener(_OnClickListener);
-
         tie_sublocation.addTextChangedListener(new MyTextWatcher(tie_sublocation));
         tie_location.addTextChangedListener(new MyTextWatcher(tie_location));
         tie_complaint.addTextChangedListener(new MyTextWatcher(tie_complaint));
         tie_property.addTextChangedListener(new MyTextWatcher(tie_property));
-
         tv_select_zone.setOnClickListener(_OnClickListener);
-
         new AnimateUtils().fabAnimate(btnSaveComplaint);
 
     }
 
     private void submitForm() {
-        Log.d(TAG, "submitForm");
+
         try {
             String msgErr = "";
             if (mJobNo == null) {
@@ -391,11 +342,10 @@ public class Fragment_RM_LogComplaintUser extends Fragment
             validateSubLocation();
             validateComplaint();
             if (msgErr != "") {
-                AppUtils.showDialog(mActivity, "Please select values in Mandatory field");
+                AppUtils.showDialog(mActivity, "Please fill all the mandatory fields.");
                 return;
             }
 
-            // validate property, location and complaint details
             if (validateProperty() && validateLocation() && validateComplaint()) {
                 mComplainWebNumber = AppUtils.getUniqueLogComplaintNo();
                 Log.d(TAG, " mComplainWebNumber :" + mComplainWebNumber);
@@ -425,17 +375,16 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     }
 
     private void postDataToServer(LogComplaintEntity logComplaintRequest) {
-        Log.d(TAG, "postDataToServer");
+
         try {
-            mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-            if (mNetworkInfo.length() > 0) {
-                if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+                if (checkInternet(getContext())) {
                     AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                     new PostLogComplaintService(mActivity, this).postLogComplaintData(logComplaintRequest);
                 } else
                     new LogComplaintDbInitializer(mActivity, logComplaintRequest, this)
                             .execute(AppUtils.MODE_INSERT);
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -445,12 +394,10 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         mLocation = tie_location.getText().toString().trim();
         if (mLocation.isEmpty()) {
             til_location.setError(getString(R.string.msg_enter_location));
-            // requestFocus(tie_location);
             return false;
         } else {
             til_location.setErrorEnabled(false);
         }
-
         return true;
     }
 
@@ -471,7 +418,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         mPropertyDetails = tie_property.getText().toString().trim();
         if (mPropertyDetails.isEmpty()) {
             til_property.setError(getString(R.string.msg_building_name_empty));
-            // requestFocus(tie_property);
             return false;
         } else {
             til_property.setErrorEnabled(false);
@@ -484,7 +430,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         mComplaintDetail = tie_complaint.getText().toString().trim();
         if (mComplaintDetail.isEmpty()) {
             til_complaint.setError(getString(R.string.msg_enter_complaint_empty));
-            // requestFocus(tie_complaint);
             return false;
         } else {
             til_complaint.setErrorEnabled(false);
@@ -528,29 +473,24 @@ public class Fragment_RM_LogComplaintUser extends Fragment
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
-    }
+        } }
 
     private void gettingZoneName() {
-        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
+
         ZoneEntity zoneEntity = new ZoneEntity();
         zoneEntity.setOpco(mCompanyCode);
         zoneEntity.setContractNo(mJobNo);
         List<ZoneEntity> zoneEntityList = new ArrayList<>();
         zoneEntityList.add(zoneEntity);
-        if (mNetworkInfo.length() > 0) {
-            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
-              //  if(checkLoad==1){
+
+            if (checkInternet(getContext())) {
                     AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                     mGetComplaintPopupService.getZoneListData(zoneEntity,this);
             } else new ZoneDbInitializer(mActivity, zoneEntityList, this).execute(AppUtils.MODE_GET);
-        }
+
     }
 
-
-
     public void getZone() {
-        Log.d(TAG, "getZone");
         try {
             ArrayList<String> strArrayZone = new ArrayList<>();
             if(listZone.size()>1){
@@ -565,8 +505,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                             @Override
                             public void onItemSelected(String text) {
                                 AppUtils.setErrorBg(tv_select_zone, false);
-                                //  mZoneCode = text;
-                                tv_select_zone.setText(text.toString());
+                                tv_select_zone.setText(text);
                                 tv_select_zone.setTypeface(font.getHelveticaBold());
                                 for (ZoneEntity item : listZone) {
                                     if (text.equals(item.getZoneName())) {
@@ -582,10 +521,9 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         }
     }
 
-
     @Override
     public void onZoneReceivedSuccess(List<ZoneEntity> zoneList, int mode) {
-        Log.d(TAG, "onZoneReceivedSuccess");
+
         AppUtils.hideProgressDialog();
         listZone = zoneList;
         if(listZone.size()!=0&&listZone!=null){
@@ -593,13 +531,10 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                 tv_select_zone.setText(listZone.get(0).getZoneName());
                 tv_select_zone.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 tv_select_zone.setClickable(false);
-                mZoneCode=listZone.get(0).getZoneCode().toString();
+                mZoneCode=listZone.get(0).getZoneCode();
             }else{
                 tv_select_zone.setClickable(true);
                 tv_select_zone.setText(getResources().getString(R.string.lbl_select_zone));
-                /*if(checkLoad==1){
-                    getZone();
-                }*/
             }
 
         }
@@ -610,7 +545,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
 
     @Override
     public void onZoneReceivedFailure(String strErr, int mode) {
-        Log.d(TAG, "onZoneReceivedFailure");
         AppUtils.hideProgressDialog();
         if (mode == AppUtils.MODE_LOCAL) {
             AppUtils.showDialog(mActivity, strErr);
@@ -619,7 +553,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
 
     @Override
     public void onLogComplaintDataReceivedSuccess(EmployeeIdRequest logComplaint, int mode) {
-        Log.d(TAG, "onLogComplaintDataReceivedSuccess");
+
         AppUtils.hideProgressDialog();
         MaterialDialog.Builder builder =
                 new MaterialDialog.Builder(mActivity)
@@ -651,7 +585,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
 
     @Override
     public void onLogComplaintDataReceivedFailure(String strErr, int mode) {
-        Log.d(TAG, "onLogComplaintDataReceivedFailure");
+
         try {
             AppUtils.hideProgressDialog();
             Fragment main = mManager.findFragmentByTag(Utils.TAG_LOG_COMPLAINT);
@@ -664,7 +598,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_home).setVisible(true);
     }
@@ -673,8 +606,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                Log.d(TAG, "onOptionsItemSelected : home");
-                // mActivity.onBackPressed();
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
@@ -705,12 +637,10 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                         if(lcUserInput.get(0).getZoneDescription()!=null){
                             tv_select_zone.setText(lcUserInput.get(0).getZoneDescription());
                         }
-                        // mZoneCode = lcUserInput.getZoneCode();
                         mJobNo = lcUserInput.get(0).getJobNumber();
                         mComplainSite = lcUserInput.get(0).getComplainSite();
                         mCompanyCode = lcUserInput.get(0).getCompanyCode();
                         gettingZoneName();
-                        //checkLoad=2;
                     }else{
                         listJobNo.addAll(lcUserInput);
                         tv_contract_no.setText(getResources().getString(R.string.lbl_select_zone));
@@ -760,7 +690,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                 case R.id.tie_property:
                     validateProperty();
                     break;
-            }
-        }
+            } }
     }
 }

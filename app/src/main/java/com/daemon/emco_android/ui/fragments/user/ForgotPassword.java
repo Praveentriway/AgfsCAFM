@@ -7,13 +7,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.daemon.emco_android.ui.base.BaseFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import androidx.fragment.app.Fragment;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -24,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -41,6 +42,8 @@ import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
 import com.daemon.emco_android.utils.SessionManager;
 
+import static com.daemon.emco_android.ui.activities.LoginActivity.IP_ADDRESS;
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.AppUtils.serverurls;
 import static com.daemon.emco_android.utils.AppUtils.showProgressDialog;
 
@@ -48,7 +51,7 @@ import static com.daemon.emco_android.utils.AppUtils.showProgressDialog;
  * Created by subbu on 25/11/16.
  */
 
-public class ForgotPassword extends Fragment implements UserListener,URLListener {
+public class ForgotPassword extends BaseFragment implements UserListener,URLListener {
     private static final String TAG = ForgotPassword.class.getSimpleName();
 
     private AppCompatActivity mActivity;
@@ -56,7 +59,6 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private FragmentManager mManager;
-    private TextView tv_toolbar_title;
     private CoordinatorLayout cl_main;
     private TextInputLayout til_username,til_serverurl;
     private TextInputEditText tie_username,tie_serverurl;
@@ -76,7 +78,6 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
         }
     };
     private Button btn_send_email;
-    private Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -186,34 +187,16 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
                 }
             });
 
+            setupToolBarOnly(mActivity,getString(R.string.lbl_forget_password));
 
-            setupActionBar();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void setupActionBar() {
-        mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
-        mToolbar.setVisibility(View.VISIBLE);
-        tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
-        tv_toolbar_title.setTypeface(font.getHelveticaRegular());
-        //tv_toolbar_title.setText(getString(R.string.lbl_forget_password));
-        tv_toolbar_title=(TextView)mToolbar.findViewById(R.id.tv_toolbar_title);
-        tv_toolbar_title.setText(getString(R.string.lbl_forget_password));
-        //mToolbar.setTitle(getResources().getString(R.string.lbl_forget_password));
-        mActivity.setSupportActionBar(mToolbar);
-        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mActivity.onBackPressed();
-            }
-        });
-    }
 
     public void validateUrlfromapi() {
+
         AppUtils.closeInput(cl_main);
         validateUsername();
         validUrl();
@@ -227,6 +210,7 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
             showProgressDialog(mActivity, "Loading...", false);
             new UrlService(mActivity, this, tie_serverurl.getText().toString().trim()).getURLData();
         }
+
     }
 
     private void setProperties() {
@@ -239,12 +223,13 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
         btn_send_email.setOnClickListener(_OnClickListener);
         tie_username.addTextChangedListener(new MyTextWatcher(tie_username));
 
-        if(SessionManager.getSession("ip_address",getContext()) !=null || (!SessionManager.getSession("ip_address",getContext()).trim().isEmpty())){
-            tie_serverurl.setText(SessionManager.getSessionForURL("ip_address",getContext()));
+        if(SessionManager.getSession(IP_ADDRESS,getContext()) !=null || (!SessionManager.getSession(IP_ADDRESS,getContext()).trim().isEmpty())){
+            tie_serverurl.setText(SessionManager.getSessionForURL(IP_ADDRESS,getContext()));
         }
     }
 
     private boolean validUrl() {
+
         if (tie_serverurl.getText().toString().trim().isEmpty()) {
             til_serverurl.setError(getString(R.string.msg_server_url));
             requestFocus(tie_serverurl);
@@ -253,27 +238,25 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
             til_serverurl.setErrorEnabled(false);
         }
         return true;
+
     }
 
     private void submitForm() {
         Log.d(TAG, "submitForm");
         try {
-           /* AppUtils.closeInput(cl_main);
-            if (!validateUsername()) {
-                return;
-            }*/
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+
+            if (checkInternet(getContext())) {
                 AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                 new UserService(mActivity, this).getForgotPasswordResult(tie_username.getText().toString());
-            } else
-                AppUtils.showDialog(mActivity, getString(R.string.lbl_alert_network_not_available));
-           // AppUtils.closeInput(cl_main);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
+
     private boolean validateUsername() {
+
         if (tie_username.getText().toString().trim().isEmpty()) {
             til_username.setError(getString(R.string.msg_username_empty));
             requestFocus(tie_username);
@@ -293,6 +276,7 @@ public class ForgotPassword extends Fragment implements UserListener,URLListener
 
     @Override
     public void onLoginDataReceivedSuccess(Login login, String totalNumberOfRows) {
+
     }
 
     @Override

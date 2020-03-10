@@ -46,6 +46,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_VIEW;
 
 /** Created by Daemonsoft on 7/18/2017. */
@@ -258,9 +259,7 @@ public class Fragment_IM_HardSoftList extends Fragment
   private void saveReceiveComplaintCCformService(List<ReceiveComplainCCRequest> data_ccc_requrest) {
     Log.d(TAG, "saveReceiveComplaintCCformService");
     try {
-      if (mPreferences
-          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-          .contains(AppUtils.NETWORK_AVAILABLE)) {
+      if (checkInternet(getContext())) {
         AppUtils.showProgressDialog(mActivity, getString(R.string.re_assigning_to_cc), false);
         new ReceiveComplaintListService(mActivity, this)
             .PostReceiveComplaintCCData(data_ccc_requrest);
@@ -334,9 +333,7 @@ public class Fragment_IM_HardSoftList extends Fragment
         if (adapter != null) adapter.notifyDataSetChanged();
         showLoadingReceiveComplaint();
       }
-      if (mPreferences
-          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
-          .contains(AppUtils.NETWORK_AVAILABLE)) {
+      if (checkInternet(getContext())) {
         isLoading = true;
         new HardSoftService(mActivity, this,null)
             .getHardSoftServiceComplaintDetails(hardSoftRequest, startIndex, mTitle);

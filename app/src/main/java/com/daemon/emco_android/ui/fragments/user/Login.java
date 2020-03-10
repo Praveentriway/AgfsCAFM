@@ -1,13 +1,9 @@
 package com.daemon.emco_android.ui.fragments.user;
 
-import android.app.ActivityManager;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,14 +29,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.service.EmployeeTrackingReceiver;
-import com.daemon.emco_android.service.EmployeeTrackingService;
+import com.daemon.emco_android.ui.base.BaseFragment;
 import com.daemon.emco_android.ui.activities.MainActivity;
 import com.daemon.emco_android.repository.remote.UrlService;
 import com.daemon.emco_android.repository.remote.UserService;
@@ -62,8 +56,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
-import java.lang.reflect.Field;
+import es.dmoral.toasty.Toasty;
 
+import static com.daemon.emco_android.ui.activities.LoginActivity.IP_ADDRESS;
+import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.AppUtils.serverurls;
 import static com.daemon.emco_android.utils.AppUtils.showProgressDialog;
 
@@ -71,7 +67,7 @@ import static com.daemon.emco_android.utils.AppUtils.showProgressDialog;
  * Created by vikram on 14/7/17.
  */
 
-public class Login extends Fragment implements View.OnClickListener, UserListener,URLListener {
+public class Login extends BaseFragment implements View.OnClickListener, UserListener,URLListener {
     private static final String TAG = Login.class.getSimpleName();
     private AppCompatActivity mActivity;
     private SharedPreferences mPreferences;
@@ -203,43 +199,16 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
     }
 
     public void setUpActionBar() {
-        Log.d(TAG, "setActionBar");
-        try {
-            mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
-            mToolbar.setVisibility(View.GONE);
-            tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
-            ImageView img_toolbar = (ImageView) mToolbar.findViewById(R.id.img_toolbar);
-            img_toolbar.setVisibility(View.GONE);
-            LinearLayout linear_toolbar =(LinearLayout) mToolbar.findViewById(R.id.linear_profile) ;
-            linear_toolbar.setVisibility(View.GONE);
-            mActivity.setSupportActionBar(mToolbar);
 
-            if(SessionManager.getSessionForURL("ip_address",mActivity) !=null && (!SessionManager.getSessionForURL("ip_address",mActivity).trim().isEmpty())  && (SessionManager.getSessionForURL("ip_address",mActivity).contains("mbm"))){
-                tv_toolbar_title.setText("Login to MBM CAFM");
+         setupToolBar(mActivity,false);
+
+            if(SessionManager.getSessionForURL(IP_ADDRESS,mActivity) !=null && (!SessionManager.getSessionForURL("ip_address",mActivity).trim().isEmpty())  && (SessionManager.getSessionForURL("ip_address",mActivity).contains("mbm"))){
                 img_header.setImageResource(R.drawable.logo_mbm_png_no_bg);
             }
             else{
-                tv_toolbar_title.setText("Login to "+getString(R.string.app_name));
                 img_header.setImageResource(R.drawable.headerlogo);
             }
-            // mActivity.getSupportActionBar().setTitle(getString(R.string.lbl_login));
-            mActivity.getSupportActionBar().setHomeAsUpIndicator(null);
-            mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-            TextView titleTextView = null;
-            try {
-                Field f = mToolbar.getClass().getDeclaredField("mTitleTextView");
-                f.setAccessible(true);
-                titleTextView = (TextView) f.get(mToolbar);
-                titleTextView.setTypeface(font.getHelveticaRegular());
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
     }
 
     @Override
@@ -269,8 +238,8 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
         tie_password.addTextChangedListener(new MyTextWatcher(tie_password));
         btnLogin.setOnClickListener(this);
         tv_forgot_password.setOnClickListener(this);
-        if(SessionManager.getSession("ip_address",getContext()) !=null || (!SessionManager.getSession("ip_address",getContext()).trim().isEmpty())){
-          tie_serverurl.setText(SessionManager.getSessionForURL("ip_address",getContext()));
+        if(SessionManager.getSession(IP_ADDRESS,getContext()) !=null || (!SessionManager.getSession(IP_ADDRESS,getContext()).trim().isEmpty())){
+          tie_serverurl.setText(SessionManager.getSessionForURL(IP_ADDRESS,getContext()));
         }
 
         tie_serverurl.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -306,7 +275,7 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
                 showProgressDialog(mActivity, "Loading...", false);
                 new UrlService(mActivity, this, tie_serverurl.getText().toString().trim()).getURLData();
             }else{
-                Toast.makeText(mActivity,R.string.lbl_alert_network_not_available,Toast.LENGTH_SHORT).show();
+                Toasty.info(mActivity,R.string.lbl_alert_network_not_available,Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -315,7 +284,7 @@ public class Login extends Fragment implements View.OnClickListener, UserListene
         try {
 
             String loginData = mPreferences.getString(AppUtils.SHARED_LOGIN_OFFLINE, null);
-            if (mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE).contains(AppUtils.NETWORK_AVAILABLE)) {
+            if (checkInternet(getContext())) {
                 showProgressDialog(mActivity, "Loading...", false);
                 LoginRequest loginRequest = new LoginRequest(tie_username.getText().toString().trim(), tie_password.getText().toString().trim());
                 new UserService(mActivity, this).getLoginData(loginRequest);
