@@ -1,10 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: com.hardik.clickshrinkeffect:shrinkeffect:1.0.1@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/shrinkeffect-1.0.1.aar/01396155520d1e44e57ffcf259bb19f3/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/shrinkeffect-1.0.1.aar/01396155520d1e44e57ffcf259bb19f3/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/98ebb6bc31348adbc3c8370e6079243f/jetified-shrinkeffect-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/98ebb6bc31348adbc3c8370e6079243f/jetified-shrinkeffect-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/98ebb6bc31348adbc3c8370e6079243f/jetified-shrinkeffect-1.0.1/res" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hardik.clickshrinkeffect/shrinkeffect/1.0.1/df3539e4e3b89a7a2fcca5fcc44ade4c4e32c531/shrinkeffect-1.0.1-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hardik.clickshrinkeffect/shrinkeffect/1.0.1/b262ab45e0477e3f8b3a0b5edf53064323a64286/shrinkeffect-1.0.1-sources.jar!/" />
     </SOURCES>

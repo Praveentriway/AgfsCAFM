@@ -1,13 +1,16 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.thekhaeng:pushdown-anim-click:1.1.1@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-pushdown-anim-click-1.1.1.aar/444cf7cad0348dd07f5bd15bab26362d/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/de3c1692ec2f1ef2de1af40597ab2579/jetified-pushdown-anim-click-1.1.1/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-pushdown-anim-click-1.1.1.aar/444cf7cad0348dd07f5bd15bab26362d/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-pushdown-anim-click-1.1.1.aar/444cf7cad0348dd07f5bd15bab26362d/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/de3c1692ec2f1ef2de1af40597ab2579/jetified-pushdown-anim-click-1.1.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/de3c1692ec2f1ef2de1af40597ab2579/jetified-pushdown-anim-click-1.1.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/de3c1692ec2f1ef2de1af40597ab2579/jetified-pushdown-anim-click-1.1.1/res" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.thekhaeng/pushdown-anim-click/1.1.1/124ad9dfc95fbb3370891cbc206390b0c90029d0/pushdown-anim-click-1.1.1-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.thekhaeng/pushdown-anim-click/1.1.1/921736f6572dfa001324622550d079b477513ccd/pushdown-anim-click-1.1.1-sources.jar!/" />
     </SOURCES>

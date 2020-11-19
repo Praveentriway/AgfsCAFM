@@ -1,13 +1,16 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.florent37:expectanim:1.0.7@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-expectanim-1.0.7.aar/0b4bea4093d6f57898ebad76453786aa/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a5fab35f11e09b35ecbf4dfa22a8fd4c/jetified-expectanim-1.0.7/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-expectanim-1.0.7.aar/0b4bea4093d6f57898ebad76453786aa/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-expectanim-1.0.7.aar/0b4bea4093d6f57898ebad76453786aa/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a5fab35f11e09b35ecbf4dfa22a8fd4c/jetified-expectanim-1.0.7/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a5fab35f11e09b35ecbf4dfa22a8fd4c/jetified-expectanim-1.0.7/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a5fab35f11e09b35ecbf4dfa22a8fd4c/jetified-expectanim-1.0.7/res" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.florent37/expectanim/1.0.7/99b61b00a276245081ae117d43fd39e43b3db6a8/expectanim-1.0.7-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.florent37/expectanim/1.0.7/5cfd6b9b84ee5f2213833985d4754d76e88dea87/expectanim-1.0.7-sources.jar!/" />
     </SOURCES>
