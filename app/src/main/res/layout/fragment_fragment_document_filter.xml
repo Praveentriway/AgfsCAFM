@@ -7,7 +7,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     tools:ignore="MissingPrefix"
-    android:background="@color/bg_layout"
+    android:background="@drawable/bg_re3"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/_5sdp">
     <androidx.core.widget.NestedScrollView
@@ -50,11 +50,11 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
+
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -63,7 +63,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_contract"
                             android:text="@string/contract_no"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:gravity="center"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
@@ -111,11 +111,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -125,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_search"
                             android:text="@string/search_by"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -171,11 +170,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -186,7 +184,7 @@
                             android:text="@string/asset_code_asset_barcode"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:gravity="center"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -235,11 +233,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -250,7 +247,7 @@
                             android:id="@+id/tv_lbl__rx_no"
                             android:text="@string/rx_no_workorder_no"
                             android:textSize="@dimen/elementTextTitleSize"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -300,11 +297,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -316,7 +312,7 @@
                             android:text="@string/location_name_zone_building"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
 
@@ -363,11 +359,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -378,7 +373,7 @@
                             android:text="@string/nature"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -424,11 +419,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -440,7 +434,7 @@
                             android:textSize="@dimen/elementTextTitleSize"
                             android:gravity="center"
                             android:padding="16dp"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
                     <LinearLayout
@@ -483,11 +477,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -498,7 +491,7 @@
                             android:text="@string/lbl_to_date"
                             android:gravity="center"
                             android:textSize="@dimen/elementTextTitleSize"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -547,11 +540,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -561,7 +553,7 @@
                             android:id="@+id/tv_lbl_completed_from_date"
                             android:text="Completed From Date"
                             android:textSize="@dimen/elementTextTitleSize"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:gravity="center"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -606,11 +598,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -620,7 +611,7 @@
                             android:id="@+id/tv_completed_lbl_to_date"
                             android:text="Completed To Date"
                             android:gravity="center"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"

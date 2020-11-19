@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    style="@style/match_parent_style"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_re3"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                style="@style/match_parent_style"
+                android:gravity="center"
+                android:orientation="vertical">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/contact_card_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_3sdp"
+                    android:layout_marginLeft="@dimen/_50sdp"
+                    android:layout_marginRight="@dimen/_50sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardElevation="10dp">
+
+                    <LinearLayout
+                        style="@style/match_parent_style"
+                        android:orientation="horizontal">
+                        <View
+
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorPrimary"  />
+                        <LinearLayout
+                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_height="wrap_content"
+                                android:layout_width="fill_parent"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:padding="1dp">
+
+                                <TextView
+                                    android:id="@+id/tv_title1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="fill_parent"
+                                    fontPath="fonts/HelveticaBold.otf"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="EMCO - QATAR"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/_10sdp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                style="@style/match_wrap_style"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_po1"
+                                    style="@style/textview_label"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="P.O. BOX 24125 , Doha - Qatar" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                style="@style/match_wrap_style"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_tel1"
+                                    style="@style/textview_label"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".6"
+                                    android:gravity="center"
+                                    android:text="Tel : +974 4435 9188" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_email1"
+                                    style="@style/textview_label"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".6"
+                                    android:gravity="center"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:text="Email : mail@emcoqatar.net" />
+                                <TextView
+                                    android:id="@+id/text_weblink1"
+                                    style="@style/textview_label"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".6"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:gravity="center"
+                                    android:visibility="gone"
+                                    android:textColor="@color/colorPrimary"
+                                    android:text="Website : www.agfacilitiesme.com" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/contact_card_view2"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:layout_marginLeft="@dimen/_50sdp"
+                    android:layout_marginRight="@dimen/_50sdp"
+                    app:cardCornerRadius="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardElevation="10dp">
+
+
+                    <LinearLayout
+                        style="@style/match_parent_style"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+                        <View
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorPrimary"  />
+                        <LinearLayout
+                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_height="wrap_content"
+                                android:layout_width="fill_parent"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:padding="1dp">
+
+                                <TextView
+                                    android:id="@+id/tv_title2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="fill_parent"
+                                    fontPath="fonts/HelveticaBold.otf"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="AG Facilities Solutions for Contracting and General Maintenance LLC"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/_10sdp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                style="@style/match_wrap_style"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_po2"
+                                    style="@style/textview_label"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".6"
+                                    android:gravity="center"
+                                    android:text="P.O. Box 27245, Abu Dhabi, UAE" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                style="@style/match_wrap_style"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_tel2"
+                                    style="@style/textview_label"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".6"
+                                    android:gravity="center"
+                                    android:text="Tel : 04 605 2501" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/tv_email2"
+                                    style="@style/textview_label"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".6"
+                                    android:gravity="center"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:text="Email : agfs.auh@agfacilities.com" />
+                                <TextView
+                                    style="@style/textview_label"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".6"
+                                    android:id="@+id/text_weblink2"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:gravity="center"
+                                    android:visibility="gone"
+                                    android:textColor="@color/colorPrimary"
+                                    android:text="Website : www.agfacilitiesme.com" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <io.github.yavski.fabspeeddial.FabSpeedDial
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="bottom|end"
+        app:fabGravity="bottom_end"
+        app:fabMenu="@menu/fab_support"
+        android:id="@+id/fabSpeedDial"
+        app:fabDrawable="@drawable/option"
+        app:miniFabBackgroundTint="@color/colorPrimary"
+        app:miniFabDrawableTint="@color/colorWhite"
+        app:miniFabTitleTextColor="@color/colorPrimary" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

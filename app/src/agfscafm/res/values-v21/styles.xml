@@ -1,8 +1,34 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="MyMaterialTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="Widget.MaterialSheetFab.Fab" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/fab_spacing</item>
+        <item name="android:layout_marginBottom">@dimen/fab_spacing</item>
+        <item name="android:layout_marginLeft">@dimen/fab_spacing</item>
+        <item name="android:layout_marginRight">@dimen/fab_spacing</item>
+        <item name="android:elevation" tools:ignore="NewApi">@dimen/fab_elevation</item>
+        <item name="android:src">@drawable/option</item>
+        <item name="fabSize">normal</item>
+        <item name="borderWidth">0dp</item>
+    </style>
+
+    <style name="Widget.MaterialSheetFab.ToolBar" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:theme">@style/ThemeOverlay.MaterialSheetFab.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.MaterialSheetFab.ActionBar.Popup</item>
+        <item name="android:elevation" tools:ignore="NewApi">@dimen/toolbar_elevation</item>
+        <item name="layout_scrollFlags">scroll|enterAlways</item>
+    </style>
+
+
+
 </resources>

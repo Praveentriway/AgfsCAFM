@@ -11,17 +11,15 @@
     card_view:cardCornerRadius="3dp"
     card_view:cardUseCompatPadding="true">
 
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/match_wrap_style"
     android:layout_margin="5dp"
     android:orientation="horizontal">
     <View
-        android:backgroundTint="@color/colorPrimary"
         android:layout_width="3.5dp"
         android:layout_height="match_parent"
         android:layout_marginRight="16dp"
-        android:background="@color/colorFormMasterDivider" />
+        android:background="@color/colorPrimary"  />
     <LinearLayout
         style="@style/match_wrap_style"
         android:layout_marginTop="@dimen/_1sdp"
@@ -43,6 +41,7 @@
             android:textStyle="bold"
             android:textSize="@dimen/_10sdp"
             android:text="99."
+            android:visibility="gone"
             android:textColor="@color/checklist_text"
             android:gravity="center"
 
@@ -50,14 +49,17 @@
 
         <TextView
             android:id="@+id/tv_survey_ques"
+            android:layout_weight=".2"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:padding="@dimen/_2sdp"
+            android:gravity="center"
             style="@style/textview_label"
             android:layout_height="wrap_content"
-            android:layout_weight=".2"
-            android:textStyle="bold"
-            android:textSize="@dimen/_10sdp"
-            android:textColor="@color/checklist_text"
-            android:gravity="center_vertical"
-
+            fontPath="fonts/HelveticaBold.otf"
+            android:textColor="@color/color_gray_new"
+            android:textSize="@dimen/_11sdp"
             android:text="How would you rate our staff's general cleaning and house of branches/ Offices ?"/>
 
 
@@ -66,11 +68,12 @@
         <LinearLayout
             style="@style/match_wrap_style"
             android:layout_weight="1"
-            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:weightSum="4"
             android:paddingLeft="@dimen/_16sdp"
             android:paddingRight="@dimen/_10sdp"
             android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/radiogroup_ppe"
                 style="@style/match_wrap_style"
@@ -80,34 +83,48 @@
                     style="@style/radio_button_common_survey"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/_7sdp"
+                    android:gravity="center"
+                    android:background="@drawable/radio_flat_selector"
                     android:layout_weight="1"
-                    android:text="  1"
+                    android:button="@null"
+                    android:text="1"
                     />
                 <RadioButton
                     android:id="@+id/rd_2"
                     style="@style/radio_button_common_survey"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/_7sdp"
+                    android:gravity="center"
                     android:layout_weight="1"
+                    android:background="@drawable/radio_flat_selector"
                     android:text="  2"
+                    android:button="@null"
                     />
+
                 <RadioButton
                     android:id="@+id/rd_3"
                     style="@style/radio_button_common_survey"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/radio_flat_selector"
+                    android:gravity="center"
                     android:textSize="@dimen/_7sdp"
+                    android:button="@null"
                     android:text="  3"
                     />
+
                 <RadioButton
                     android:id="@+id/rd_4"
-
                     style="@style/radio_button_common_survey"
                     android:layout_width="wrap_content"
+                    android:gravity="center"
                     android:layout_weight="1"
+                    android:button="@null"
+                    android:background="@drawable/radio_flat_selector"
                     android:textSize="@dimen/_7sdp"
                     android:text="  4"
                     />
+
             </LinearLayout>
 
             <LinearLayout
@@ -119,38 +136,48 @@
                     style="@style/radio_button_common_survey"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/_7sdp"
+                    android:gravity="center"
+                    android:button="@null"
+                    android:background="@drawable/radio_flat_selector"
                     android:layout_weight="1"
-                    android:text="  1"
+                    android:text=" 1"
                     />
                 <RadioButton
                     android:id="@+id/rd_6"
                     style="@style/radio_button_common_survey"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/_7sdp"
-
+                    android:gravity="center"
                     android:layout_weight="1"
-                    android:text="  2"
+                    android:button="@null"
+                    android:background="@drawable/radio_flat_selector"
+                    android:text="2"
                     />
                 <RadioButton
                     android:id="@+id/rd_7"
                     style="@style/radio_button_common_survey"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:textSize="@dimen/_7sdp"
-                    android:text="  3"
+                    android:button="@null"
+                    android:background="@drawable/radio_flat_selector"
+                    android:text="3"
                     />
                 <RadioButton
                     android:id="@+id/rd_8"
-
+                    android:gravity="center"
                     style="@style/radio_button_common_survey"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:textSize="@dimen/_7sdp"
-                    android:text="  4"
+                    android:button="@null"
+                    android:background="@drawable/radio_flat_selector"
+                    android:text="4"
                     />
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
 
 </LinearLayout>
 </LinearLayout>

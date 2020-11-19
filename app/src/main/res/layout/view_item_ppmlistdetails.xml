@@ -36,6 +36,7 @@
             style="@style/textview_label"
             android:layout_gravity="center"
             android:layout_weight="1"
+            fontPath="fonts/HelveticaBold.otf"
             android:textColor="@color/colorPrimary"
             android:text="@string/building_zone_floor_flat_sub_location"
             android:textSize="@dimen/_7sdp" />

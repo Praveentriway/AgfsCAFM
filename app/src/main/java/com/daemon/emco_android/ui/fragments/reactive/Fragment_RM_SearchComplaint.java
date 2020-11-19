@@ -37,7 +37,7 @@ import com.daemon.emco_android.repository.db.dbhelper.SiteAreaDbInitializer;
 import com.daemon.emco_android.repository.db.entity.MultiSearchComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.SingleSearchComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.SiteAreaEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.ui.fragments.reactive.viewcomplaint.Fragment_RM_ViewComplaint;
 import com.daemon.emco_android.listeners.SearchComplaintListener;
 import com.daemon.emco_android.listeners.SiteListener;
@@ -380,7 +380,7 @@ private CustomTextInputLayout til_complaint_ref;
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
           fm.popBackStack();
         }
-        Fragment _fragment = new MainLandingUI();
+        Fragment _fragment = new MainDashboard();
         FragmentTransaction _transaction = mManager.beginTransaction();
         _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         _transaction.replace(R.id.frame_container, _fragment);

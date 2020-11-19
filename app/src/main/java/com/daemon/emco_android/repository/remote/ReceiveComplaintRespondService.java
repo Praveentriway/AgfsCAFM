@@ -358,8 +358,7 @@ public class ReceiveComplaintRespondService {
     }
   }
 
-
-    public void saveComplaintRespondImageData1(DFoundWDoneImageEntity imageEntity, Context context) {
+  public void saveComplaintRespondImageData1(DFoundWDoneImageEntity imageEntity, Context context) {
         Log.d(TAG, "saveComplaintRespondImageData getClientLongTime");
         try {
             mInterface = ApiClient.getClientLongTime(context).create(ApiInterface.class);
@@ -397,20 +396,10 @@ public class ReceiveComplaintRespondService {
         }
     }
 
-
-
-
-
-
-
-
-
-
     public void getRespondImage(final RCDownloadImageRequest imageRequest, Context context) {
     Log.d(TAG, "getRespondImage getClientLongTime");
     try {
       mInterface = ApiClient.getClientLongTime(context).create(ApiInterface.class);
-
       mInterface
           .getRespondImageResult(imageRequest)
           .enqueue(

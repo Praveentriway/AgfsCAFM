@@ -8,7 +8,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.service.GPSTracker;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,14 +30,12 @@ import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.PPMCheckListAdapter;
 import com.daemon.emco_android.repository.remote.GetPpmResponseService;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.listeners.PPMService_Listner;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.common.PpmScheduleDetails;
 import com.daemon.emco_android.model.common.PpmScheduleDocBy;
-import com.daemon.emco_android.model.common.SaveCheckListData;
 import com.daemon.emco_android.model.request.SaveRatedServiceRequest;
-import com.daemon.emco_android.model.response.GetPPMRecomResponse;
 import com.daemon.emco_android.model.response.GetPpmParamValue;
 import com.daemon.emco_android.model.response.ObjectMonthly;
 import com.daemon.emco_android.model.response.ObjectSavedCheckListResponse;
@@ -309,6 +307,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
             sendServer(fetchPpmScheduleDocBy);
 
             if(isSave){
+
                 EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
                 emp.setCompCode(getPpmScheduleDocBy.getCompanyCode());
                 emp.setTransType("PPM");
@@ -338,7 +337,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
         mSavedInstanceState = getSavedState();
         Bundle data = new Bundle();
         data.putParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS, ppmScheduleDocBy);
-        Fragment_PM_afterppm fragment = new Fragment_PM_afterppm();
+        FragmentAfterPpm fragment = new FragmentAfterPpm();
         fragment.setArguments(data);
         FragmentTransaction fragmentTransaction = mManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
@@ -396,7 +395,7 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
                     for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                         fm.popBackStack();
                     }
-                    Fragment _fragment = new MainLandingUI();
+                    Fragment _fragment = new MainDashboard();
                     FragmentTransaction _transaction = mManager.beginTransaction();
                     _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                     _transaction.replace(R.id.frame_container, _fragment);

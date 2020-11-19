@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
-import com.daemon.emco_android.ui.fragments.common.NumberPickerDialog;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
+import com.daemon.emco_android.ui.components.Fragments.NumberPickerDialog;
 import com.daemon.emco_android.utils.AnimateUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
@@ -37,7 +37,7 @@ import com.daemon.emco_android.listeners.DatePickerDialogListener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.request.PPMFilterRequest;
 import com.daemon.emco_android.model.response.ContractDetails;
-import com.daemon.emco_android.ui.fragments.common.DateRangePickerFragment;
+import com.daemon.emco_android.ui.components.Fragments.DateRangePickerFragment;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
 import com.daemon.emco_android.utils.Utils;
@@ -45,6 +45,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+import static com.daemon.emco_android.utils.StringUtil.space;
 
 public class fragment_ppmfilter extends Fragment implements View.OnClickListener , DatePickerDialogListener, PpmFilterService.Listener, DateRangePickerFragment.OnDateRangeSelectedListener, NumberPicker.OnValueChangeListener {
 
@@ -235,10 +236,8 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
         tv_select_to_date.setOnClickListener(this);
         tv_select_due_date.setOnClickListener(this);
 
-
         new AnimateUtils().fabAnimate(btnSearchComplaintByFilter);
         new AnimateUtils().filterLayoutAnimate(layout_main);
-
     }
 
     @Override
@@ -323,7 +322,8 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                     strArraySiteName.add(entity.getContractNo()+ " - "+entity.getContractName());
                 }
 
-                strArraySiteName.add("\n\n");
+                strArraySiteName.add(space);
+
                 FilterableListDialog.create(
                         mActivity,
                        ("Select Contract No."),
@@ -331,7 +331,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                         new FilterableListDialog.OnListItemSelectedListener() {
                             @Override
                             public void onItemSelected(String text) {
-                                if(!text.equals("\n\n")){
+                                if(!text.equals(space)){
                                     contractNo=text.split("\\s+")[0];
                                     contractNo1=text;
                                     opco=contractDetails.get(strArraySiteName.indexOf(text)).getOpco();
@@ -570,7 +570,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                         ppmfilter.setEndDate(tDate);
                         sStartdate=fromDate;
                         sEnddate=toDate;
-                        loadFragment(new Fragment_PM_PPMDetails_List(), Utils.TAG_PM_PPMDETAILS_LIST);
+                        loadFragment(new Fragment_ppmlist(), Utils.TAG_PM_PPMDETAILS_LIST);
                     }
                 }
 
@@ -591,7 +591,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                       if(checkContractNo()){
                           ppmfilter.setPpmNo(tie_ppm_no.getText().toString());
                           sPPMno=tie_ppm_no.getText().toString();
-                          loadFragment(new Fragment_PM_PPMDetails_List(), Utils.TAG_PM_PPMDETAILS_LIST);
+                          loadFragment(new Fragment_ppmlist(), Utils.TAG_PM_PPMDETAILS_LIST);
                       } } }
                 break;
             }
@@ -608,7 +608,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                         if(checkContractNo()){
                             ppmfilter.setAssetBarcode(tie_asset_barcode.getText().toString());
                             sAssetcode=tie_asset_barcode.getText().toString();
-                            loadFragment(new Fragment_PM_PPMDetails_List(), Utils.TAG_PM_PPMDETAILS_LIST);
+                            loadFragment(new Fragment_ppmlist(), Utils.TAG_PM_PPMDETAILS_LIST);
                         }
                     }
                 }
@@ -626,7 +626,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                         if(checkContractNo()){
                             ppmfilter.setZoneBuilding(tie_location.getText().toString());
                             sLocation=tie_location.getText().toString();
-                            loadFragment(new Fragment_PM_PPMDetails_List(), Utils.TAG_PM_PPMDETAILS_LIST);
+                            loadFragment(new Fragment_ppmlist(), Utils.TAG_PM_PPMDETAILS_LIST);
                         }
                     }
                 }
@@ -645,7 +645,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                     if(checkContractNo()){
                         ppmfilter.setNatureDescription(tv_select_nature.getText().toString());
                         sNaturaldesc=tv_select_nature.getText().toString();
-                        loadFragment(new Fragment_PM_PPMDetails_List(), Utils.TAG_PM_PPMDETAILS_LIST);
+                        loadFragment(new Fragment_ppmlist(), Utils.TAG_PM_PPMDETAILS_LIST);
                     }
                 }
 
@@ -656,7 +656,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
 
                 if(checkContractNo())
                 {
-                    loadFragment(new Fragment_PM_PPMDetails_List(), Utils.TAG_PM_PPMDETAILS_LIST);
+                    loadFragment(new Fragment_ppmlist(), Utils.TAG_PM_PPMDETAILS_LIST);
                 }
 
             }
@@ -668,7 +668,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                 if(checkContractNo())
                 {
                     ppmfilter.setPendingPPM(true);
-                    loadFragment(new Fragment_PM_PPMDetails_List(), Utils.TAG_PM_PPMDETAILS_LIST);
+                    loadFragment(new Fragment_ppmlist(), Utils.TAG_PM_PPMDETAILS_LIST);
                 }
 
             }
@@ -684,7 +684,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                         if(checkContractNo()){
                             ppmfilter.setDueDate(dueDate);
                             sDuedate=dueDate;
-                            loadFragment(new Fragment_PM_PPMDetails_List(), Utils.TAG_PM_PPMDETAILS_LIST);
+                            loadFragment(new Fragment_ppmlist(), Utils.TAG_PM_PPMDETAILS_LIST);
                         }
                 }
                 break;
@@ -865,7 +865,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = fm.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

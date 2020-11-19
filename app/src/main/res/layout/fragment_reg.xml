@@ -55,6 +55,7 @@
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:imeOptions="flagNoExtractUi"
                             android:id="@+id/tie_name"
                             style="@style/text_input_edittext_common"
                             android:hint="@string/lbl_fname"
@@ -78,6 +79,7 @@
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:imeOptions="flagNoExtractUi"
                             android:id="@+id/tie_lname"
                             style="@style/text_input_edittext_common"
                             android:hint="@string/lbl_lname"
@@ -101,6 +103,7 @@
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:imeOptions="flagNoExtractUi"
                             android:id="@+id/tie_telno"
                             style="@style/text_input_edittext_common"
                             android:hint="@string/lbl_telno"
@@ -125,6 +128,7 @@
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:imeOptions="flagNoExtractUi"
                             android:id="@+id/tie_mobile_no"
                             style="@style/text_input_edittext_common"
                             android:hint="@string/lbl_mobile_no"
@@ -149,6 +153,7 @@
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:imeOptions="flagNoExtractUi"
                             android:id="@+id/tie_email"
                             style="@style/text_input_edittext_common"
                             android:hint="@string/lbl_email_id"
@@ -167,11 +172,13 @@
                         android:text="@string/lbl_property_details" />
 
                     <com.daemon.emco_android.ui.components.CustomTextInputLayout
+                        android:imeOptions="flagNoExtractUi"
                         android:id="@+id/til_property_details"
                         style="@style/text_input_layout_common"
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:imeOptions="flagNoExtractUi"
                             android:id="@+id/tie_property_details"
                             style="@style/text_input_edittext_common"
                             android:hint="@string/lbl_property_details"
@@ -195,6 +202,7 @@
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:imeOptions="flagNoExtractUi"
                             android:id="@+id/tie_building_name"
                             style="@style/text_input_edittext_common"
                             android:hint="@string/lbl_building_name"
@@ -218,10 +226,10 @@
                         android:layout_weight=".3">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:imeOptions="flagNoExtractUi"
                             android:id="@+id/tie_location_details"
                             style="@style/text_input_edittext_common"
                             android:hint="@string/lbl_location_floor_flat"
-                            android:imeOptions="actionNext"
                             android:maxLength="100" />
                     </com.daemon.emco_android.ui.components.CustomTextInputLayout>
                 </LinearLayout>
@@ -243,12 +251,12 @@
                         style="@style/text_input_layout_common">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:imeOptions="flagNoExtractUi"
                             android:id="@+id/tie_serverurl"
                             style="@style/text_input_edittext_common"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@./:"
                             android:hint="@string/msg_server_url"
                             android:drawableRight="@drawable/ic_arrow_down"
-                            android:imeOptions="actionDone"
                             android:inputType="textFilter"
                             android:maxLength="45" />
                     </com.daemon.emco_android.ui.components.CustomTextInputLayout>
@@ -266,7 +274,7 @@
                 <TextView
 
                     style="@style/textview_label_new2"
-                    fontPath="fonts/HelveticaRegular.ttf"
+                    fontPath="fonts/HelveticaRegular.otf"
                     android:layout_height="23dp"
                     android:layout_gravity="center"
                     android:text="(or)"
@@ -276,7 +284,7 @@
                 <TextView
                     android:id="@+id/tv_login"
                     style="@style/textview_label_new2"
-                    fontPath="fonts/HelveticaRegular.ttf"
+                    fontPath="fonts/HelveticaRegular.otf"
                     android:layout_height="23dp"
                     android:layout_gravity="center"
                     android:textColor="@color/color_blue"

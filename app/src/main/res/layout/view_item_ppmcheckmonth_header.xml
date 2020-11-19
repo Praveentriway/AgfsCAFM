@@ -20,7 +20,7 @@
                 android:layout_gravity="left"
                 android:background="@color/colorAccent"
                 android:text="General"
-                fontPath="fonts/HelveticaRegular.ttf"
+                fontPath="fonts/HelveticaRegular.otf"
                 android:textColor="@color/colorWhite"
                 android:id="@+id/txt_title"
                 android:gravity="center|left"

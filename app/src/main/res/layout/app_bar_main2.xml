@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.Main2Activity">
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/MyMaterialTheme.AppBarOverlay">
+        android:theme="@style/MyMaterialTheme.AppBarOverlay"
+        android:background="@drawable/curve_toolbar_bg">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

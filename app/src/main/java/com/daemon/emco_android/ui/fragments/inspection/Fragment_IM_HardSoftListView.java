@@ -26,7 +26,7 @@ import com.daemon.emco_android.repository.db.entity.AssetDetailsEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintItemEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintRespondEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.listeners.HardSoft_Listener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.request.HardSoftRequest;
@@ -42,6 +42,7 @@ import java.util.List;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_RESPOND;
 
 /** Created by vikram on 14/7/17. */
+
 public class Fragment_IM_HardSoftListView extends Fragment implements HardSoft_Listener {
   private static final String TAG = Fragment_IM_HardSoftListView.class.getSimpleName();
   public Bundle mSavedInstanceState;
@@ -98,7 +99,7 @@ public class Fragment_IM_HardSoftListView extends Fragment implements HardSoft_L
       new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          Log.d(TAG, "onClick");
+
           AppUtils.closeInput(cl_main);
           switch (v.getId()) {
             case R.id.btn_next:
@@ -157,7 +158,7 @@ public class Fragment_IM_HardSoftListView extends Fragment implements HardSoft_L
   @Override
   public View onCreateView(
       LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Log.d(TAG, "onCreate");
+
     try {
       rootView = inflater.inflate(R.layout.fragment_im_hardsoftlistview, container, false);
       initUI(rootView);
@@ -171,7 +172,7 @@ public class Fragment_IM_HardSoftListView extends Fragment implements HardSoft_L
   }
 
   private void initUI(View rootView) {
-    Log.d(TAG, "initUI");
+
     try {
       cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
 
@@ -233,50 +234,13 @@ public class Fragment_IM_HardSoftListView extends Fragment implements HardSoft_L
   }
 
   private void setProperties() {
-    Log.d(TAG, "setProperties");
-
-    tv_lbl_complaint_ref_no.setTypeface(font.getHelveticaRegular());
-    tv_lbl_job_no.setTypeface(font.getHelveticaRegular());
-    tv_lbl_nature.setTypeface(font.getHelveticaRegular());
-    tv_lbl_site_name.setTypeface(font.getHelveticaRegular());
-    tv_lbl_location.setTypeface(font.getHelveticaRegular());
-    tv_lbl_asset_type.setTypeface(font.getHelveticaRegular());
-    tv_lbl_bar_code.setTypeface(font.getHelveticaRegular());
-    tv_lbl_client_remark.setTypeface(font.getHelveticaRegular());
-
-    tv_complaint_ref_no.setTypeface(font.getHelveticaRegular());
-    tv_job_no.setTypeface(font.getHelveticaRegular());
-    tv_nature.setTypeface(font.getHelveticaRegular());
-    tv_site_name.setTypeface(font.getHelveticaRegular());
-    tv_location.setTypeface(font.getHelveticaRegular());
-    tv_asset_type.setTypeface(font.getHelveticaRegular());
-    tv_bar_code.setTypeface(font.getHelveticaRegular());
-    tv_client_remark.setTypeface(font.getHelveticaRegular());
-
-    tv_lbl_make.setTypeface(font.getHelveticaRegular());
-    tv_lbl_model.setTypeface(font.getHelveticaRegular());
-    tv_lbl_date.setTypeface(font.getHelveticaRegular());
-    tv_lbl_complaint.setTypeface(font.getHelveticaRegular());
-    tv_lbl_defectsfound.setTypeface(font.getHelveticaRegular());
-    tv_lbl_workdone.setTypeface(font.getHelveticaRegular());
-    tv_lbl_material_used.setTypeface(font.getHelveticaRegular());
-    tv_lbl_tech_remarks.setTypeface(font.getHelveticaRegular());
-
-    tv_make.setTypeface(font.getHelveticaRegular());
-    tv_model.setTypeface(font.getHelveticaRegular());
-    tv_date.setTypeface(font.getHelveticaRegular());
-    tv_complaint.setTypeface(font.getHelveticaRegular());
-    tv_defectsfound.setTypeface(font.getHelveticaRegular());
-    tv_workdone.setTypeface(font.getHelveticaRegular());
-    tv_material_used.setTypeface(font.getHelveticaRegular());
-    tv_tech_remarks.setTypeface(font.getHelveticaRegular());
 
     btn_next.setTypeface(font.getHelveticaRegular());
 
     btn_next.setOnClickListener(_OnClickListener);
 
     if (mSavedInstanceState != null) {
-      Log.d(TAG, " mSavedInstanceState : " + mSavedInstanceState);
+
       receiveComplaintItemEntity =
           mSavedInstanceState.getParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_ITEM_DETAILS);
       mSelectedPosition = mSavedInstanceState.getInt(AppUtils.ARGS_RECEIVEDCOMPLAINT_ITEM_POSITION);
@@ -330,7 +294,6 @@ public class Fragment_IM_HardSoftListView extends Fragment implements HardSoft_L
   }
 
   private void postDataToServer(ReceiveComplaintRespondEntity respondRequest) {
-    Log.d(TAG, "postDataToServer");
 
     mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
     if (mNetworkInfo.length() > 0) {
@@ -343,7 +306,7 @@ public class Fragment_IM_HardSoftListView extends Fragment implements HardSoft_L
 
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    Log.d(TAG, "onPrepareOptionsMenu ");
+
     menu.findItem(R.id.action_logout).setVisible(false);
     menu.findItem(R.id.action_home).setVisible(true);
   }
@@ -352,13 +315,12 @@ public class Fragment_IM_HardSoftListView extends Fragment implements HardSoft_L
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_home:
-        Log.d(TAG, "onOptionsItemSelected : home");
-        // mActivity.onBackPressed();
+
         FragmentManager fm = getActivity().getSupportFragmentManager();
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
           fm.popBackStack();
         }
-        Fragment _fragment = new MainLandingUI();
+        Fragment _fragment = new MainDashboard();
         FragmentTransaction _transaction = mManager.beginTransaction();
         _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         _transaction.replace(R.id.frame_container, _fragment);
@@ -370,7 +332,6 @@ public class Fragment_IM_HardSoftListView extends Fragment implements HardSoft_L
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    Log.d(TAG, "onSaveInstanceState");
     mSavedInstanceState = getSavedStateOnPause();
   }
 
@@ -419,7 +380,7 @@ public class Fragment_IM_HardSoftListView extends Fragment implements HardSoft_L
   @Override
   public void onHardSoftReceivedFailure(String strErr, int mode) {
     AppUtils.hideProgressDialog();
-    Log.d(TAG, "onHardSoftReceivedFailure");
+
   }
 
   @Override

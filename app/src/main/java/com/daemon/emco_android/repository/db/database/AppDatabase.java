@@ -90,7 +90,7 @@ import com.daemon.emco_android.utils.AppUtils;
       SaveRatedServiceEntity.class,
       EmployeeTrackingDetail.class
     },
-    version = 10)
+    version = 15)
 @TypeConverters(SaveFeedbackEntity.class)
 public abstract class AppDatabase extends RoomDatabase {
 

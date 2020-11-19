@@ -86,18 +86,6 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
     private int mSelectedPosition = 0;
     private IM_PPMListAdapter adapter;
     private List<PpmScheduleDetails> mList = new ArrayList<>();
-    /*private CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            try {
-                if (mList != null && adapter != null && !mList.isEmpty()) {
-                    adapter.checkAll(b);
-                } else Log.d(TAG, "onCheckedChanged empty");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    };*/
     private String mUnSignedPage = AppUtils.ARGS_RECEIVECOMPLAINT_PAGE;
     private boolean ARGS_RCLIST_F = false;
     private SharedPreferences mPreferences;
@@ -166,7 +154,7 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            Log.d(TAG, "onCreate");
+
             mActivity = (AppCompatActivity) getActivity();
             setHasOptionsMenu(true);
             setRetainInstance(false);
@@ -197,7 +185,6 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_im_ppm_list, container, false);
-        Log.d(TAG, "onCreateView");
         initView(rootView);
         setProperties();
         setupActionBar();
@@ -205,7 +192,7 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
     }
 
     public void initView(View view) {
-        Log.d(TAG, "initView");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             AppUtils.closeInput(cl_main);
@@ -213,9 +200,7 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
             searchView = (SearchView) view.findViewById(R.id.sv_rc_search);
             searchView.setOnQueryTextListener(this);
             recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-
             cb_checkAll = (CheckBox) view.findViewById(R.id.cb_checkall);
-
             tv_s_no = (TextView) view.findViewById(R.id.tv_s_no);
             tv_building = (TextView) view.findViewById(R.id.tv_building);
             tv_location_floor_flat = (TextView) view.findViewById(R.id.tv_location_floor_flat);
@@ -223,10 +208,8 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
             tv_start_date = (TextView) view.findViewById(R.id.tv_start_date);
             tv_end_date = (TextView) view.findViewById(R.id.tv_end_date);
             tv_ppm_details = (TextView) view.findViewById(R.id.tv_ppm_details);
-
             text_view_loading_message = (TextView) view.findViewById(R.id.text_view_message);
             layout_loading_message = (LinearLayout) view.findViewById(R.id.layout_loading);
-
             layout_loading = (LinearLayout) view.findViewById(R.id.layout_loading);
             layout_empty = (RelativeLayout) view.findViewById(R.id.layout_empty);
             footer_container = (RelativeLayout) view.findViewById(R.id.footer_container);
@@ -274,19 +257,7 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
             searchView.setIconifiedByDefault(false);
             searchView.setOnQueryTextListener(this);
 
-            tv_s_no.setTypeface(font.getHelveticaRegular());
-            tv_building.setTypeface(font.getHelveticaRegular());
-            tv_location_floor_flat.setTypeface(font.getHelveticaRegular());
-            tv_location_barcode.setTypeface(font.getHelveticaRegular());
-            tv_start_date.setTypeface(font.getHelveticaRegular());
-            tv_end_date.setTypeface(font.getHelveticaRegular());
-            tv_ppm_details.setTypeface(font.getHelveticaRegular());
-
-            text_view_empty.setTypeface(font.getHelveticaRegular());
-            text_view_message.setTypeface(font.getHelveticaRegular());
-            btn_reassign_ccc.setTypeface(font.getHelveticaRegular());
             btn_reassign_ccc.setVisibility(View.GONE);
-            text_view_loading_message.setTypeface(font.getHelveticaRegular());
 
             adapter = new IM_PPMListAdapter(mActivity, mList);
             adapter.setListener(this);
@@ -308,7 +279,7 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
     }
 
     public void setManager() {
-        Log.d(TAG, "setManager");
+
         try {
             mLayoutManager = new LinearLayoutManager(mActivity);
             recyclerView.setLayoutManager(mLayoutManager);
@@ -318,7 +289,7 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
     }
 
     public void getReceiveComplainFromService(int startIndex) {
-        Log.d(TAG, "getReceiveComplainFromService");
+
         try {
             if (isLoading) return;
             if (startIndex == 0) {
@@ -436,8 +407,7 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
 
             if (mUnSignedPage == AppUtils.ARGS_RECEIVECOMPLAINT_PAGE) {
                 if (!mList.isEmpty() && from == AppUtils.MODE_SERVER) {
-                    //receiveComplaintItemDb.populateAsync(AppDatabase.getAppDatabase(mActivity), mList, isLastPage ? AppUtils.MODE_INSERT : AppUtils.MODE_INSERT_SINGLE);
-                }
+                          }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -518,7 +488,6 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         MenuItem searchItem = menu.findItem(R.id.action_search).setVisible(true);
         MenuItem refreshItem = menu.findItem(R.id.action_refresh).setVisible(true);
         menu.findItem(R.id.action_logout).setVisible(false);
@@ -551,7 +520,6 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                Log.d(TAG, "onOptionsItemSelected : home");
                 mActivity.onBackPressed();
                 break;
         }
@@ -570,7 +538,7 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
         outState.putString(AppUtils.ARGS_RECEIVECOMPLAINT_PAGETYPE, mUnSignedPage);
         outState.putInt(AppUtils.ARG_SELECTED_POSITION, mSelectedPosition);
         outState.putParcelableArrayList(AppUtils.ARG_RC_LIST, (ArrayList<PpmScheduleDetails>) mList);
-        Log.d(TAG, "getSavedStateOnPause");
+
         return outState;
     }
 
@@ -593,36 +561,11 @@ public class Fragment_IM_PPMList extends Fragment implements ReceivecomplaintLis
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.d(TAG, "onQueryTextChange");
-        // filter your list from your input
-       // filter(newText);
-        //you can use runnable postDelayed like 500 ms to delay search text
+
         return false;
     }
 
-    /*void filter(String text) {
-        Log.d(TAG, "filter");
-        try {
-            if (mList != null && !mList.isEmpty()) {
-                if (temp != null) {
-                    temp = new ArrayList<>();
-                } else {
-                    temp.clear();
-                }
-                for (ReceiveComplaintItemEntity d : mList) {
-                    //or use .equal(text) with you want equal match
-                    //use .toLowerCase() for better matches
-                    if (d.getComplainRefrenceNumber().toLowerCase().contains(text.toLowerCase())) {
-                        temp.add(d);
-                    }
-                }
-                //update recyclerview
-                adapter.updateList(temp);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
+
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {

@@ -39,7 +39,7 @@ import com.daemon.emco_android.repository.db.dbhelper.LogComplaintDbInitializer;
 import com.daemon.emco_android.repository.db.dbhelper.ZoneDbInitializer;
 import com.daemon.emco_android.repository.db.entity.LogComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.ZoneEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.listeners.LCUserInputListener;
 import com.daemon.emco_android.listeners.LogComplaint_Listener;
 import com.daemon.emco_android.listeners.ZoneListener;
@@ -153,7 +153,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                 mComplainPhone = mUserData.getPhoneNumber();
             }
             mComplainDate = AppUtils.getDateTime().toUpperCase();
-
             mComplaintYear = AppUtils.getCurrentYear();
 
             Log.d( TAG,
@@ -182,7 +181,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     }
 
     private void getPopupDataFromServer() {
-
         gettingLCUserInput();
     }
 
@@ -191,7 +189,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         try {
-
             rootView = (View) inflater.inflate(R.layout.fragment_log_complaint_user, container, false);
             initUI(rootView);
             setProperties();
@@ -200,7 +197,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         return rootView;
     }
 
@@ -220,7 +216,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                         if(lcUserInput.get(0).getZoneDescription()!=null){
                             tv_select_zone.setText(lcUserInput.get(0).getZoneDescription());
                         }
-                        // mZoneCode = lcUserInput.getZoneCode();
+
                         mJobNo = lcUserInput.get(0).getJobNumber();
                         mComplainSite = lcUserInput.get(0).getComplainSite();
                         mCompanyCode = lcUserInput.get(0).getCompanyCode();
@@ -234,7 +230,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                 } else
                     AppUtils.showDialog(mActivity, getString(R.string.msg_no_data_found_in_local_db));
             }
-
     }
 
 
@@ -267,7 +262,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
             tie_property = (TextInputEditText) rootView.findViewById(R.id.tie_property);
             tie_complaint = (TextInputEditText) rootView.findViewById(R.id.tie_complaint);
             btnSaveComplaint = (FloatingActionButton) rootView.findViewById(R.id.btnSaveComplaint);
-
             setupActionBar();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -348,8 +342,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
 
             if (validateProperty() && validateLocation() && validateComplaint()) {
                 mComplainWebNumber = AppUtils.getUniqueLogComplaintNo();
-                Log.d(TAG, " mComplainWebNumber :" + mComplainWebNumber);
-
                 LogComplaintEntity entity = new LogComplaintEntity(mComplainWebNumber);
                 entity.setCompanyCode(mCompanyCode);
                 entity.setComplainBy(mComplainBy);
@@ -377,7 +369,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
     private void postDataToServer(LogComplaintEntity logComplaintRequest) {
 
         try {
-
                 if (checkInternet(getContext())) {
                     AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
                     new PostLogComplaintService(mActivity, this).postLogComplaintData(logComplaintRequest);
@@ -410,7 +401,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         } else {
             til_sublocation.setErrorEnabled(false);
         }
-
         return true;
     }
 
@@ -422,7 +412,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         } else {
             til_property.setErrorEnabled(false);
         }
-
         return true;
     }
 
@@ -434,7 +423,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
         } else {
             til_complaint.setErrorEnabled(false);
         }
-
         return true;
     }
 
@@ -513,8 +501,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                                     }
                                 }
                             }
-                        })
-                        .show();
+                        }).show();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -523,7 +510,6 @@ public class Fragment_RM_LogComplaintUser extends Fragment
 
     @Override
     public void onZoneReceivedSuccess(List<ZoneEntity> zoneList, int mode) {
-
         AppUtils.hideProgressDialog();
         listZone = zoneList;
         if(listZone.size()!=0&&listZone!=null){
@@ -532,11 +518,10 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                 tv_select_zone.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 tv_select_zone.setClickable(false);
                 mZoneCode=listZone.get(0).getZoneCode();
-            }else{
+            } else {
                 tv_select_zone.setClickable(true);
                 tv_select_zone.setText(getResources().getString(R.string.lbl_select_zone));
             }
-
         }
         if (mode == AppUtils.MODE_SERVER) {
             new ZoneDbInitializer(mActivity, listZone, this).execute(AppUtils.MODE_INSERT);
@@ -611,7 +596,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);
@@ -646,9 +631,7 @@ public class Fragment_RM_LogComplaintUser extends Fragment
                         tv_contract_no.setText(getResources().getString(R.string.lbl_select_zone));
                         tv_contract_no.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down_spin, 0);
                     }
-                    // save data
-                    String strlc = gson.toJson(lcUserInput, baseType);
-                    mEditor.putString(AppUtils.SHARED_CUSTOMER_LC, strlc);
+                    mEditor.putString(AppUtils.SHARED_CUSTOMER_LC, gson.toJson(lcUserInput, baseType));
                     mEditor.commit();
 
                 }

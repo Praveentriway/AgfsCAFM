@@ -6,8 +6,10 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.model.common.EmployeeList;
 import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.model.response.EmployeeGpsReponse;
+import com.daemon.emco_android.model.response.EmployeeListResponse;
 import com.daemon.emco_android.repository.db.database.AppDatabase;
 import com.daemon.emco_android.repository.remote.restapi.ApiClient;
 import com.daemon.emco_android.repository.remote.restapi.ApiConstant;
@@ -26,7 +28,6 @@ import static com.daemon.emco_android.utils.AppUtils.MODE_REMOTE;
 
 public class EmployeeGpsRepository {
 
-    private AppCompatActivity mActivity;
     private Context mContext;
     private ApiInterface mInterface;
     private EmployeeGPSListener mCallback;
@@ -117,10 +118,46 @@ public class EmployeeGpsRepository {
                                     mContext.getString(R.string.msg_request_error_occurred), AppUtils.MODE_SERVER);
                         }
                     });
-
         }
 
     }
+
+
+
+
+    public void getEmployeeList(String employeeID) {
+
+        try {
+            mInterface.getEmployeeDetail(employeeID).enqueue(new Callback<EmployeeListResponse>() {
+                @Override
+                public void onResponse(Call<EmployeeListResponse> call, Response<EmployeeListResponse> response) {
+                    if (response.isSuccessful()) {
+
+                        if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+
+                            mCallback.onReceiveEmployeeList(response.body().getObject());
+                        }else{
+                            mCallback.onReceiveFailureEmployeeList(response.body().getMessage());
+                        }
+
+                    }
+
+                    else{
+                        mCallback.onReceiveFailureEmployeeList(response.body().getMessage());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<EmployeeListResponse> call, Throwable t) {
+                    mCallback.onReceiveFailureEmployeeList(t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     public interface EmployeeGPSListener {
@@ -129,6 +166,11 @@ public class EmployeeGpsRepository {
 
         void onFailureGpsUpdate(String strErr, int mode);
 
+        void onReceiveEmployeeList(List<EmployeeList> object);
+
+        void onReceiveFailureEmployeeList(String toString);
+
     }
+
 
 }

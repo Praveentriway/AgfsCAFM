@@ -33,6 +33,61 @@ public class RCDownloadImageRequest {
     @Expose
     private String ppmRefNo;
 
+    @SerializedName("generalRefNo")
+    @Expose
+    private String generalRefNo;
+
+    @SerializedName("transactionType")
+    @Expose
+    private String transactionType;
+
+    @SerializedName("ref_doc")
+    @Expose
+    private String ref_doc;
+
+    /**
+     * @param generalRefNo The generalRefNo
+     */
+    public void setGeneralRefNo(String generalRefNo) {
+        this.generalRefNo = generalRefNo;
+    }
+
+    /**
+     * @return The generalRefNo
+     */
+    public String getGeneralRefNo() {
+        return generalRefNo;
+    }
+
+    /**
+     * @return The transactionType
+     */
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    /**
+     * @param transactionType The transactionType
+     */
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+    /**
+     * @return The ref_doc
+     */
+    public String getRef_doc() {
+        return ref_doc;
+    }
+
+    /**
+     * @param ref_doc The ref_doc
+     */
+    public void setRef_doc(String ref_doc) {
+        this.ref_doc = ref_doc;
+    }
+
+
+
     /**
      * @return The opco
      */

@@ -24,21 +24,17 @@ import com.daemon.emco_android.utils.Font;
 import com.daemon.emco_android.utils.Utils;
 
 public class Fragment_IM_Periodic extends Fragment implements View.OnClickListener {
-    private static final String TAG = Fragment_IM_Periodic.class.getSimpleName();
 
     private AppCompatActivity mActivity;
     private Context mContext;
     private Font font = App.getInstance().getFontInstance();
-
     private LinearLayout ll_im_landing, ll_im_services, ll_im_periodic;
     private Button btn_assigned, btn_random;
-
     private CoordinatorLayout cl_main;
     private Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
         try {
@@ -56,7 +52,6 @@ public class Fragment_IM_Periodic extends Fragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
         View rootView = null;
         try {
             rootView = (View) inflater.inflate(R.layout.fragment_inspection_landing_page, container, false);
@@ -70,16 +65,10 @@ public class Fragment_IM_Periodic extends Fragment implements View.OnClickListen
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
 
-            ll_im_landing = (LinearLayout) rootView.findViewById(R.id.ll_im_landing);
-            ll_im_services = (LinearLayout) rootView.findViewById(R.id.ll_im_services);
-            ll_im_periodic = (LinearLayout) rootView.findViewById(R.id.ll_im_periodic);
-
-            btn_assigned = (Button) rootView.findViewById(R.id.btn_assigned);
-            btn_random = (Button) rootView.findViewById(R.id.btn_random);
             setupActionBar();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -100,33 +89,21 @@ public class Fragment_IM_Periodic extends Fragment implements View.OnClickListen
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
-        btn_assigned.setTypeface(font.getHelveticaRegular());
-        btn_random.setTypeface(font.getHelveticaRegular());
 
         ll_im_landing.setVisibility(View.GONE);
         ll_im_periodic.setVisibility(View.VISIBLE);
         ll_im_services.setVisibility(View.GONE);
-
         btn_assigned.setOnClickListener(this);
         btn_random.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        Log.d(TAG, "onClick");
-        switch (view.getId()) {
-            case R.id.btn_assigned:
-                gotoIMServices(false, getString(R.string.title_assigned_inspection));
-                break;
-            case R.id.btn_random:
-                gotoIMServices(true, getString(R.string.title_random_inspection));
-                break;
-        }
+
     }
 
     private void gotoIMServices(boolean random, String title) {
-        Log.d(TAG, "gotoIMServices");
+
         Bundle data = new Bundle();
         Fragment_IM_Services complaintsList = new Fragment_IM_Services();
         data.putBoolean(AppUtils.ARGS_IM_RANDOM_PAGE, random);
@@ -142,7 +119,7 @@ public class Fragment_IM_Periodic extends Fragment implements View.OnClickListen
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
+
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_home).setVisible(true);
     }
@@ -151,12 +128,8 @@ public class Fragment_IM_Periodic extends Fragment implements View.OnClickListen
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                Log.d(TAG, "onOptionsItemSelected : home");
+
                 mActivity.onBackPressed();
-               /* FragmentManager fm = getActivity().getSupportFragmentManager();
-                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-                    fm.popBackStack();
-                }*/
                 break;
         }
         return super.onOptionsItemSelected(item);

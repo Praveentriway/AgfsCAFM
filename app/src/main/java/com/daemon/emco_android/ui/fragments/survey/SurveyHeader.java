@@ -1,11 +1,15 @@
 package com.daemon.emco_android.ui.fragments.survey;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.daemon.emco_android.model.response.SurveyFloorFlat;
+import com.daemon.emco_android.repository.db.entity.SurveyEmployeeList;
 import com.daemon.emco_android.utils.AnimateUtils;
+import com.daemon.emco_android.utils.RightDrawableOnTouchListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,12 +25,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.repository.remote.CustomerSurveyRepository;
@@ -49,7 +58,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import static com.daemon.emco_android.utils.AppUtils.ARGS_SURVEYTYPE;
 import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+import static com.daemon.emco_android.utils.AppUtils.closeKeyboard;
 import static com.daemon.emco_android.utils.AppUtils.showErrorToast;
+import static com.daemon.emco_android.utils.StringUtil.space;
 
 
 public class SurveyHeader extends Fragment implements CustomerSurveyRepository.Listener, View.OnClickListener {
@@ -73,17 +84,19 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
     private String mStrEmpId = null;
     private String mLoginData = null;
 
+    public String ALL_BUILDINGS="ALL-BUILDINGS";
+    List<SurveyLocation> surveyLocations=new ArrayList<>();
+    List<SurveyLocation> surveyReviwer;
+    List<SurveyFloorFlat> surveyFloorFlats;
     public static String DETAILED="Detail";
     public static String SUMMARY="Summary";
 
-    ArrayList<String> locationArr;
     String surveyType;
     AppCompatTextView tv_lbl_custcode,tv_lbl_tenant_name, tv_lbl_contract_no, tv_lbl_reference, tv_lbl_location, tv_lbl_client_name, tv_lbl_designation, tv_lbl_email, tv_lbl_contact;
     String type;
     boolean suggestionFlag;
-    AppCompatEditText tie_client_name, tie_designation, tie_contact_no, tie_email,tie_tenant_name;
-
-    AutoCompleteTextView tie_location_name;
+    AutoCompleteTextView tie_location_name,
+            tie_floor_flat;
 
     public SurveyHeader() {
         // Required empty public constructor
@@ -97,9 +110,7 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
             case R.id.tv_select_reference:{
 
                 if(customerCode.equalsIgnoreCase("")){
-
                     showErrorToast(mActivity,"Customer should not be empty.");
-
                 }
                 else{
                     new CustomerSurveyRepository(mActivity,this).getSurveyRefernce(customerCode);
@@ -114,20 +125,20 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                 }
                 else{
                     if(customerCode.equalsIgnoreCase("")){
-
                         showErrorToast(mActivity,"Customer should not be empty.");
-
                     }
                     else{
-                        new CustomerSurveyRepository(mActivity,this).getSurveyContract(customerCode);
+                        new CustomerSurveyRepository(mActivity,this).getSurveyContract(mStrEmpId,customerCode);
                     }
                 }
             }
             break;
 
-            case R.id.tv_select_customer : showSurveyCustomerDialog();
+            case R.id.tv_select_customer :
+                showSurveyCustomerDialog();
                 break;
-        } }
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,20 +152,25 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         }
 
         surveyTransaction=new SurveyTransaction();
+
         mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
         mLoginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+
         if (mLoginData != null) {
             Gson gson = new Gson();
             Login login = gson.fromJson(mLoginData, Login.class);
             mStrEmpId = login.getEmployeeId();
         }
+
         surveyTransaction.setCreatedBy(mStrEmpId);
         surveyTransaction.setSurveyFrom(type);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_customer_feed_back_header, container, false);
         setupActionBar();
@@ -168,19 +184,17 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                 proceed_questionnaire();
             }
         });
-
-
         new AnimateUtils().fabAnimate(fab_next);
         new AnimateUtils().filterLayoutAnimate(layout_main);
-
         return view;
+
     }
 
     public void setupActionBar() {
         mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
         mToolbar.setTitle("my title");
         tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
-        tv_toolbar_title.setText(type+" Survey");
+        tv_toolbar_title.setText( "Please fill the "+type+" Details");
         LinearLayout linear_toolbar =(LinearLayout) mToolbar.findViewById(R.id.linear_profile) ;
         linear_toolbar.setVisibility(View.GONE);
         mActivity.setSupportActionBar(mToolbar);
@@ -190,13 +204,30 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mActivity.onBackPressed();
+                        showbackPressAlert();
                     }
                 });
-
     }
 
-    public void setProps(){
+    public void showbackPressAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage(getString(R.string.close_survey))
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        mActivity.onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void setProps() {
 
         layout_main=(LinearLayout) view.findViewById(R.id.layout_main);
         linear1=(CardView) layout_main.findViewById(R.id.linear1);
@@ -217,20 +248,59 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         tv_lbl_custcode.setText(Html.fromHtml("Customer" + AppUtils.mandatory));
         tv_lbl_reference.setText(Html.fromHtml("Survey Reference" + AppUtils.mandatory));
         tv_lbl_location.setText(Html.fromHtml("Location" + AppUtils.mandatory));
-        tv_lbl_client_name.setText(Html.fromHtml("Reviewer Name" + AppUtils.mandatory));
-        tv_lbl_tenant_name.setText(Html.fromHtml("Tenant Name" + AppUtils.mandatory));
-        tv_lbl_designation.setText(Html.fromHtml("Designation" + AppUtils.mandatory));
-        tv_lbl_email.setText(Html.fromHtml("Email Id" + AppUtils.mandatory));
-        tv_lbl_contact.setText(Html.fromHtml("Contact No" + AppUtils.mandatory));
+
+       ImageView right_btn_location_name=(ImageView) view.findViewById(R.id.right_btn_location_name) ;
+        right_btn_location_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickSearch(tie_location_name);
+            }
+        });
+
+        ImageView right_btn_floor_flat_name=(ImageView) view.findViewById(R.id.right_btn_floor_flat_name) ;
+        right_btn_floor_flat_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickSearch(tie_floor_flat);
+            }
+        });
+
         tie_location_name=(AutoCompleteTextView) view.findViewById(R.id.tie_location_name);
-        tie_client_name=(AppCompatEditText) view.findViewById(R.id.tie_client_name);
-        tie_designation=(AppCompatEditText) view.findViewById(R.id.tie_designation);
-        tie_contact_no=(AppCompatEditText) view.findViewById(R.id.tie_contact_no);
-        tie_tenant_name=(AppCompatEditText) view.findViewById(R.id.tie_tenant_name);
-        tie_email=(AppCompatEditText) view.findViewById(R.id.tie_email);
+        tie_floor_flat=(AutoCompleteTextView) view.findViewById(R.id.tie_floor_flat);
+
         tv_select_contract.setOnClickListener(this);
         tv_select_customer.setOnClickListener(this);
         tv_select_reference.setOnClickListener(this);
+
+        tie_location_name.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+
+                if(type.equalsIgnoreCase("Customer")) {
+
+                    if(surveyLocations.get(position).getReviewerName()!=null || !(surveyLocations.get(position).getReviewerName().equalsIgnoreCase(""))){
+
+                        String title="You have other information to auto fill.";
+
+                        String   StrMsg = "Reviewer Name :   "
+                                + surveyLocations.get(position).getReviewerName()
+                                + "\n"
+                                +"Designation :   "
+                                + surveyLocations.get(position).getDesignation()
+                                + "\n"
+                                +"Contact No :   "
+                                + surveyLocations.get(position).getContactNo()
+                                + "\n"
+                                +"Email ID :   "
+                                + surveyLocations.get(position).getEmailId()
+                                + "\n"
+                               ;
+                    //    commonAlert(title,StrMsg,position);
+                    }
+
+                } }
+        });
+
 
         if (checkInternet(getContext())) {
 
@@ -243,15 +313,15 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                 linear3.setVisibility(View.VISIBLE);
                 tv_lbl_contract_no.setText(Html.fromHtml("Contract No" + AppUtils.mandatory));
                 AppUtils.showProgressDialog2(mActivity,"Loading..",true);
-                new CustomerSurveyRepository(mActivity,this).getSurveyContract("");
+                new CustomerSurveyRepository(mActivity,this).getSurveyContract(mStrEmpId,"");
             }
+
             else{
                 AppUtils.showProgressDialog2(mActivity,"Loading..",true);
-                new CustomerSurveyRepository(getContext(),this).getSurveyCustomer();
+                new CustomerSurveyRepository(mActivity,this).getSurveyEmployeeList(mStrEmpId);
             }
 
         }
-
 
         final Handler handler = new Handler();
         Timer timer = new Timer(false);
@@ -269,28 +339,63 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
             }
         };
         timer.schedule(timerTask, 800);
-
     }
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         MenuItem item = menu.findItem(R.id.action_logout);
         item.setVisible(false);
+        menu.findItem(R.id.action_home).setVisible(true);
     }
 
-    public void loadFragment(final Fragment fragment, final String tag,List<ServeyQuestionnaire> questions) {
-        Log.d(TAG, "loadFragment");
-        // update the main content by replacing fragments
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                getActivity().getSupportFragmentManager().popBackStack();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void onClickSearch(final View view) {
+
+        if(view==tie_location_name){
+           if(surveyTransaction.getContractNo().isEmpty()){
+               showErrorToast(getActivity(),"Contract should not be empty.");
+           }
+           else{
+               fetchLocation(surveyTransaction.getContractNo());
+           }
+        }
+        else{
+
+            if(surveyTransaction.getBuildingCode()==null  ){
+                showErrorToast(getActivity(),"Location should not be empty.");
+            }
+            else if(surveyTransaction.getBuildingCode().isEmpty()) {
+                showErrorToast(getActivity(),"Location should not be empty.");
+            }
+            else{
+               new CustomerSurveyRepository(mActivity,this).getSurveyFloorFlat(surveyTransaction.getContractNo(),surveyTransaction.getBuildingCode());
+            }
+        }
+    }
+
+    public void loadFragment(final Fragment fragment, final String tag) {
 
         surveyTransaction.setSurveyType(surveyType);
-
-        ArrayList<ServeyQuestionnaire> al_ques = new ArrayList<>(questions.size());
-        al_ques.addAll(questions);
         Bundle mdata = new Bundle();
-        mdata.putSerializable(AppUtils.ARGS_SURVEYQUES,al_ques);
+
+        ArrayList<SurveyLocation> all_loc = new ArrayList<>(surveyLocations.size());
+        all_loc.addAll(surveyLocations);
+
+        mdata.putSerializable(AppUtils.ARGS_SURVEYLOCATIONS,all_loc);
+
         mdata.putSerializable(AppUtils.ARGS_SURVEYTRANS,surveyTransaction);
         mdata.putBoolean(AppUtils.ARGS_SUGESSTIONFLAG,suggestionFlag);
+        mdata.putString(AppUtils.ARGS_SURVEYMODE,surveyTransaction.getSurveyType());
         fragment.setArguments(mdata);
         FragmentTransaction fragmentTransaction =
                 mActivity.getSupportFragmentManager().beginTransaction();
@@ -298,6 +403,7 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         fragmentTransaction.replace(R.id.frame_container, fragment, tag);
         fragmentTransaction.addToBackStack(tag);
         fragmentTransaction.commit();
+
     }
 
     public void onReceiveSurveyCustomer(List<SurveyCustomer> customers, int mode){
@@ -306,7 +412,7 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
     }
 
     public void onReceiveFailureSurveyCustomer(String strErr, int mode){
-
+        AppUtils.hideProgressDialog();
         showErrorToast(mActivity,strErr);
 
     }
@@ -320,10 +426,13 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         else{
             AppUtils.hideProgressDialog();
         }
+
     }
 
     public void onReceiveFailureSurveyContract(String strErr, int mode){
+        AppUtils.hideProgressDialog();
         showErrorToast(mActivity,strErr);
+
     }
 
     public void onReceiveSurveyRefernce(List<SurveyMaster> refernces, int mode){
@@ -332,36 +441,38 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
     }
 
     public void onReceiveFailureSurveyRefernce(String strErr, int mode){
+        AppUtils.hideProgressDialog();
         showErrorToast(mActivity,strErr);
     }
 
     public void onReceiveSurveyQuestionnaire(List<ServeyQuestionnaire> questions, int mode){
         AppUtils.hideProgressDialog();
-        loadFragment(new SurveyQuestionnaire(), Utils.TAG_FRAGMENT_CUST_FEEDBACK_QUES,questions);
     }
 
     public void onReceiveFailureSurveyQuestionnaire(String strErr, int mode){
+        AppUtils.hideProgressDialog();
         showErrorToast(mActivity,strErr);
     }
 
     public void onReceiveSurveyLocation(List<SurveyLocation> questions, int mode){
+        surveyLocations=questions;
+        showSurveyLocationDialog();
+    }
 
-        locationArr=new ArrayList<>();
-        for(SurveyLocation s:questions){
-            locationArr.add(s.getBuildingName());
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (mActivity,android.R.layout.select_dialog_item, locationArr);
-        tie_location_name.setThreshold(1);
-        tie_location_name.setAdapter(adapter);
 
+    public void onReceiveSurveyFloorFlat(List<SurveyFloorFlat> floors, int mode){
+        surveyFloorFlats=floors;
+        showSurveyFloorDialog();
+    }
+
+    public void onReceiveFailureSurveyFloorFlat(String strErr, int mode){
+        AppUtils.hideProgressDialog();
+        showErrorToast(mActivity,strErr);
     }
 
     public  void onReceiveFailureSurveyLocation(String strErr, int mode){
-
+        showErrorToast(mActivity,strErr);
     }
-
-
 
     public  void showSurveyCustomerDialog(){
 
@@ -369,11 +480,9 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
             try {
                 final ArrayList strArrayCustName = new ArrayList();
                 for (SurveyCustomer entity : surveyCustomers) {
-                    //  strArrayCustName.add(entity.getCustomerName()+ " - "+entity.getCustomerName());
                     strArrayCustName.add(entity.getCustomerName());
                 }
-
-                strArrayCustName.add("\n\n");
+                strArrayCustName.add(space);
                 FilterableListDialog.create(
                         mActivity,
                         ("Select the Customer"),
@@ -382,18 +491,17 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                             @Override
                             public void onItemSelected(String text) {
 
-                                if(!text.equals("\n\n")){
+                                if(!text.equals(space)){
                                     customerName=text;
                                     tv_select_customer.setText(text);
                                     tv_select_customer.setTypeface(font.getHelveticaBold());
                                     customerCode=surveyCustomers.get(strArrayCustName.indexOf(text)).getCustomerCode();
                                     surveyTransaction.setCustomerName(text);
                                     surveyTransaction.setCustomerCode(customerCode);
-
                                     if(type.equalsIgnoreCase("Customer")){
                                         clearTextOnCustomerChange();
-                                    }
-                                }
+                                    } }
+
                             }
                         })
                         .show();
@@ -404,6 +512,8 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         else{
             Log.i("","no data to show");
         }
+
+        closeKeyboard(getContext());
     }
 
     public  void showSurveyContractDialog(){
@@ -414,7 +524,7 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                 for (SurveyContract entity : surveyContracts) {
                     strArrayCustName.add(entity.getContractNo()+" - "+entity.getContractName());
                 }
-                strArrayCustName.add("\n\n\n");
+                strArrayCustName.add(space);
                 FilterableListDialog.create(
                         mActivity,
                         ("Select the Contract"),
@@ -422,7 +532,8 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                         new FilterableListDialog.OnListItemSelectedListener() {
                             @Override
                             public void onItemSelected(String text) {
-                                if(!text.equals("\n\n\n")){
+
+                                if(!text.equals(space)){
                                     contract=text;
                                     contractNo=text;
                                     tv_select_contract.setText(text);
@@ -443,8 +554,8 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                                         surveyReference="";
 
                                     }
-                                    fetchLocation(surveyContracts.get(strArrayCustName.indexOf(text)).getContractNo());
                                 }
+
                             }
                         })
                         .show();
@@ -455,7 +566,85 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         else{
             Log.i("","no data to show");
         }
+
+        closeKeyboard(getContext());
     }
+
+    public  void showSurveyLocationDialog(){
+
+        if(surveyLocations!=null && surveyLocations.size()>0){
+            try {
+                final ArrayList strArrayCustName = new ArrayList();
+                for (SurveyLocation entity : surveyLocations) {
+                    strArrayCustName.add(entity.getBuildingName());
+                }
+                strArrayCustName.add(space);
+                FilterableListDialog.create(
+                        mActivity,
+                        ("Select the Building"),
+                        strArrayCustName,
+                        new FilterableListDialog.OnListItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(String text) {
+
+                                if(!text.equals(space)) {
+                                    tie_location_name.setText(text);
+                                    surveyTransaction.setBuildingCode(surveyLocations.get(strArrayCustName.indexOf(text)).getBuildingCode());
+
+
+                                }
+                            }
+
+                        })
+                        .show();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else{
+            Log.i("","no data to show");
+        }
+
+        closeKeyboard(getContext());
+    }
+
+
+    public  void showSurveyFloorDialog(){
+
+        if(surveyFloorFlats!=null && surveyFloorFlats.size()>0){
+            try {
+                final ArrayList strArrayCustName = new ArrayList();
+                for (SurveyFloorFlat entity : surveyFloorFlats) {
+                    strArrayCustName.add(entity.getFloorFlat());
+                }
+                strArrayCustName.add(space);
+                FilterableListDialog.create(
+                        mActivity,
+                        ("Select the Floor/Flat"),
+                        strArrayCustName,
+                        new FilterableListDialog.OnListItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(String text) {
+
+                                if(!text.equals(space)) {
+                                    tie_floor_flat.setText(text);
+                                }
+                            }
+
+                        })
+                        .show();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else{
+            Log.i("","no data to show");
+        }
+
+        closeKeyboard(getContext());
+    }
+
+
 
     public void fetchLocation(String contractNo){
         new CustomerSurveyRepository(mActivity,this).getSurveyLocation(contractNo);
@@ -464,14 +653,12 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
     public  void showSurveyReferenceDialog(){
 
         if(surveyReferences!=null && surveyReferences.size()>0){
-
             try {
-
                 final ArrayList strArrayCustName = new ArrayList();
                 for (SurveyMaster entity : surveyReferences) {
                     strArrayCustName.add(entity.getSurveyName());
                 }
-                strArrayCustName.add("\n\n");
+                strArrayCustName.add(space);
 
                 FilterableListDialog.create(
                         mActivity,
@@ -480,7 +667,8 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
                         new FilterableListDialog.OnListItemSelectedListener() {
                             @Override
                             public void onItemSelected(String text) {
-                                if(!text.equals("\n\n")){
+
+                                if(!text.equals(space)){
                                     reference=text;
                                     surveyReference=text;
                                     tv_select_reference.setText(text);
@@ -501,6 +689,8 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         else{
             Log.i("","no data to show");
         }
+
+        closeKeyboard(getContext());
     }
 
     public String getSurveyType(SurveyMaster master){
@@ -521,26 +711,19 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         }
     }
 
-    public  void loadQuestions(){
-        new CustomerSurveyRepository(mActivity,this).getSurveyQuestionnaire(surveyTransaction.getOpco(),customerCode,surveyTransaction.getSurveyReference(),surveyTransaction.getSurveyType());
-    }
 
     public void proceed_questionnaire(){
 
         if(checkForEmpty()){
-
         }
         else{
-            AppUtils.showProgressDialog2(mActivity,"Loading...",true);
-            loadQuestions();
+            loadFragment(new SurveyHeaderSecondary(), Utils.TAG_FRAGMENT_HEADER_SECONDARY);
         }
-
     }
 
     public boolean checkForEmpty(){
 
         if(customerCode.equalsIgnoreCase("")){
-
             showErrorToast(mActivity,"Customer should not be empty");
             return true;
         }
@@ -548,30 +731,18 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
         if(type.equalsIgnoreCase("Tenant")){
 
             if(contract.equalsIgnoreCase("")){
-
                 showErrorToast(mActivity,"Contract No should not be empty");
                 return true;
             }
         }
 
         if(reference.equalsIgnoreCase("")){
-
             showErrorToast(mActivity,"Survey Reference should not be empty");
             return true;
         }
 
         // If survey type is tenant then the condition will be checked
 
-        if(type.equalsIgnoreCase("Tenant") ){
-
-            if(AppUtils.checkEmptyEdt(tie_tenant_name)){
-                showErrorToast(mActivity,"Tenant name should not be empty");
-                return true;
-            }
-            else{
-                surveyTransaction.setTenantName(tie_tenant_name.getText().toString());
-            }
-        }
 
         if(AppUtils.checkEmptyEdt(tie_location_name)){
             showErrorToast(mActivity,"Location should not be empty");
@@ -581,57 +752,12 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
             surveyTransaction.setLocation(tie_location_name.getText().toString());
         }
 
-        if(AppUtils.checkEmptyEdt(tie_client_name)){
+        // getting floor flat details
 
-            showErrorToast(mActivity,"Reviewer name should not be empty");
-            return true;
-        }
-        else{
-            surveyTransaction.setClientName(tie_client_name.getText().toString());
-        }
-        if(AppUtils.checkEmptyEdt(tie_designation)){
+        if(type.equalsIgnoreCase("Tenant") ){
 
-            showErrorToast(mActivity,"Designation should not be empty");
+            surveyTransaction.setFloorFlat(tie_floor_flat.getText().toString());
 
-            return true;
-        }
-        else{
-            surveyTransaction.setDesignation(tie_designation.getText().toString());
-        }
-
-
-        if(AppUtils.checkEmptyEdt(tie_contact_no) ){
-
-            showErrorToast(mActivity,"Contact should not be empty");
-
-            return true;
-        }
-
-        else if(tie_contact_no.getText().toString().length()<5){
-
-            showErrorToast(mActivity,"Please enter a valid Contact No.");
-
-            return true;
-        }
-
-        else{
-            surveyTransaction.setContactNo(tie_contact_no.getText().toString());
-        }
-
-        if(AppUtils.checkEmptyEdt(tie_email)){
-
-            showErrorToast(mActivity,"Email id should not be empty");
-            return true;
-        }
-
-        else if(!AppUtils.validateEmail(tie_email.getText().toString())){
-            showErrorToast(mActivity,"Please enter a valid E-mail address.");
-
-            return true;
-        }
-
-        else{
-            surveyTransaction.setEmail(tie_email.getText().toString());
         }
 
         return false;
@@ -641,27 +767,73 @@ public class SurveyHeader extends Fragment implements CustomerSurveyRepository.L
     public void setCacheVals(){
         if(!customerName.isEmpty()){
             tv_select_customer.setText(customerName);
+            tv_select_customer.setTypeface(font.getHelveticaBold());
         }
 
         if(!contractNo.isEmpty()){
             tv_select_contract.setText(contractNo);
+            tv_select_contract.setTypeface(font.getHelveticaBold());
         }
 
         if(!surveyReference.isEmpty()){
             tv_select_reference.setText(surveyReference);
+            tv_select_reference.setTypeface(font.getHelveticaBold());
         }
     }
-
 
     public void  clearTextOnCustomerChange() {
 
         tv_select_contract.setText("Select the Contract No");
+        tv_select_contract.setTypeface(font.getHelveticaBold());
         tv_select_reference.setText("Select the Survey ref");
         reference="";
         surveyReference="";
         contract="";
         contractNo="";
+        tie_location_name.setText("");
 
+    }
+
+   public void onReceiveSurveyEmployeeList(List<SurveyEmployeeList> list, int mode){
+
+       if(type.equalsIgnoreCase("Customer")) {
+         List<SurveyCustomer> customers=new ArrayList<>();
+         for(SurveyEmployeeList s : list){
+             SurveyCustomer sc=new SurveyCustomer();
+             sc.setCustomerCode(s.getCustomerCode());
+             sc.setCustomerName(s.getCustomerName());
+             customers.add(sc);
+         }
+         AppUtils.hideProgressDialog();
+         surveyCustomers=  customers;
+     }
+
+     else{
+           List<SurveyContract> contracts=new ArrayList<>();
+           for(SurveyEmployeeList s : list){
+               SurveyContract sc=new SurveyContract();
+               sc.setContractNo(s.getContractNo());
+               sc.setContractName(s.getContractName());
+               sc.setCustomerCode(s.getCustomerCode());
+               sc.setCustomerName(s.getCustomerName());
+               contracts.add(sc);
+           }
+           surveyContracts=contracts;AppUtils.hideProgressDialog();
+     }
+
+   }
+
+    public void onReceiveSurveyReviewer(List<SurveyLocation> questions, int mode){
+        surveyReviwer=questions;
+    }
+
+    public  void onReceiveFailureSurveyReviewer(String strErr, int mode){
+        showErrorToast(mActivity,strErr);
+    }
+
+    public void onReceiveFailureSurveyEmployeeList(String strErr, int mode) {
+        AppUtils.hideProgressDialog();
+        showErrorToast(mActivity,strErr);
     }
 
 }

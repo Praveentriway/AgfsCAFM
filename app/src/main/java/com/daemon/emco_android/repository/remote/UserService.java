@@ -39,11 +39,10 @@ public class UserService {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     public void getLoginData(LoginRequest loginRequest) {
-        Log.d(TAG, "getLoginData");
+
         try {
             mInterface.getLoginResult(loginRequest).enqueue(new Callback<LoginResponse>() {
                 @Override
@@ -61,7 +60,16 @@ public class UserService {
                             mCallback.onUserDataReceivedFailure(mActivity.getString(R.string.msg_request_error_occurred));
                         }
 
-                    } else mCallback.onUserDataReceivedFailure(response.body().getMessage());
+                    } else
+                    {
+                        if(response.body()!=null){
+                            mCallback.onUserDataReceivedFailure(response.body().getMessage());
+                        }
+                        else{
+                            mCallback.onUserDataReceivedFailure("Server error.");
+                        }
+                        }
+
                 }
 
                 @Override
@@ -77,7 +85,7 @@ public class UserService {
     }
 
     public void getForgotPasswordResult(String _email) {
-        Log.d(TAG, "getForgotPasswordResult");
+
         try {
             mInterface.getForgotPasswordResult(new LoginRequest(_email)).enqueue(new Callback<CommonResponse>() {
                 @Override
@@ -89,7 +97,6 @@ public class UserService {
                         else mCallback.onUserDataReceivedFailure(mResponse.getMessage());
                     } else mCallback.onUserDataReceivedFailure(response.message());
                 }
-
                 @Override
                 public void onFailure(Call<CommonResponse> call, Throwable t) {
                     mCallback.onUserDataReceivedFailure(mActivity.getString(R.string.msg_request_error_occurred));
@@ -103,7 +110,7 @@ public class UserService {
 
 
     public void addUser(AddNewUser newUser) {
-        Log.d(TAG, "addUser");
+
         try {
             mInterface.getRegResult(newUser).enqueue(new Callback<CommonResponse>() {
                 @Override
@@ -130,7 +137,7 @@ public class UserService {
 
 
     public void addToken(UserToken userToken) {
-        Log.d(TAG, "add token");
+
         try {
             mInterface.addUserToken(userToken).enqueue(new Callback<CommonResponse>() {
                 @Override
@@ -156,9 +163,7 @@ public class UserService {
     }
 
 
-
     public void deleteToken(UserToken userToken) {
-        Log.d(TAG, "deleteToken");
         try {
             mInterface.deleteUserToken(userToken).enqueue(new Callback<CommonResponse>() {
                 @Override
@@ -182,8 +187,6 @@ public class UserService {
             e.printStackTrace();
         }
     }
-
-
 
 
 }

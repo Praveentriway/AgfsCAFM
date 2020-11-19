@@ -63,6 +63,7 @@ public class PpmScheduleDocBy implements Parcelable {
           instance.assetBarCode = ((String) in.readValue((String.class.getClassLoader())));
           instance.assetModel = ((String) in.readValue((String.class.getClassLoader())));
           instance.clientBarcode = ((String) in.readValue((String.class.getClassLoader())));
+          instance.transType = ((String) in.readValue((String.class.getClassLoader())));
           return instance;
         }
 
@@ -239,6 +240,18 @@ public class PpmScheduleDocBy implements Parcelable {
   @Expose
   private String actStart;
 
+  @SerializedName("transType")
+  @Expose
+  private String transType;
+
+  /** @return The transType */
+  public String getTransType() {
+    return transType;
+  }
+  /** @param transType The natureWork */
+  public void setTransType(String transType) {
+    this.transType = transType;
+  }
 
   public String getClientBarcode() {
     return clientBarcode;
@@ -793,6 +806,7 @@ public class PpmScheduleDocBy implements Parcelable {
     dest.writeValue(assetTypeDesc);
     dest.writeValue(assetBarCode);
     dest.writeValue(clientBarcode);
+    dest.writeValue(transType);
   }
 
   public int describeContents() {

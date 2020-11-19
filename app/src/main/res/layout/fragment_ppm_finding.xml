@@ -29,7 +29,7 @@
                     style="@style/btn_wrap_content_gray"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    fontPath="fonts/HelveticaRegular.ttf"
+                    fontPath="fonts/HelveticaRegular.otf"
                     android:text="@string/ppm_finding" />
 
                 <EditText
@@ -56,7 +56,7 @@
                     style="@style/btn_wrap_content_gray"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    fontPath="fonts/HelveticaRegular.ttf"
+                    fontPath="fonts/HelveticaRegular.otf"
                     android:text="@string/ppm_recommedation" />
 
                 <EditText
@@ -77,6 +77,6 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:text="@string/lbl_save"
-            fontPath="fonts/HelveticaRegular.ttf"
+            fontPath="fonts/HelveticaRegular.otf"
             android:visibility="visible" />
 </RelativeLayout>

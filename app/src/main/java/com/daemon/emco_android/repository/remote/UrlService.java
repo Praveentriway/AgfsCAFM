@@ -62,13 +62,8 @@ public class UrlService {
                               IP_ADDRESS,  ip , mActivity);
 
                     }
-                    /*  else{
-                        mCallback.onUrlreceivedFailure("Invalid url");
-                    }*/
                   }
-                  /*  else{mob
-                      mCallback.onUrlreceivedFailure("Invalid url");
-                  }*/
+
                 }
 
                 @Override

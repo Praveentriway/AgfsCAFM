@@ -24,13 +24,14 @@ import com.daemon.emco_android.model.common.OpcoDetail;
 import com.daemon.emco_android.model.request.LocationDetail;
 import com.daemon.emco_android.repository.remote.LocationFinderRepository;
 import com.daemon.emco_android.ui.components.FilterableListDialog;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.utils.AppUtils;
 import com.github.florent37.expectanim.ExpectAnim;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.daemon.emco_android.utils.StringUtil.space;
 import static com.github.florent37.expectanim.core.Expectations.atItsOriginalPosition;
 import static com.github.florent37.expectanim.core.Expectations.invisible;
 import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
@@ -131,7 +132,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
     }
     private void  setProperties(){
 
-        tv_lbl_opco.setText(Html.fromHtml("OPCO"+ AppUtils.mandatory));
+        tv_lbl_opco.setText(Html.fromHtml("Opco"+ AppUtils.mandatory));
         tv_lbl_contract_no.setText(Html.fromHtml("Job Name"+ AppUtils.mandatory));
         tv_lbl_zone.setText(Html.fromHtml("Zone"+ AppUtils.mandatory));
         tv_lbl_building.setText(Html.fromHtml("Building Name"+ AppUtils.mandatory));
@@ -214,7 +215,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = fm.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);
@@ -272,7 +273,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
                 for (OpcoDetail entity : locationOpco) {
                     strArrayCustName.add(entity.getOpcoCode()+" - "+entity.getOpcoName());
                 }
-                strArrayCustName.add("\n\n\n");
+                strArrayCustName.add(space);
                 FilterableListDialog.create(
                         mActivity,
                         ("Select Opco"),
@@ -280,7 +281,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
                         new FilterableListDialog.OnListItemSelectedListener() {
                             @Override
                             public void onItemSelected(String text) {
-                                if(!text.equals("\n\n\n")){
+                                if(!text.equals(space)){
 
                                     locationDetail.setOpco(locationOpco.get(strArrayCustName.indexOf(text)).getOpcoCode());
                                     tv_select_opco.setText(text);
@@ -323,7 +324,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
                 for (LocationDetail entity : locationJobNo) {
                     strArrayCustName.add(entity.getJobno() +" - "+entity.getJobName());
                 }
-                strArrayCustName.add("\n\n\n");
+                strArrayCustName.add(space);
                 FilterableListDialog.create(
                         mActivity,
                         ("Select Job number"),
@@ -331,7 +332,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
                         new FilterableListDialog.OnListItemSelectedListener() {
                             @Override
                             public void onItemSelected(String text) {
-                                if(!text.equals("\n\n\n")){
+                                if(!text.equals(space)){
 
                                     locationDetail.setJobno(locationJobNo.get(strArrayCustName.indexOf(text)).getJobno());
                                     locationDetail.setJobName(locationJobNo.get(strArrayCustName.indexOf(text)).getJobName());
@@ -369,7 +370,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
                     for (LocationDetail entity : locationZone) {
                         strArrayCustName.add(entity.getZoneCode() +" - "+entity.getZoneName());
                     }
-                    strArrayCustName.add("\n\n\n");
+                    strArrayCustName.add(space);
                     FilterableListDialog.create(
                             mActivity,
                             ("Select the Zone"),
@@ -377,7 +378,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
                             new FilterableListDialog.OnListItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(String text) {
-                                    if(!text.equals("\n\n\n")){
+                                    if(!text.equals(space)){
 
                                         locationDetail.setZoneCode(locationZone.get(strArrayCustName.indexOf(text)).getZoneCode());
                                         locationDetail.setZoneName(locationZone.get(strArrayCustName.indexOf(text)).getZoneName());
@@ -408,7 +409,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
                 for (LocationDetail entity : locationBuilding) {
                     strArrayCustName.add(entity.getBuildingCode() +" - "+entity.getBuildingName());
                 }
-                strArrayCustName.add("\n\n\n");
+                strArrayCustName.add(space);
                 FilterableListDialog.create(
                         mActivity,
                         ("Select the Building"),
@@ -416,7 +417,7 @@ public class JobLocationFinder extends Fragment implements View.OnClickListener,
                         new FilterableListDialog.OnListItemSelectedListener() {
                             @Override
                             public void onItemSelected(String text) {
-                                if(!text.equals("\n\n\n")){
+                                if(!text.equals(space)){
                                     locationDetail.setBuildingCode(locationBuilding.get(strArrayCustName.indexOf(text)).getBuildingCode());
                                     locationDetail.setBuildingName(locationBuilding.get(strArrayCustName.indexOf(text)).getBuildingName());
                                     tv_select_building.setText(text);

@@ -51,6 +51,41 @@ public class EmployeeTrackingDetail {
     @ColumnInfo(name = "refNo")
     String refNo;
 
+    @SerializedName("actionType")
+    @ColumnInfo(name = "actionType")
+    String actionType;
+
+    @SerializedName("createdBy")
+    @ColumnInfo(name = "createdBy")
+    String createdBy;
+
+    @SerializedName("generalRefno")
+    @ColumnInfo(name = "generalRefno")
+    String generalRefno;
+
+    public String getGeneralRefno() {
+        return generalRefno;
+    }
+
+    public void setGeneralRefno(String generalRefno) {
+        this.generalRefno = generalRefno;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
+    }
 
     public String getCompCode() {
         return compCode;

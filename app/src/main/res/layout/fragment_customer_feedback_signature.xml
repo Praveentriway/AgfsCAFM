@@ -8,8 +8,9 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     tools:ignore="MissingPrefix"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_re3"
     android:layout_height="match_parent"
-    android:background="@color/bg_layout"
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <RelativeLayout
@@ -24,6 +25,68 @@
                 android:layout_marginRight="@dimen/_30sdp"
                 android:layout_marginBottom="@dimen/bottom_view_margin"
                 android:orientation="vertical">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardviewSugesstion"
+                    android:orientation="vertical"
+                    android:background="@color/colorFormMasterElementBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_75sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    card_view:cardCornerRadius="0dp"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <View
+                            android:layout_width="3.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorPrimary"  />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            fontPath="fonts/HelveticaBold.otf"
+                            android:id="@+id/tv_lbl_suggestion"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Suggestion"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorFormMasterHeaderBackground2">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:imeOptions="actionDone|flagNoExtractUi"
+                                android:id="@+id/tie_suggestion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@null"
+                                android:singleLine="true"
+                                android:inputType="textCapSentences"
+                                android:gravity="center"
+                                android:hint="Add your suggestion"
+                                android:maxLength="500"
+                                android:padding="16dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/elementTextValueSize" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
 
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"
@@ -41,23 +104,21 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary"  />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
                             android:id="@+id/tv_lbl_signature"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:text="Customer Signature"
                             android:textSize="@dimen/elementTextTitleSize"
-
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:textColor="@color/secondary_text"/>
@@ -106,71 +167,11 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardviewSugesstion"
-                    android:orientation="vertical"
-                    android:background="@color/colorFormMasterElementBackground"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_55sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    card_view:cardCornerRadius="0dp"
-                    card_view:cardElevation="4dp"
-                    card_view:cardUseCompatPadding="true">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-                        <View
-                            android:backgroundTint="@color/colorPrimary"
-                            android:layout_width="3.5dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="0dp"
-                            android:layout_weight="2.5"
-                            fontPath="fonts/HelveticaBold.ttf"
-                            android:id="@+id/tv_lbl_suggestion"
-                            android:layout_gravity="center_vertical"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="Suggestion"
-                            android:textSize="@dimen/elementTextTitleSize"
-                            android:padding="16dp"
-                            android:layout_marginLeft="@dimen/_3sdp"
-                            android:textColor="@color/secondary_text"/>
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="3"
-                            android:layout_height="match_parent"
-                            android:background="@color/colorFormMasterHeaderBackground2">
-                            <androidx.appcompat.widget.AppCompatEditText
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@null"
-                                android:textSize="@dimen/elementTextValueSize"
-                                android:maxLength="500"
-                                android:gravity="center"
-                                android:layout_gravity="center"
-                                android:id="@+id/tie_suggestion"
-                                android:hint="Add your suggestion"
-                                android:imeOptions="actionDone"
-                                android:padding="16dp"
-                                android:textColor="@color/colorPrimary"/>
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-
 
                 <androidx.cardview.widget.CardView
                     android:orientation="vertical"
                     android:id="@+id/like_text"
-                    android:layout_marginTop="65dp"
+                    android:layout_marginTop="45dp"
                     android:background="@color/colorFormMasterElementBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -184,13 +185,24 @@
                         android:gravity="center"
                         android:layout_margin="10dp"
                         android:orientation="vertical">
-                        <ImageView
-                            android:layout_marginTop="1dp"
-                            android:layout_width="150dp"
-                            android:layout_height="50dp"
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:layout_width="@dimen/_90sdp"
+                            android:layout_height="@dimen/_65sdp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_review_like"
-                            />
+                            android:layout_marginTop="1dp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_url="https://assets5.lottiefiles.com/packages/lf20_WLRRay.json" />
+
+
+                        <ImageView
+                            android:layout_width="150dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="1dp"
+                            android:visibility="gone"
+                            android:src="@drawable/congrats" />
                     <TextView
                         android:id="@+id/text"
                         android:layout_width="match_parent"
@@ -198,17 +210,20 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:layout_marginTop="5dp"
-                        fontPath="fonts/HelveticaBold.ttf"
-                        android:text="Thank you for the Feedback. This will help us to improve our service."
-                        android:textSize="18sp"/>
+                        android:text="Thank you for your Feedback. This will help us to improve our service."
+                        android:textSize="@dimen/_11sdp"/>
 
-                        <ImageView
-                            android:layout_marginTop="10dp"
-                            android:id="@+id/image"
-                            android:layout_width="150dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_five_start"
+
+                           />
+                        <Button
+                            android:id="@+id/return_home"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Return to main menu"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:textColor="@color/colorWhite"
                            />
 
                     </LinearLayout>
@@ -225,7 +240,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_margin="@dimen/_14sdp"
         android:src="@drawable/completed" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

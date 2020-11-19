@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -171,9 +172,11 @@ public class AppUtils extends Dialog {
   public static final String IS_NETWORK_AVAILABLE = "is_network_available";
   public static final String NETWORK_AVAILABLE = "network_available";
   public static final String NETWORK_NOT_AVAILABLE = "network_not_available";
-  public static final String TECHNISION = "Technician";
+  public static final String TECHNICIAN = "Technician";
   public static final String CUSTOMER = "Customer";
+  public static final String CLIENT = "Client";
   public static final String SUPERVISOR = "Supervisor";
+  public static final String AUDITOR = "Auditor";
   public static final String ALLFORWARDEDCOMPLAINT = "AllForwardedComplaint";
 
   public static final String LABEL_BOOKMARKS_ADDED = "LABEL_BOOKMARKS_ADDED";
@@ -215,9 +218,21 @@ public class AppUtils extends Dialog {
 
   public static String ARGS_SUGESSTIONFLAG = "ARGS_SUGESSTIONFLAG";
 
+  public static String ARGS_SURVEYTYPE = "ARGS_SURVEYTYPE";
+
+  public static String ARGS_ASSETTYPE = "ARGS_ASSETTYPE";
+
+  public static String ARGS_SURVEYMODE = "ARGS_SURVEYMODE";
+
   public static String ARGS_SURVEYTRANS = "ARGS_SURVEYTRANS";
 
-  public static String ARGS_SURVEYTYPE = "ARGS_SURVEYTYPE";
+  public static String ARGS_ASSETINFO = "ARGS_ASSETINFO";
+
+  public static String ARGS_CHECKLIST = "ARGS_CHECKLIST";
+
+  public static String ARGS_ASSET_VERIFICATION_TYPE = "ARGS_ASSET_VERIFICATION_TYPE";
+
+  public static String ARGS_SURVEYLOCATIONS = "ARGS_SURVEYLOCATIONS";
 
   public static String ARGS_PPMSCHEDULEDOCBY = "ARGS_PPMSCHEDULEDOCBY";
   public static String ARGS_PPMSCHEDULEDOCBYREQUEST = "ppmScheduleDocByRequest";
@@ -273,6 +288,31 @@ public class AppUtils extends Dialog {
                       dialog.dismiss();
                     }
                   });
+
+      MaterialDialog dialog = builder.build();
+      dialog.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+
+  public static void showDialog(final Context context, String StrMsg,final FragmentManager fm) {
+    try {
+      MaterialDialog.Builder builder =
+              new MaterialDialog.Builder(context)
+                      .content(StrMsg)
+                      .positiveText(R.string.lbl_okay)
+                      .stackingBehavior(StackingBehavior.ADAPTIVE)
+                      .onPositive(
+                              new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(
+                                        @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                  dialog.dismiss();
+                                  fm.popBackStack();
+                                }
+                              });
 
       MaterialDialog dialog = builder.build();
       dialog.show();
@@ -747,6 +787,21 @@ public class AppUtils extends Dialog {
   }
 
 
+  public static boolean getIn(){
+
+    Calendar c = Calendar.getInstance();
+    int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+    if(timeOfDay >= 4 && timeOfDay < 13){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+
+
 
   public static boolean checkInternet(Context mContext) {
     ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -758,6 +813,11 @@ public class AppUtils extends Dialog {
     }
     return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
 
+  }
+
+  public static void closeKeyboard(Context con){
+    InputMethodManager imm = (InputMethodManager) con.getSystemService(Activity.INPUT_METHOD_SERVICE);
+    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
   }
 
 

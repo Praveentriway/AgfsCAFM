@@ -1,10 +1,11 @@
 package com.daemon.emco_android.ui.fragments.survey;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.daemon.emco_android.App;
+import com.daemon.emco_android.listeners.IOnBackPressed;
 import com.daemon.emco_android.utils.Font;
 import com.github.florent37.expectanim.ExpectAnim;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,20 +19,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.repository.remote.CustomerSurveyRepository;
 import com.daemon.emco_android.repository.db.entity.SurveyTransaction;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.utils.AppUtils;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 import static com.daemon.emco_android.utils.AppUtils.ARGS_SUGESSTIONFLAG;
@@ -47,7 +47,6 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
     private AppCompatActivity mActivity;
     Toolbar mToolbar;
     TextView tv_toolbar_title,text;
-    private static final String TAG = SurveyFeedback.class.getSimpleName();
     FloatingActionButton fab_next;
     private SignaturePad signaturePad;
     Button btnClear;
@@ -62,6 +61,7 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
     Font font;
     CardView small;
     private boolean homebtnEnabled=false;
+    private boolean success=false;
    public SurveyFeedback() {
 
     }
@@ -87,6 +87,7 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
         signaturePad = (SignaturePad) view.findViewById(R.id.signaturePad);
         btnClear= (Button) view.findViewById(R.id.btnClear);
         setupActionBar();
+
         tv_lbl_signature = (AppCompatTextView) view.findViewById(R.id.tv_lbl_signature);
         tv_lbl_suggestion = (AppCompatTextView) view.findViewById(R.id.tv_lbl_suggestion);
         cardviewSugesstion= (CardView) view.findViewById(R.id.cardviewSugesstion);
@@ -94,6 +95,7 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
         tie_suggestion= (EditText) view.findViewById(R.id.tie_suggestion);
         tv_lbl_signature.setText(Html.fromHtml("Customer Signature " + AppUtils.mandatory));
         tv_lbl_suggestion.setText(Html.fromHtml("Suggestion " + AppUtils.mandatory));
+        Button returnHome=(Button) view.findViewById(R.id.return_home);
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,15 +108,17 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
         fab_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(homebtnEnabled){
-                    navigatehome();
-                }
-                else{
                     saveSurvey();
-                }
-
             }
         });
+
+        returnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigatehome();
+            }
+        });
+
         new ExpectAnim()
                 .expect(fab_next)
                 .toBe(
@@ -150,15 +154,12 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
 
     public void setProps(){
        cardviewSugesstion.setVisibility(suggestionFlag?View.VISIBLE:View.GONE);
-
-      //  small.likeAnimation();
     }
 
     public void setupActionBar() {
-        Log.d(TAG, "setupActionBar");
         mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
         tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
-        tv_toolbar_title.setText("Signature");
+        tv_toolbar_title .setText("Please give your Suggestion & Signature");
         mActivity.setSupportActionBar(mToolbar);
         mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -173,13 +174,45 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
+        menu.findItem(R.id.action_home).setVisible(false);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                builder.setMessage(getString(R.string.close_survey))
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                FragmentManager fm = getActivity().getSupportFragmentManager();
+                                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                                    fm.popBackStack();
+                                }
+                                Fragment _fragment = new MainDashboard();
+                                FragmentTransaction _transaction = fm.beginTransaction();
+                                _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+                                _transaction.replace(R.id.frame_container, _fragment);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public  void saveSurvey(){
        if(tie_suggestion.getText().toString().isEmpty() && suggestionFlag ){
-
            showErrorToast(mActivity,"Suggestion should not be empty.");
        }
        else if(signaturePad.isEmpty()){
@@ -198,7 +231,9 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
     }
 
    public void onSuccessSaveSurvey(String strMsg, int mode){
+       success=true;
        AppUtils.hideProgressDialog();
+       tv_toolbar_title .setText("Survey");
        homebtnEnabled=true;
        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
        cardSignature.setVisibility(View.GONE);
@@ -212,7 +247,7 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
                .toAnimation()
                .setDuration(800)
                .start();
-        fab_next.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_home_white));
+        fab_next.setVisibility(View.INVISIBLE);
 
    }
 
@@ -226,11 +261,10 @@ public class SurveyFeedback extends Fragment implements CustomerSurveyRepository
        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
            fm.popBackStack();
        }
-       Fragment _fragment = new MainLandingUI();
+       Fragment _fragment = new MainDashboard();
        FragmentTransaction _transaction = mActivity.getSupportFragmentManager().beginTransaction();
        _transaction.replace(R.id.frame_container, _fragment);
     }
-
 
 
 

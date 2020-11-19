@@ -50,6 +50,7 @@ import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_VIEW;
 
 /** Created by Daemonsoft on 7/18/2017. */
+
 public class Fragment_IM_HardSoftList extends Fragment
     implements ReceivecomplaintList_Listener,
         SearchView.OnQueryTextListener,
@@ -169,7 +170,7 @@ public class Fragment_IM_HardSoftList extends Fragment
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     try {
-      Log.d(TAG, "onCreate");
+
       mActivity = (AppCompatActivity) getActivity();
       setHasOptionsMenu(true);
       setRetainInstance(false);
@@ -187,8 +188,6 @@ public class Fragment_IM_HardSoftList extends Fragment
         mStrEmpId = login.getEmployeeId();
       }
 
-
-
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -198,7 +197,6 @@ public class Fragment_IM_HardSoftList extends Fragment
   public View onCreateView(
       LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_im_hardsoft_list, container, false);
-    Log.d(TAG, "onCreateView");
     initView(rootView);
     setProperties();
     setupActionBar();
@@ -206,7 +204,7 @@ public class Fragment_IM_HardSoftList extends Fragment
   }
 
   public void initView(View view) {
-    Log.d(TAG, "initView");
+
     try {
       cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
       AppUtils.closeInput(cl_main);
@@ -257,7 +255,7 @@ public class Fragment_IM_HardSoftList extends Fragment
   }
 
   private void saveReceiveComplaintCCformService(List<ReceiveComplainCCRequest> data_ccc_requrest) {
-    Log.d(TAG, "saveReceiveComplaintCCformService");
+
     try {
       if (checkInternet(getContext())) {
         AppUtils.showProgressDialog(mActivity, getString(R.string.re_assigning_to_cc), false);
@@ -270,22 +268,12 @@ public class Fragment_IM_HardSoftList extends Fragment
   }
 
   public void setProperties() {
-    Log.d(TAG, "setProperties");
+
     try {
       setManager();
       searchView.setIconifiedByDefault(false);
       searchView.setOnQueryTextListener(this);
 
-      tv_s_no.setTypeface(font.getHelveticaRegular());
-      tv_time.setTypeface(font.getHelveticaRegular());
-      tv_request_no.setTypeface(font.getHelveticaRegular());
-      tv_request_location.setTypeface(font.getHelveticaRegular());
-      tv_complaint_details.setTypeface(font.getHelveticaRegular());
-      tv_status.setTypeface(font.getHelveticaRegular());
-
-      text_view_empty.setTypeface(font.getHelveticaRegular());
-      text_view_message.setTypeface(font.getHelveticaRegular());
-      btn_reassign_ccc.setTypeface(font.getHelveticaRegular());
       btn_reassign_ccc.setVisibility(View.GONE);
       text_view_loading_message.setTypeface(font.getHelveticaRegular());
 
@@ -314,7 +302,7 @@ public class Fragment_IM_HardSoftList extends Fragment
   }
 
   public void setManager() {
-    Log.d(TAG, "setManager");
+
     try {
       mLayoutManager = new LinearLayoutManager(mActivity);
       recyclerView.setLayoutManager(mLayoutManager);
@@ -324,7 +312,7 @@ public class Fragment_IM_HardSoftList extends Fragment
   }
 
   public void getReceiveComplainFromService(int startIndex) {
-    Log.d(TAG, "getReceiveComplainFromService");
+
     try {
       if (isLoading) return;
       if (startIndex == 0) {
@@ -344,7 +332,7 @@ public class Fragment_IM_HardSoftList extends Fragment
   }
 
   public void setReceivecomplaintList() {
-    Log.w(TAG, "setReceivecomplaintList");
+
     try {
       if (mList != null && mList.size() > 0) {
         adapter.notifyDataSetChanged();
@@ -486,8 +474,6 @@ public class Fragment_IM_HardSoftList extends Fragment
     try {
       AppUtils.hideProgressDialog();
       AppUtils.showDialog(mActivity, strMsg);
-      // receiveComplaintItemDb.populateAsync(AppDatabase.getAppDatabase(mActivity),
-      // AppUtils.MODE_DELETE);
       getReceiveComplainFromService(0);
     } catch (Exception e) {
       e.printStackTrace();
@@ -496,7 +482,7 @@ public class Fragment_IM_HardSoftList extends Fragment
 
   public void gotoFragmentReceiveComplaintView(
       List<ReceiveComplaintItemEntity> data, int position) {
-    Log.d(TAG, "gotoFragmentReceiveComplaintView");
+
     try {
       mSavedInstanceState = getSavedState();
       Bundle mdata = new Bundle();
@@ -517,7 +503,7 @@ public class Fragment_IM_HardSoftList extends Fragment
 
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    Log.d(TAG, "onPrepareOptionsMenu ");
+
     MenuItem searchItem = menu.findItem(R.id.action_search).setVisible(true);
     MenuItem refreshItem = menu.findItem(R.id.action_refresh).setVisible(true);
     menu.findItem(R.id.action_logout).setVisible(false);
@@ -549,7 +535,6 @@ public class Fragment_IM_HardSoftList extends Fragment
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_home:
-        Log.d(TAG, "onOptionsItemSelected : home");
         mActivity.onBackPressed();
         break;
     }
@@ -567,7 +552,6 @@ public class Fragment_IM_HardSoftList extends Fragment
     outState.putInt(AppUtils.ARG_SELECTED_POSITION, mSelectedPosition);
     outState.putParcelableArrayList(
         AppUtils.ARG_RC_LIST, (ArrayList<ReceiveComplaintItemEntity>) mList);
-    Log.d(TAG, "getSavedStateOnPause");
     return outState;
   }
 
@@ -581,24 +565,18 @@ public class Fragment_IM_HardSoftList extends Fragment
 
   @Override
   public boolean onQueryTextSubmit(String query) {
-    Log.d(TAG, "onQueryTextSubmit");
-    // filter your list from your input
     filter(query);
-    // you can use runnable postDelayed like 500 ms to delay search text
     return false;
   }
 
   @Override
   public boolean onQueryTextChange(String newText) {
-    Log.d(TAG, "onQueryTextChange");
-    // filter your list from your input
     filter(newText);
-    // you can use runnable postDelayed like 500 ms to delay search text
     return false;
   }
 
   void filter(String text) {
-    Log.d(TAG, "filter");
+
     try {
       if (mList != null && !mList.isEmpty()) {
         if (temp != null) {
@@ -613,7 +591,7 @@ public class Fragment_IM_HardSoftList extends Fragment
             temp.add(d);
           }
         }
-        // update recyclerview
+
         adapter.updateList(temp);
       }
     } catch (Exception e) {
@@ -623,7 +601,6 @@ public class Fragment_IM_HardSoftList extends Fragment
 
   @Override
   public boolean onMenuItemClick(MenuItem menuItem) {
-    Log.d(TAG, "onMenuItemClick");
     if (isLoading) return false;
     getReceiveComplainFromService(0);
     return false;

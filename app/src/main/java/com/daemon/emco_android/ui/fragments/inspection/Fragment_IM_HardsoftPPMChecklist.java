@@ -28,10 +28,10 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.PPMCheckListAdapter;
 import com.daemon.emco_android.repository.remote.GetPpmResponseService;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.ui.fragments.preventive.ppmschedule.Fragment_PM_Equip_Tool;
 import com.daemon.emco_android.ui.fragments.preventive.ppmschedule.Fragment_PM_Risk_List;
-import com.daemon.emco_android.ui.fragments.preventive.ppmschedule.Fragment_PM_afterppm;
+import com.daemon.emco_android.ui.fragments.preventive.ppmschedule.FragmentAfterPpm;
 import com.daemon.emco_android.ui.fragments.preventive.ppmschedule.Fragment_PPM_PPE;
 import com.daemon.emco_android.listeners.PPMService_Listner;
 import com.daemon.emco_android.model.common.Login;
@@ -86,7 +86,7 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick");
+
                     AppUtils.closeInput(cl_main);
                     switch (v.getId()) {
                         case R.id.btn_next:
@@ -147,7 +147,7 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
+
         try {
             rootView = inflater.inflate(R.layout.fragment_ppmchecklist, container, false);
             initUI(rootView);
@@ -160,7 +160,7 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             btn_save_new = (Button) rootView.findViewById(R.id.btn_save_new);
@@ -197,12 +197,7 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
-        btn_ppe.setTypeface(font.getHelveticaRegular());
-        btn_risk.setTypeface(font.getHelveticaRegular());
-        btn_equip.setTypeface(font.getHelveticaRegular());
-        btn_next.setTypeface(font.getHelveticaRegular());
-        btn_save.setTypeface(font.getHelveticaRegular());
+
         btn_ppe.setOnClickListener(_OnClickListener);
         btn_risk.setOnClickListener(_OnClickListener);
         btn_equip.setOnClickListener(_OnClickListener);
@@ -221,7 +216,6 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
 
         if(mTitle.equals(mActivity.getString(R.string.title_ppm_request_verification_hard)))
         {
-            System.out.println("hard");
             showProgressDialog(mActivity, "Loading...", false);
             SaveRatedServiceRequest ratedServiceRequest = new SaveRatedServiceRequest();
             ratedServiceRequest.setCompanyCode("002");
@@ -244,7 +238,7 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
                 if (insertData.get(i) instanceof ObjectMonthly) {
                     ObjectMonthly d = (ObjectMonthly) insertData.get(i);
                     if (TextUtils.isEmpty(d.getParamValue())) {
-                        AppUtils.showDialog(mActivity, "All Fields Mandatory");
+                        AppUtils.showDialog(mActivity, "All the fields are mandatory");
                         return;
                     } else {
                         getPpmScheduleDocBy = new PpmScheduleDocBy();
@@ -287,7 +281,7 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
         mSavedInstanceState = getSavedState();
         Bundle data = new Bundle();
         data.putParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS, ppmScheduleDocBy);
-        Fragment_PM_afterppm fragment = new Fragment_PM_afterppm();
+        FragmentAfterPpm fragment = new FragmentAfterPpm();
         fragment.setArguments(data);
         FragmentTransaction fragmentTransaction = mManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -329,7 +323,6 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
 
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_home).setVisible(true);
     }
@@ -339,13 +332,12 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
         try {
             switch (item.getItemId()) {
                 case R.id.action_home:
-                    Log.d(TAG, "onOptionsItemSelected : home");
                     mActivity.onBackPressed();
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                         fm.popBackStack();
                     }
-                    Fragment _fragment = new MainLandingUI();
+                    Fragment _fragment = new MainDashboard();
                     FragmentTransaction _transaction = mManager.beginTransaction();
                     _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                     _transaction.replace(R.id.frame_container, _fragment);
@@ -360,7 +352,6 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TAG, "onSaveInstanceState");
         mSavedInstanceState = getSavedState();
     }
 
@@ -368,7 +359,6 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
         Bundle outState = new Bundle();
         try {
             outState.putParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS, mReceiveComplaintView);
-            Log.d(TAG, "getSavedState");
         } catch (Exception e) {
             e.printStackTrace();
         }

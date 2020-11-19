@@ -26,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -45,7 +44,7 @@ import com.daemon.emco_android.ui.adapter.ReceivecomplaintListAdapter;
 import com.daemon.emco_android.repository.db.dbhelper.ReceiveComplaintItemDbInitializer;
 import com.daemon.emco_android.repository.db.entity.ComplaintStatusEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintItemEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.listeners.ReceivecomplaintList_Listener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.request.ReceiveComplainCCRequest;
@@ -70,7 +69,6 @@ import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 import static com.daemon.emco_android.utils.AppUtils.checkInternet;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_VIEW;
 
-/** Created by Daemonsoft on 7/18/2017. */
 // thirumal
 public class Fragment_RC_List extends Fragment
     implements ReceivecomplaintList_Listener,
@@ -90,8 +88,7 @@ public class Fragment_RC_List extends Fragment
   private TextView text_view_loading_message, tv_toolbar_title;
   private ImageView img_toolbar;
   private LinearLayout layout_loading_message;
-  private TextView text_view_message, text_view_empty;
-  private Button btn_reassign_ccc;
+  private TextView text_view_empty;
   private LinearLayout layout_loading;
   private RelativeLayout layout_empty, footer_container;
   private SearchView searchView;
@@ -111,7 +108,6 @@ public class Fragment_RC_List extends Fragment
   private boolean isLastPage = true;
   private boolean isLoading = false;
   private int mScrollPosition = 0;
-  private ComplaintStatusEntity complaintStatusEntity;
   private TimerTask mTimerTask;
   private Timer t = new Timer();
 
@@ -135,7 +131,6 @@ public class Fragment_RC_List extends Fragment
         }
       };
   private String mUnSignedPage = AppUtils.ARGS_RECEIVECOMPLAINT_PAGE;
-  private boolean ARGS_RCLIST_F = false;
   private boolean ARGS_RCLIST_C = false;
   private SharedPreferences mPreferences;
   private Login user;
@@ -233,7 +228,7 @@ public class Fragment_RC_List extends Fragment
                 });
           }
         };
-    // public void schedule (TimerTask task, long delay, long period)
+
     t.scheduleAtFixedRate(mTimerTask, AppUtils.TIMEOUT_NEW, AppUtils.TIMEOUT);
   }
 
@@ -255,7 +250,7 @@ public class Fragment_RC_List extends Fragment
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     try {
-      Log.d(TAG, "onCreate");
+
       mActivity = (AppCompatActivity) getActivity();
       setHasOptionsMenu(true);
       setRetainInstance(false);
@@ -267,11 +262,12 @@ public class Fragment_RC_List extends Fragment
       mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
       mEditor = mPreferences.edit();
       mLoginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+
       if (mLoginData != null) {
         Gson gson = new Gson();
         user = gson.fromJson(mLoginData, Login.class);
         mStrEmpId = user.getEmployeeId();
-        if (user.getUserType().equals(AppUtils.TECHNISION)
+        if (user.getUserType().equals(AppUtils.TECHNICIAN)
             || user.getUserType().equals(AppUtils.SUPERVISOR)) {
           showNewMsg();
         }
@@ -283,7 +279,6 @@ public class Fragment_RC_List extends Fragment
       }
 
 
-
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -293,7 +288,6 @@ public class Fragment_RC_List extends Fragment
   public View onCreateView(
       LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_receivecomplaint_list, container, false);
-    Log.d(TAG, "onCreateView");
     initView(rootView);
     setProperties();
     setupActionBar();
@@ -301,16 +295,13 @@ public class Fragment_RC_List extends Fragment
   }
 
   public void initView(View view) {
-    Log.d(TAG, "initView");
     try {
+
       cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
       AppUtils.closeInput(cl_main);
 
       searchView = (SearchView) view.findViewById(R.id.sv_rc_search);
-
-
       cb_checkAll = (CheckBox) view.findViewById(R.id.cb_checkall);
-
       recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
       tv_complaint_no = (TextView) view.findViewById(R.id.tv_complaint_no);
       tv_time = (TextView) view.findViewById(R.id.tv_date);
@@ -320,18 +311,14 @@ public class Fragment_RC_List extends Fragment
       tv_complaint_details = (TextView) view.findViewById(R.id.tv_complaint_details);
       tv_status = (TextView) view.findViewById(R.id.tv_status);
       tv_customer_ref = (TextView) view.findViewById(R.id.tv_customer_ref);
-
       text_view_loading_message = (TextView) view.findViewById(R.id.text_view_message);
       layout_loading_message = (LinearLayout) view.findViewById(R.id.layout_loading);
-
       layout_loading = (LinearLayout) view.findViewById(R.id.layout_loading);
       layout_empty = (RelativeLayout) view.findViewById(R.id.layout_empty);
       footer_container = (RelativeLayout) view.findViewById(R.id.footer_container);
       text_view_empty = (TextView) view.findViewById(R.id.text_view_empty);
-      text_view_message = (TextView) view.findViewById(R.id.text_view_message);
+      fabSpeedDial = (FabSpeedDial) view.findViewById(R.id.fab_menu);
 
-    //  btn_reassign_ccc = (Button) view.findViewById(R.id.btn_reassign_ccc);
-       fabSpeedDial = (FabSpeedDial) view.findViewById(R.id.fab_menu);
 
        if (ARGS_RCLIST_C){
          fabSpeedDial.setVisibility(View.GONE);
@@ -398,8 +385,7 @@ public class Fragment_RC_List extends Fragment
           } catch (Exception ex) {
             ex.printStackTrace();
           }
-        }
-      }
+        } }
 
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -434,6 +420,7 @@ public class Fragment_RC_List extends Fragment
         new View.OnClickListener() {
           @Override
           public void onClick(View view) {
+
             mManager.popBackStack();
 
           }
@@ -841,6 +828,13 @@ public class Fragment_RC_List extends Fragment
 
     searchView.setOnQueryTextListener(this);
 
+    searchView.setOnSearchClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        img_toolbar.setVisibility(View.GONE);
+      }
+    });
+
     searchView.setOnCloseListener(new SearchView.OnCloseListener() {
 
       @Override
@@ -874,7 +868,7 @@ public class Fragment_RC_List extends Fragment
         for (int i = 0; i < mManager.getBackStackEntryCount(); ++i) {
           mManager.popBackStack();
         }
-        Fragment _fragment = new MainLandingUI();
+        Fragment _fragment = new MainDashboard();
         FragmentTransaction _transaction = mManager.beginTransaction();
         _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         _transaction.replace(R.id.frame_container, _fragment);
@@ -982,7 +976,6 @@ public class Fragment_RC_List extends Fragment
               .execute(AppUtils.MODE_GETALL);
         } else showEmptyView(getString(R.string.lbl_alert_network_not_available));
       }
-
 
     } else {
       if (checkInternet(getContext())) {

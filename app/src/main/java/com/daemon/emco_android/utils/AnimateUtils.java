@@ -98,7 +98,7 @@ public class AnimateUtils {
                         visible()
                 )
                 .toAnimation()
-                .setDuration(800)
+                .setDuration(600)
                 .start();
 
     }

@@ -1,14 +1,20 @@
 package com.daemon.emco_android.repository.remote.restapi;
 
+import com.daemon.emco_android.model.common.AssetInfo;
+import com.daemon.emco_android.model.common.AssetInfoTrans;
 import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.model.request.DocumentTransaction;
 import com.daemon.emco_android.model.request.LocationDetail;
+import com.daemon.emco_android.model.response.AssetInfoResponse;
 import com.daemon.emco_android.model.response.DocumentDownloadResponse;
 import com.daemon.emco_android.model.response.DocumentTypeResponse;
 import com.daemon.emco_android.model.response.EmployeeGpsReponse;
+import com.daemon.emco_android.model.response.EmployeeListResponse;
+import com.daemon.emco_android.model.response.JobListResponse;
 import com.daemon.emco_android.model.response.LocationDetailResponse;
 import com.daemon.emco_android.model.response.LocationResponse;
 import com.daemon.emco_android.model.response.OpcoResponse;
+import com.daemon.emco_android.model.response.SurveyFloorFlatListResponse;
 import com.daemon.emco_android.repository.db.entity.DFoundWDoneImageEntity;
 import com.daemon.emco_android.repository.db.entity.EmployeeDetailsEntity;
 import com.daemon.emco_android.repository.db.entity.LogComplaintEntity;
@@ -22,6 +28,7 @@ import com.daemon.emco_android.repository.db.entity.SaveMaterialEntity;
 import com.daemon.emco_android.repository.db.entity.SaveRatedServiceEntity;
 import com.daemon.emco_android.repository.db.entity.SurveyContractResponse;
 import com.daemon.emco_android.repository.db.entity.SurveyCustomerResponse;
+import com.daemon.emco_android.repository.db.entity.SurveyEmployeeListResponse;
 import com.daemon.emco_android.repository.db.entity.SurveyLocationResponse;
 import com.daemon.emco_android.repository.db.entity.SurveyQuestionnaireResponse;
 import com.daemon.emco_android.repository.db.entity.SurveyReferenceReponse;
@@ -554,10 +561,20 @@ public interface ApiInterface {
   Call<SurveyLocationResponse> getSurveyLocation( @Query("contractno") String contractno);
 
 
+  @GET(ApiConstant.SURVEYREVIEWER)
+  Call<SurveyLocationResponse> getSurveyReviewer( @Query("contractno") String contractno);
+
   @GET(ApiConstant.SURVEYCONTRACT)
-  Call<SurveyContractResponse> getSurveyContract(
+  Call<SurveyContractResponse> getSurveyContract( @Query("employeeId") String employeeId,
           @Query("customercode") String customercode);
 
+  @GET(ApiConstant.SURVEYEMPLOYEELIST)
+  Call<SurveyEmployeeListResponse> getSurveyEmployeeList(
+          @Query("employeeId") String employeeId);
+
+  @GET(ApiConstant.SURVEYEFLOORFLATLIST)
+  Call<SurveyFloorFlatListResponse> getSurveyFloorFlat(
+          @Query("jobNo") String jobNo,@Query("buildingCode") String buildingCode);
 
   @GET(ApiConstant.SURVEYREFERENCE)
   Call<SurveyReferenceReponse> getSurveyReference(
@@ -599,6 +616,27 @@ public interface ApiInterface {
   @POST(ApiConstant.UPDATEEMPLOYEEGPS)
   Call<EmployeeGpsReponse> updateEmployeeGps
           (@Body  List<EmployeeTrackingDetail> emp);
+
+  @GET(ApiConstant.ASSETINFO)
+  Call<AssetInfoResponse> getAssetInfo(@Query("assetTag") String assetTag);
+
+
+  @GET(ApiConstant.GETEMPLOYEEDETAIL)
+  Call<EmployeeListResponse> getEmployeeDetail(@Query("employeeid") String employeeId);
+
+  @GET(ApiConstant.JOBLIST)
+  Call<JobListResponse> getJobList(@Query("opco") String assetTag);
+
+  @GET(ApiConstant.EMPLOYEELIST)
+  Call<EmployeeListResponse> getEmployeeList();
+
+  @GET(ApiConstant.ASSETTYPE)
+  Call<DocumentTypeResponse> getAssetType( @Query("type") String type);
+
+
+  @POST(ApiConstant.ASSETSAVE)
+  Call<CommonResponse> saveAsset
+          (@Body AssetInfoTrans asset);
 
 
 }

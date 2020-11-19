@@ -11,6 +11,8 @@ public class SurveyTransaction implements Serializable {
     String surveyReference;
     String contractNo;
     String location;
+    String floorFlat;
+    String buildingCode;
     String clientName;
     String designation;
     String contactNo;
@@ -23,6 +25,14 @@ public class SurveyTransaction implements Serializable {
     String surveyType;
     int score;
     List<ServeyQuestionnaire> ques;
+
+    public String getFloorFlat() {
+        return floorFlat;
+    }
+
+    public void setFloorFlat(String floorFlat) {
+        this.floorFlat = floorFlat;
+    }
 
     public int getScore() {
         return score;
@@ -160,5 +170,13 @@ public class SurveyTransaction implements Serializable {
 
     public void setQues(List<ServeyQuestionnaire> ques) {
         this.ques = ques;
+    }
+
+    public String getBuildingCode() {
+        return buildingCode;
+    }
+
+    public void setBuildingCode(String buildingCode) {
+        this.buildingCode = buildingCode;
     }
 }

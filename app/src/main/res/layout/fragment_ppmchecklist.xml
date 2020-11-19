@@ -87,7 +87,7 @@
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:id="@+id/txt_ppm_title"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:textSize="@dimen/_9sdp"
                             android:text="SPLIT UNIT PPM - MONTHLY SERVICE" />
 

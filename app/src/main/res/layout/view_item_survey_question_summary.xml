@@ -22,7 +22,8 @@ android:padding="16dp">
         android:src="@drawable/ic_five_start"
         />
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,17 +34,16 @@ android:padding="16dp">
         card_view:cardCornerRadius="5dp"
         card_view:cardUseCompatPadding="true">
 
-
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             style="@style/match_wrap_style"
             android:layout_margin="5dp"
             android:orientation="horizontal">
             <View
-                android:backgroundTint="@color/colorPrimary"
+                android:background="@color/colorPrimary"
                 android:layout_width="3.5dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="16dp"
-                android:background="@color/colorFormMasterDivider" />
+               />
             <LinearLayout
 
                 style="@style/match_wrap_style"
@@ -75,13 +75,17 @@ android:padding="16dp">
 
                     <TextView
                         android:id="@+id/tv_survey_ques"
+                        android:layout_weight=".2"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="@dimen/_1sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:padding="@dimen/_2sdp"
                         style="@style/textview_label"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".2"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_15sdp"
-                        android:textColor="@color/checklist_text"
+                        fontPath="fonts/HelveticaBold.otf"
+                        android:textSize="@dimen/_12sdp"
                         android:gravity="center"
+                        android:textColor="@color/color_gray_new"
                         android:layout_gravity="center_vertical"
                         android:text="How would you rate our staff's general cleaning and house of branches/ Offices ?"/>
 
@@ -104,6 +108,8 @@ android:padding="16dp">
                             style="@style/radio_button_common_survey"
                             android:layout_width="wrap_content"
                             android:textSize="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
                             android:button="@drawable/excellent_smiley"
                             android:layout_weight="1"
                             android:text="  1"
@@ -114,6 +120,8 @@ android:padding="16dp">
                             android:layout_width="wrap_content"
                             android:textSize="@dimen/_10sdp"
                             android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
                             android:button="@drawable/good_smiley"
                             android:text="  2"
                             />
@@ -122,6 +130,8 @@ android:padding="16dp">
                             style="@style/radio_button_common_survey"
                             android:layout_width="wrap_content"
                             android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
                             android:button="@drawable/satisfactory_smiley"
                             android:textSize="@dimen/_10sdp"
                             android:text="  3"
@@ -131,6 +141,8 @@ android:padding="16dp">
                             style="@style/radio_button_common_survey"
                             android:layout_width="wrap_content"
                             android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
                             android:button="@drawable/expectation_smiley"
                             android:textSize="@dimen/_10sdp"
                             android:text="  4"
@@ -141,6 +153,8 @@ android:padding="16dp">
                             android:layout_width="wrap_content"
                             android:button="@drawable/poor_smiley"
                             android:textSize="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="  1"
                             />
@@ -157,6 +171,8 @@ android:padding="16dp">
                             style="@style/radio_button_common_survey"
                             android:layout_width="wrap_content"
                             android:textSize="@dimen/_9sdp"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
                             android:button="@drawable/ic_simily_nice"
                             android:layout_weight="1"
                             android:text="  2"
@@ -167,6 +183,8 @@ android:padding="16dp">
                             android:layout_width="wrap_content"
                             android:layout_weight="1"
                             android:textSize="@dimen/_9sdp"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
                             android:button="@drawable/ic_simily_nice"
                             android:text="  3"
                             />
@@ -175,6 +193,8 @@ android:padding="16dp">
                             style="@style/radio_button_common_survey"
                             android:layout_width="wrap_content"
                             android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
                             android:button="@drawable/ic_simily_nice"
                             android:textSize="@dimen/_9sdp"
                             android:text="  4"

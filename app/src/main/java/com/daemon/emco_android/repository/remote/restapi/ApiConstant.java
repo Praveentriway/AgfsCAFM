@@ -28,15 +28,11 @@ public class ApiConstant {
 
      // public static final String PREFIXURL = "mobileapi";
 
-      public static final String PREFIXURL = "mobileapi";
-
-      public static final String URLVALID = "/"+PREFIXURL+"/webapi/";
-
+    public static final String PREFIXURL = "mobileapi";
+    public static final String URLVALID = "/"+PREFIXURL+"/webapi/";
     public static final String REGISTER = "userRegistration/addNewUser";
-
     public static final String USERTOKEN = "userRegistration/addUserToken";
     public static final String DELETEUSERTOKEN = "userRegistration/deleteUserToken";
-
     public static final String FORGOTPASSWORD = "forgetPassword/getNewPassword";
     public static final String LOGCOMPLAINT = "logcomplain/registerlogcomplain";
     public static final String CUSTOMERLOGCOMPLAINT = "logcomplain/customerLogComplaint";
@@ -193,7 +189,13 @@ public class ApiConstant {
 
     public static final String SURVEYLOCATION = "CustomerSurvey/getSurveyLocation";
 
+    public static final String SURVEYREVIEWER = "CustomerSurvey/getSurveyReviewer";
+
     public static final String SURVEYCONTRACT = "CustomerSurvey/getSurveyContract";
+
+    public static final String SURVEYEMPLOYEELIST = "CustomerSurvey/getSurveyEmployeeList";
+
+    public static final String SURVEYEFLOORFLATLIST = "CustomerSurvey/getSurveyFloorFlat";
 
     public static final String SURVEYREFERENCE = "CustomerSurvey/getSurveyReference";
 
@@ -211,7 +213,6 @@ public class ApiConstant {
     public static final String UPLOADDOCUMENT = "DocumentUpload/UploadDocument";
     public static final String DOWNLOADDOCUMENT = "DocumentUpload/downloadDocument";
 
-
     /* Location Finder URL */
 
     public static final String LOCATIONOPCO = "LocationFinder/getLocationOpco";
@@ -223,6 +224,15 @@ public class ApiConstant {
     /* EMPLOYEE GPS TRACKING URL */
 
     public static final String UPDATEEMPLOYEEGPS = "EmployeeTrackingApi/updateEmployeeGps";
+    public static final String GETEMPLOYEEDETAIL = "EmployeeTrackingApi/getEmployeeDetail";
+
+//    ASSET VERIFICATION
+
+    public static final String ASSETINFO = "AssetInfo/getAssetInfo";
+    public static final String JOBLIST = "AssetInfo/getJobList";
+    public static final String EMPLOYEELIST = "AssetInfo/getEmployeeList";
+    public static final String ASSETTYPE = "AssetInfo/getAssetStatus";
+    public static final String ASSETSAVE = "AssetInfo/saveAsset";
 
 
     private static Context context;

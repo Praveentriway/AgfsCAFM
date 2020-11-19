@@ -29,7 +29,7 @@ public class BaseFragment extends Fragment {
              login = gson.fromJson(mLoginData, Login.class);
         }
 
-      return login;
+        return login;
     }
 
 
@@ -52,7 +52,6 @@ public class BaseFragment extends Fragment {
                         mActivity.onBackPressed();
                     }
                 });
-
     }
 
 
@@ -91,8 +90,6 @@ public class BaseFragment extends Fragment {
 
     }
 
-
-
     public void setupToolBarOnly(final AppCompatActivity mActivity,String title) {
 
         Toolbar mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
@@ -103,7 +100,6 @@ public class BaseFragment extends Fragment {
         tv_toolbar_title.setText(title);
         LinearLayout linear_toolbar =(LinearLayout) mToolbar.findViewById(R.id.linear_profile) ;
         linear_toolbar.setVisibility(View.GONE);
-
         mActivity.setSupportActionBar(mToolbar);
         mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -114,9 +110,6 @@ public class BaseFragment extends Fragment {
                         mActivity.onBackPressed();
                     }
                 });
-
     }
-
-
 
 }

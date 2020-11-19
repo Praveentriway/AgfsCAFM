@@ -7,6 +7,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     tools:ignore="MissingPrefix"
+    android:background="@drawable/bg_re3"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/_10sdp">
     <androidx.core.widget.NestedScrollView
@@ -40,7 +41,7 @@
 
             <RelativeLayout
                 style="@style/match_parent_style"
-                android:background="@color/colorWhite">
+               >
 
                 <LinearLayout
                     style="@style/match_parent_style"
@@ -164,11 +165,10 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
                             <View
-                                android:backgroundTint="@color/colorPrimary"
                                 android:layout_width="3.5dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginRight="16dp"
-                                android:background="@color/colorFormMasterDivider" />
+                                android:background="@color/colorPrimary" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="0dp"
@@ -227,11 +227,10 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
                             <View
-                                android:backgroundTint="@color/colorPrimary"
                                 android:layout_width="3.5dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginRight="16dp"
-                                android:background="@color/colorFormMasterDivider" />
+                                android:background="@color/colorPrimary" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="0dp"

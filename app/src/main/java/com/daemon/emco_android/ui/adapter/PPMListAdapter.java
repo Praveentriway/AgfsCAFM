@@ -188,7 +188,6 @@ public class PPMListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         tv_complaint_details = (TextView) itemView.findViewById(R.id.tv_end_date);
         tv_status = (TextView) itemView.findViewById(R.id.tv_total_ppm);
         tv_location_name=(TextView)itemView.findViewById(R.id.tv_location_name);
-        tv_complaint_no.setTypeface(font.getHelveticaRegular());
         tv_time.setTypeface(font.getHelveticaRegular());
         tv_sno.setTypeface(font.getHelveticaRegular());
         tv_work_type.setTypeface(font.getHelveticaRegular());

@@ -3,20 +3,24 @@ package com.daemon.emco_android.ui.fragments.survey;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.utils.AppUtils;
 import com.github.florent37.expectanim.ExpectAnim;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
-import android.util.Log;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -64,12 +68,10 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
         mActivity = (AppCompatActivity) getActivity();
         setHasOptionsMenu(true);
         mArgs = getArguments();
-        if(mArgs!=null){
-
+        if(mArgs!=null) {
             questionnaires = (ArrayList<ServeyQuestionnaire>) mArgs.getSerializable(ARGS_SURVEYQUES);
             surveyTransaction = (SurveyTransaction) mArgs.getSerializable(ARGS_SURVEYTRANS);
             suggestionFlag=mArgs.getBoolean(ARGS_SUGESSTIONFLAG);
-
         }
     }
 
@@ -83,8 +85,7 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
         return view;
     }
 
-
-    public void setProprties(View view){
+    public void setProprties(View view) {
 
         fab_next=(FloatingActionButton) view.findViewById(R.id.fab_next);
         fab_next.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +94,7 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
                 processQuest();
             }
         });
+
         new ExpectAnim()
                 .expect(fab_next)
                 .toBe(
@@ -102,23 +104,34 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
                 .toAnimation()
                 .setNow();
 
+        if(surveyTransaction.getSurveyType().equalsIgnoreCase(DETAILED)){
+            new ExpectAnim()
+                    .expect(fab_next)
+                    .toBe(
+                            atItsOriginalPosition(),
+                            visible()
+                    )
+                    .toAnimation()
+                    .setDuration(800)
+                    .start();
+        }
+
+
         recycler_view=(RecyclerView) view.findViewById(R.id.recycler_view);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(mActivity);
         recycler_view.setLayoutManager(mLayoutManager);
         recycler_view.setItemAnimator(new DefaultItemAnimator());
         adapter=new CustomerFeedbackAdapter(mActivity,getQuest(surveyTransaction.getSurveyType()),surveyTransaction.getSurveyType(),this);
         recycler_view.setAdapter(adapter);
-
     }
+
 
     public void processQuest(){
         if(adapter.getQuestionnaire()!=null){
 
             if(surveyTransaction.getSurveyType().equalsIgnoreCase(SUMMARY)){
-
                 if(adapter.getOptionScore(0)<surveyTransaction.getScore()){
-
-                    showDialog("Please spend few minutes to give us detailed feedback about our service.");
+                    showDialog(getString(R.string.detailed_feedback));
                 }
                 else{
                     surveyTransaction.setQues(adapter.getQuestionnaire());
@@ -128,22 +141,20 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
             else{
 
                 if(surveyTransaction.getQues()!=null){
-
                     List<ServeyQuestionnaire> ques =surveyTransaction.getQues();
                     ques.addAll(adapter.getQuestionnaire());
                     surveyTransaction.setQues(ques);
                     loadFragment(new SurveyFeedback(), Utils.TAG_FRAGMENT_CUST_FEEDBACK_SUGGESTION);
-
                 }
-
                 else{
                     surveyTransaction.setQues(adapter.getQuestionnaire());
                     loadFragment(new SurveyFeedback(), Utils.TAG_FRAGMENT_CUST_FEEDBACK_SUGGESTION);
                 }
+
             }
         }
         else{
-            showErrorToast(mActivity,"Please fill all the questions.");
+            showErrorToast(mActivity,getString(R.string.fill_all_ques));
         }
     }
 
@@ -176,11 +187,12 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
                         showbackPressAlert();
                     }
                 });
+
     }
 
     public void showbackPressAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setMessage("Are you sure you want to close the Survey Questionnaire?")
+        builder.setMessage(getString(R.string.close_survey))
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -199,6 +211,41 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.action_logout).setVisible(false);
+        menu.findItem(R.id.action_home).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_home:
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                builder.setMessage(getString(R.string.close_survey))
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                FragmentManager fm = getActivity().getSupportFragmentManager();
+                                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                                    fm.popBackStack();
+                                }
+                                Fragment _fragment = new MainDashboard();
+                                FragmentTransaction _transaction = fm.beginTransaction();
+                                _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+                                _transaction.replace(R.id.frame_container, _fragment);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 
     private void showDialog(final String msg) {
@@ -209,7 +256,6 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         dialog.cancel();
-
                         surveyTransaction.setQues(adapter.getQuestionnaire());
                         surveyTransaction.setSurveyType(DETAILED);
                         adapter=new CustomerFeedbackAdapter(mActivity,getQuest(surveyTransaction.getSurveyType()),surveyTransaction.getSurveyType(),SurveyQuestionnaire.this);
@@ -229,10 +275,8 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
                 }).setNegativeButton("Not now", new DialogInterface.OnClickListener() {
             public void onClick(final DialogInterface dialog, final int id) {
                 dialog.cancel();
-
                 surveyTransaction.setQues(adapter.getQuestionnaire());
                 loadFragment(new SurveyFeedback(), Utils.TAG_FRAGMENT_CUST_FEEDBACK_SUGGESTION);
-
             }});
 
         final android.app.AlertDialog alert = builder.create();
@@ -244,16 +288,13 @@ public class SurveyQuestionnaire extends Fragment implements CustomerFeedbackAda
 public ArrayList<ServeyQuestionnaire> getQuest(String type){
 
     ArrayList<ServeyQuestionnaire> temp=new ArrayList<>();
-
       for(ServeyQuestionnaire ques:questionnaires){
-
           if(ques.getQuesType().equalsIgnoreCase(type)){
               temp.add(ques);
           }
       }
         return temp;
 }
-
 
    public void onOptionSelected(){
     processQuest();

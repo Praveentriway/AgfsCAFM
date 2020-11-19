@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -57,10 +58,19 @@ public class GpsUtils {
 
 
     public static String getDeviceID(Context mContext) {
-        TelephonyManager tManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-        return tManager.getDeviceId();
-    }
 
+        //deprecated
+
+//        TelephonyManager tManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+//        return tManager.getDeviceId();
+
+        // updated method to generate device id
+        String deviceId = android.provider.Settings.Secure.getString(
+                mContext.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        Log.d("device id",deviceId);
+        return deviceId;
+
+    }
 
 
     public static boolean isNetworkConnected(Context mContext) {
@@ -87,9 +97,6 @@ public class GpsUtils {
         }
         return strAdd;
     }
-
-
-
 
 
 }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
+    android:background="@drawable/bg_re3"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/_2sdp"
-    >
+    android:paddingTop="@dimen/_2sdp">
 
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,7 +28,7 @@
             <TextView
                 android:id="@+id/tv_header"
                 style="@style/btn_wrap_content_gray2"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:paddingTop="@dimen/_2sdp"
                 android:paddingBottom="@dimen/_2sdp"
                 android:paddingLeft="@dimen/_7sdp"
@@ -40,7 +40,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             style="@style/match_parent_style"
             android:paddingTop="@dimen/_2sdp"
-            android:background="@color/colorWhite">
+          >
 
             <LinearLayout
                 style="@style/match_wrap_style"
@@ -148,7 +148,6 @@
                     </LinearLayout>
 
 
-
                     <LinearLayout
                         style="@style/match_wrap_style"
                         android:orientation="horizontal">
@@ -241,12 +240,13 @@
                 <LinearLayout
                     style="@style/match_wrap_style"
                     android:layout_weight="1"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:orientation="vertical">
 
                     <Button
                         android:id="@+id/btn_barcode_scan"
-                        style="@style/btn_wrap_content_gray"
+                        style="@style/btn_wrap_content_grey_round"
                         android:layout_weight="1"
                         android:text="@string/lbl_barcode_scan" />
 
@@ -343,85 +343,109 @@
                             android:hint="@string/lbl_status" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        style="@style/match_wrap_style"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:orientation="horizontal">
+                    <androidx.cardview.widget.CardView
+                        card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
 
-                        <TextView
-                            style="@style/textview_label"
-                            android:layout_weight=".7"
-                            android:text="@string/lbl_before_ppm" />
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:layout_marginRight="@dimen/_2sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
+
+                        android:background="@color/colorFormMasterDivider"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="@dimen/_1sdp"
+
+                        >
+
+                        <LinearLayout
+                            style="@style/match_wrap_style"
+
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/textview_label"
+                                android:layout_weight=".3"
+                                android:layout_width="0dp"
+                                android:gravity="center"
+                                android:textColor="@color/color_gray_new"
+
+                                android:text="@string/lbl_before_ppm" />
 
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".3">
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                            <RelativeLayout
+
                                 android:layout_height="wrap_content"
-                                android:visibility="visible"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:id="@+id/img_upload_count"
-                                   android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="0/3 Image Uploaded"
-                                    android:visibility="gone"
-                                    android:layout_marginLeft="@dimen/_10sdp"
-                                    android:textColor="@color/color_blue"
-                                    android:textSize="@dimen/_7sdp"/>
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/custom_refresh_recycler_view"
+                                android:layout_width="0dp"
+                                android:background="#F8F8F8"
+                                android:layout_weight=".7">
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center"/>
+                                    android:layout_height="wrap_content"
+                                    android:visibility="visible"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:id="@+id/img_upload_count"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="0/3 Image Uploaded"
+                                        android:visibility="gone"
+                                        android:layout_marginLeft="@dimen/_10sdp"
+                                        android:textColor="@color/color_blue"
+                                        android:textSize="@dimen/_7sdp"/>
 
-                            </LinearLayout>
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/custom_refresh_recycler_view"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"/>
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:visibility="gone"
-                                android:gravity="left">
+                                </LinearLayout>
 
-                                <ProgressBar
-                                    android:id="@+id/pb_workdone"
-                                    android:layout_width="@dimen/_20sdp"
-                                    android:layout_height="@dimen/_20sdp"
-                                    android:layout_marginLeft="@dimen/_7sdp"
-                                    android:layout_marginTop="@dimen/_7sdp"
-                                    android:visibility="visible" />
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:visibility="gone"
+                                    android:gravity="left">
 
-                                <ImageView
-                                    android:id="@+id/iv_workdone"
-                                    android:layout_width="@dimen/_36sdp"
-                                    android:layout_height="@dimen/_36sdp"
-                                    app:srcCompat="@drawable/ic_camera_24dp" />
+                                    <ProgressBar
+                                        android:id="@+id/pb_workdone"
+                                        android:layout_width="@dimen/_20sdp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:layout_marginLeft="@dimen/_7sdp"
+                                        android:layout_marginTop="@dimen/_7sdp"
+                                        android:visibility="visible" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_workdone"
+                                        android:layout_width="@dimen/_36sdp"
+                                        android:layout_height="@dimen/_36sdp"
+                                        app:srcCompat="@drawable/ic_camera_24dp" />
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:visibility="gone"
+                                    android:gravity="center">
+
+                                    <Button
+                                        android:id="@+id/btn_save"
+                                        style="@style/btn_wrap_content"
+                                        android:gravity="right"
+                                        android:text="@string/lbl_save" />
+                                </RelativeLayout>
                             </RelativeLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:visibility="gone"
-                                android:gravity="center">
 
-                                <Button
-                                    android:id="@+id/btn_save"
-                                    style="@style/btn_wrap_content"
-                                    android:gravity="right"
-                                    android:text="@string/lbl_save" />
-                            </RelativeLayout>
-                        </RelativeLayout>
-                    </LinearLayout>
 
                     <LinearLayout
                         style="@style/match_wrap_style"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:orientation="horizontal">
 
                         <Button

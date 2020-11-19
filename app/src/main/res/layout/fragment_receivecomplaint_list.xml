@@ -67,9 +67,10 @@
                 <TextView
                     android:id="@+id/tv_work_type"
                     style="@style/btn_wrap_content_gray"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/lbl_worktype"  />
+                    android:layout_weight="1"
+                    android:text="Job No" />
 
                 <TextView
                     android:id="@+id/tv_priority"
@@ -119,7 +120,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 style="@style/scroll_bar"
-                android:layout_marginBottom="@dimen/_10sdp" />`
+                android:layoutAnimation="@anim/layout_animation"
+                android:layout_marginBottom="@dimen/_10sdp" />
+
 
             <include layout="@layout/view_list_empty" />
 

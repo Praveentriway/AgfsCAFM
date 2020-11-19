@@ -4,11 +4,15 @@ import android.content.Context;
 import android.util.Log;
 
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.model.response.SurveyFloorFlat;
+import com.daemon.emco_android.model.response.SurveyFloorFlatListResponse;
 import com.daemon.emco_android.repository.db.entity.ServeyQuestionnaire;
 import com.daemon.emco_android.repository.db.entity.SurveyContract;
 import com.daemon.emco_android.repository.db.entity.SurveyContractResponse;
 import com.daemon.emco_android.repository.db.entity.SurveyCustomer;
 import com.daemon.emco_android.repository.db.entity.SurveyCustomerResponse;
+import com.daemon.emco_android.repository.db.entity.SurveyEmployeeList;
+import com.daemon.emco_android.repository.db.entity.SurveyEmployeeListResponse;
 import com.daemon.emco_android.repository.db.entity.SurveyLocation;
 import com.daemon.emco_android.repository.db.entity.SurveyLocationResponse;
 import com.daemon.emco_android.repository.db.entity.SurveyMaster;
@@ -115,10 +119,40 @@ public class CustomerSurveyRepository {
     }
 
 
-    public void getSurveyContract(String custCode) {
+    public void getSurveyReviewer(String contractNo) {
+
+        Call<SurveyLocationResponse> getcustomer = mInterface.getSurveyReviewer(contractNo);
+        getcustomer.enqueue(
+                new Callback<SurveyLocationResponse>() {
+                    @Override
+                    public void onResponse(
+                            Call<SurveyLocationResponse> call, Response<SurveyLocationResponse> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "onResponse success " + response.body().getMessage());
+                            if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                                Log.d(TAG, "onResponse success");
+                                listener.onReceiveSurveyReviewer(response.body().getObject(), AppUtils.MODE_SERVER
+                                );
+                            } else
+                                listener.onReceiveFailureSurveyReviewer(response.body().getMessage(), AppUtils.MODE_SERVER);
+                        } else
+                            listener.onReceiveFailureSurveyReviewer(response.message(), AppUtils.MODE_SERVER);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SurveyLocationResponse> call, Throwable t) {
+                        Log.d(TAG, "onFailure" + t.getMessage());
+                        listener.onReceiveFailureSurveyReviewer(
+                                mContext.getString(R.string.msg_request_error_occurred), AppUtils.MODE_SERVER);
+                    }
+                });
+    }
+
+
+    public void getSurveyContract(String employeeId,String custCode) {
 
         Log.d(TAG, "getSurveyContract");
-        Call<SurveyContractResponse> getSurveyContract = mInterface.getSurveyContract(custCode);
+        Call<SurveyContractResponse> getSurveyContract = mInterface.getSurveyContract(employeeId,custCode);
 
         getSurveyContract.enqueue(
                 new Callback<SurveyContractResponse>() {
@@ -144,6 +178,77 @@ public class CustomerSurveyRepository {
                     public void onFailure(Call<SurveyContractResponse> call, Throwable t) {
                         Log.d(TAG, "onFailure" + t.getMessage());
                         listener.onReceiveFailureSurveyContract(
+                                mContext.getString(R.string.msg_request_error_occurred), AppUtils.MODE_SERVER);
+                    }
+                });
+    }
+
+
+    public void getSurveyEmployeeList(String employeeId) {
+
+        Log.d(TAG, "getSurveyContract");
+        Call<SurveyEmployeeListResponse> getSurveyContract = mInterface.getSurveyEmployeeList(employeeId);
+
+        getSurveyContract.enqueue(
+                new Callback<SurveyEmployeeListResponse>() {
+                    @Override
+                    public void onResponse(
+                            Call<SurveyEmployeeListResponse> call, Response<SurveyEmployeeListResponse> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "onResponse success " + response.body().getMessage());
+                            if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                                Log.d(TAG, "onResponse success");
+                                listener.onReceiveSurveyEmployeeList(
+                                        response.body().getObject(), AppUtils.MODE_SERVER
+                                );
+                            } else
+                                listener.onReceiveFailureSurveyEmployeeList(
+                                        response.body().getMessage(), AppUtils.MODE_SERVER);
+                        } else
+                            listener.onReceiveFailureSurveyEmployeeList(
+                                    response.message(), AppUtils.MODE_SERVER);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SurveyEmployeeListResponse> call, Throwable t) {
+                        Log.d(TAG, "onFailure" + t.getMessage());
+                        listener.onReceiveFailureSurveyEmployeeList(
+                                mContext.getString(R.string.msg_request_error_occurred), AppUtils.MODE_SERVER);
+                    }
+                });
+    }
+
+
+
+    public void getSurveyFloorFlat(String jobNo,String buildingCode) {
+
+        Log.d(TAG, "getSurveyLocation");
+        Call<SurveyFloorFlatListResponse> getSurveyContract = mInterface.getSurveyFloorFlat(jobNo,buildingCode);
+
+        getSurveyContract.enqueue(
+                new Callback<SurveyFloorFlatListResponse>() {
+                    @Override
+                    public void onResponse(
+                            Call<SurveyFloorFlatListResponse> call, Response<SurveyFloorFlatListResponse> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "onResponse success " + response.body().getMessage());
+                            if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                                Log.d(TAG, "onResponse success");
+                                listener.onReceiveSurveyFloorFlat(
+                                        response.body().getObject(), AppUtils.MODE_SERVER
+                                );
+                            } else
+                                listener.onReceiveFailureSurveyEmployeeList(
+                                        response.body().getMessage(), AppUtils.MODE_SERVER);
+                        } else
+                            listener.onReceiveFailureSurveyEmployeeList(
+                                    response.message(), AppUtils.MODE_SERVER);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SurveyFloorFlatListResponse> call, Throwable t) {
+                        Log.d(TAG, "onFailure" + t.getMessage());
+                        listener.onReceiveFailureSurveyFloorFlat(
                                 mContext.getString(R.string.msg_request_error_occurred), AppUtils.MODE_SERVER);
                     }
                 });
@@ -220,7 +325,6 @@ public class CustomerSurveyRepository {
 
     public void saveSurvey(SurveyTransaction trans) {
 
-        Log.d(TAG, "saveSurvey");
         Call<CommonResponse> saveSurvey = mInterface.saveSurvey(trans);
         saveSurvey.enqueue(
                 new Callback<CommonResponse>() {
@@ -272,6 +376,18 @@ public class CustomerSurveyRepository {
         void onReceiveSurveyLocation(List<SurveyLocation> questions, int mode);
 
         void onReceiveFailureSurveyLocation(String strErr, int mode);
+
+        void onReceiveSurveyFloorFlat(List<SurveyFloorFlat> floorFlats, int mode);
+
+        void onReceiveFailureSurveyFloorFlat(String strErr, int mode);
+
+        void onReceiveSurveyEmployeeList(List<SurveyEmployeeList> questions, int mode);
+
+        void onReceiveFailureSurveyEmployeeList(String strErr, int mode);
+
+        void onReceiveSurveyReviewer(List<SurveyLocation> questions, int mode);
+
+        void onReceiveFailureSurveyReviewer(String strErr, int mode);
 
     }
 

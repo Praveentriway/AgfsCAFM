@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     style="@style/match_parent_style"
     android:fillViewport="true"
-    android:background="@drawable/bg_re2"
+    android:background="@drawable/bg_re3"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
@@ -25,74 +26,353 @@
 
             <LinearLayout
                 style="@style/match_parent_style"
-                android:layout_marginBottom="@dimen/bottom_view_margin"
-                android:layout_marginLeft="@dimen/_30sdp"
-                android:layout_marginRight="@dimen/_30sdp"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/_3sdp">
-
+                android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/ll_main_tech"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_gravity="center"
                     android:gravity="center"
-                    android:weightSum="2.8"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="4">
 
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        android:visibility="invisible"
+                        app:cardCornerRadius="@dimen/_3sdp"
+                        android:id="@+id/btn_reactive_maintenance"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        android:src="@drawable/reactivebtn" >
 
-                    <ImageView
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/ppm" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Reactive Maintenance" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>>
+
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
                         android:id="@+id/btn_ppm_schedule"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_margin="@dimen/_20sdp"
+                        app:cardCornerRadius="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:src="@drawable/ppmsch_btn" />
-                    <ImageView
+                       >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:background="@drawable/cardview_body"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/rx_maintenance" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="PPM Schedule" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
                         android:id="@+id/btn_ppm_documents"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_margin="@dimen/_20sdp"
                         android:layout_weight="1"
-                        android:src="@drawable/documents" />
+                        app:cardCornerRadius="@dimen/_5sdp"
+                       >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:background="@drawable/cardview_body"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/document" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Document Upload" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        android:id="@+id/btn_periodic_module"
+                        android:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/_3sdp"
+                        android:src="@drawable/periodic_service_btn" >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/periodic" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Periodic Service" />
+
+                        </LinearLayout></androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_main_tech"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="invisible"
+                    android:weightSum="4">
+
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        app:cardCornerRadius="@dimen/_3sdp"
+                        android:id="@+id/btn_dashboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        android:src="@drawable/reactivebtn" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/dashboard" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Dashboard" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>>
+
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        android:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        app:cardCornerRadius="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:src="@drawable/preventicebtn" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/prototype" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Preventive Maintenance" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        android:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/_3sdp"
+                        android:src="@drawable/inspection" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/inspection_ic" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Inspection" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        android:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/_3sdp"
+                        android:src="@drawable/periodic_service_btn" >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/periodic" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Periodic Service" />
+
+                        </LinearLayout></androidx.cardview.widget.CardView>
+
                 </LinearLayout>
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:background="@color/colorWhite"
-                android:src="@drawable/emco_logo_with_name"
-                android:visibility="gone" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:layout_marginRight="@dimen/_40sdp"
-                android:background="@color/colorWhite"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    style="@style/match_wrap_style"
-                    android:text="@string/lbl_2017_ags"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/_6sdp" />
-
-                <TextView
-                    style="@style/match_wrap_style"
-                    android:text="@string/lbl_version"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/_5sdp" />
-            </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

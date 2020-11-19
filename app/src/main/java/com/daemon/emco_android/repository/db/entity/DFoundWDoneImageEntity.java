@@ -83,6 +83,15 @@ public class DFoundWDoneImageEntity implements Parcelable {
   @ColumnInfo
   private String actEndDate;
 
+  @SerializedName("generalRefNo")
+  @ColumnInfo
+  private String generalRefNo;
+
+  @SerializedName("ref_doc")
+  @ColumnInfo
+  private String refDocNo;
+
+
   public DFoundWDoneImageEntity(String id) {
     this.id = id;
   }
@@ -225,6 +234,24 @@ public class DFoundWDoneImageEntity implements Parcelable {
     this.base64Image = base64Image;
   }
 
+  /** @return The generalRefNo */
+  public String getGeneralRefNo() {
+    return generalRefNo;
+  }
+  /** @param gRefNo The generalRefNo */
+  public void setGeneralRefNo(String gRefNo) {
+    this.generalRefNo = gRefNo;
+  }
+
+  /** @return The refDocNo */
+  public String getRefDocNo() {
+    return refDocNo;
+  }
+  /** @param refDocNo The refDocNo */
+  public void setRefDocNo(String refDocNo) {
+    this.refDocNo = refDocNo;
+  }
+
   @Override
   public int describeContents() {
     return 0;
@@ -248,6 +275,8 @@ public class DFoundWDoneImageEntity implements Parcelable {
     dest.writeString(this.imageName);
     dest.writeString(this.actStartDate);
     dest.writeString(this.actEndDate);
+    dest.writeString(this.generalRefNo);
+    dest.writeString(this.refDocNo);
   }
 
   protected DFoundWDoneImageEntity(Parcel in) {
@@ -267,6 +296,8 @@ public class DFoundWDoneImageEntity implements Parcelable {
     this.imageName = in.readString();
     this.actStartDate = in.readString();
     this.actEndDate = in.readString();
+    this.generalRefNo = in.readString();
+    this.refDocNo = in.readString();
   }
 
   public static final Parcelable.Creator<DFoundWDoneImageEntity> CREATOR = new Parcelable.Creator<DFoundWDoneImageEntity>() {

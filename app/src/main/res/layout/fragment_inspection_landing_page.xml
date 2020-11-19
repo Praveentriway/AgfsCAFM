@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     style="@style/match_parent_style"
-    android:background="@color/colorWhite"
     android:fillViewport="true"
+    android:background="@drawable/bg_re3"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
-        style="@style/match_wrap_style"
+        style="@style/match_parent_style"
         android:orientation="vertical">
 
         <ImageView
@@ -16,78 +17,366 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/_3sdp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/emco_logo_with_name" />
+            android:src="@drawable/emco_logo_with_name"
+            android:visibility="gone" />
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             style="@style/match_parent_style">
 
+
             <LinearLayout
                 style="@style/match_parent_style"
-                android:layout_marginBottom="@dimen/bottom_view_margin"
-                android:layout_marginLeft="@dimen/_30sdp"
-                android:layout_marginRight="@dimen/_30sdp"
-                android:orientation="vertical"
-                android:padding="@dimen/_3sdp">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/ll_im_landing"
-                    style="@style/match_parent_style"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_gravity="center"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="4">
 
-                    <Button
-                        android:id="@+id/btn_reactive_request_verification"
-                        style="@style/btn_common_home"
-                        android:text="@string/title_reactive_request_verification" />
+                    <androidx.cardview.widget.CardView
+                        card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:id="@+id/btn_asset_verification"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        android:src="@drawable/reactivebtn" >
 
-                    <Button
-                        android:id="@+id/btn_ppm_request_verification"
-                        style="@style/btn_common_home"
-                        android:text="@string/title_ppm_request_verification" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:background="@drawable/cardview_body"
+                            android:orientation="vertical">
 
-                    <Button
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/asset_barcode" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Asset Verification" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>>
+
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        android:id="@+id/btn_ppm_inspection"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:src="@drawable/preventicebtn" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:background="@drawable/cardview_body"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/ppm_verify" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Reactive Verification" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        android:id="@+id/btn_rx_inspection"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:src="@drawable/inspection" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:background="@drawable/cardview_body"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/verify" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="PPM Verification" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
                         android:id="@+id/btn_periodic_inspection"
-                        style="@style/btn_common_home"
-                        android:text="@string/title_periodic_inspection" />
-                </LinearLayout>
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:src="@drawable/periodic_service_btn" >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:background="@drawable/cardview_body"
+                            android:orientation="vertical">
 
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/periodic" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Periodic Inspection" />
+
+                        </LinearLayout></androidx.cardview.widget.CardView>
+
+                </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/ll_im_services"
-                    style="@style/match_parent_style"
+                    android:id="@+id/ll_main_tech"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_gravity="center"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="horizontal"
+                    android:visibility="invisible"
+                    android:weightSum="4">
 
-                    <Button
-                        android:id="@+id/btn_hard_services"
-                        style="@style/btn_common_home"
-                        android:text="@string/title_hard_services" />
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:id="@+id/btn_dashboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        android:src="@drawable/reactivebtn" >
 
-                    <Button
-                        android:id="@+id/btn_soft_services"
-                        style="@style/btn_common_home"
-                        android:text="@string/title_soft_services" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/dashboard" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Dashboard" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>>
+
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        android:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:src="@drawable/preventicebtn" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/prototype" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Preventive Maintenance" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        android:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:src="@drawable/inspection" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/inspection_ic" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Inspection" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_7sdp"
+                        android:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:src="@drawable/periodic_service_btn" >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:weightSum="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_weight="0.7"
+                                android:src="@drawable/periodic" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:textSize="@dimen/_6sdp"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                fontPath="fonts/HelveticaBold.otf"
+                                android:gravity="center_horizontal"
+                                android:text="Periodic Service" />
+
+                        </LinearLayout></androidx.cardview.widget.CardView>
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/ll_im_periodic"
-                    style="@style/match_parent_style"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone">
 
-                    <Button
-                        android:id="@+id/btn_assigned"
-                        style="@style/btn_common_home"
-                        android:text="@string/title_assigned_inspection" />
-
-                    <Button
-                        android:id="@+id/btn_random"
-                        style="@style/btn_common_home"
-                        android:text="@string/title_random_inspection" />
-                </LinearLayout>
             </LinearLayout>
+
+
+
 
             <ImageView
                 android:id="@+id/iv_logo"
@@ -105,11 +394,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:visibility="gone"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:layout_marginRight="@dimen/_40sdp"
                 android:background="@color/colorWhite"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/match_wrap_style"

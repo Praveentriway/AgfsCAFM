@@ -38,11 +38,9 @@ public class Fragment_IM_Services extends Fragment implements View.OnClickListen
     private Context mContext;
     private Font font = App.getInstance().getFontInstance();
     private SharedPreferences mPreferences;
-
     private LinearLayout ll_im_landing, ll_im_services, ll_im_periodic;
     private Button btn_hard_services, btn_soft_services;
     private String mStringJson = null;
-
     private CoordinatorLayout cl_main;
     private Toolbar mToolbar;
     private Bundle mArgs;
@@ -51,7 +49,7 @@ public class Fragment_IM_Services extends Fragment implements View.OnClickListen
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         try {
             mActivity = (AppCompatActivity) getActivity();
@@ -75,7 +73,7 @@ public class Fragment_IM_Services extends Fragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
+
         View rootView = null;
         try {
             rootView = (View) inflater.inflate(R.layout.fragment_inspection_landing_page, container, false);
@@ -89,16 +87,10 @@ public class Fragment_IM_Services extends Fragment implements View.OnClickListen
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
 
-            ll_im_landing = (LinearLayout) rootView.findViewById(R.id.ll_im_landing);
-            ll_im_services = (LinearLayout) rootView.findViewById(R.id.ll_im_services);
-            ll_im_periodic = (LinearLayout) rootView.findViewById(R.id.ll_im_periodic);
 
-            btn_hard_services = (Button) rootView.findViewById(R.id.btn_hard_services);
-            btn_soft_services = (Button) rootView.findViewById(R.id.btn_soft_services);
             setupActionBar();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -121,9 +113,6 @@ public class Fragment_IM_Services extends Fragment implements View.OnClickListen
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
-        btn_hard_services.setTypeface(font.getHelveticaRegular());
-        btn_soft_services.setTypeface(font.getHelveticaRegular());
 
         ll_im_landing.setVisibility(View.GONE);
         ll_im_periodic.setVisibility(View.GONE);
@@ -140,18 +129,11 @@ public class Fragment_IM_Services extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_soft_services:
-                gotoIMServices(false);
-                break;
-            case R.id.btn_hard_services:
-                gotoIMServices(true);
-                break;
-        }
+
     }
 
     private void gotoIMServices(boolean hard) {
-        Log.d(TAG, "gotoIMServices");
+
         Bundle data = new Bundle();
         Fragment fragment = new Fragment_IM_HardSoftFilter();
         data.putBoolean(AppUtils.ARGS_IM_HARD_Page, hard);
@@ -167,7 +149,6 @@ public class Fragment_IM_Services extends Fragment implements View.OnClickListen
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_home).setVisible(true);
     }
@@ -176,12 +157,7 @@ public class Fragment_IM_Services extends Fragment implements View.OnClickListen
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                Log.d(TAG, "onOptionsItemSelected : home");
                 mActivity.onBackPressed();
-               /* FragmentManager fm = getActivity().getSupportFragmentManager();
-                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-                    fm.popBackStack();
-                }*/
                 break;
         }
         return super.onOptionsItemSelected(item);

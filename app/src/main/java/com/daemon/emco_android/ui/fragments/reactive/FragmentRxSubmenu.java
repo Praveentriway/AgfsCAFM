@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.PowerManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -32,7 +33,7 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.activities.LoginActivity;
 import com.daemon.emco_android.repository.db.dbhelper.ReceiveComplaintItemDbInitializer;
 import com.daemon.emco_android.ui.fragments.reactive.dashboard.Fragment_RM_Dashboard;
-import com.daemon.emco_android.ui.fragments.common.document.DocumentFilter;
+import com.daemon.emco_android.ui.fragments.document.DocumentFilter;
 import com.daemon.emco_android.ui.fragments.reactive.logcomplaints.Fragment_RM_LogComplaintUser;
 import com.daemon.emco_android.ui.fragments.reactive.receieve_complaints.Fragment_RC_List;
 import com.daemon.emco_android.model.common.Login;
@@ -60,16 +61,13 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
     private SharedPreferences.Editor mEditor;
     private FragmentManager mManager;
     private Handler mHandler;
-
-    //private Button  btnPendingSignature ;
-    private ImageView btnLogComplaint,btnReceiveComplaint,btnViewComplaintStatus,btnDashboard,btn_receive_documents;
+    private CardView btnLogComplaint,btnReceiveComplaint,btnViewComplaintStatus,btnDashboard,btn_receive_documents;
     private String mStringJson = null;
     private Login user;
     private CoordinatorLayout cl_main;
     private Toolbar mToolbar;
     private TextView tv_toolbar_title;
     private View rootView = null;
-
     private TimerTask mTimerTask;
     final Handler handler = new Handler();
     private Timer t = new Timer();
@@ -104,14 +102,11 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
                     }
                 });
             }};
-        // public void schedule (TimerTask task, long delay, long period)
         t.scheduleAtFixedRate(mTimerTask,AppUtils.TIMEOUT_NEW,AppUtils.TIMEOUT);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
-
         super.onCreate(savedInstanceState);
         try {
             mActivity = (AppCompatActivity) getActivity();
@@ -122,8 +117,6 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
             mStringJson = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
             mManager = mActivity.getSupportFragmentManager();
             font = App.getInstance().getFontInstance();
-            //mArgs = getArguments().getString(ARGS_BUNDLE_MESSAGE);
-
             if (mStringJson != null) {
                 Gson gson = new Gson();
                 user = gson.fromJson(mStringJson, Login.class);
@@ -137,7 +130,6 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
 
         try {
             rootView = (View) inflater.inflate(R.layout.fragment_reactive_landing_page, container, false);
@@ -151,21 +143,20 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
-            btnLogComplaint = (ImageView) rootView.findViewById(R.id.btn_log_complaint);
-            btnReceiveComplaint = (ImageView) rootView.findViewById(R.id.btn_receive_complaint);
-            btn_receive_documents = (ImageView) rootView.findViewById(R.id.btn_receive_documents);
-            btnViewComplaintStatus = (ImageView) rootView.findViewById(R.id.btn_view_complaint);
-          //  btnPendingSignature = (Button) rootView.findViewById(R.id.btn_pending_client_signature);
-
-            btnDashboard = (ImageView) rootView.findViewById(R.id.btn_dashboard);
+            btnLogComplaint = (CardView) rootView.findViewById(R.id.btn_log_complaint);
+            btnReceiveComplaint = (CardView) rootView.findViewById(R.id.btn_receive_complaint);
+            btn_receive_documents = (CardView) rootView.findViewById(R.id.btn_receive_documents);
+            btnViewComplaintStatus = (CardView) rootView.findViewById(R.id.btn_view_complaint);
+            btnDashboard = (CardView) rootView.findViewById(R.id.btn_dashboard);
             setupActionBar();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
 
     public void setupActionBar() {
         mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
@@ -201,7 +192,7 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
             if (user.getContractNo().equals("*")){
                 btnDashboard.setVisibility(View.VISIBLE);
             }else btnDashboard.setVisibility(View.GONE);
-            //btnReceiveComplaint.setBackground(getResources().getDrawable(R.drawable.bg_btn_light));
+
         } else btnReceiveComplaint.setVisibility(View.VISIBLE);
 
         AppUtils.closeInput(cl_main);
@@ -240,7 +231,6 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
     }
 
     public void loadFragment(final Fragment fragment, final String tag) {
-        Log.d(TAG, "loadFragment");
 
         Runnable mPendingRunnable = new Runnable() {
             @Override
@@ -262,7 +252,6 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d(TAG, "onPrepareOptionsMenu ");
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_home).setVisible(true);
     }
@@ -271,10 +260,7 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                Log.d(TAG, "onOptionsItemSelected : home");
-            //    mActivity.onBackPressed();
                 getActivity().getSupportFragmentManager().popBackStack();
-
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -306,10 +292,7 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
         }
     }
 
-
-
     public void clearPreferences() {
-        Log.d(TAG, "clearPreferences");
         try {
             mEditor = mPreferences.edit();
             mEditor
@@ -322,10 +305,6 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
             ex.printStackTrace();
         }
     }
-
-
-
-
 
 
 }

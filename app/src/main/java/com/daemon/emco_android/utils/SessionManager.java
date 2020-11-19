@@ -21,26 +21,18 @@ public class SessionManager {
         prefs = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         editor = prefs.edit();
     }
-
-
-
     public static void saveSession(String key, String value, Context context) {
         Editor editor = context.getSharedPreferences("KEY",
                 Activity.MODE_PRIVATE).edit();
         editor.putString(key, value);
         editor.commit();
     }
-
-
     public static void saveSessionForURL(String key, String value, Context context) {
         Editor editor = context.getSharedPreferences("KEY1",
                 Activity.MODE_PRIVATE).edit();
         editor.putString(key, value);
         editor.commit();
     }
-
-
-
     public static String getSessionForURL(String key, Context context) {
         SharedPreferences pref = context.getSharedPreferences("KEY1",
                 Activity.MODE_PRIVATE);
@@ -52,7 +44,6 @@ public class SessionManager {
                 Activity.MODE_PRIVATE);
         return pref.getString(key, "");
     }
-
 
     public static void clearSession(Context context) {
         Editor editor = context.getSharedPreferences("KEY",
@@ -100,5 +91,4 @@ public class SessionManager {
         editor.clear();
         editor.apply();
     }
-
 }

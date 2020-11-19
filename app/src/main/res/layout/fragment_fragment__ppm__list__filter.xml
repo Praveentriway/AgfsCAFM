@@ -5,7 +5,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:background="@color/bg_layout"
+    android:background="@drawable/bg_re3"
     tools:ignore="MissingPrefix"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/_5sdp">
@@ -49,11 +49,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -63,7 +62,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_contract"
                             android:text="@string/contract_no"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -107,11 +106,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -121,7 +119,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_search"
                             android:text="@string/search_by"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:textSize="@dimen/elementTextTitleSize"
                             android:padding="16dp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -171,11 +169,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -183,7 +180,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl__ppm_no"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:gravity="center"
                             android:text="@string/ppm_no_workorder_no"
                             android:textSize="@dimen/elementTextTitleSize"
@@ -236,16 +233,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_asset_barcode"
@@ -297,16 +293,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:gravity="center"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:layout_weight="2.5"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
@@ -358,17 +353,16 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
                             android:gravity="center"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_nature"
@@ -420,16 +414,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_from_date"
@@ -480,16 +473,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_to_date"
@@ -543,16 +535,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
-                            android:backgroundTint="@color/colorPrimary"
                             android:layout_width="3.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
+                            android:background="@color/colorPrimary" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="0dp"
                             android:layout_weight="2.5"
-                            fontPath="fonts/HelveticaBold.ttf"
+                            fontPath="fonts/HelveticaBold.otf"
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_lbl_due_date"
@@ -597,7 +588,7 @@
                         style="@style/btn_common_home_dup"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_weight=".5"
-                        fontPath="fonts/HelveticaRegular.ttf"
+                        fontPath="fonts/HelveticaRegular.otf"
                         android:visibility="gone"
                         android:layout_marginRight="@dimen/_20sdp"
                         android:text="View All PPM" />
@@ -613,7 +604,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                fontPath="fonts/HelveticaRegular.ttf"
+                fontPath="fonts/HelveticaRegular.otf"
                 android:layout_weight=".5"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:layout_marginLeft="@dimen/_100sdp"

@@ -82,7 +82,6 @@ public class ReceivecomplaintListAdapter extends RecyclerView.Adapter<RecyclerVi
                     ((ComplaintListViewHolder) mHolder).linear_main.setBackgroundColor(mActivity.getResources().getColor(R.color.list_bg  ));
                 }
 
-
                 holder.itemView.setTag(position);
 
                 if (current.getComplainRefrenceNumber() != null)
@@ -95,8 +94,8 @@ public class ReceivecomplaintListAdapter extends RecyclerView.Adapter<RecyclerVi
                     holder.tv_complaint_details.setText(current.getComplainDetails());
                 if (current.getStatusDesription() != null)
                     holder.tv_status.setText(current.getStatusDesription());
-                if (current.getWorkTypeDescription() != null)
-                    holder.tv_work_type.setText(current.getWorkTypeDescription());
+                if (current.getContractNumber() != null)
+                    holder.tv_work_type.setText(current.getContractNumber());
                 if (current.getPriority() != null)
                     holder.tv_priority.setText(current.getPriority());
                 if (current.getCustomerRefrenceNumber() != null)

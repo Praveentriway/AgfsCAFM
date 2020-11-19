@@ -12,6 +12,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.service.GPSTracker;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
@@ -44,7 +45,6 @@ import com.daemon.emco_android.ui.components.CustomTextInputLayout;
 import com.daemon.emco_android.repository.db.dbhelper.SaveRatedServiceDbInitializer;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
 import com.daemon.emco_android.repository.db.entity.SaveRatedServiceEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.RateAndShareListener;
 import com.daemon.emco_android.listeners.RatedServiceListener;
 import com.daemon.emco_android.model.common.Login;
@@ -412,7 +412,7 @@ public class Fragment_RM_RateService extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.daemon.emco_android.model.common.EmployeeList;
 import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.repository.remote.EmployeeGpsRepository;
@@ -33,6 +34,7 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -319,6 +321,16 @@ public class GPSTracker implements LocationListener, EmployeeGpsRepository.Emplo
     }
 
     public void onFailureGpsUpdate(String strErr, int mode) {
+
+    }
+
+    @Override
+    public void onReceiveEmployeeList(List<EmployeeList> object) {
+
+    }
+
+    @Override
+    public void onReceiveFailureEmployeeList(String toString) {
 
     }
 

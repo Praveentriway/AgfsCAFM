@@ -3,8 +3,10 @@ package com.daemon.emco_android.model.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 
-public class ObjectMonthly {
+
+public class ObjectMonthly implements Serializable {
 
     @SerializedName("checkListCode")
     @Expose

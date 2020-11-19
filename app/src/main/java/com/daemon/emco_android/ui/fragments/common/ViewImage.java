@@ -23,7 +23,7 @@ import com.daemon.emco_android.model.response.RCDownloadImage;
 import com.daemon.emco_android.utils.AppUtils;
 
 /**
- * Created by Daemonsoft on 8/23/2017.
+ * Created by praba on 8/23/2019.
  */
 
 public class ViewImage extends Fragment {
@@ -131,7 +131,7 @@ public class ViewImage extends Fragment {
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

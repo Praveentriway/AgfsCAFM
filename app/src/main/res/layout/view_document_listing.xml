@@ -23,10 +23,9 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <View
-                android:backgroundTint="@color/colorPrimary"
                 android:layout_width="3.5dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorFormMasterDivider" />
+                android:background="@color/colorPrimary"/>
 
             <ImageView
                 android:layout_width="0dp"

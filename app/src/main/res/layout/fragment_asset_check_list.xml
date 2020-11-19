@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/match_wrap_style"
+        android:orientation="vertical">
+
+        <Button
+            style="@style/btn_wrap_content_red"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_5sdp"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            android:text="@string/lbl_next"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            style="@style/match_parent_style"
+            android:background="@color/colorWhite"
+            android:visibility="visible">
+
+            <LinearLayout
+                style="@style/match_wrap_style"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:background="@color/color_gray"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            style="@style/btn_wrap_content_gray"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:id="@+id/txt_check_title"
+                            fontPath="fonts/HelveticaBold.otf"
+                            android:textSize="@dimen/_9sdp"
+                            android:text="SPLIT UNIT PPM - MONTHLY SERVICE" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:background="@color/color_gray"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            style="@style/btn_wrap_content_gray"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:text="PPM Service" />
+
+                        <TextView
+                            style="@style/btn_wrap_content_gray"
+                            android:layout_weight=".8"
+                            android:gravity="center"
+                            android:text="Instructions" />
+
+                        <TextView
+                            android:id="@+id/tv_remarks"
+                            style="@style/btn_wrap_content_gray"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/lbl_comments" />
+
+                        <TextView
+                            style="@style/btn_wrap_content_gray"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/lbl_remarks" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:scrollbars="vertical"
+                        android:paddingBottom="@dimen/_1sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent" />
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_save"
+                            style="@style/btn_wrap_content_red"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:text="@string/lbl_save"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/btn_save_new"
+                            style="@style/btn_wrap_content_red"
+                            android:layout_gravity="center"
+                            android:visibility="visible"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:text="@string/lbl_save" />
+
+                        <Button
+                            android:id="@+id/btn_next"
+                            style="@style/btn_wrap_content_red"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:text="@string/lbl_next" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/emco_logo_with_name"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:background="@color/colorWhite"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_2017_ags"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_5sdp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/arrow" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

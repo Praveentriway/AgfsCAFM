@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/asset_transfer"
+        android:icon="@drawable/doublearrow"
+        android:title="Asset Transfer" />
+    <item
+        android:id="@+id/asset_audit"
+        android:icon="@drawable/psign"
+        android:title="Asset Audit"/>
+
+</menu>

@@ -29,7 +29,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.service.GPSTracker;
-import com.daemon.emco_android.ui.fragments.common.ImagePicker;
+import com.daemon.emco_android.ui.components.Fragments.ImagePicker;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -91,7 +92,6 @@ import com.daemon.emco_android.repository.db.entity.WorkDefectEntity;
 import com.daemon.emco_android.repository.db.entity.WorkDoneEntity;
 import com.daemon.emco_android.repository.db.entity.WorkPendingReasonEntity;
 import com.daemon.emco_android.repository.db.entity.WorkStatusEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.DatePickerDialogListener;
 import com.daemon.emco_android.listeners.DefectDoneImage_Listener;
 import com.daemon.emco_android.listeners.FeedbackListener;
@@ -131,6 +131,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.daemon.emco_android.utils.AppUtils.checkInternet;
+import static com.daemon.emco_android.utils.StringUtil.space;
 import static com.daemon.emco_android.utils.Utils.TAG_RATE_AND_SHARE;
 import static com.daemon.emco_android.utils.Utils.TAG_REACTIVE_MAINTENANCE;
 import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_FEEDBACK;
@@ -204,7 +205,7 @@ public class Fragment_RC_Respond extends Fragment
     private TextView tv_lbl_complaint,
             tv_toolbar_title,
             tv_lbl_defectsfound,
-            tv_lbl_workdone,
+            tv_lbl_workdone,tv_header,
             tv_lbl_workstatus,
             tv_lbl_reason,
             tv_lbl_tentative_date;
@@ -235,7 +236,6 @@ public class Fragment_RC_Respond extends Fragment
     private PpeService ppeService;
     private RecyclerView recyclerView;
     private int mSelectedPosition = 0;
-    private int checkNormalNoImage;
     private CharSequence[] items;
     private boolean isPermissionGranted = false;
 
@@ -248,7 +248,7 @@ public class Fragment_RC_Respond extends Fragment
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick");
+
                     AppUtils.closeInput(cl_main);
                     switch (v.getId()) {
                         case R.id.btn_ppe:
@@ -281,7 +281,6 @@ public class Fragment_RC_Respond extends Fragment
                             break;
                         case R.id.tv_select_tentative_date:
                             AppUtils.datePickerDialog(mActivity, Fragment_RC_Respond.this, new Date(), null);
-                            Log.d(TAG, "getDate ");
                             break;
                         case R.id.iv_defectfound:
 
@@ -316,14 +315,12 @@ public class Fragment_RC_Respond extends Fragment
             // initialize local db
             mWorkStatusInitializer = new WorkStatusDbInitializer(this);
             mWorkPendingInitializer = new WorkPendingReasonDbInitializer(this);
-
             font = App.getInstance().getFontInstance();
             mArgs = getArguments();
             mSavedInstanceState = savedInstanceState;
             receiveComplaintRespond_service = new ReceiveComplaintRespondService(mActivity);
             receiveComplaintRespond_service.setmCallback(this);
             receiveComplaintRespond_service.setmCallbackImages(this);
-
             mManager = mActivity.getSupportFragmentManager();
             mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
             mEditor = mPreferences.edit();
@@ -380,7 +377,7 @@ public class Fragment_RC_Respond extends Fragment
             ll_pending_reason = (LinearLayout) rootView.findViewById(R.id.ll_pending_reason);
             ll_materials_required = (LinearLayout) rootView.findViewById(R.id.ll_button_materials);
             ll_workdone = (LinearLayout) rootView.findViewById(R.id.ll_workdone);
-
+            tv_header = (TextView) rootView.findViewById(R.id.tv_header);
             img_upload_count1 = (TextView) rootView.findViewById(R.id.img_upload_count);
             img_upload_count2 = (TextView) rootView.findViewById(R.id.img_upload_count2);
 
@@ -471,7 +468,6 @@ public class Fragment_RC_Respond extends Fragment
             mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
             mToolbar.setNavigationOnClickListener(
                     new View.OnClickListener() {
                         @Override
@@ -486,9 +482,9 @@ public class Fragment_RC_Respond extends Fragment
 
     private void setProperties() {
         try {
-            Log.d(TAG, "setProperties");
-            AppUtils.closeInput(cl_main);
 
+            AppUtils.closeInput(cl_main);
+            tv_header.setText("Complaint Details :  "+mComplaintNumber+" - "+mComplaint);
             if (mComplaint != null) tv_complaint.setText(mComplaint);
 
             tv_lbl_defectsfound.setText(
@@ -500,14 +496,11 @@ public class Fragment_RC_Respond extends Fragment
             tv_lbl_tentative_date.setText(
                     Html.fromHtml(getString(R.string.tentative_date) + AppUtils.mandatory));
 
-
             btn_respond_save.setOnClickListener(_OnClickListener);
-
             btn_ppe.setOnClickListener(_OnClickListener);
             btn_feedback.setOnClickListener(_OnClickListener);
             btn_material_reqd.setOnClickListener(_OnClickListener);
             btn_material_used.setOnClickListener(_OnClickListener);
-
             tv_select_workstatus.setOnClickListener(_OnClickListener);
             tv_select_reason.setOnClickListener(_OnClickListener);
             tv_select_workdone.setOnClickListener(_OnClickListener);
@@ -612,27 +605,22 @@ public class Fragment_RC_Respond extends Fragment
                             && !mReceiveComplaintView.getOtherDefects().equals("")) {
                         til_defectsfound.setVisibility(View.VISIBLE);
                         tie_defectsfound.setText(mReceiveComplaintView.getOtherDefects());
-                    } /*else {
-                til_defectsfound.setVisibility(View.GONE);
-            }*/
+                    }
                     if (mSelectDefect.equals(getString(R.string.lbl_other))) {
                         til_defectsfound.setVisibility(View.VISIBLE);
                     } else {
-                        // til_defectsfound.setVisibility(View.GONE);
-                    }
-                }
+
+                    } }
 
                 if (mSelectWorkDone != null) {
                     tv_select_workdone.setText(mSelectWorkDone);
-                    //  mWorkDoneCode=tv_select_workdone.getText().toString();
+
                     if (mReceiveComplaintView.getOtherWorkDone() != null
                             && !mReceiveComplaintView.getOtherWorkDone().equals("null")
                             && !mReceiveComplaintView.getOtherWorkDone().equals("")) {
                         til_workdone.setVisibility(View.VISIBLE);
                         tie_workdone.setText(mReceiveComplaintView.getOtherWorkDone());
-                    } /*else {
-                til_workdone.setVisibility(View.GONE);
-            }*/
+                    }
                 }
                 if (mSelectWorkStatus != null) {
                     tv_select_workstatus.setText(mSelectWorkStatus);
@@ -824,7 +812,8 @@ public class Fragment_RC_Respond extends Fragment
         }
         catch (Exception e) {
             e.printStackTrace();
-        } }
+        }
+    }
 
     private void gotoFeedBackPage() {
         mSavedInstanceState = getSavedState();
@@ -840,9 +829,11 @@ public class Fragment_RC_Respond extends Fragment
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } }
+        }
+    }
 
     private void gotoMaterialRequired() {
+
         mSavedInstanceState = getSavedState();
         try {
             if (mArgs != null && mArgs.size() > 0) {
@@ -860,7 +851,8 @@ public class Fragment_RC_Respond extends Fragment
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } }
+        }
+    }
 
     private void gotoMaterialUsed() {
         mSavedInstanceState = getSavedState();
@@ -910,7 +902,6 @@ public class Fragment_RC_Respond extends Fragment
 
         try {
             AppUtils.closeInput(cl_main);
-
             if (mComplaintStatus.equals("C")) {
                 gotoFragment_Rate_And_Share();
                 return;
@@ -1013,24 +1004,19 @@ public class Fragment_RC_Respond extends Fragment
                         request.setTentativeDate(tv_select_tentative_date.getText().toString());
                     }
                 }
-            } else {
 
+            } else {
                 AppUtils.setErrorBg(tv_select_workstatus, true);
                 msgErr = msgErr + "mWorkStatusCode";
-
             }
 
             if (msgErr != "") {
-
                 AppUtils.showSnackBar(R.id.coordinatorLayout,rootView, "Please fill all the mandatory fields.");
-
                 return;
             }
 
             requestToServer=new ReceiveComplaintViewEntity();
-
             requestToServer=request;
-
             ppeService.fetchPPEData(mComplaintNumber);
 
             Log.d(TAG, msgErr);
@@ -1064,7 +1050,7 @@ public class Fragment_RC_Respond extends Fragment
                 strArrayDefects.add(entity.getDefectDescription());
             }
 
-            strArrayDefects.add("\n\n");
+            strArrayDefects.add(space);
 
             FilterableListDialog.create(
                     mActivity,
@@ -1074,7 +1060,7 @@ public class Fragment_RC_Respond extends Fragment
                         @Override
                         public void onItemSelected(String text) {
 
-                            if(!text.equals("\n\n")){
+                            if(!text.equals(space)){
                                 mSelectDefect = text.toString();
                                 for (WorkDefectEntity item : mWorkDefectsEntityList) {
                                     if (mSelectDefect.equals(item.getDefectDescription())) {
@@ -1106,13 +1092,12 @@ public class Fragment_RC_Respond extends Fragment
     }
 
     public void getWorkDone() {
-        Log.d(TAG, "getWorkDone");
         try {
             ArrayList strArrayWorkDone = new ArrayList();
             for (WorkDoneEntity entity : mWorkDoneEntityList) {
                 strArrayWorkDone.add(entity.getWorkDoneDescription());
             }
-            strArrayWorkDone.add("\n\n");
+            strArrayWorkDone.add(space);
 
             FilterableListDialog.create(
                     mActivity,
@@ -1122,8 +1107,8 @@ public class Fragment_RC_Respond extends Fragment
                         @Override
                         public void onItemSelected(String text) {
 
-                            if(!text.equals("\n\n")){
-                                mSelectWorkDone = text.toString();
+                            if(!text.equals(space)){
+                                mSelectWorkDone = text;
                                 tv_select_workdone.setText(mSelectWorkDone);
                                 tv_select_workdone.setTypeface(font.getHelveticaBold());
 
@@ -1136,27 +1121,28 @@ public class Fragment_RC_Respond extends Fragment
                                 if (mSelectWorkDone.equals(getString(R.string.lbl_other))) {
                                     til_workdone.setVisibility(View.VISIBLE);
                                 } else {
-                                    // til_workdone.setVisibility(View.GONE);
+
                                 }
                                 AppUtils.setErrorBg(tv_select_workdone, false);
                             }
                         }
                     })
                     .show();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     public void getReason() {
-        Log.d(TAG, "getReason");
+
         try {
             ArrayList strArrayWorkPending = new ArrayList();
             for (WorkPendingReasonEntity entity : mWorkPendingReasonList) {
                 strArrayWorkPending.add(entity.getReasonDescription());
             }
 
-            strArrayWorkPending.add("\n\n");
+            strArrayWorkPending.add(space);
 
             FilterableListDialog.create(
                     mActivity,
@@ -1166,8 +1152,8 @@ public class Fragment_RC_Respond extends Fragment
                         @Override
                         public void onItemSelected(String text) {
 
-                            if(!text.equals("\n\n")){
-                                mSelectPendingReason = text.toString();
+                            if(!text.equals(space)){
+                                mSelectPendingReason = text;
                                 tv_select_reason.setText(mSelectPendingReason);
                                 tv_select_reason.setTypeface(font.getHelveticaBold());
 
@@ -1213,12 +1199,9 @@ public class Fragment_RC_Respond extends Fragment
                                             MaterialDialog dialog, View view, int which, CharSequence text) {
                                         if (which >= 0) {
                                             mSelectWorkStatus = text.toString();
-                                            Log.d(TAG, "text ..." + mSelectWorkStatus);
                                             tv_select_workstatus.setText(mSelectWorkStatus);
                                             tv_select_workstatus.setTypeface(font.getHelveticaBold());
-                                            // mReceiveComplaintVi
                                             mReceiveComplaintView.setWorkStatus(mSelectWorkStatus);
-
                                             mEditor = mPreferences.edit();
                                             mEditor.putString(AppUtils.WORK_STATUS, mSelectWorkStatus);
                                             mEditor.commit();
@@ -1232,9 +1215,7 @@ public class Fragment_RC_Respond extends Fragment
                                             } else {
                                                 ll_pending_reason.setVisibility(View.VISIBLE);
                                             }
-
                                             AppUtils.setErrorBg(tv_select_workstatus, false);
-
                                         } else {
                                             AppUtils.setErrorBg(tv_select_workstatus, true);
                                             mWorkStatusCode = null;
@@ -1275,7 +1256,7 @@ public class Fragment_RC_Respond extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);
@@ -1341,11 +1322,10 @@ public class Fragment_RC_Respond extends Fragment
                         }
                         return;
                     } else {
-                        //mWorkDoneCode = null;
-                        //mSelectWorkDone = null;
+
                         mSelectWorkDone = item.getWorkDoneDescription();
                         tv_select_workdone.setText(item.getWorkDoneDescription());
-                        //  mWorkDoneCode=tv_select_workdone.getText().toString();
+
                         if (mSelectWorkDone.equals(getString(R.string.lbl_other))) {
                             til_workdone.setVisibility(View.VISIBLE);
                         }
@@ -2159,7 +2139,7 @@ public class Fragment_RC_Respond extends Fragment
         public void afterTextChanged(Editable editable) {
             try {
                 if (tie_view.getText().toString().trim().isEmpty()) {
-                    // til_view.setError(getString(R.string.msg_empty));
+
                 } else {
                     til_view.setErrorEnabled(false);
                 }

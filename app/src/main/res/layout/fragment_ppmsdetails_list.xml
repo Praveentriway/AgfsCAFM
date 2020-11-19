@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/scroll_bar"
+    android:background="@drawable/bg_re3"
     android:fillViewport="true">
 
     <LinearLayout
@@ -132,6 +133,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 style="@style/scroll_bar"
+                android:layoutAnimation="@anim/layout_animation"
                 android:layout_marginBottom="@dimen/_110sdp" />
 
             <include layout="@layout/view_list_empty" />

@@ -46,7 +46,6 @@ import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
 import com.daemon.emco_android.repository.db.entity.SaveFeedbackEntity;
 import com.daemon.emco_android.repository.db.entity.SaveFeedbackEntityNew;
 import com.daemon.emco_android.service.GPSTracker;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
 import com.daemon.emco_android.listeners.DatePickerDialogListener;
 import com.daemon.emco_android.listeners.FeedbackListener;
 import com.daemon.emco_android.listeners.PendingReasonsListner;
@@ -67,6 +66,7 @@ import com.daemon.emco_android.model.response.ObjectFeedBack;
 import com.daemon.emco_android.model.response.ObjectPPM;
 import com.daemon.emco_android.model.response.PpmEmployeeFeedResponse;
 import com.daemon.emco_android.model.response.PpmFeedBackResponse;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -364,7 +364,7 @@ public class Fragment_PPM_Feedback extends Fragment
 
                     } else {
                         AppUtils.showDialog(
-                                mActivity, "Some information is missing, Please contact customer care");
+                                getContext(), "Some information is missing, Please contact customer care",mManager);
                     }
                 }
 
@@ -1067,7 +1067,7 @@ public class Fragment_PPM_Feedback extends Fragment
                     for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                         fm.popBackStack();
                     }
-                    Fragment _fragment = new MainLandingUI();
+                    Fragment _fragment = new MainDashboard();
                     FragmentTransaction _transaction = mManager.beginTransaction();
                     _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                     _transaction.replace(R.id.frame_container, _fragment);
@@ -1145,7 +1145,7 @@ public class Fragment_PPM_Feedback extends Fragment
             if(login.get(0).getRaetComments()==null){
 
                 AppUtils.hideProgressDialog();
-                AppUtils.showDialog(getContext(),"Risk Assessment should not be empty before completing the PPM");
+                AppUtils.showDialog(getContext(),"Risk Assessment should not be empty before completing the PPM",mManager);
             }
             else{
 
@@ -1159,7 +1159,7 @@ public class Fragment_PPM_Feedback extends Fragment
          if(login.get(0).getRaetTagNo()==null){
 
              AppUtils.hideProgressDialog();
-             AppUtils.showDialog(getContext(),"Equipment tool should not be empty before completing the PPM");
+             AppUtils.showDialog(getContext(),"Equipment tool should not be empty before completing the PPM",mManager);
 
          }
           else{
@@ -1311,7 +1311,7 @@ public class Fragment_PPM_Feedback extends Fragment
     public void onPPEFetchListFailure(String strErr, int mode){
 
         AppUtils.hideProgressDialog();
-        AppUtils.showDialog(getContext(),"PPE should not be empty before completing the PPM");
+        AppUtils.showDialog(getContext(),"PPE should not be empty before completing the PPM",mManager);
 
     }
 

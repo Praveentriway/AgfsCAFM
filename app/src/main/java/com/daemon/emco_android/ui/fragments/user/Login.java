@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
@@ -74,14 +76,11 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
     private SharedPreferences.Editor mEditor;
     private Font font = App.getInstance().getFontInstance();
     private CoordinatorLayout cl_main;
-    private Toolbar mToolbar;
-   // private TextInputLayout til_uname, til_password, til_serverurl;
     private EditText tie_username, tie_password, tie_serverurl;
-    private TextView tv_forgot_password, tv_reg, tv_toolbar_title, tv_user_name,txt_username,txt_password,txt_server_url;
+    private TextView tv_forgot_password, tv_reg,txt_username,txt_password,txt_server_url;
     private Button btnLogin;
     private Fragment mFragment = null;
     private View rootView;
-    private String result="";
     private ImageView img_header;
 
     @Override
@@ -105,7 +104,6 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
 
         rootView = inflater.inflate(R.layout.fragment_login, container, false);
         initView();
@@ -117,9 +115,9 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
     }
 
     public void initView() {
-        Log.d(TAG, "initView");
+
         try {
-            img_header= (ImageView) rootView.findViewById(R.id.img_header);
+
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
             tie_username = (EditText) rootView.findViewById(R.id.tie_username);
             tie_password = (EditText) rootView.findViewById(R.id.tie_password);
@@ -127,7 +125,6 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
             tv_forgot_password = (TextView) rootView.findViewById(R.id.tv_forgot_password);
             btnLogin = (Button) rootView.findViewById(R.id.btnLogin);
             tv_reg = (TextView) rootView.findViewById(R.id.tv_reg);
-        //  til_serverurl = (TextInputLayout) rootView.findViewById(R.id.til_serverurl);
             tie_serverurl = (EditText) rootView.findViewById(R.id.tie_serverurl);
             txt_username= (TextView) rootView.findViewById(R.id.txt_username);
             txt_password= (TextView) rootView.findViewById(R.id.txt_password);
@@ -158,7 +155,6 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
                                             }
                                         }
                                     });
-
 
                             return true;
                         }
@@ -202,12 +198,12 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
 
          setupToolBar(mActivity,false);
 
-            if(SessionManager.getSessionForURL(IP_ADDRESS,mActivity) !=null && (!SessionManager.getSessionForURL("ip_address",mActivity).trim().isEmpty())  && (SessionManager.getSessionForURL("ip_address",mActivity).contains("mbm"))){
-                img_header.setImageResource(R.drawable.logo_mbm_png_no_bg);
-            }
-            else{
-                img_header.setImageResource(R.drawable.headerlogo);
-            }
+//            if(SessionManager.getSessionForURL(IP_ADDRESS,mActivity) !=null && (!SessionManager.getSessionForURL("ip_address",mActivity).trim().isEmpty())  && (SessionManager.getSessionForURL("ip_address",mActivity).contains("mbm"))){
+//                img_header.setImageResource(R.drawable.logo_mbm_png_no_bg);
+//            }
+//            else{
+//                img_header.setImageResource(R.drawable.headerlogo);
+//            }
 
     }
 
@@ -253,7 +249,9 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
                 return false;
             }
         });
+
     }
+
 
     public void validateUrlfromapi() {
 
@@ -279,6 +277,8 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
             }
         }
     }
+
+
 
     public void submitFormData() {
         try {
@@ -315,6 +315,7 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
         }
     }
 
+
     protected void fragmentTransition(Fragment _fragment, String name) {
         this.mFragment = _fragment;
         FragmentTransaction _fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
@@ -350,8 +351,6 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
             requestFocus(tie_serverurl);
             return false;
         } else {
-
-
 
         }
         return true;

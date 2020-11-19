@@ -17,6 +17,7 @@
     <color name="checklist_text">#4E4E4E</color>
 
     <color name="colorWhite">#FFFFFF</color>
+    <color name="halfWhite">#F3EEEE</color>
 
     <color name="colorBlack">#111</color>
     <!-- #7C4DFF , #3FB5A3 -->
@@ -42,5 +43,8 @@
     <color name="colorFormMasterElementTextValue">#000000</color>
     <color name="colorFormMasterDivider">#DDDDDD</color>
     <color name="color_blue">#4285F4</color>
+
+    <color name="green">#1ACF8A</color>
+    <color name="red">#F6322A</color>
 
 </resources>

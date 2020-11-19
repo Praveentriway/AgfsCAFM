@@ -29,7 +29,7 @@ import com.daemon.emco_android.repository.db.entity.BuildingDetailsEntity;
 import com.daemon.emco_android.repository.db.entity.ContractEntity;
 import com.daemon.emco_android.repository.db.entity.SiteAreaEntity;
 import com.daemon.emco_android.repository.db.entity.ZoneEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.listeners.BuildingDetailsListener;
 import com.daemon.emco_android.listeners.DatePickerDialogListener;
 import com.daemon.emco_android.listeners.JobNoListener;
@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Locale;
 
 /** Created by subbu on 17/8/17. */
+
 public class Fragment_IM_HardSoftFilter extends Fragment
     implements JobNoListener, SiteListener, DatePickerDialogListener,BuildingDetailsListener,ZoneListener{
   private final String TAG = Fragment_IM_HardSoftFilter.class.getSimpleName();
@@ -76,7 +77,6 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   private GetLogComplaintPopupRepository mGetComplaintPopupService;
   /** Global variables for post log complaint data */
   private Login mUserData;
-
   private String mStrLoginData = null, mFromDate = null, mToDate = null;
   private String mStrEmployeeId = null;
   private String mReportTypes = null; // response data from category data
@@ -90,7 +90,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
       new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          Log.d(TAG, "_OnClickListener");
+
           switch (v.getId()) {
             case R.id.btnSearch:
               submitForm();
@@ -121,7 +121,6 @@ public class Fragment_IM_HardSoftFilter extends Fragment
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    Log.d(TAG, "onCreate");
 
     super.onCreate(savedInstanceState);
     try {
@@ -164,7 +163,6 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   @Override
   public View onCreateView(
       LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Log.d(TAG, "onCreateView");
     try {
       rootView = (View) inflater.inflate(R.layout.fragment_im_hardsoftfilter_new, container, false);
       initUI(rootView);
@@ -177,8 +175,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   }
 
   private void getPopupDataFromServer() {
-    Log.d(TAG, "getPopupDataFromServer");
-    //gettingjob no and getting site name are same api
+
     gettingJobNo();
     gettingSiteName();
   }
@@ -199,7 +196,6 @@ public class Fragment_IM_HardSoftFilter extends Fragment
     mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
     if (mNetworkInfo.length() > 0) {
       if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
-        //AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), true);
         mGetComplaintPopupService.getBuildingDetailsData(this, buildingDetailsRequest);
       } else AppUtils.showDialog(mActivity, getString(R.string.lbl_alert_network_not_available));
     }
@@ -227,7 +223,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   }
 
   private void initUI(View rootView) {
-    Log.d(TAG, "initUI");
+
     try {
       cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
       tv_lbl_jobno = (TextView) rootView.findViewById(R.id.tv_lbl_job_no);
@@ -251,7 +247,6 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   }
 
   public void setupActionBar() {
-    Log.d(TAG, "setupActionBar");
     mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
     mToolbar.setTitle(mTitle);
     mActivity.setSupportActionBar(mToolbar);
@@ -273,19 +268,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
     tv_lbl_from_date.setText(Html.fromHtml(getString(R.string.lbl_from_date) + AppUtils.mandatory));
     tv_lbl_to_date.setText(Html.fromHtml(getString(R.string.lbl_to_date) + AppUtils.mandatory));
     tv_building.setText(Html.fromHtml(getString(R.string.lbl_building) + AppUtils.mandatory));
-    tv_lbl_site.setTypeface(font.getHelveticaRegular());
-    tv_lbl_jobno.setTypeface(font.getHelveticaRegular());
-    tv_lbl_from_date.setTypeface(font.getHelveticaRegular());
-    tv_lbl_to_date.setTypeface(font.getHelveticaRegular());
-    tv_building.setTypeface(font.getHelveticaRegular());
-    tv_zone_area.setTypeface(font.getHelveticaRegular());
-    tv_select_from_date.setTypeface(font.getHelveticaRegular());
-    tv_select_to_date.setTypeface(font.getHelveticaRegular());
-    tv_select_site.setTypeface(font.getHelveticaRegular());
-    tv_select_jobno.setTypeface(font.getHelveticaRegular());
-    tv_select_building.setTypeface(font.getHelveticaRegular());
-    tv_select_zone_area.setTypeface(font.getHelveticaRegular());
-    btnSearch.setTypeface(font.getHelveticaRegular());
+
     btnSearch.setOnClickListener(_OnClickListener);
     tv_select_from_date.setOnClickListener(_OnClickListener);
     tv_select_to_date.setOnClickListener(_OnClickListener);
@@ -325,7 +308,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   }
 
   private void submitForm() {
-    Log.d(TAG, "submitForm");
+
     try {
       String msgErr = "";
       if (mJobNo == null) {
@@ -358,7 +341,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
       } else AppUtils.setErrorBg(tv_select_to_date, false);
 
       if (msgErr != "") {
-        AppUtils.showDialog(mActivity, "Please select values in Mandatory field");
+        AppUtils.showDialog(mActivity, "Please fill all the mandatory fields.");
         return;
       }
 
@@ -369,7 +352,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
       hardSoftRequest.setToDate(mToDate);
       hardSoftRequest.setZoneCode(mZoneCode);
       hardSoftRequest.setBuildingCode(mBuildingCode);
-      //this for ppmlist
+
       hardSoftRequest.setBuildTag(mBuildingCode);
       hardSoftRequest.setJobNo(mJobNo);
       hardSoftRequest.setStartIndex("0");
@@ -407,7 +390,6 @@ public class Fragment_IM_HardSoftFilter extends Fragment
 
   @Override
   public void onDateReceivedSuccess(String strDate) {
-    Log.d(TAG, "onDateReceivedSuccess " + strDate);
     if (mModeDate == AppUtils.MODE_FROMDATE) {
       mFromDate = strDate;
       SessionManager.saveSession("fromDataSave",mFromDate,mActivity);
@@ -613,7 +595,6 @@ public class Fragment_IM_HardSoftFilter extends Fragment
 
   public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    Log.d(TAG, "onPrepareOptionsMenu ");
     menu.findItem(R.id.action_logout).setVisible(false);
     menu.findItem(R.id.action_home).setVisible(true);
   }
@@ -622,13 +603,11 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_home:
-        Log.d(TAG, "onOptionsItemSelected : home");
-        // mActivity.onBackPressed();
         FragmentManager fm = getActivity().getSupportFragmentManager();
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
           fm.popBackStack();
         }
-        Fragment _fragment = new MainLandingUI();
+        Fragment _fragment = new MainDashboard();
         FragmentTransaction _transaction = mManager.beginTransaction();
         _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         _transaction.replace(R.id.frame_container, _fragment);

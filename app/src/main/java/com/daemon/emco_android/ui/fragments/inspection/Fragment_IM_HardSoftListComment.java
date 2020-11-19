@@ -54,9 +54,9 @@ import com.daemon.emco_android.repository.db.entity.DFoundWDoneImageEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintItemEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintRespondEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
-import com.daemon.emco_android.ui.fragments.common.ImagePicker;
+import com.daemon.emco_android.ui.components.Fragments.ImagePicker;
 import com.daemon.emco_android.ui.fragments.common.ViewImage;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.ui.fragments.reactive.receieve_complaints.Fragment_RC_Respond;
 import com.daemon.emco_android.listeners.DefectDoneImage_Listener;
 import com.daemon.emco_android.listeners.HardSoft_Listener;
@@ -128,7 +128,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
     View.OnClickListener _OnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onClick");
+
             AppUtils.closeInput(cl_main);
             switch (v.getId()) {
                 case R.id.btn_next:
@@ -196,7 +196,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
+
         try {
             rootView = inflater.inflate(R.layout.fragment_im_hardsoftlistcomment, container, false);
             initUI(rootView);
@@ -210,7 +210,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
     }
 
     private void initUI(View rootView) {
-        Log.d(TAG, "initUI");
+
         try {
             cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
 
@@ -368,8 +368,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
                 AppUtils.showDialog(mActivity, "No image found");
                 return;
             } else {
-//                downloadImage =
-//                        new RCDownloadImage(AppUtils.getEncodedString(mImageToBeAttachedDefectFound), "B",0);
+
             }
         }
         Bundle data = new Bundle();
@@ -427,7 +426,6 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
     }
 
     private void setProperties() {
-        Log.d(TAG, "setProperties");
 
         tv_lbl_comments.setTypeface(font.getHelveticaRegular());
         tv_comments.setTypeface(font.getHelveticaRegular());
@@ -533,10 +531,10 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
                         .fetchHardServicePpm(loginRequest);
             }
         }
-
     }
 
     private void saveDataServer() {
+
         if (mTitle.equalsIgnoreCase(getResources().getString(R.string.title_reactive_hard_services))) {
             HardSoftRequest loginRequest = new HardSoftRequest();
             loginRequest.setOpco(receiveComplaintItemEntity.getOpco());
@@ -620,29 +618,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
                 }
                 iv_defectfound.setImageResource(R.drawable.noimage);
             }
-/*
 
-
-
-            DFoundWDoneImageEntity imageEntity = new DFoundWDoneImageEntity("" + docType);
-            imageEntity.setOpco(hardSoftView.getOpco());
-            imageEntity.setFileType("png");
-            imageEntity.setTransactionType("P");
-            imageEntity.setDocType(docType);
-            imageEntity.setPpmRefNo(hardSoftView.getPpmRefNo());
-            imageEntity.setCreatedBy(mStrEmpId);
-            imageEntity.setModifiedBy(mStrEmpId);
-            imageEntity.setActStartDate(DateFormat.getDateTimeInstance().format(new Date()));
-            if (docType.equals("B")) {
-                if (mImageToBeAttachedDefectFound != null) {
-                    imageEntity.setBase64Image(AppUtils.getEncodedString(mImageToBeAttachedDefectFound));
-                    postImageToServer(imageEntity);
-                } else {
-                    AppUtils.hideProgressDialog();
-                    AppUtils.showDialog(mActivity, "Please add before ppm image");
-                }
-            }
-*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -778,7 +754,7 @@ public class Fragment_IM_HardSoftListComment extends Fragment implements Receive
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

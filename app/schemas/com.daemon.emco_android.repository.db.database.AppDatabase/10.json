@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 10,
-    "identityHash": "6f02da5bf3b21631d1754b4caa225a26",
+    "identityHash": "aa4994c7dfe5cd5378aaf9ea2ac485cd",
     "entities": [
       {
         "tableName": "logComplaintEntity",
@@ -1605,7 +1605,7 @@
       },
       {
         "tableName": "DFoundWDoneImageEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `opco` TEXT, `complaintSite` TEXT, `complaintNo` TEXT, `ppmRefNo` TEXT, `fileType` TEXT, `transactionType` TEXT, `docType` TEXT, `createdBy` TEXT, `modifiedBy` TEXT, `base64Image` TEXT, `imageCount` INTEGER NOT NULL, `fieldId` TEXT, `imageName` TEXT, `actStartDate` TEXT, `actEndDate` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `opco` TEXT, `complaintSite` TEXT, `complaintNo` TEXT, `ppmRefNo` TEXT, `fileType` TEXT, `transactionType` TEXT, `docType` TEXT, `createdBy` TEXT, `modifiedBy` TEXT, `base64Image` TEXT, `imageCount` INTEGER NOT NULL, `fieldId` TEXT, `imageName` TEXT, `actStartDate` TEXT, `actEndDate` TEXT, `generalRefNo` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -1700,6 +1700,12 @@
           {
             "fieldPath": "actEndDate",
             "columnName": "actEndDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "generalRefNo",
+            "columnName": "generalRefNo",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -2088,7 +2094,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6f02da5bf3b21631d1754b4caa225a26\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"aa4994c7dfe5cd5378aaf9ea2ac485cd\")"
     ]
   }
 }

@@ -4,6 +4,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class StringUtil {
+
+    public static final String space ="\n\n\n\n\n\n\n\n";
+
     public static String MD5(String string) {
         if (string == null)
             return null;
@@ -42,7 +45,17 @@ public class StringUtil {
             return false;
         }
 
-
-
     }
+
+    public static boolean isContainsArabic(String s) {
+        for (int i = 0; i < s.length();) {
+            int c = s.codePointAt(i);
+            if (c >= 0x0600 && c <= 0x06E0)
+                return true;
+            i += Character.charCount(c);
+        }
+        return false;
+    }
+
+
 }

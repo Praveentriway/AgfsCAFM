@@ -15,27 +15,16 @@ public class Font {
 
     public Typeface getHelveticaRegular() {
         type = Typeface.createFromAsset(context.getAssets(),
-                "fonts/HelveticaRegular.ttf");
-
-//        type = Typeface.createFromAsset(context.getAssets(),
-//                "fonts/ptsans/PTSans-Regular.ttf");
+                "fonts/HelveticaRegular.otf");
 
         return type;
     }
 
-    public Typeface getTrajanMedium()
-    {
-        type = Typeface.createFromAsset(context.getAssets(),"fonts/HelveticaMedium.ttf");
-//        type = Typeface.createFromAsset(context.getAssets(),"fonts/ptsans/PTSans-Regular.ttf");
-        return type;
-    }
 
     public Typeface getHelveticaBold() {
         type = Typeface.createFromAsset(context.getAssets(),
-                "fonts/HelveticaBold.ttf");
+                "fonts/HelveticaBold.otf");
 
-//        type = Typeface.createFromAsset(context.getAssets(),
-//                "fonts/ptsans/PTSans-Bold.ttf");
 
         return type;
     }

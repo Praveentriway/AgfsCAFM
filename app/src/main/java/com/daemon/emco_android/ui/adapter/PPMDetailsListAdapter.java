@@ -187,7 +187,7 @@ public class PPMDetailsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         tv_priority.setTypeface(font.getHelveticaRegular());
         tv_site_location.setTypeface(font.getHelveticaRegular());
         tv_complaint_details.setTypeface(font.getHelveticaRegular());
-        tv_status.setTypeface(font.getHelveticaRegular());
+        tv_status.setTypeface(font.getHelveticaBold());
 
         itemView.setOnClickListener(
             new View.OnClickListener() {

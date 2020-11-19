@@ -14,7 +14,7 @@ public class EmployeeTrackingReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i(EmployeeTrackingReceiver.class.getSimpleName(), "Service Stops! Oooooooooooooppppssssss!!!!");
+        Log.i(EmployeeTrackingReceiver.class.getSimpleName(), "Service Stopped! !!!!");
 
         if(intent.getExtras()!=null && intent.getExtras()!=null && intent.getExtras().getInt(TRACK_COUNT)!=0){
             counter=intent.getExtras().getInt(TRACK_COUNT);

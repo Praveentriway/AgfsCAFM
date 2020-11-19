@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.model.common.EmployeeList;
 import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.repository.remote.EmployeeGpsRepository;
@@ -35,6 +36,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -349,6 +351,16 @@ public class EmployeeTrackingService extends Service implements EmployeeGpsRepos
     }
 
     public void onFailureGpsUpdate(String strErr, int mode) {
+
+    }
+
+    @Override
+    public void onReceiveEmployeeList(List<EmployeeList> object) {
+
+    }
+
+    @Override
+    public void onReceiveFailureEmployeeList(String toString) {
 
     }
 

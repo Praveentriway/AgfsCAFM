@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rx_complaint_view_nested_scroll"
     style="@style/match_parent_style"
     android:background="@color/colorWhite"
     android:fillViewport="true"
@@ -27,6 +28,24 @@
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_20sdp"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_header"
+                        style="@style/btn_wrap_content_gray2"
+                        android:layout_gravity="center"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:paddingLeft="@dimen/_7sdp"
+                        fontPath="fonts/HelveticaBold.otf"
+                        android:text="@string/building_zone_floor_flat_sub_location" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     style="@style/match_wrap_style"

@@ -9,11 +9,16 @@ import com.daemon.emco_android.utils.Font;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+
+import java.util.Stack;
+
 import io.fabric.sdk.android.Fabric;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
 
 /**
- * Created by daemonsoft on 4/12/15.
+ * Created by praba on 4/12/19.
  */
 public class App extends Application {
     public static final String TAG = App.class.getSimpleName();
@@ -33,11 +38,16 @@ public class App extends Application {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/HelveticaRegular.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
+
+        ViewPump.init(ViewPump.builder()
+                .addInterceptor(new CalligraphyInterceptor(
+                        new CalligraphyConfig.Builder()
+
+                                .setDefaultFontPath("fonts/HelveticaRegular.otf")
+                                .setFontAttrId(R.attr.fontPath)
+                                .build()))
+                .build());
+
 
     }
 
@@ -59,6 +69,7 @@ public class App extends Application {
         }
         return this.font;
     }
+
 }
 
 

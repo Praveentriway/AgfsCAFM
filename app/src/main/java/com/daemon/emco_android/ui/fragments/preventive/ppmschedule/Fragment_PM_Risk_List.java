@@ -28,7 +28,7 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.RiskAssessmentListAdapter;
 import com.daemon.emco_android.repository.remote.RiskAssessmentService;
 import com.daemon.emco_android.repository.db.entity.AssetDetailsEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.listeners.RiskeAssListener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.common.PpmScheduleDocBy;
@@ -161,7 +161,7 @@ public class Fragment_PM_Risk_List extends Fragment implements RiskeAssListener 
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

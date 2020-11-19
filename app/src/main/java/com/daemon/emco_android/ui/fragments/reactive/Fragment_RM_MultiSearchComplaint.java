@@ -34,7 +34,7 @@ import com.daemon.emco_android.repository.db.entity.MultiSearchComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.SingleSearchComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.SiteAreaEntity;
 import com.daemon.emco_android.repository.db.entity.ZoneEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.ui.fragments.reactive.viewcomplaint.Fragment_RM_ViewComplaintList;
 import com.daemon.emco_android.listeners.BuildingDetailsListener;
 import com.daemon.emco_android.listeners.DatePickerDialogListener;
@@ -616,7 +616,7 @@ public class Fragment_RM_MultiSearchComplaint extends Fragment
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

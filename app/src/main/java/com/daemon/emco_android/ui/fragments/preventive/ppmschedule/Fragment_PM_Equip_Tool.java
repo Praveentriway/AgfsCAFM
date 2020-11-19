@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +28,7 @@ import com.daemon.emco_android.ui.base.BaseFragment;
 import com.daemon.emco_android.ui.adapter.Equipment_ListAdapter;
 import com.daemon.emco_android.repository.remote.RiskAssessmentService;
 import com.daemon.emco_android.repository.db.entity.AssetDetailsEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.listeners.RiskeAssListener;
 import com.daemon.emco_android.model.common.PpmScheduleDetails;
 import com.daemon.emco_android.model.common.PpmScheduleDocBy;
@@ -223,7 +222,7 @@ public class Fragment_PM_Equip_Tool extends BaseFragment implements RiskeAssList
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

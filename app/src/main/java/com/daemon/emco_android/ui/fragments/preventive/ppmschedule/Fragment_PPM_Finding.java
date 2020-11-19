@@ -30,7 +30,7 @@ import com.daemon.emco_android.R;
 import com.daemon.emco_android.ui.adapter.Equipment_ListAdapter;
 import com.daemon.emco_android.repository.remote.RiskAssessmentService;
 import com.daemon.emco_android.repository.db.entity.AssetDetailsEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.listeners.RiskeAssListener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.common.PpmScheduleDocBy;
@@ -64,16 +64,8 @@ public class Fragment_PPM_Finding extends Fragment implements RiskeAssListener
     private String mLoginData = null;
     private Toolbar mToolbar;
     private TextView tv_toolbar_title;
-    private RecyclerView recyclerView;
-    private RiskAssessmentService riskAssessment_service;
-    private List<AssetDetailsEntity> mList = new ArrayList<>();
-    private LinearLayoutManager mLayoutManager;
     private PpmScheduleDocBy ppmScheduleDocBy;
-    private Equipment_ListAdapter adapter;
     private Button btn_save,btn_next;
-    private List<Object> insertDataFirst = new ArrayList<>();
-    private List<Object> updateData = new ArrayList<>();
-    private List<Object> loginData;
     private EditText edt_ppmfinding,edt_ppmrecommedation;
 
     @Override
@@ -139,7 +131,6 @@ public class Fragment_PPM_Finding extends Fragment implements RiskeAssListener
     }
 
     public void initView(View view) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         btn_save = (Button) view.findViewById(R.id.btn_save);
         btn_next=(Button)view.findViewById(R.id.btn_next);
         edt_ppmfinding=(EditText)view.findViewById(R.id.edt_ppmfinding);
@@ -180,7 +171,7 @@ public class Fragment_PPM_Finding extends Fragment implements RiskeAssListener
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 _transaction.replace(R.id.frame_container, _fragment);

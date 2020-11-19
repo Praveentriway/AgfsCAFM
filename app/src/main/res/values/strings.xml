@@ -378,13 +378,25 @@
     <string name="menu_send">Send</string>
     <string name="app_name_mbm">MBM CAFM</string>
     <string name="customer_survey">Customer Survey</string>
+    <string name="asset_verification">Asset Verification</string>
     <string name="survey_msg">Select the type of survey you are going to take.</string>
+    <string name="asset_verify_msg">Select the type of verification you are going to take.</string>
     <string name="sess_exp_msg">Your session has been expired!Please login to continue!!!</string>
     <string name="password_msg">New password is not matching with confirm password</string>
     <string name="due_date">Due day</string>
+    <string name="close_survey">Are you sure you want to close the Survey?</string>
+    <string name="detailed_feedback">Please spend few minutes to give us detailed feedback about our service.</string>
+    <string name="fill_all_ques">Please fill all the survey questions.</string>
 
     <string name="permission_msg">Permission deny may lead application malfunction. Kindly close the app and reopen to get permission window.</string>
     <string name="no_internet_msg">No Internet connection. Please turn on your internet connection and allow application to run properly.</string>
+    <string name="mail_info">Mail : info@agfacilities.com</string>
+    <string name="tel_info">Tel : +971 4267 0200</string>
+
+    <string name="mail">info@agfacilities.com</string>
+
+    <string name="add_support_document">Add Support Document</string>
+    <string name="assest_msg">Asset Barcode or Client Barcode field should not be empty.</string>
 
 
 </resources>

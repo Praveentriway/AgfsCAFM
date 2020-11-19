@@ -3,6 +3,7 @@ package com.daemon.emco_android.ui.adapter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import static com.daemon.emco_android.ui.fragments.survey.SurveyHeader.DETAILED;
 import static com.daemon.emco_android.ui.fragments.survey.SurveyHeader.SUMMARY;
+import static com.daemon.emco_android.utils.StringUtil.isContainsArabic;
 
 public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static String MODULE = "SURVEYAdapter";
-    public static String TAG = "";
-
     private List<ServeyQuestionnaire> fetchdata = new ArrayList<>();
     private String surveyType;
     private AppCompatActivity mActivity;
@@ -33,12 +33,9 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
     private boolean isFooterEnabled = false;
     private boolean isFetchData = false;
     private boolean isCompleted = false;
-
-   private OptionTouchListner listner;
+    private OptionTouchListner listner;
 
     public CustomerFeedbackAdapter(AppCompatActivity mActivity, ArrayList<ServeyQuestionnaire> fetchdata,String surveyType,OptionTouchListner listner) {
-        TAG = "RC_ListAdapter";
-        Log.d(MODULE, TAG);
         this.surveyType=surveyType;
         this.mActivity = mActivity;
         this.fetchdata = fetchdata;
@@ -58,18 +55,10 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
         isCompleted = completed;
     }
 
-//    public void delete(int position) {
-//        data.remove(position);
-//        notifyItemRemoved(position);
-//    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        TAG = "onCreateViewHolder";
-        Log.d(MODULE, TAG);
-        RecyclerView.ViewHolder mHolder = null;
-
+             RecyclerView.ViewHolder mHolder = null;
 
             if(surveyType.equalsIgnoreCase(DETAILED)){
                 View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item_survey_question, parent, false);
@@ -79,15 +68,12 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                 View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item_survey_question_summary, parent, false);
                 mHolder = new SurveyQuestion(layoutView);
             }
-
         return mHolder;
-
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder mHolder, final int position) {
-       // TAG = (isFetchData ? fetchdata.size() : data.size()) + " onBindViewHolder " + position;
-        Log.d(MODULE, TAG);
+
         try {
             if (mHolder instanceof SurveyQuestion) {
               final  SurveyQuestion holder = (SurveyQuestion) mHolder;
@@ -107,17 +93,22 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                if(current.getSurveyQuesValue().size()>0) {
 
                    holder.rd_1.setText(current.getSurveyQuesValue().get(0));
+
                    if(current.getSurveyQuesAns()!=null)
                    if(current.getSurveyQuesValue().get(0).equalsIgnoreCase(current.getSurveyQuesAns())){
                        holder.rd_1.setChecked(true);
-                       holder.rd_1.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                       if(surveyType.equalsIgnoreCase(DETAILED)){
+                           holder.rd_1.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
+                       }
+                       else{
+                           holder.rd_1.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                       }
                        holder.rd_1.setTypeface(font.getHelveticaBold());
                    }
 
                    if(surveyType.equalsIgnoreCase(SUMMARY)) {
                        holder.rd_1.setButtonDrawable(smileyResource.get(0));
                    }
-
                }
 
                else{
@@ -126,17 +117,22 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                 if(current.getSurveyQuesValue().size()>1) {
                     holder.rd_2.setText(current.getSurveyQuesValue().get(1));
+
                     if(current.getSurveyQuesAns()!=null)
                     if(current.getSurveyQuesValue().get(1).equalsIgnoreCase(current.getSurveyQuesAns())){
                         holder.rd_2.setChecked(true);
-                        holder.rd_2.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        if(surveyType.equalsIgnoreCase(DETAILED)){
+                            holder.rd_2.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
+                        }
+                        else{
+                            holder.rd_2.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        }
                         holder.rd_2.setTypeface(font.getHelveticaBold());
                     }
 
                     if(surveyType.equalsIgnoreCase(SUMMARY)) {
                         holder.rd_2.setButtonDrawable(smileyResource.get(1));
                     }
-
                 }
 
                 else{
@@ -146,23 +142,26 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                 if(current.getSurveyQuesValue().size()>2) {
 
                     holder.rd_3.setText(current.getSurveyQuesValue().get(2));
+
                     if(current.getSurveyQuesAns()!=null)
                     if(current.getSurveyQuesValue().get(2).equalsIgnoreCase(current.getSurveyQuesAns())){
                         holder.rd_3.setChecked(true);
-                        holder.rd_3.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        if(surveyType.equalsIgnoreCase(DETAILED)){
+                            holder.rd_3.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
+                        }
+                        else{
+                            holder.rd_3.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        }
                         holder.rd_3.setTypeface(font.getHelveticaBold());
                     }
 
                     if(surveyType.equalsIgnoreCase(SUMMARY)) {
                         holder.rd_3.setButtonDrawable(smileyResource.get(2));
                     }
-
                 }
 
-                else{
-
+                else {
                     holder.rd_3.setVisibility(View.GONE);
-
                 }
 
                 if(current.getSurveyQuesValue().size()>3) {
@@ -171,10 +170,14 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     if(current.getSurveyQuesAns()!=null)
                     if(current.getSurveyQuesValue().get(3).equalsIgnoreCase(current.getSurveyQuesAns())){
                         holder.rd_4.setChecked(true);
-                        holder.rd_4.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        if(surveyType.equalsIgnoreCase(DETAILED)){
+                            holder.rd_4.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
+                        }
+                        else{
+                            holder.rd_4.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        }
                         holder.rd_4.setTypeface(font.getHelveticaBold());
                     }
-
 
                     if(surveyType.equalsIgnoreCase(SUMMARY)){
                         holder.rd_4.setButtonDrawable(smileyResource.get(3));
@@ -188,10 +191,16 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                 if(current.getSurveyQuesValue().size()>4) {
 
                     holder.rd_5.setText(current.getSurveyQuesValue().get(4));
+
                     if(current.getSurveyQuesAns()!=null)
                         if(current.getSurveyQuesValue().get(4).equalsIgnoreCase(current.getSurveyQuesAns())) {
                             holder.rd_5.setChecked(true);
-                            holder.rd_5.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                            if(surveyType.equalsIgnoreCase(DETAILED)){
+                                holder.rd_5.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
+                            }
+                            else{
+                                holder.rd_5.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                            }
                             holder.rd_5.setTypeface(font.getHelveticaBold());
                         }
 
@@ -204,14 +213,19 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                     holder.rd_5.setVisibility(View.INVISIBLE);
                 }
 
-
                 if(current.getSurveyQuesValue().size()>5) {
 
                     holder.rd_6.setText(current.getSurveyQuesValue().get(5));
+
                     if(current.getSurveyQuesAns()!=null)
                         if(current.getSurveyQuesValue().get(5).equalsIgnoreCase(current.getSurveyQuesAns())){
                             holder.rd_6.setChecked(true);
-                            holder.rd_6.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                            if(surveyType.equalsIgnoreCase(DETAILED)){
+                                holder.rd_6.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
+                            }
+                            else{
+                                holder.rd_6.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                            }
                             holder.rd_6.setTypeface(font.getHelveticaBold());
                         }
                 }
@@ -223,10 +237,17 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                 if(current.getSurveyQuesValue().size()>6) {
 
                     holder.rd_7.setText(current.getSurveyQuesValue().get(6));
+
+
                     if(current.getSurveyQuesAns()!=null)
                         if(current.getSurveyQuesValue().get(6).equalsIgnoreCase(current.getSurveyQuesAns())){
                             holder.rd_7.setChecked(true);
-                            holder.rd_7.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                            if(surveyType.equalsIgnoreCase(DETAILED)){
+                                holder.rd_7.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
+                            }
+                            else{
+                                holder.rd_7.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                            }
                             holder.rd_7.setTypeface(font.getHelveticaBold());
                         }
                 }
@@ -237,10 +258,17 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                 if(current.getSurveyQuesValue().size()>7) {
 
                     holder.rd_8.setText(current.getSurveyQuesValue().get(7));
+
+
                     if(current.getSurveyQuesAns()!=null)
                         if(current.getSurveyQuesValue().get(7).equalsIgnoreCase(current.getSurveyQuesAns())){
                             holder.rd_8.setChecked(true);
-                            holder.rd_8.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                            if(surveyType.equalsIgnoreCase(DETAILED)){
+                                holder.rd_8.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
+                            }
+                            else{
+                                holder.rd_8.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                            }
                             holder.rd_8.setTypeface(font.getHelveticaBold());
                         }
                 }
@@ -259,7 +287,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                         setcheckedData(position,holder.rd_1);
 
                         resetColor(holder);
-                        holder.rd_1.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        holder.rd_1.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
                         holder.rd_1.setTypeface(font.getHelveticaBold());
 
 
@@ -276,7 +304,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
                         setcheckedData(position,holder.rd_2);
 
                         resetColor(holder);
-                        holder.rd_2.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        holder.rd_2.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
                         holder.rd_2.setTypeface(font.getHelveticaBold());
                     }
                 });
@@ -290,7 +318,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                         setcheckedData(position,holder.rd_3);
                         resetColor(holder);
-                        holder.rd_3.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        holder.rd_3.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
                         holder.rd_3.setTypeface(font.getHelveticaBold());
                     }
                 });
@@ -307,7 +335,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                         setcheckedData(position,holder.rd_4);
                         resetColor(holder);
-                        holder.rd_4.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        holder.rd_4.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
                         holder.rd_4.setTypeface(font.getHelveticaBold());
                     }
                 });
@@ -322,7 +350,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                         setcheckedData(position,holder.rd_5);
                         resetColor(holder);
-                        holder.rd_5.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        holder.rd_5.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
                         holder.rd_5.setTypeface(font.getHelveticaBold());
 
                     }
@@ -336,7 +364,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                         setcheckedData(position,holder.rd_6);
                         resetColor(holder);
-                        holder.rd_6.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        holder.rd_6.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
                         holder.rd_6.setTypeface(font.getHelveticaBold());
 
                     }
@@ -351,7 +379,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                         setcheckedData(position,holder.rd_7);
                         resetColor(holder);
-                        holder.rd_7.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        holder.rd_7.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
                         holder.rd_7.setTypeface(font.getHelveticaBold());
 
                     }
@@ -367,7 +395,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                         setcheckedData(position,holder.rd_8);
                         resetColor(holder);
-                        holder.rd_8.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                        holder.rd_8.setTextColor(mActivity.getResources().getColor(R.color.colorWhite));
                         holder.rd_8.setTypeface(font.getHelveticaBold());
 
                     }
@@ -511,7 +539,6 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
     public class SurveyQuestion extends RecyclerView.ViewHolder {
         TextView tv_survey_ques,txt_sno;
         RadioButton rd_1, rd_2, rd_3,rd_4,rd_5, rd_6, rd_7,rd_8;
-        RadioGroup radiogroup_ppe,radiogroup_ppe2;
         View itemView;
 
         public SurveyQuestion(View itemView) {
@@ -555,8 +582,6 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
-
-
     public ArrayList<Integer> getSmileyResource(int size){
 
         ArrayList<Integer> temp=new ArrayList<>();
@@ -586,6 +611,7 @@ public class CustomerFeedbackAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         return temp;
     }
+
 
 
 }

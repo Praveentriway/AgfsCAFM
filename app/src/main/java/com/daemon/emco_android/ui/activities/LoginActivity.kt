@@ -20,7 +20,8 @@ import com.daemon.emco_android.R
 import com.daemon.emco_android.ui.fragments.user.Login
 import com.daemon.emco_android.utils.AppUtils
 import com.daemon.emco_android.utils.SessionManager
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
+
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var mPreferences: SharedPreferences
@@ -81,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
     /**

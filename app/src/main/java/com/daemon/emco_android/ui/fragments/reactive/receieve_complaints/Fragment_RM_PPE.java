@@ -38,7 +38,7 @@ import com.daemon.emco_android.repository.db.dbhelper.PPENamesDbInitializer;
 import com.daemon.emco_android.repository.db.entity.PPEFetchSaveEntity;
 import com.daemon.emco_android.repository.db.entity.PPENameEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.listeners.PpeListener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.utils.AppUtils;
@@ -361,7 +361,7 @@ public class Fragment_RM_PPE extends Fragment implements PpeListener {
                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                Fragment _fragment = new MainLandingUI();
+                Fragment _fragment = new MainDashboard();
                 FragmentTransaction _transaction = mManager.beginTransaction();
                 _transaction.replace(R.id.frame_container, _fragment);
                 break;

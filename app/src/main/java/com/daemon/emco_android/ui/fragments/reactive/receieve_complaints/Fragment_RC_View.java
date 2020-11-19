@@ -56,7 +56,7 @@ import com.daemon.emco_android.repository.db.entity.AssetDetailsEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintItemEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintRespondEntity;
 import com.daemon.emco_android.repository.db.entity.ReceiveComplaintViewEntity;
-import com.daemon.emco_android.ui.fragments.common.MainLandingUI;
+import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.listeners.ReceivecomplaintView_Listener;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.request.AssetDetailsRequest;
@@ -126,7 +126,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
       tie_make,
       tie_model,
       tie_remarks_others;
-  private TextView tv_lbl_remarks, tv_select_remarks, tv_toolbar_title;
+  private TextView tv_lbl_remarks, tv_select_remarks, tv_toolbar_title,tv_header;
   private Button btn_respond, btn_barcode_scan, btn_next;
   private Toolbar mToolbar;
   private View rootView;
@@ -261,7 +261,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
       cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
       tv_lbl_remarks = (TextView) rootView.findViewById(R.id.tv_lbl_remarks);
       tv_select_remarks = (TextView) rootView.findViewById(R.id.tv_select_remarks);
-
+      tv_header = (TextView) rootView.findViewById(R.id.tv_header);
       til_region = (CustomTextInputLayout) rootView.findViewById(R.id.til_region);
       til_contract_title = (CustomTextInputLayout) rootView.findViewById(R.id.til_contract_title);
       til_job_no = (CustomTextInputLayout) rootView.findViewById(R.id.til_job_no);
@@ -417,9 +417,14 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
 
   private void setReceiveComplaintViewValue(ReceiveComplaintViewEntity complaintViewValue) {
     Log.d(TAG, "setReceiveComplaintViewValue ");
+
+
     try {
       if (complaintViewValue != null) {
         this.complaintViewEntity = complaintViewValue;
+
+        tv_header.setText("Complaint Details :  "+complaintViewEntity.getComplaintNumber() +" - "+complaintViewEntity.getComplaintDetails());
+
         if (!TextUtils.isEmpty(complaintViewValue.getRegionName()) &&  !complaintViewValue.getRegionName().equalsIgnoreCase("NULL"))
           tie_region.setText(complaintViewValue.getRegionName());
         if (!TextUtils.isEmpty(complaintViewValue.getJobDescription()) &&  !complaintViewValue.getJobDescription().equalsIgnoreCase("NULL"))
@@ -713,6 +718,8 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
       e.printStackTrace();
     }
 
+
+
     EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
     emp.setCompCode(complaintViewEntity.getOpco());
     emp.setTransType("Reactive");
@@ -943,7 +950,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
           fm.popBackStack();
         }
-        Fragment _fragment = new MainLandingUI();
+        Fragment _fragment = new MainDashboard();
         FragmentTransaction _transaction = mManager.beginTransaction();
         _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         _transaction.replace(R.id.frame_container, _fragment);

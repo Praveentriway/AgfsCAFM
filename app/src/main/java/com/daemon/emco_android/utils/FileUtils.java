@@ -1,6 +1,5 @@
 package com.daemon.emco_android.utils;
 
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -17,18 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
-import java.util.Comparator;
-
 import okhttp3.ResponseBody;
 
 public class FileUtils {
@@ -348,14 +343,12 @@ public class FileUtils {
             if (isGooglePhotosUri(uri)) {
                 return uri.getLastPathSegment();
             }
-
             return getDataColumn(context, uri, null, null);
         }
         // File
         else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();
         }
-
         return null;
     }
 

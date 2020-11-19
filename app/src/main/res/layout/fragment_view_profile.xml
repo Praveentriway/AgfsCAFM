@@ -12,14 +12,13 @@
         android:layout_weight="0.6">
 
 
-
             <LinearLayout
                 android:id="@+id/linear_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:visibility="visible"
                 android:orientation="horizontal">
 
@@ -34,6 +33,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
+                    fontPath="fonts/HelveticaBold.otf"
                     android:paddingLeft="5dp"
                     android:layout_marginEnd="0dp"
                     android:gravity="center"
@@ -91,6 +91,7 @@
                         style="@style/textview_label"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        fontPath="fonts/HelveticaBold.otf"
                         android:textColor="@color/colorPrimary"
                         android:layout_weight=".3"
                         android:text="@string/lbl_lastname"
@@ -119,6 +120,7 @@
                         style="@style/textview_label"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        fontPath="fonts/HelveticaBold.otf"
                         android:textColor="@color/colorPrimary"
                         android:layout_weight=".3"
                         android:text="@string/lbl_lastname"
@@ -147,6 +149,7 @@
                         style="@style/textview_label"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        fontPath="fonts/HelveticaBold.otf"
                         android:textColor="@color/colorPrimary"
                         android:layout_weight=".3" />
                 </LinearLayout>
@@ -173,6 +176,7 @@
                         style="@style/textview_label"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        fontPath="fonts/HelveticaBold.otf"
                         android:textColor="@color/colorPrimary"
                         android:layout_weight=".3" />
                 </LinearLayout>
@@ -198,6 +202,7 @@
                         style="@style/textview_label"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        fontPath="fonts/HelveticaBold.otf"
                         android:textColor="@color/colorPrimary"
                         android:layout_weight=".3" />
                 </LinearLayout>
@@ -223,6 +228,7 @@
                         style="@style/textview_label"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        fontPath="fonts/HelveticaBold.otf"
                         android:textColor="@color/colorPrimary"
                         android:layout_weight=".3" />
                 </LinearLayout>
