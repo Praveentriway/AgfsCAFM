@@ -121,13 +121,19 @@ android {
 dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+
+    implementation 'com.google.firebase:firebase-messaging'
+
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.work:work-runtime:2.3.1'
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation ('com.google.android.gms:play-services-location:16.0.0')
+
     implementation 'com.google.guava:guava:28.0-android'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.viewpager:viewpager:1.0.0'
@@ -149,8 +155,7 @@ dependencies {
     //Material Views
     implementation 'com.balysv:material-ripple:1.0.2'
     implementation 'com.afollestad.material-dialogs:core:0.9.1.0'
-    //add mobile vision depend
-    implementation 'com.google.android.gms:play-services-vision:17.0.2'
+
     //For lifecycle, viewmodel and livedata
     implementation 'androidx.lifecycle:lifecycle-runtime:2.0.0'
     //implementation 'android.arch.lifecycle:extensions:' + rootProject.archRoomVersion
@@ -175,7 +180,6 @@ dependencies {
         transitive = true;
         //To show app version update dialog
         implementation 'com.github.javiersantos:AppUpdater:2.7'
-
         implementation 'io.github.yavski:fab-speed-dial:1.0.6'
     }
 
@@ -206,12 +210,20 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.viewpager:viewpager:1.0.0'
 
-    // fab with menu card styling
+    // Text features
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.2'
+
+    // to write tag on image
+    implementation 'androidx.exifinterface:exifinterface:1.2.0'
+
+    // glide for image loading
+
+    implementation 'com.github.bumptech.glide:glide:3.6.0'
+
     implementation 'com.gordonwong:material-sheet-fab:1.2.1'
 
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
-
     // custom toast
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'

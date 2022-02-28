@@ -1,0 +1,852 @@
+package com.daemon.emco_android.fragments.preventive;
+
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.daemon.emco_android.MyApplication;
+import com.daemon.emco_android.R;
+import com.daemon.emco_android.activities.BarcodeCaptureActivity;
+import com.daemon.emco_android.asyncprocess.ReceiveComplaintRespond_Service;
+import com.daemon.emco_android.db.dbhelper.DefectDoneImageDbInitializer;
+import com.daemon.emco_android.db.entity.DFoundWDoneImageEntity;
+import com.daemon.emco_android.db.entity.ReceiveComplaintViewEntity;
+import com.daemon.emco_android.fragments.Fragment_ImagePicker;
+import com.daemon.emco_android.fragments.Fragment_ImageView;
+import com.daemon.emco_android.fragments.Fragment_Main;
+import com.daemon.emco_android.listeners.DefectDoneImage_Listener;
+import com.daemon.emco_android.listeners.ImagePickListener;
+import com.daemon.emco_android.model.Login;
+import com.daemon.emco_android.model.PpmScheduleDocBy;
+import com.daemon.emco_android.model.request.RCDownloadImageRequest;
+import com.daemon.emco_android.model.response.DefectDoneImageUploaded;
+import com.daemon.emco_android.model.response.RCDownloadImage;
+import com.daemon.emco_android.utils.AppUtils;
+import com.daemon.emco_android.utils.Font;
+import com.daemon.emco_android.utils.ImageUtil;
+import com.daemon.emco_android.utils.Utils;
+import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_FEEDBACK;
+import static com.daemon.emco_android.utils.Utils.TAG_RECEIVE_COMPLAINT_MATERIALREQUIRED;
+
+public class Fragment_PM_afterppm extends Fragment implements ImagePickListener, DefectDoneImage_Listener {
+    private static final String TAG = Fragment_PM_afterppm.class.getSimpleName();
+    public Bundle mSavedInstanceState;
+    private AppCompatActivity mActivity;
+    private Font font = MyApplication.getInstance().getFontInstance();
+    private SharedPreferences mPreferences;
+    private FragmentManager mManager;
+    private Bundle mArgs;
+    private Button btn_next;
+    private ReceiveComplaintViewEntity mReceiveComplaintView = new ReceiveComplaintViewEntity();
+    private PpmScheduleDocBy ppmScheduleDocBy;
+    private ImageView iv_workdone;
+    private TextView tv_toolbar_title;
+    private boolean isIvDefectFound = false;
+    private Bitmap mImageToBeAttachedDefectFound;
+    //private Bitmap mImageToBeAttached;
+    private boolean isPermissionGranted = false;
+    private final int REQUEST_WRITE_EXTERNAL_STORAGE = 4;
+    private String mImagePathToBeAttached;
+    private final int REQUEST_CHOOSE_PHOTO = 2;
+    private final int REQUEST_TAKE_PHOTO = 1;
+    private final int THUMBNAIL_SIZE = 75;
+    private ImageLoader imageLoader;
+    private String mNetworkInfo = null;
+    private ReceiveComplaintRespond_Service receiveComplaintRespond_service;
+    private Button btn_save;
+    private ProgressBar pb_workdone;
+    private boolean checkImageLoad = false;
+    private CharSequence[] items;
+    private CoordinatorLayout cl_main;
+    View.OnClickListener _OnClickListener =
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "onClick");
+                    AppUtils.closeInput(cl_main);
+                    switch (v.getId()) {
+                        case R.id.btn_feedback:
+                            gotoFeedBackPage();
+                            break;
+                        case R.id.btn_material_reqd:
+                            gotoMaterialRequired();
+                            break;
+                        case R.id.btn_material_used:
+                            gotoMaterialUsed();
+                            break;
+                        case R.id.btn_next:
+                            gotoNextPage();
+                            break;
+                        case R.id.btn_respond:
+                            break;
+                        case R.id.tv_select_remarks:
+                            break;
+
+                        case R.id.btn_barcode_scan:
+                            int requestId = AppUtils.getIdForRequestedCamera(AppUtils.CAMERA_FACING_BACK);
+                            if (requestId == -1)
+                                AppUtils.showDialog(mActivity, "Camera not available");
+                            else {
+                                Intent intent = new Intent(mActivity, BarcodeCaptureActivity.class);
+                                intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            };
+    private Toolbar mToolbar;
+    private View rootView;
+    private String mStrEmpId = null;
+    private String mLoginData = null;
+    private int chekNoimage;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        try {
+            mActivity = (AppCompatActivity) getActivity();
+            setHasOptionsMenu(true);
+            setRetainInstance(false);
+            mArgs = getArguments();
+            mManager = mActivity.getSupportFragmentManager();
+            mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
+            font = MyApplication.getInstance().getFontInstance();
+            mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
+            mLoginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+            mSavedInstanceState = savedInstanceState;
+            imageLoader = ImageLoader.getInstance();
+            if (mLoginData != null) {
+                Gson gson = new Gson();
+                Login login = gson.fromJson(mLoginData, Login.class);
+                mStrEmpId = login.getEmployeeId();
+            }
+
+            receiveComplaintRespond_service = new ReceiveComplaintRespond_Service(mActivity);
+            // receiveComplaintRespond_service.setmCallback(this);
+            receiveComplaintRespond_service.setmCallbackImages(this);
+            if (mArgs != null && mArgs.size() > 0) {
+                // Check if true material required page other wise material used page
+                ppmScheduleDocBy =
+                        mArgs.getParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
+        try {
+            rootView = inflater.inflate(R.layout.fragment_after_ppm, container, false);
+            initUI(rootView);
+            setProperties();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rootView;
+    }
+
+    private void initUI(View rootView) {
+        Log.d(TAG, "initUI");
+        try {
+            cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
+            btn_next = (Button) rootView.findViewById(R.id.btn_feedback);
+            btn_next.setOnClickListener(_OnClickListener);
+            btn_next = (Button) rootView.findViewById(R.id.btn_material_reqd);
+            btn_save = (Button) rootView.findViewById(R.id.btn_save);
+            btn_next.setOnClickListener(_OnClickListener);
+            btn_next = (Button) rootView.findViewById(R.id.btn_material_used);
+            btn_next.setOnClickListener(_OnClickListener);
+            btn_next = (Button) rootView.findViewById(R.id.btn_next);
+            btn_next.setOnClickListener(_OnClickListener);
+            iv_workdone = (ImageView) rootView.findViewById(R.id.iv_workdone);
+            pb_workdone = (ProgressBar) rootView.findViewById(R.id.pb_workdone);
+            //iv_workdone.setEnabled(false);
+            setupActionBar();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void setupActionBar() {
+        mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
+       // mToolbar.setTitle(getResources().getString(R.string.lbl_afterppm));
+        tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
+        tv_toolbar_title.setText(getString(R.string.lbl_afterppm));
+        mActivity.setSupportActionBar(mToolbar);
+        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mActivity.onBackPressed();
+                    }
+                });
+    }
+
+    private void setProperties() {
+        Log.d(TAG, "setProperties");
+
+        AppUtils.closeInput(cl_main);
+
+
+        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
+        if (mNetworkInfo != null && mNetworkInfo.length() > 0) {
+            if (mImageToBeAttachedDefectFound == null) {
+                if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+                    // Download defect found image
+                    RCDownloadImageRequest imageRequest = new RCDownloadImageRequest();
+                    imageRequest.setOpco(ppmScheduleDocBy.getCompanyCode());
+                    imageRequest.setDocType("A");
+                    imageRequest.setPpmRefNo(ppmScheduleDocBy.getPpmNo());
+                    pb_workdone.setVisibility(View.VISIBLE);
+                    receiveComplaintRespond_service.getRespondImage(imageRequest, getActivity());
+                } else {
+                    new DefectDoneImageDbInitializer(
+                            mActivity, new DFoundWDoneImageEntity("" + "B"), this)
+                            .execute(AppUtils.MODE_GET);
+                }
+            } else {
+                iv_workdone.setImageBitmap(
+                        ThumbnailUtils.extractThumbnail(
+                                mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+            }
+            /*if (mImageToBeAttached == null) {
+                if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+                    // Download work done image
+                    RCDownloadImageRequest doneimageRequest = new RCDownloadImageRequest();
+                    doneimageRequest.setOpco(ppmScheduleDocBy.getCompanyCode());
+                    doneimageRequest.setDocType("A");
+                    doneimageRequest.setPpmRefNo(ppmScheduleDocBy.getPpmNo());
+                    receiveComplaintRespond_service.getRespondImage(doneimageRequest, getActivity());
+                } else {
+                    new DefectDoneImageDbInitializer(
+                            mActivity, new DFoundWDoneImageEntity("" + "A"), this)
+                            .execute(AppUtils.MODE_GET);
+                }
+            } else {
+                iv_workdone.setImageBitmap(
+                        ThumbnailUtils.extractThumbnail(
+                                mImageToBeAttached, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+            }*/
+        }
+
+        iv_workdone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isIvDefectFound = true;
+                if (isIvDefectFound) {
+                    if (mImageToBeAttachedDefectFound != null) {
+                        if(checkImageLoad){
+                            displayAttachImageDialog();
+                        }
+                    } else {
+                        if(checkImageLoad){
+                            displayAttachImageDialog();
+                        }
+
+                    }
+                }
+            }
+        });
+
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppUtils.showProgressDialog(
+                        mActivity, getString(R.string.lbl_image_uploading), false);
+                new Handler()
+                        .postDelayed(
+                                new Runnable() {
+
+                        /*
+                         * Showing splash screen with a timer. This will be useful when you
+                         * want to show case your app logo / company
+                         */
+
+                                    @Override
+                                    public void run() {
+                                        // This method will be executed once the timer is over
+                                        submitImage("A");
+                                    }
+                                },
+                                1000);
+            }
+        });
+    }
+
+    private void displayAttachImageDialog() {
+        if (!isPermissionGranted) {
+            getPermissionToReadExternalStorage();
+            return;
+        }
+        //= new CharSequence[]{"Take photo", "Choose photo"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        if (isIvDefectFound){
+            if (mImageToBeAttachedDefectFound != null) {
+                items = new CharSequence[]{"Take photo", "Choose photo", "View photo"}; // , "Delete photo"
+                builder.setTitle("Add and view photo");
+            } else {
+                items = new CharSequence[]{"Take photo", "Choose photo", "No image"};
+                builder.setTitle("Add  photo");
+            }
+                builder.setItems(
+                        items,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                switch (item) {
+                                    case 0:
+                                        dispatchTakePhotoIntent();
+                                        btn_save.setEnabled(true);
+                                        btn_save.setBackgroundColor(getResources().getColor(R.color.color_gray));
+                                        break;
+                                    case 1:
+                                        dispatchChoosePhotoIntent();
+                                        btn_save.setEnabled(true);
+                                        btn_save.setBackgroundColor(getResources().getColor(R.color.color_gray));
+                                        break;
+                                    case 2:
+                                        for (CharSequence charSequence : items) {
+                                            if (charSequence.toString().equalsIgnoreCase("View photo")) {
+                                                dispatchViewPhotoIntent();
+                                            } else if(charSequence.toString().equalsIgnoreCase("No image")) {
+                                                //to check image type
+                                                noImageAvailabe();
+                                                chekNoimage=1;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                        });
+                builder.show();
+            }
+        }
+
+    private void noImageAvailabe() {
+        AppUtils.showProgressDialog(
+                mActivity, getString(R.string.lbl_no_image_uploading), false);
+        DFoundWDoneImageEntity imageEntity = new DFoundWDoneImageEntity("" + "B");
+        imageEntity.setOpco(ppmScheduleDocBy.getCompanyCode());
+        imageEntity.setFileType("png");
+        imageEntity.setTransactionType("P");
+        imageEntity.setDocType("A");
+        imageEntity.setPpmRefNo(ppmScheduleDocBy.getPpmNo());
+        imageEntity.setCreatedBy(mStrEmpId);
+        imageEntity.setModifiedBy(mStrEmpId);
+        imageEntity.setActStartDate(DateFormat.getDateTimeInstance().format(new Date()));
+        imageEntity.setBase64Image("noImage");
+        postImageToServer(imageEntity);
+        iv_workdone.setImageResource(R.drawable.noimage);
+
+    }
+
+    private void dispatchChoosePhotoIntent() {
+        Fragment_ImagePicker fragment = new Fragment_ImagePicker();
+        fragment.SetImagePickListener(this);
+        FragmentTransaction ObjTransaction = mManager.beginTransaction();
+        ObjTransaction.add(android.R.id.content, fragment, AppUtils.SHARED_DIALOG_PICKER);
+        ObjTransaction.addToBackStack(AppUtils.SHARED_DIALOG_PICKER);
+        ObjTransaction.commit();
+    }
+
+    private void dispatchTakePhotoIntent() {
+        try {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(mActivity.getPackageManager()) != null) {
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
+                    Log.d(TAG, "Cannot create a temp image file", e);
+                }
+
+                if (photoFile != null) {
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String fileName = timeStamp + "_";
+        File storageDir = mActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(fileName, ".jpg", storageDir);
+        mImagePathToBeAttached = image.getAbsolutePath();
+        return image;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void getPermissionToReadExternalStorage() {
+        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    // Show our own UI to explain to the user why we need to read the contacts
+                    // before actually requesting the permission and showing the default UI
+                }
+            }
+            requestPermissions(
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            isPermissionGranted = true;
+            displayAttachImageDialog();
+        }
+    }
+
+    private void dispatchViewPhotoIntent() {
+        RCDownloadImage downloadImage = null;
+        if (isIvDefectFound) {
+            if (mImageToBeAttachedDefectFound == null) {
+                AppUtils.showDialog(mActivity, "No image found");
+                return;
+            } else {
+                downloadImage =
+                        new RCDownloadImage(AppUtils.getEncodedString(mImageToBeAttachedDefectFound), "B");
+            }
+        } 
+       /* else {
+            if (mImageToBeAttached == null) {
+                AppUtils.showDialog(mActivity, "No image found");
+                return;
+            } else {
+                downloadImage = new RCDownloadImage(AppUtils.getEncodedString(mImageToBeAttached), "A");
+            }
+        }*/
+        Bundle data = new Bundle();
+        data.putParcelable(AppUtils.ARGS_RCDOWNLOADIMAGE, downloadImage);
+        Fragment fragment = new Fragment_ImageView();
+        fragment.setArguments(data);
+        FragmentTransaction fragmentTransaction = mManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+        fragmentTransaction.replace(R.id.frame_container, fragment, Utils.TAG_RCDOWNLOADIMAGE);
+        fragmentTransaction.addToBackStack(Utils.TAG_RCDOWNLOADIMAGE);
+        fragmentTransaction.commit();
+    }
+
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        Log.d(TAG, "onPrepareOptionsMenu ");
+        menu.findItem(R.id.action_logout).setVisible(false);
+        menu.findItem(R.id.action_home).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                Log.d(TAG, "onOptionsItemSelected : home");
+                // mActivity.onBackPressed();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                    fm.popBackStack();
+                }
+                Fragment _fragment = new Fragment_Main();
+                FragmentTransaction _transaction = mManager.beginTransaction();
+                _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+                _transaction.replace(R.id.frame_container, _fragment);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void gotoNextPage() {
+        Bundle mdata = new Bundle();
+        mdata.putParcelable(AppUtils.ARGS_PPM_FEEDBACK, ppmScheduleDocBy);
+        mdata.putString(AppUtils.ARGS_PPM_FEEDBACK_CHECK, "ppmcheckList");
+        Fragment_PM_RateService fragment = new Fragment_PM_RateService();
+        fragment.setArguments(mdata);
+        FragmentTransaction fragmentTransaction = mManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+        fragmentTransaction.replace(
+                R.id.frame_container, fragment, Utils.TAG_RECEIVE_COMPLAINT_RESPOND);
+        fragmentTransaction.addToBackStack(Utils.TAG_RECEIVE_COMPLAINT_RESPOND);
+        fragmentTransaction.commit();
+    }
+
+    private void gotoFeedBackPage() {
+        try {
+            // if (mArgs != null && mArgs.size() > 0) {
+            Bundle data = new Bundle();
+            data.putParcelable(AppUtils.ARGS_FEEDBACK_VIEW_DETAILS, ppmScheduleDocBy);
+            Fragment fragment = new Fragment_PPM_Feedback();
+            fragment.setArguments(data);
+            FragmentTransaction fragmentTransaction = mManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+            fragmentTransaction.replace(R.id.frame_container, fragment, TAG_RECEIVE_COMPLAINT_FEEDBACK);
+            fragmentTransaction.addToBackStack(TAG_RECEIVE_COMPLAINT_FEEDBACK);
+            fragmentTransaction.commit();
+            // }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void gotoMaterialRequired() {
+        try {
+            // if (mArgs != null && mArgs.size() > 0) {
+            Bundle data = new Bundle();
+            data.putParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS, ppmScheduleDocBy);
+            data.putString(AppUtils.ARGS_MATERIAL_PAGE_STRING, AppUtils.ARGS_MATERIAL_REQUIRED_STRING);
+            Fragment fragment = new Fragment_PPM_Material();
+            fragment.setArguments(data);
+            FragmentTransaction fragmentTransaction = mManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+            fragmentTransaction.replace(
+                    R.id.frame_container, fragment, TAG_RECEIVE_COMPLAINT_MATERIALREQUIRED);
+            fragmentTransaction.addToBackStack(TAG_RECEIVE_COMPLAINT_MATERIALREQUIRED);
+            fragmentTransaction.commit();
+            // }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void gotoMaterialUsed() {
+        try {
+            // if (mArgs != null && mArgs.size() > 0) {
+            Bundle data = new Bundle();
+            data.putParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS, ppmScheduleDocBy);
+            data.putString(AppUtils.ARGS_MATERIAL_PAGE_STRING, AppUtils.ARGS_MATERIAL_USED_STRING);
+            Fragment fragment = new Fragment_PPM_Material();
+            fragment.setArguments(data);
+            FragmentTransaction fragmentTransaction = mManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+            fragmentTransaction.replace(
+                    R.id.frame_container, fragment, TAG_RECEIVE_COMPLAINT_MATERIALREQUIRED);
+            fragmentTransaction.addToBackStack(TAG_RECEIVE_COMPLAINT_MATERIALREQUIRED);
+            fragmentTransaction.commit();
+            // }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState");
+        mSavedInstanceState = getSavedState();
+    }
+
+    public Bundle getSavedState() {
+        Bundle outState = new Bundle();
+        try {
+            outState.putParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS, mReceiveComplaintView);
+            Log.d(TAG, "getSavedState");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outState;
+    }
+
+    @Override
+    public void onSingleImagePicked(String Str_Path) {
+        try {
+            AppUtils.showProgressDialog(mActivity, "Processing image", false);
+            Str_Path = "file://" + Str_Path;
+            imageLoader.loadImage(
+                    Str_Path,
+                    new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            if (loadedImage != null) {
+                                if (isIvDefectFound) {
+                                    if (AppUtils.checkImageFileSize(loadedImage)) {
+                                        mImageToBeAttachedDefectFound = loadedImage;
+                                        iv_workdone.setImageBitmap(
+                                                ThumbnailUtils.extractThumbnail(
+                                                        loadedImage, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+                                    } else {
+                                        AppUtils.showDialog(mActivity, getString(R.string.file_size_more_then));
+                                        mImageToBeAttachedDefectFound = loadedImage;
+                                        iv_workdone.setImageBitmap(
+                                                ThumbnailUtils.extractThumbnail(
+                                                        loadedImage, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+                                    }
+                                } 
+                                /*else {
+                                    if (AppUtils.checkImageFileSize(loadedImage)) {
+                                        mImageToBeAttached = loadedImage;
+                                        iv_workdone.setImageBitmap(
+                                                ThumbnailUtils.extractThumbnail(
+                                                        loadedImage, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+                                    } else {
+                                        AppUtils.showDialog(mActivity, getString(R.string.file_size_more_then));
+                                        mImageToBeAttached = loadedImage;
+                                        iv_workdone.setImageBitmap(
+                                                ThumbnailUtils.extractThumbnail(
+                                                        loadedImage, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+                                    }
+                                }*/
+                            }
+                            AppUtils.closeInput(cl_main);
+                            AppUtils.hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+                        }
+                    });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void submitImage(String docType) {
+        try {
+            DFoundWDoneImageEntity imageEntity = new DFoundWDoneImageEntity("" + docType);
+            imageEntity.setOpco(ppmScheduleDocBy.getCompanyCode());
+            imageEntity.setFileType("png");
+            imageEntity.setTransactionType("P");
+            imageEntity.setDocType(docType);
+            imageEntity.setPpmRefNo(ppmScheduleDocBy.getPpmNo());
+            imageEntity.setCreatedBy(mStrEmpId);
+            imageEntity.setModifiedBy(mStrEmpId);
+            //imageEntity.setActStartDate("");
+            imageEntity.setActEndDate(DateFormat.getDateTimeInstance().format(new Date()));
+            if (docType.equals("A")) {
+                if (mImageToBeAttachedDefectFound != null) {
+                    imageEntity.setBase64Image(AppUtils.getEncodedString(mImageToBeAttachedDefectFound));
+                    postImageToServer(imageEntity);
+                } else {
+                    // btn_defect_save.setEnabled(true);
+                    // btn_defect_save.setText("Save");
+                    AppUtils.hideProgressDialog();
+                    AppUtils.showDialog(mActivity, "Please add defect found image");
+                }
+            } 
+            /*else {
+                if (mImageToBeAttached != null) {
+                    imageEntity.setBase64Image(AppUtils.getEncodedString(mImageToBeAttached));
+                    postImageToServer(imageEntity);
+                } else {
+                    //btn_defect_save.setEnabled(true);
+                    //btn_done_save.setText("Save");
+                    AppUtils.hideProgressDialog();
+                    AppUtils.showDialog(mActivity, "Please add work done image");
+                }
+            }*/
+        } catch (Exception e) {
+            //btn_defect_save.setEnabled(true);
+            //btn_done_save.setEnabled(true);
+
+            //btn_defect_save.setText("Save");
+            // btn_done_save.setText("Save");
+            e.printStackTrace();
+        }
+    }
+
+    private void postImageToServer(DFoundWDoneImageEntity saveRequest) {
+        Log.d(TAG, "postImageToServer");
+        mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
+        if (mNetworkInfo.length() > 0) {
+            if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+                receiveComplaintRespond_service.saveComplaintRespondImageData(saveRequest, getActivity());
+            } else {
+                new DefectDoneImageDbInitializer(mActivity, saveRequest, this)
+                        .execute(AppUtils.MODE_INSERT);
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap thumbnail = null;
+        if (requestCode == REQUEST_TAKE_PHOTO) {
+            File file = new File(mImagePathToBeAttached);
+            if (file.exists()) {
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(mImagePathToBeAttached, options);
+                options.inJustDecodeBounds = false;
+                if (isIvDefectFound) {
+                    mImageToBeAttachedDefectFound = BitmapFactory.decodeFile(mImagePathToBeAttached, options);
+                    thumbnail =
+                            ThumbnailUtils.extractThumbnail(
+                                    mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+                } 
+              /*  else {
+                    mImageToBeAttached = BitmapFactory.decodeFile(mImagePathToBeAttached, options);
+                    thumbnail =
+                            ThumbnailUtils.extractThumbnail(mImageToBeAttached, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+                }*/
+                // Delete the temporary image file
+                file.delete();
+            }
+            mImagePathToBeAttached = null;
+        } else if (requestCode == REQUEST_CHOOSE_PHOTO) {
+            try {
+                Uri uri = data.getData();
+                ContentResolver resolver = mActivity.getContentResolver();
+                if (isIvDefectFound) {
+                    mImageToBeAttachedDefectFound = MediaStore.Images.Media.getBitmap(resolver, uri);
+                }
+               /* else {
+                    mImageToBeAttached = MediaStore.Images.Media.getBitmap(resolver, uri);
+                }*/
+                AssetFileDescriptor asset = resolver.openAssetFileDescriptor(uri, "r");
+                thumbnail =
+                        ImageUtil.thumbnailFromDescriptor(
+                                asset.getFileDescriptor(), THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+            } catch (IOException e) {
+                Log.d(TAG, "Cannot get a selected photo from the gallery.", e);
+            }
+        }
+        if (thumbnail != null) {
+            AppUtils.showProgressDialog(mActivity, "Processing image", false);
+            if (isIvDefectFound) {
+                if (AppUtils.checkImageFileSize(mImageToBeAttachedDefectFound)) {
+                    iv_workdone.setImageBitmap(thumbnail);
+                } else {
+                    AppUtils.showDialog(mActivity, getString(R.string.file_size_more_then));
+                    iv_workdone.setImageBitmap(thumbnail);
+                    // deleteCurrentPhoto();
+                }
+            }
+            AppUtils.hideProgressDialog();
+        }
+    }
+
+    @Override
+    public void onImageSaveReceivedSuccess(DefectDoneImageUploaded mImageEntity, int mode) {
+        AppUtils.hideProgressDialog();
+        if(chekNoimage==1){
+            btn_save.setEnabled(false);
+        }else {
+            btn_save.setEnabled(true);
+            AppUtils.showDialog(mActivity, "Data has been successfully Saved.");
+        }
+        Fragment main = mManager.findFragmentByTag(Utils.TAG_RECEIVE_COMPLAINT_RESPOND);
+       /* if (main != null && main.isVisible()) {
+            //AppUtils.hideProgressDialog();
+            //AppUtils.showDialog(mActivity, "Data has been successfully Saved.");
+        }*/
+       /* if (mode == AppUtils.MODE_SERVER) {
+            new DefectDoneImageDbInitializer(
+                    mActivity,
+                    new DFoundWDoneImageEntity(mImageEntity.getComplaintNo() + mImageEntity.getDocType()),
+                    this)
+                    .execute(AppUtils.MODE_DELETE);
+        }*/
+    }
+
+    @Override
+    public void onImageReceivedSuccess(RCDownloadImage imageEntity, int mode) {
+        try {
+            checkImageLoad=true;
+            if (imageEntity.getBase64Image() != null && imageEntity.getDocType() != null) {
+                Log.d(TAG, "getDocType :" + imageEntity.getDocType());
+                if(imageEntity.getBase64Image().equalsIgnoreCase("noImage")){
+                    iv_workdone.setImageResource(R.drawable.noimage);
+                    btn_save.setEnabled(false);
+                }else{
+                    btn_save.setEnabled(true);
+                    if (imageEntity.getDocType().equals("A")) {
+                        mImageToBeAttachedDefectFound = AppUtils.getDecodedString(imageEntity.getBase64Image());
+                        iv_workdone.setImageBitmap(
+                                ThumbnailUtils.extractThumbnail(
+                                        mImageToBeAttachedDefectFound, THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+                        pb_workdone.setVisibility(View.GONE);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onImageSaveReceivedFailure(String strErr, int mode) {
+        Fragment main = mManager.findFragmentByTag(Utils.TAG_RECEIVE_COMPLAINT_RESPOND);
+        if (main != null && main.isVisible()) {
+            AppUtils.hideProgressDialog();
+            AppUtils.showDialog(mActivity, strErr);
+        } else {
+            AppUtils.hideProgressDialog();
+            AppUtils.showDialog(mActivity, strErr);
+        }
+    }
+
+    @Override
+    public void onImageReceivedFailure(String strErr, int mode) {
+        iv_workdone.setEnabled(true);
+        checkImageLoad=true;
+        if (strErr.toUpperCase().equals("B")) {
+            //pb_defectfound.setVisibility(View.GONE);
+        } else pb_workdone.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onAllImagesReceived(List<DFoundWDoneImageEntity> mImageEntities, int mode) {
+
+    }
+}

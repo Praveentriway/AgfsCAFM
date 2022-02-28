@@ -1,0 +1,37 @@
+package com.daemon.emco_android.db.dao;
+
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.WorkDefectEntity;
+
+import java.util.List;
+
+@Dao
+public interface WorkDefectsDao {
+
+    @Query("SELECT * FROM workDefectEntity")
+    List<WorkDefectEntity> getAll();
+
+    @Query("SELECT COUNT(*) from workDefectEntity")
+    int count();
+
+    @Query("SELECT * FROM workDefectEntity where complaintCode LIKE  :complaintCode AND workCategory LIKE  :workCategory")
+    List<WorkDefectEntity> findByWorkDefectCode(String complaintCode, String workCategory);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<WorkDefectEntity> workDoneEntities);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<WorkDefectEntity> workDoneEntities);
+
+    @Delete
+    void delete(WorkDefectEntity workDoneEntity);
+
+    @Query("DELETE FROM workDefectEntity")
+    void deleteAll();
+}

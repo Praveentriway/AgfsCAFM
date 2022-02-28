@@ -22,7 +22,7 @@ public interface PpeListener {
 
     void onPPEFetchListFailure2(String strErr, int mode);
 
-
     void onPPESaveFailure(String strErr, int mode);
+
     void onPPENameListFailure(String strErr, int mode);
 }

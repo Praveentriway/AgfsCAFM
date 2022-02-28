@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/AndroidEMCO/!svn/ver/122/app/src/main/java/com/daemon/emco_android/adapter
+END
+ViewComplaintListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/adapter/ViewComplaintListAdapter.java
+END
+ReceivecomplaintListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/AndroidEMCO/!svn/ver/69/app/src/main/java/com/daemon/emco_android/adapter/ReceivecomplaintListAdapter.java
+END
+ReceivecomplaintAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/adapter/ReceivecomplaintAdapter.java
+END
+RC_Material_ListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/AndroidEMCO/!svn/ver/68/app/src/main/java/com/daemon/emco_android/adapter/RC_Material_ListAdapter.java
+END
+ImagePickerAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svnroot/AndroidEMCO/!svn/ver/21/app/src/main/java/com/daemon/emco_android/adapter/ImagePickerAdapter.java
+END
+PM_RiskAssessment_ListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/adapter/PM_RiskAssessment_ListAdapter.java
+END
+PPMListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/AndroidEMCO/!svn/ver/126/app/src/main/java/com/daemon/emco_android/adapter/PPMListAdapter.java
+END
+RiskAss_ListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/AndroidEMCO/!svn/ver/126/app/src/main/java/com/daemon/emco_android/adapter/RiskAss_ListAdapter.java
+END
+ReceiveReactivecomplaintListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svnroot/AndroidEMCO/!svn/ver/105/app/src/main/java/com/daemon/emco_android/adapter/ReceiveReactivecomplaintListAdapter.java
+END
+PM_EquipmentTools_ListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/adapter/PM_EquipmentTools_ListAdapter.java
+END
+IM_HardSoftListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/adapter/IM_HardSoftListAdapter.java
+END
+Equipment_ListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/AndroidEMCO/!svn/ver/126/app/src/main/java/com/daemon/emco_android/adapter/Equipment_ListAdapter.java
+END
+IM_PPMListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/adapter/IM_PPMListAdapter.java
+END
+PPMDetailsListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/AndroidEMCO/!svn/ver/126/app/src/main/java/com/daemon/emco_android/adapter/PPMDetailsListAdapter.java
+END
+PPMCheckListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/AndroidEMCO/!svn/ver/126/app/src/main/java/com/daemon/emco_android/adapter/PPMCheckListAdapter.java
+END
+ViewComplaintPPE_ListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/adapter/ViewComplaintPPE_ListAdapter.java
+END

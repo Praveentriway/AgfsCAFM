@@ -1,0 +1,36 @@
+package com.daemon.emco_android.db.dao;
+
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.PPENameEntity;
+
+import java.util.List;
+
+@Dao
+public interface PpeNameDao {
+
+    @Query("SELECT * FROM ppeNameEntity")
+    List<PPENameEntity> getAll();
+
+    @Query("SELECT COUNT(*) from ppeNameEntity")
+    int count();
+
+    @Query("SELECT COUNT(*) FROM ppeNameEntity where code LIKE  :code")
+    int countByCode(String code);
+
+    @Query("SELECT * FROM ppeNameEntity where code LIKE  :code")
+    PPENameEntity findByCode(String code);
+
+    @Insert
+    void insertAll(List<PPENameEntity> ppeNameEntities);
+
+    @Delete
+    void delete(PPENameEntity ppeNameEntity);
+
+    @Query("DELETE FROM ppeNameEntity")
+    void deleteAll();
+}

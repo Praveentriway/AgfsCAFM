@@ -1,9 +1,7 @@
 package com.daemon.emco_android.model.common;
 
-import com.daemon.emco_android.model.common.PPMDetails;
-
-/** Created by vikram on 17/7/17. */
 public class CommonResponse {
+
   private String status;
   private String message;
   private String complaintNumber;
@@ -49,4 +47,5 @@ public class CommonResponse {
   public void setTotalNumberOfRows(String totalNumberOfRows) {
     this.totalNumberOfRows = totalNumberOfRows;
   }
+
 }

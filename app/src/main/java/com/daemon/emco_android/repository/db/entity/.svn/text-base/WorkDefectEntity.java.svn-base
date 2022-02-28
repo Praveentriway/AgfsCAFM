@@ -1,0 +1,61 @@
+package com.daemon.emco_android.db.entity;
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import com.google.gson.annotations.SerializedName;
+
+@Entity(tableName = "workDefectEntity")
+public class WorkDefectEntity {
+  @ColumnInfo(name = "complaintCode")
+  @SerializedName("complaintCode")
+  private String mComplaintCode;
+
+  @NonNull
+  @PrimaryKey
+  @ColumnInfo(name = "defectCode")
+  @SerializedName("defectCode")
+  private String mDefectCode;
+
+  @ColumnInfo(name = "defectDescription")
+  @SerializedName("defectDescription")
+  private String mDefectDescription;
+
+  @ColumnInfo(name = "workCategory")
+  @SerializedName("workCategory")
+  private String mWorkCategory;
+
+  public String getComplaintCode() {
+    return mComplaintCode;
+  }
+
+  public void setComplaintCode(String complaintCode) {
+    mComplaintCode = complaintCode;
+  }
+
+  public String getDefectCode() {
+    return mDefectCode;
+  }
+
+  public void setDefectCode(String defectCode) {
+    mDefectCode = defectCode;
+  }
+
+  public String getDefectDescription() {
+    return mDefectDescription;
+  }
+
+  public void setDefectDescription(String defectDescription) {
+    mDefectDescription = defectDescription;
+  }
+
+  public String getWorkCategory() {
+    return mWorkCategory;
+  }
+
+  public void setWorkCategory(String workCategory) {
+    mWorkCategory = workCategory;
+  }
+}

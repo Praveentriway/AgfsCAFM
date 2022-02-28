@@ -1,7 +1,6 @@
 package com.daemon.emco_android.ui.fragments.inspection;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -11,33 +10,22 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.ui.activities.LoginActivity;
-import com.daemon.emco_android.ui.fragments.inspection.assetverification.AssetVerificationFragment;
-import com.daemon.emco_android.ui.fragments.survey.SurveyHeader;
+import com.daemon.emco_android.ui.fragments.inspection.assetverification.AssetScanningFragment;
+import com.daemon.emco_android.ui.fragments.inspection.reactiveverification.Fragment_Reactive_Main;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
-import com.daemon.emco_android.utils.SessionManager;
 import com.daemon.emco_android.utils.Utils;
-import com.shashank.sony.fancydialoglib.Animation;
-import com.shashank.sony.fancydialoglib.FancyAlertDialog;
-import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
-import com.shashank.sony.fancydialoglib.Icon;
-
-import static com.daemon.emco_android.utils.AppUtils.ARGS_ASSETTYPE;
-import static com.daemon.emco_android.utils.AppUtils.ARGS_SURVEYTYPE;
-import static com.daemon.emco_android.utils.AppUtils.CLIENT;
-import static com.daemon.emco_android.utils.AppUtils.CUSTOMER;
 
 public class Fragment_InspectionModule_Landing extends Fragment implements View.OnClickListener {
   private static final String TAG = Fragment_InspectionModule_Landing.class.getSimpleName();
@@ -46,7 +34,7 @@ public class Fragment_InspectionModule_Landing extends Fragment implements View.
   private Context mContext;
   private Font font = App.getInstance().getFontInstance();
 
-  private CardView btn_rx_inspection, btn_ppm_inspection, btn_periodic_inspection,btn_asset_verification;
+  private CardView btn_rx_inspection, btn_reactive_verfication, btn_periodic_inspection,btn_asset_verification;
 
   private TextView tv_toolbar_title;
   private CoordinatorLayout cl_main;
@@ -89,7 +77,7 @@ public class Fragment_InspectionModule_Landing extends Fragment implements View.
     try {
       cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
       btn_rx_inspection = (CardView) rootView.findViewById(R.id.btn_rx_inspection);
-      btn_ppm_inspection = (CardView) rootView.findViewById(R.id.btn_ppm_inspection);
+      btn_reactive_verfication = (CardView) rootView.findViewById(R.id.btn_reactive_verfication);
       btn_periodic_inspection = (CardView) rootView.findViewById(R.id.btn_periodic_inspection);
       btn_asset_verification= (CardView) rootView.findViewById(R.id.btn_asset_verification);
       setupActionBar();
@@ -117,7 +105,7 @@ public class Fragment_InspectionModule_Landing extends Fragment implements View.
   private void setProperties() {
 
     btn_rx_inspection.setOnClickListener(this);
-    btn_ppm_inspection.setOnClickListener(this);
+    btn_reactive_verfication.setOnClickListener(this);
     btn_periodic_inspection.setOnClickListener(this);
     btn_asset_verification.setOnClickListener(this);
 
@@ -128,18 +116,20 @@ public class Fragment_InspectionModule_Landing extends Fragment implements View.
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.btn_rx_inspection:
-     //   gotoIMServices(false, getString(R.string.title_reactive_request_verification));
+
+        // gotoIMServices(false, getString(R.string.title_reactive_request_verification));
         break;
-      case R.id.btn_ppm_inspection:
-       // gotoIMServices(true, getString(R.string.title_ppm_request_verification));
+      case R.id.btn_reactive_verfication:
+        loadFragment(new Fragment_Reactive_Main(), Utils.TAG_F_REACTIVE_VERIFICATION);
+        // gotoIMServices(true, getString(R.string.title_ppm_request_verification));
         break;
       case R.id.btn_periodic_inspection:
-       // loadFragment(new Fragment_IM_Periodic(), Utils.TAG_IM_PERIODIC);
+        loadFragment(new Fragment_IM_Periodic(), Utils.TAG_IM_PERIODIC);
         break;
       case R.id.btn_asset_verification:
         // loadFragment(new Fragment_IM_Periodic(), Utils.TAG_IM_PERIODIC);
-        loadFragment(new AssetVerificationFragment(), Utils.TAG_F_ASSET_VERIFICATION);
-      //  showSurvey();
+        loadFragment(new AssetScanningFragment(), Utils.TAG_F_ASSET_VERIFICATION);
+        // showSurvey();
 
         break;
     }
@@ -151,17 +141,21 @@ public class Fragment_InspectionModule_Landing extends Fragment implements View.
     Fragment_IM_Services complaintsList = new Fragment_IM_Services();
     data.putBoolean(AppUtils.ARGS_IM_PPE_Page, ppe);
     data.putString(AppUtils.ARGS_IM_SERVICES_Page_TITLE, title);
+    Log.d("DAtas", String.valueOf(data));
     complaintsList.setArguments(data);
+    Log.d("ComplainList", String.valueOf(complaintsList));
     loadFragment(complaintsList, Utils.TAG_IM_SERVICES);
+
   }
 
   public void loadFragment(final Fragment fragment, final String tag) {
-
+    Log.d("Frag", String.valueOf(fragment));
     FragmentTransaction fragmentTransaction =
         mActivity.getSupportFragmentManager().beginTransaction();
     fragmentTransaction.replace(R.id.frame_container, fragment, tag);
     fragmentTransaction.addToBackStack(tag);
     fragmentTransaction.commit();
+
   }
 
   @Override

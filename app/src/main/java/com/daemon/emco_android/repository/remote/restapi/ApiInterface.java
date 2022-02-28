@@ -3,9 +3,12 @@ package com.daemon.emco_android.repository.remote.restapi;
 import com.daemon.emco_android.model.common.AssetInfo;
 import com.daemon.emco_android.model.common.AssetInfoTrans;
 import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
+import com.daemon.emco_android.model.common.UtilityAssetDetail;
+import com.daemon.emco_android.model.common.UtilityAssetTransaction;
 import com.daemon.emco_android.model.request.DocumentTransaction;
 import com.daemon.emco_android.model.request.LocationDetail;
 import com.daemon.emco_android.model.response.AssetInfoResponse;
+import com.daemon.emco_android.model.response.ContractUserResponse;
 import com.daemon.emco_android.model.response.DocumentDownloadResponse;
 import com.daemon.emco_android.model.response.DocumentTypeResponse;
 import com.daemon.emco_android.model.response.EmployeeGpsReponse;
@@ -15,6 +18,7 @@ import com.daemon.emco_android.model.response.LocationDetailResponse;
 import com.daemon.emco_android.model.response.LocationResponse;
 import com.daemon.emco_android.model.response.OpcoResponse;
 import com.daemon.emco_android.model.response.SurveyFloorFlatListResponse;
+import com.daemon.emco_android.model.response.UtilityConsumptionResponse;
 import com.daemon.emco_android.repository.db.entity.DFoundWDoneImageEntity;
 import com.daemon.emco_android.repository.db.entity.EmployeeDetailsEntity;
 import com.daemon.emco_android.repository.db.entity.LogComplaintEntity;
@@ -150,23 +154,23 @@ public interface ApiInterface {
 
   @GET(ApiConstant.RECEIVECOMPLAINTLIST)
   Call<ReceiveComplaintResponse> getReceiveComplaintListResult(
-      @Query("employeeId") String strEmpId,
-      @Query("status") String status,
-      @Query("startIndex") int startIndex,
-      @Query("limit") int limit);
+          @Query("employeeId") String strEmpId,
+          @Query("status") String status,
+          @Query("startIndex") int startIndex,
+          @Query("limit") int limit);
 
   @GET(ApiConstant.RECEIVECOMPLAINTUNSIGNEDCOMPLAINT)
   Call<ReceiveComplaintResponse> getReceiveComplaintUnSignedResult(
-      @Query("employeeId") String strEmpId,
-      @Query("startIndex") int startIndex,
-      @Query("limit") int limit);
+          @Query("employeeId") String strEmpId,
+          @Query("startIndex") int startIndex,
+          @Query("limit") int limit);
 
   @POST(ApiConstant.PPMDETAILSLIST)
   Call<PPMDetailsResponse> getppmdetailsResult(
-      @Query("employeeId") String strEmpId,
-      @Query("startIndex") int startIndex,
-      @Query("limit") int limit,
-      @Body PPMFilterRequest ppmFilterRequest);
+          @Query("employeeId") String strEmpId,
+          @Query("startIndex") int startIndex,
+          @Query("limit") int limit,
+          @Body PPMFilterRequest ppmFilterRequest);
 
 
   @POST(ApiConstant.SUPPORTDOCLIST)
@@ -197,28 +201,28 @@ public interface ApiInterface {
 
   @POST(ApiConstant.FETCHPPMSCHEDULEDETAILS)
   Call<FetchPpmScheduleDetails> fetchPpmScheduleDetails(
-      @Query("startIndex") int startIndex,
-      @Query("limit") int limit,
-      @Body FetchPpmScheduleDetailsRequest fetchPpmScheduleDetailsRequest);
+          @Query("startIndex") int startIndex,
+          @Query("limit") int limit,
+          @Body FetchPpmScheduleDetailsRequest fetchPpmScheduleDetailsRequest);
 
   @POST(ApiConstant.FETCHPPMSCHEDULEDOCBYWORKORDERNOAPI)
   Call<FetchPpmScheduleDocBy> fetchPpmScheduleDocByWorkOrderNoAPI(
-      @Body PpmScheduleDocByRequest ppmScheduleDocByRequest);
+          @Body PpmScheduleDocByRequest ppmScheduleDocByRequest);
 
   @POST(ApiConstant.GETALLFORWARDEDCOMPLAINTBYEMPLOYEEID)
   Call<CommonResponse> getallforwardedcomplaintbyemployeeid(
-      @Body EmployeeIdRequest employeeIdRequest);
+          @Body EmployeeIdRequest employeeIdRequest);
 
   @POST(ApiConstant.RECEIVECOMPLAINTVIEW)
   Call<ReceiveComplaintViewResponse> getReceiveComplaintViewResult(
-      @Body ReceiveComplaintViewRequest receiveComplaintViewRequest);
+          @Body ReceiveComplaintViewRequest receiveComplaintViewRequest);
 
   @GET(ApiConstant.FETCHALLCOMPLAINTDETAILS)
   Call<ReceiveComplaintViewResponse> getAllReceiveComplaintViewResult();
 
   @GET(ApiConstant.FETCHALLCOMPLAINTDETAILS_NEW)
   Call<ReceiveComplaintViewResponse> getAllReceiveComplaintView_Result(
-      @Query("userName") String userName);
+          @Query("userName") String userName);
 
  /* @GET(ApiConstant.FETCHALLCOMPLAINTDETAILS_CHANGE)
   Call<ReceiveComplaintViewResponse> getAllReceiveComplaintView_ResultNew(
@@ -226,14 +230,14 @@ public interface ApiInterface {
 
   @POST(ApiConstant.RECEIVECOMPLAINT_CCC)
   Call<CommonResponse> getReceiveComplaintCCCResult(
-      @Body List<ReceiveComplainCCRequest> receiveComplainCCRequest);
+          @Body List<ReceiveComplainCCRequest> receiveComplainCCRequest);
 
   @POST(ApiConstant.PPM_CCC)
   Call<CommonResponse> getPPMCCCResult(@Body List<PPMCCCReq> ppmCCRequest);
 
   @POST(ApiConstant.RECEIVECOMPLAINTVIEWASSETDETAILS)
   Call<AssetDetailsResponse> getReceiveComplaintViewAssetDetailsResult(
-      @Body AssetDetailsRequest assetDetailsRequest);
+          @Body AssetDetailsRequest assetDetailsRequest);
 
   @POST(ApiConstant.SAVEASSETBARCODEPPM)
   Call<CommonResponse> getAssestBarCodePPM(@Body AssetDetailsRequest username);
@@ -246,6 +250,11 @@ public interface ApiInterface {
 
   @POST(ApiConstant.SITE)
   Call<SiteResponse> getSiteAreaResult(@Body EmployeeIdRequest employeeIdRequest);
+  @GET(ApiConstant.SITECONTRACTUSER)
+  Call<ContractUserResponse> getSiteFromContractUser(@Query("employeeId") String employeeId,
+                                             @Query("serviceGroup") String serviceGroup,
+                                             @Query("opco") String opco,
+                                             @Query("contractNo") String contractNo);
 
   @GET(ApiConstant.WORKTYPE)
   Call<WorkTypeResponse> getWorkTypeListResult();
@@ -258,9 +267,25 @@ public interface ApiInterface {
 
   @POST(ApiConstant.CONTRACT)
   Call<ContractResponse> getContractListResult(@Body EmployeeIdRequest employeeIdRequest);
+  @GET(ApiConstant.CONTRACTNO)
+  Call<ContractUserResponse> getContractNoResult(@Query("employeeId") String employeeId,
+                                                 @Query("serviceGroup") String serviceGroup);
 
   @POST(ApiConstant.ZONE)
   Call<ZoneResponse> getZoneListResult(@Body ZoneEntity employeeIdRequest);
+  @GET(ApiConstant.ZONECONTRACTUSER)
+  Call<ZoneResponse> getZoneFromContractUser(@Query("employeeId") String employeeId,
+                                             @Query("serviceGroup") String serviceGroup,
+                                             @Query("siteCode") String siteCode,
+                                             @Query("opco") String opco);
+
+  @GET(ApiConstant.BUILDINGCONTRACTUSER)
+  Call<ContractUserResponse> getBuildingFromContractUser(@Query("employeeId") String employeeId,
+                                             @Query("serviceGroup") String serviceGroup,
+                                             @Query("opco") String opco,
+                                             @Query("contractNo") String contractNo,
+                                             @Query("siteCode") String siteCode,
+                                             @Query("zoneCode") String zoneCode);
 
   @GET(ApiConstant.ALLZONE)
   Call<ZoneResponse> getAllZoneListResult(@Query("userName") String userName);
@@ -270,7 +295,7 @@ public interface ApiInterface {
 
   @POST(ApiConstant.BUILDING)
   Call<BuildingDetailsResponse> getBuildingDetailsResult(
-      @Body BuildingDetailsRequest buildingDetailsRequest);
+          @Body BuildingDetailsRequest buildingDetailsRequest);
 
   @POST(ApiConstant.LOGCOMPLAINT)
   Call<LogComplaintResponse> getLogComplaintResult(@Body LogComplaintEntity logComplaintRequest);
@@ -280,15 +305,15 @@ public interface ApiInterface {
 
   @POST(ApiConstant.SINGLESEARCHCOMPLAINT)
   Call<SingleSearchComplaintResponse> getSingleSearchComplaintData(
-      @Body SearchSingleComplaintRequest singleComplaintRequest);
+          @Body SearchSingleComplaintRequest singleComplaintRequest);
 
   @POST(ApiConstant.SINGLESEARCHPREVENTIVE)
   Call<PPMDetailsResponse> getSingleSearchPreventiveData(@Query("employeeId") String employeeId,
-      @Body SearchSingleComplaintPreventiveRequest singleComplaintRequest);
+                                                         @Body SearchSingleComplaintPreventiveRequest singleComplaintRequest);
 
   @POST(ApiConstant.MULTI_SEARCHCOMPLAINT)
   Call<MultiSearchComplaintResponse> getMultiSearchComplaintData(
-      @Body MultiSearchRequest multiSearchRequest);
+          @Body MultiSearchRequest multiSearchRequest);
 
   @GET(ApiConstant.WORKSTATUS)
   Call<WorkStatusResponse> getWorkStatusData();
@@ -376,15 +401,15 @@ public interface ApiInterface {
 
   @POST(ApiConstant.FEEDBACKEMPLOYEEDETAILS)
   Call<FeedbackEmployeeDetailsResponse> getFeedbackEmployeeDetailsResult(
-      @Body EmployeeDetailsEntity request);
+          @Body EmployeeDetailsEntity request);
 
   @POST(ApiConstant.FEEDBACKEMPLOYEEDETAILSPPM)
   Call<PpmEmployeeFeedResponse> getFeedbackEmployeeDetailsResult(
-      @Body PpmfeedbackemployeeReq request);
+          @Body PpmfeedbackemployeeReq request);
 
   @GET(ApiConstant.FETCHALLFEEDBACKDETAILS)
   Call<AllFeedbackDetailsResponse> getAllSavedFeedbackDetailsResult(
-      @Query("userName") String userName);
+          @Query("userName") String userName);
 
   @GET(ApiConstant.FETCHALLEMPLOYEE)
   Call<FeedbackEmployeeDetailsResponse> getAllFeedbackEmployeeDetailsResult();
@@ -400,41 +425,41 @@ public interface ApiInterface {
 
   @POST(ApiConstant.RECEIVECOMPLAINTRESPOND)
   Call<CommonResponse> getReceiveComplaintRespondResult(
-      @Body ReceiveComplaintRespondEntity respondRequest);
+          @Body ReceiveComplaintRespondEntity respondRequest);
 
   @POST(ApiConstant.RECEIVECOMPLAINTRESPONDSAVE)
   Call<RCRespondResponse> getReceiveComplaintRespondSaveResult(
-      @Body ReceiveComplaintViewEntity saveRequest);
+          @Body ReceiveComplaintViewEntity saveRequest);
 
   @POST(ApiConstant.RECEIVECOMPLAINTSAVEMATERIALREQUIRED)
   Call<CommonResponse> getReceiveComplaintMaterialRequiredSaveResult(
-      @Body List<SaveMaterialEntity> saveMaterialRequests);
+          @Body List<SaveMaterialEntity> saveMaterialRequests);
 
   @POST(ApiConstant.PPMSAVEMATERIALREQUIRED)
   Call<CommonResponse> getPPMMaterialRequiredSaveResult(
-      @Body List<SaveMaterialEntity> saveMaterialRequests);
+          @Body List<SaveMaterialEntity> saveMaterialRequests);
 
   @POST(ApiConstant.RECEIVECOMPLAINTGETMATERIALREQUIRED)
   Call<GetMaterialResponse> getReceiveComplaintMaterialGetResult(
-      @Body GetMaterialRequest getMaterialRequest,
-      @Query("startIndex") String startIndex,
-      @Query("limit") String limit);
+          @Body GetMaterialRequest getMaterialRequest,
+          @Query("startIndex") String startIndex,
+          @Query("limit") String limit);
 
   @GET(ApiConstant.ALLRCMATERIALSAVED)
   Call<GetMaterialResponse> getALLRCMaterialSaved(@Query("userName") String userName);
 
   @POST(ApiConstant.PPMGETMATERIALREQUIRED)
   Call<GetMaterialResponse> getPPMMaterialGetResult(
-      @Body GetMaterialRequest getMaterialRequest,
-      @Query("startIndex") String startIndex,
-      @Query("limit") String limit);
+          @Body GetMaterialRequest getMaterialRequest,
+          @Query("startIndex") String startIndex,
+          @Query("limit") String limit);
 
   @POST(ApiConstant.RECEIVECOMPLAINTMATERIALREQUIRED)
   Call<MaterialRequiredResponse> getReceiveComplaintMaterialRequiredResult(
-      @Query("opco") String opco,
-      @Query("description") String description,
-      @Query("startIndex") String startIndex,
-      @Query("limit") String limit);
+          @Query("opco") String opco,
+          @Query("description") String description,
+          @Query("startIndex") String startIndex,
+          @Query("limit") String limit);
 
   @GET(ApiConstant.FETCHPPENAME)
   Call<FetchPPENameResponse> getPPENameData();
@@ -459,7 +484,7 @@ public interface ApiInterface {
 
   @POST(ApiConstant.GETDASHBOARDPIECHARTDETAILS)
   Call<MultiSearchComplaintResponse> getDashboardPiechartDetails(
-      @Body MultiSearchRequest pieChartRequest);
+          @Body MultiSearchRequest pieChartRequest);
 
   @POST(ApiConstant.UPLOADIMAGE)
   Call<RCImageUploadResponse> saveRCRespondImageResult(@Body DFoundWDoneImageEntity saveRequest);
@@ -481,35 +506,41 @@ public interface ApiInterface {
 
   @POST(ApiConstant.GETSOFTSERVICECOMPLAINTDETAILS)
   Call<ReceiveComplaintResponse> getSoftServiceComplaintDetails(
-      @Body HardSoftRequest hardSoftRequest,
-      @Query("startIndex") int startIndex,
-      @Query("limit") int limit);
+          @Body HardSoftRequest hardSoftRequest,
+          @Query("startIndex") int startIndex,
+          @Query("limit") int limit);
 
   @POST(ApiConstant.GETALLSOFTSERVICEPPMDETAILS)
   Call<FetchPpmScheduleDetails> getSoftServicePPMDetails(
-      @Body HardSoftRequest hardSoftRequest,
-      @Query("startIndex") int startIndex,
-      @Query("limit") int limit);
+          @Body HardSoftRequest hardSoftRequest,
+          @Query("startIndex") int startIndex,
+          @Query("limit") int limit);
 
   @POST(ApiConstant.GETALLHARDSERVICEPPMDETAILS)
   Call<FetchPpmScheduleDetails> getHardServicePPMDetails(
-      @Body HardSoftRequest hardSoftRequest,
-      @Query("startIndex") int startIndex,
-      @Query("limit") int limit);
+          @Body HardSoftRequest hardSoftRequest,
+          @Query("startIndex") int startIndex,
+          @Query("limit") int limit);
 
   @POST(ApiConstant.GETHARDSERVICECOMPLAINTDETAILS)
   Call<ReceiveComplaintResponse> getHardServiceComplaintDetails(
-      @Body HardSoftRequest hardSoftRequest,
-      @Query("startIndex") int startIndex,
-      @Query("limit") int limit);
+          @Body HardSoftRequest hardSoftRequest,
+          @Query("startIndex") int startIndex,
+          @Query("limit") int limit);
+
+  @POST(ApiConstant.GETHARDSERVICEINSPECTIONDETAILS)
+  Call<ReceiveComplaintResponse> getHardServiceInspectionDetails(
+          @Body HardSoftRequest hardSoftRequest,
+          @Query("startIndex") int startIndex,
+          @Query("limit") int limit);
 
   @POST(ApiConstant.GETSOFTSERVICECOMPLAINTBYCOMPLAINTID)
   Call<HardSoftViewResponse> getSoftServiceComplaintByComplaintId(
-      @Body ReceiveComplaintViewRequest receiveComplaintViewRequest);
+          @Body ReceiveComplaintViewRequest receiveComplaintViewRequest);
 
   @POST(ApiConstant.GETHARDSERVICECOMPLAINTBYCOMPLAINTID)
   Call<HardSoftViewResponse> getHardServiceComplaintByComplaintId(
-      @Body ReceiveComplaintViewRequest receiveComplaintViewRequest);
+          @Body ReceiveComplaintViewRequest receiveComplaintViewRequest);
 
   @POST(ApiConstant.SAVEHARDSERVICEREACT)
   Call<HardSoftViewResponse> savedHardServiceReact(@Body HardSoftRequest loginRequest);
@@ -540,7 +571,7 @@ public interface ApiInterface {
 
   @POST(ApiConstant.MATERIALMASTERSQLFileSIZENEW)
   Call<com.daemon.emco_android.model.common.CommonResponse> getMaterialMasterNew(
-      @Body FileSizeRequest loginRequest);
+          @Body FileSizeRequest loginRequest);
 
   @GET(ApiConstant.MATERIALMASTERSQLFile)
   @Streaming
@@ -550,7 +581,7 @@ public interface ApiInterface {
   Call<com.daemon.emco_android.model.common.CommonResponse> GetFileSizeData();
 
 
-/* API call for Customer Survey  */
+  /* API call for Customer Survey  */
 
 
   @GET(ApiConstant.SURVEYCUSTOMER)
@@ -566,7 +597,7 @@ public interface ApiInterface {
 
   @GET(ApiConstant.SURVEYCONTRACT)
   Call<SurveyContractResponse> getSurveyContract( @Query("employeeId") String employeeId,
-          @Query("customercode") String customercode);
+                                                  @Query("customercode") String customercode);
 
   @GET(ApiConstant.SURVEYEMPLOYEELIST)
   Call<SurveyEmployeeListResponse> getSurveyEmployeeList(
@@ -588,7 +619,7 @@ public interface ApiInterface {
 
   @POST(ApiConstant.SURVEYSAVE)
   Call<CommonResponse> saveSurvey
-         (@Body SurveyTransaction survey);
+          (@Body SurveyTransaction survey);
 
 
   /* API call for Location Finder  */
@@ -633,10 +664,14 @@ public interface ApiInterface {
   @GET(ApiConstant.ASSETTYPE)
   Call<DocumentTypeResponse> getAssetType( @Query("type") String type);
 
-
   @POST(ApiConstant.ASSETSAVE)
-  Call<CommonResponse> saveAsset
-          (@Body AssetInfoTrans asset);
+  Call<CommonResponse> saveAsset(@Body AssetInfoTrans asset);
+
+  @GET(ApiConstant.UTILITYDETAIL)
+  Call<UtilityConsumptionResponse> getUtilityDetail(@Query("assetTag") String assetTag);
+
+  @POST(ApiConstant.SAVEUTILITY)
+  Call<CommonResponse> saveUtilityTransaction(@Body UtilityAssetTransaction utilityAssetDetail);
 
 
 }

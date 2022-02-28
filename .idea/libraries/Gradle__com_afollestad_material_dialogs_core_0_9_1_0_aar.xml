@@ -1,9 +1,15 @@
 <component name="libraryTable">
   <library name="Gradle: com.afollestad.material-dialogs:core:0.9.1.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/815c04c0e8f104da50de52dd68a27a2d/jetified-core-0.9.1.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/815c04c0e8f104da50de52dd68a27a2d/jetified-core-0.9.1.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/815c04c0e8f104da50de52dd68a27a2d/jetified-core-0.9.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ffe449de918b85a195d8ff6bb95020f9/jetified-core-0.9.1.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ffe449de918b85a195d8ff6bb95020f9/jetified-core-0.9.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ffe449de918b85a195d8ff6bb95020f9/jetified-core-0.9.1.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ef58605b2828eb3c0a22a19d9cd00676/jetified-core-0.9.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ef58605b2828eb3c0a22a19d9cd00676/jetified-core-0.9.1.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ef58605b2828eb3c0a22a19d9cd00676/jetified-core-0.9.1.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8ac77f1ab169981009afd0a3a6cfed66/jetified-core-0.9.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8ac77f1ab169981009afd0a3a6cfed66/jetified-core-0.9.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8ac77f1ab169981009afd0a3a6cfed66/jetified-core-0.9.1.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.afollestad.material-dialogs/core/0.9.1.0/b6b02983b87df5844b55bb28277c558a00b07754/core-0.9.1.0-javadoc.jar!/" />

@@ -1,6 +1,7 @@
 package com.daemon.emco_android.ui.fragments.reactive.receieve_complaints;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,7 +44,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.utils.BarcodeCaptureActivity;
 import com.daemon.emco_android.utils.ZxingScannerActivity;
 import com.daemon.emco_android.ui.adapter.ReceivecomplaintListAdapter;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintViewService;
@@ -93,7 +93,9 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
   private SharedPreferences.Editor mEditor;
   private FragmentManager mManager;
   private Bundle mArgs;
+  private boolean isPermissionGranted = false;
   private CoordinatorLayout cl_main;
+  private final int REQUEST_WRITE_EXTERNAL_STORAGE = 4;
   private String mUnSignedPage = AppUtils.ARGS_RECEIVECOMPLAINT_PAGE;
   private int checkApiCAll;
   private CustomTextInputLayout til_region,
@@ -177,13 +179,13 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
                         ZXING_CAMERA_PERMISSION);
                   } else {
                     Intent intent = new Intent(mActivity, ZxingScannerActivity.class);
-                    intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+                    intent.putExtra(ZxingScannerActivity.AutoFocus, true);
 
                     startActivityForResult(intent, Zxing_BARCODE_CAPTURE);
                   }
                 } else {
-                  Intent intent = new Intent(mActivity, BarcodeCaptureActivity.class);
-                  intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+                  Intent intent = new Intent(mActivity, ZxingScannerActivity.class);
+                  intent.putExtra(ZxingScannerActivity.AutoFocus, true);
 
                   startActivityForResult(intent, RC_BARCODE_CAPTURE);
                 }
@@ -253,6 +255,17 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
       e.printStackTrace();
     }
     return rootView;
+  }
+
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+
+    if (!isPermissionGranted) {
+      getPermissionToReadExternalStorage();
+      return;
+    }
+
   }
 
   private void initUI(View rootView) {
@@ -965,9 +978,9 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
       if (requestCode == RC_BARCODE_CAPTURE) {
         if (resultCode == CommonStatusCodes.SUCCESS) {
           if (data != null) {
-            Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-            tie_bar_code.setText(barcode.displayValue);
-            Log.d(TAG, "Barcode read: " + barcode.displayValue);
+            String barcode = data.getStringExtra(ZxingScannerActivity.BarcodeObject);
+            tie_bar_code.setText(barcode);
+            Log.d(TAG, "Barcode read: " + barcode);
             if (assetDetailsEntity == null) {
               getBarcodeDetailsService(1);
             } else {
@@ -988,7 +1001,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
       } else if (requestCode == Zxing_BARCODE_CAPTURE) {
         if (resultCode == CommonStatusCodes.SUCCESS) {
           if (data != null) {
-            String barcode = data.getStringExtra(BarcodeCaptureActivity.BarcodeObject);
+            String barcode = data.getStringExtra(ZxingScannerActivity.BarcodeObject);
             tie_bar_code.setText(barcode);
             Log.d(TAG, "Barcode read: " + barcode);
             if (assetDetailsEntity == null && barcode != null) {
@@ -1019,7 +1032,7 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
       case ZXING_CAMERA_PERMISSION:
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
           Intent intent = new Intent(mActivity, ZxingScannerActivity.class);
-          intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+          intent.putExtra(ZxingScannerActivity.AutoFocus, true);
 
           startActivityForResult(intent, RC_BARCODE_CAPTURE);
         }
@@ -1088,4 +1101,32 @@ public class Fragment_RC_View extends Fragment implements ReceivecomplaintView_L
       }
     }
   }
+
+
+  @TargetApi(Build.VERSION_CODES.M)
+  public void getPermissionToReadExternalStorage() {
+    if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED ) {
+
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+          // Show our own UI to explain to the user why we need to read the contacts
+          // before actually requesting the permission and showing the default UI
+        }
+
+        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+          // Show our own UI to explain to the user why we need to read the contacts
+          // before actually requesting the permission and showing the default UI
+        }
+
+      }
+      requestPermissions(
+              new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
+              REQUEST_WRITE_EXTERNAL_STORAGE);
+    } else {
+      isPermissionGranted = true;
+    }
+  }
+
 }

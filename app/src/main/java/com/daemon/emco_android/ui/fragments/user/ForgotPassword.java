@@ -275,7 +275,7 @@ public class ForgotPassword extends BaseFragment implements UserListener,URLList
     }
 
     @Override
-    public void onLoginDataReceivedSuccess(Login login, String totalNumberOfRows) {
+    public void onLoginDataReceivedSuccess(Login login, String totalNumberOfRows,String token) {
 
     }
 

@@ -1,0 +1,100 @@
+package com.daemon.emco_android.asyncprocess;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.StackingBehavior;
+import com.daemon.emco_android.R;
+import com.daemon.emco_android.db.dbhelper.ReceiveComplaintItemDbInitializer;
+import com.daemon.emco_android.db.restapi.ApiClient;
+import com.daemon.emco_android.db.restapi.ApiConstant;
+import com.daemon.emco_android.db.restapi.ApiInterface;
+import com.daemon.emco_android.fragments.user.Fragment_Login;
+import com.daemon.emco_android.listeners.URLListener;
+import com.daemon.emco_android.listeners.UserListener;
+import com.daemon.emco_android.model.Login;
+import com.daemon.emco_android.model.request.AddNewUser;
+import com.daemon.emco_android.model.request.LoginRequest;
+import com.daemon.emco_android.model.response.CommonResponse;
+import com.daemon.emco_android.model.response.LoginResponse;
+import com.daemon.emco_android.utils.AppUtils;
+import com.daemon.emco_android.utils.SessionManager;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+/**
+ * Created by vikram on 13/6/17.
+ */
+
+public class Url_Service {
+    private static final String TAG = Url_Service.class.getSimpleName();
+
+    private AppCompatActivity mActivity;
+    private ApiInterface mInterface;
+    private URLListener mCallback;
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
+    private String baseurl="",baseurlfile="";
+
+    public Url_Service(AppCompatActivity _activity, URLListener listener,String url) {
+        mActivity = _activity;
+        mCallback = listener;
+        try
+        {
+            baseurl=url;
+            if(ApiClient.getURLTime(url,mActivity).create(ApiInterface.class)!=null){
+                mInterface = ApiClient.getURLTime(url,mActivity).create(ApiInterface.class);
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void getURLData() {
+        Log.d(TAG, "addUser");
+        try {
+            mInterface.getURLResult().enqueue(new Callback<CommonResponse>() {
+                @Override
+                public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "onResponse success " + response.body().getMessage());
+                        if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                            mCallback.onUrlreceivedsucess(response.body());
+                            baseurl= "http://" + baseurl + "/mobileapi/webapi/";
+                            baseurlfile= "http://" + baseurl + "/mobileapi/";
+                            SessionManager.saveSession("baseurl",baseurl,mActivity);
+                            SessionManager.saveSession("baseurlfile",baseurlfile,mActivity);
+                        }
+                      /*  else{
+                            mCallback.onUrlreceivedFailure("Invalid url");
+                        }*/
+                    }
+                  /*  else{
+                        mCallback.onUrlreceivedFailure("Invalid url");
+                    }*/
+                }
+                @Override
+                public void onFailure(Call<CommonResponse> call, Throwable t) {
+                    t.printStackTrace();
+                        mCallback.onUrlreceivedFailure("You have entered an invalid URL, Please try again");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

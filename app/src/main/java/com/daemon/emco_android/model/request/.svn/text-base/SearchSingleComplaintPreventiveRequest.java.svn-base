@@ -1,0 +1,26 @@
+
+package com.daemon.emco_android.model.request;
+
+import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
+
+@Generated("net.hexar.json2pojo")
+@SuppressWarnings("unused")
+public class SearchSingleComplaintPreventiveRequest {
+
+    @SerializedName("ppmRefNo")
+    private String ppmRefNo;
+
+    public SearchSingleComplaintPreventiveRequest(String ppmRefNo) {
+        this.ppmRefNo = ppmRefNo;
+    }
+
+    public String getPpmRefNo() {
+        return ppmRefNo;
+    }
+
+    public void setPpmRefNo(String ppmRefNo) {
+        this.ppmRefNo = ppmRefNo;
+    }
+}

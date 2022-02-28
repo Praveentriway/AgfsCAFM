@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -327,36 +328,39 @@
                             android:layout_weight="2.2"
 
                             android:padding="@dimen/_7sdp"
-                            android:text="Warranty Expiry"
+                            android:text="Serial No."
                             android:textColor="@color/color_gray_new"
                             android:textSize="@dimen/_9sdp"
                             android:textStyle="bold" />
 
-
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/txt_serial_no"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/_5sdp"
                             android:layout_weight="3.1"
+                            android:background="@null"
+                            android:imeOptions="actionDone"
+                            android:hint="Enter the value"
+                            android:inputType="textCapSentences"
                             android:padding="@dimen/_7sdp"
-                            android:text="test value"
+                            android:singleLine="true"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_9sdp"
-                            android:id="@+id/txt_warranty_expiry"
                             android:textStyle="bold" />
 
+
                         <ImageButton
-                            android:id="@+id/btn_warranty_expiry"
+
                             android:layout_width="0dp"
                             android:layout_height="@dimen/_15sdp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/_3sdp"
                             android:layout_weight="0.5"
+                            android:visibility="invisible"
                             android:background="@drawable/ic_arrow_down_spin"
                             />
-
-
 
 
                     </LinearLayout>
@@ -421,10 +425,160 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                             android:layout_marginLeft="@dimen/_5sdp"
-                              android:layout_weight="2.2"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_weight="2.2"
 
-                             android:padding="@dimen/_7sdp"
+                            android:padding="@dimen/_7sdp"
+                            android:text="Warranty Expiry"
+                            android:textColor="@color/color_gray_new"
+                            android:textSize="@dimen/_9sdp"
+                            android:textStyle="bold" />
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_weight="3.1"
+                            android:padding="@dimen/_7sdp"
+                            android:text="test value"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_9sdp"
+                            android:id="@+id/txt_warranty_expiry"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/btn_warranty_expiry"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:layout_weight="0.5"
+                            android:background="@drawable/ic_arrow_down_spin"
+                            />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/linear_make_model"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorFormMasterHeaderBackground2"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_weight="2.2"
+                            android:id="@+id/txt_tassest_make"
+                            android:padding="@dimen/_7sdp"
+                            android:text="Make"
+                            android:textColor="@color/color_gray_new"
+                            android:textSize="@dimen/_9sdp"
+                            android:textStyle="bold" />
+
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/txt_asset_make"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_weight="3.1"
+                            android:background="@null"
+                            android:imeOptions="actionDone"
+                            android:hint="Enter the value"
+                            android:inputType="textCapSentences"
+                            android:padding="@dimen/_7sdp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_9sdp"
+                            android:textStyle="bold" />
+                        <ImageButton
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:layout_weight="0.5"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:padding="@dimen/_7sdp"
+                            android:textSize="@dimen/_9sdp"
+                            android:textStyle="bold" />
+
+
+                        <View
+                            android:layout_width="1.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/colorPrimary" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_weight="2.2"
+
+                            android:padding="@dimen/_7sdp"
+                            android:text="Model"
+                            android:textColor="@color/color_gray_new"
+                            android:textSize="@dimen/_9sdp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_weight="3.1"
+                            android:background="@null"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
+                            android:id="@+id/txt_asset_model"
+                            android:inputType="textCapSentences"
+                            android:hint="Enter the value"
+                            android:padding="@dimen/_7sdp"
+
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_9sdp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:layout_weight="0.5"
+                            android:visibility="invisible"
+                            android:background="@drawable/ic_arrow_down_spin"
+                            android:gravity="center"
+                            android:padding="@dimen/_7sdp"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_weight="2.2"
+
+                            android:padding="@dimen/_7sdp"
                             android:text="Warranty Type"
                             android:textColor="@color/color_gray_new"
                             android:textSize="@dimen/_9sdp"
@@ -442,7 +596,7 @@
                             android:singleLine="true"
                             android:inputType="textCapSentences"
                             android:hint="Add the type"
-                             android:padding="@dimen/_7sdp"
+                            android:padding="@dimen/_7sdp"
                             android:text="test value"
                             android:id="@+id/txt_warranty_type"
                             android:textColor="@color/colorPrimary"
@@ -460,58 +614,6 @@
                             android:padding="@dimen/_7sdp"
                             android:textSize="@dimen/_9sdp"
                             android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorFormMasterHeaderBackground2"
-                        android:orientation="horizontal">
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/_5sdp"
-                            android:layout_weight="2.2"
-
-                            android:padding="@dimen/_7sdp"
-                            android:text="Remark"
-                            android:textColor="@color/color_gray_new"
-                            android:textSize="@dimen/_9sdp"
-                            android:textStyle="bold" />
-
-
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/_5sdp"
-                            android:layout_weight="3.1"
-                            android:background="@null"
-                            android:imeOptions="actionDone"
-                            android:singleLine="true"
-                            android:inputType="textCapSentences"
-                            android:hint="Add your remark"
-                            android:padding="@dimen/_7sdp"
-                            android:text="test value"
-                            android:id="@+id/txt_remarks"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_9sdp"
-                            android:textStyle="bold" />
-                        <ImageButton
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/_15sdp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/_3sdp"
-                            android:layout_weight="0.5"
-                            android:background="@android:color/transparent"
-                            android:gravity="center"
-                            android:padding="@dimen/_7sdp"
-                            />
-
 
 
 
@@ -568,7 +670,48 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorFormMasterHeaderBackground2"
+                        android:orientation="horizontal">
 
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_weight="2.5"
+
+                            android:padding="@dimen/_7sdp"
+                            android:text="Remark"
+                            android:textColor="@color/color_gray_new"
+                            android:textSize="@dimen/_9sdp"
+                            android:textStyle="bold" />
+
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_weight="2.5"
+                            android:background="@null"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
+                            android:inputType="textCapSentences"
+                            android:hint="Add your remark"
+                            android:padding="@dimen/_7sdp"
+                            android:text="test value"
+                            android:id="@+id/txt_remarks"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_9sdp"
+                            android:textStyle="bold" />
+
+
+
+                    </LinearLayout>
                 </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>
@@ -627,3 +770,4 @@
         android:src="@drawable/completed" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

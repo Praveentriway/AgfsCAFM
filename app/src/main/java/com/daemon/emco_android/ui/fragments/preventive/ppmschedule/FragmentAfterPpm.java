@@ -23,6 +23,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
@@ -52,7 +54,6 @@ import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
 import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.service.GPSTracker;
-import com.daemon.emco_android.utils.BarcodeCaptureActivity;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewDataAdapter;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewItem;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintRespondService;
@@ -72,6 +73,7 @@ import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
 import com.daemon.emco_android.utils.ImageUtil;
 import com.daemon.emco_android.utils.Utils;
+import com.daemon.emco_android.utils.ZxingScannerActivity;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -160,8 +162,8 @@ public class FragmentAfterPpm extends Fragment implements ImagePickListener, Def
                             if (requestId == -1)
                                 AppUtils.showDialog(mActivity, "Camera not available");
                             else {
-                                Intent intent = new Intent(mActivity, BarcodeCaptureActivity.class);
-                                intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+                                Intent intent = new Intent(mActivity, ZxingScannerActivity.class);
+                                intent.putExtra(ZxingScannerActivity.AutoFocus, true);
                             }
                             break;
                             default:
@@ -216,12 +218,27 @@ public class FragmentAfterPpm extends Fragment implements ImagePickListener, Def
         Log.d(TAG, "onCreate");
         try {
             rootView = inflater.inflate(R.layout.fragment_after_ppm, container, false);
-            initUI(rootView);
-            setProperties();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rootView;
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initUI(rootView);
+        setProperties();
+
+        if (!isPermissionGranted) {
+            getPermissionToReadExternalStorage();
+            return;
+        }
+
+
     }
 
     private void initUI(View rootView) {
@@ -474,6 +491,35 @@ public class FragmentAfterPpm extends Fragment implements ImagePickListener, Def
         mImagePathToBeAttached = image.getAbsolutePath();
         return image;
     }
+
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void getPermissionToReadExternalStorage() {
+        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED ) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    // Show our own UI to explain to the user why we need to read the contacts
+                    // before actually requesting the permission and showing the default UI
+                }
+
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    // Show our own UI to explain to the user why we need to read the contacts
+                    // before actually requesting the permission and showing the default UI
+                }
+
+            }
+            requestPermissions(
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
+                    REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            isPermissionGranted = true;
+        }
+    }
+
+
 
     @TargetApi(Build.VERSION_CODES.M)
     public void getPermissionToReadExternalStorage(int count,String base64) {

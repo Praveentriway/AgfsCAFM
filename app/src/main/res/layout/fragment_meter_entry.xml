@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingPrefix">
+
+        <ScrollView style="@style/match_parent_style">
+
+        <LinearLayout
+            android:id="@+id/layout_main"
+            style="@style/match_parent_style"
+            android:paddingBottom="@dimen/_150sdp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/bg_button_asset"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp">
+
+                <TextView
+
+                    android:id="@+id/tv_utility_det"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="FAPEAGI00001  FAPEAGI00001 FAPEAGI00001"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/linear1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:background="@color/colorFormMasterElementBackground"
+                android:orientation="vertical"
+                card_view:cardCornerRadius="0dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_100sdp"
+                    android:scaleType="fitStart"
+                    app:layout_constraintBottom_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:id="@+id/view_buttons"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_alignParentBottom="true"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="5dp" >
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/fab_refresh"
+                    android:layout_height="wrap_content"
+                    app:backgroundTint="#546080"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:src="@drawable/ic_baseline_refresh_24" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/fab_extract"
+                    android:layout_height="wrap_content"
+                    app:backgroundTint="@color/colorPrimary"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:src="@drawable/sharp_search_white_24" />
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:id="@+id/view_readings"
+                android:background="@color/colorFormMasterElementBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                card_view:cardCornerRadius="0dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <View
+                        android:layout_width="3.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/colorPrimary"  />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_weight="2.5"
+                        android:gravity="center"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_lbl_contact"
+                        android:text="Meter Reading"
+                        android:textSize="@dimen/elementTextTitleSize"
+                        fontPath="fonts/HelveticaBold.otf"
+                        android:padding="16dp"
+                        android:layout_marginLeft="@dimen/_3sdp"
+                        android:textColor="@color/secondary_text"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorFormMasterHeaderBackground2"
+                        android:orientation="horizontal">
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:imeOptions="actionDone|flagNoExtractUi"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:textSize="@dimen/elementTextValueSize"
+                            fontPath="fonts/HelveticaBold.otf"
+                            android:maxLength="100"
+                            android:layout_weight="4"
+                            android:textColor="@color/colorPrimary"
+                            android:gravity="center"
+                            android:inputType="numberDecimal"
+                            android:layout_gravity="center"
+                            android:id="@+id/edt_readings"
+                            android:padding="16dp"
+                            />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:id="@+id/tv_uom"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:text="volts"
+                            android:textSize="@dimen/elementTextTitleSize"
+                            fontPath="fonts/HelveticaBold.otf"
+                            android:padding="16dp"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:textColor="@color/secondary_text"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:visibility="gone"
+            android:src="@drawable/arrow" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

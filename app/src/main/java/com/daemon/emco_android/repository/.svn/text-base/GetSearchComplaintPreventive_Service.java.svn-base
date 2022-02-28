@@ -1,0 +1,75 @@
+package com.daemon.emco_android.asyncprocess;
+
+import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+
+import com.daemon.emco_android.R;
+import com.daemon.emco_android.db.entity.SingleSearchComplaintEntity;
+import com.daemon.emco_android.db.restapi.ApiClient;
+import com.daemon.emco_android.db.restapi.ApiConstant;
+import com.daemon.emco_android.db.restapi.ApiInterface;
+import com.daemon.emco_android.listeners.SearchComplaintListener;
+import com.daemon.emco_android.listeners.SearchComplaintPreventiveListener;
+import com.daemon.emco_android.model.CommonResponse;
+import com.daemon.emco_android.model.PPMDetails;
+import com.daemon.emco_android.model.PPMDetailsResponse;
+import com.daemon.emco_android.model.request.MultiSearchRequest;
+import com.daemon.emco_android.model.request.SearchSingleComplaintPreventiveRequest;
+import com.daemon.emco_android.model.request.SearchSingleComplaintRequest;
+import com.daemon.emco_android.model.response.MultiSearchComplaintResponse;
+import com.daemon.emco_android.model.response.SingleSearchComplaintResponse;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * Created by vikram on 17/7/17.
+ */
+
+public class GetSearchComplaintPreventive_Service {
+    private static final String TAG = GetSearchComplaintPreventive_Service.class.getSimpleName();
+
+    private Context mContext;
+    private Fragment mFragment;
+    private SearchComplaintPreventiveListener mCallback;
+   // private SingleSearchComplaintEntity mResponse;
+    private ApiInterface mInterface;
+
+
+    public GetSearchComplaintPreventive_Service(Context context, Fragment fragment, SearchComplaintPreventiveListener listener) {
+        this.mContext = context;
+        this.mFragment = fragment;
+        this.mCallback = listener;
+        mInterface = ApiClient.getClient(mContext).create(ApiInterface.class);
+    }
+
+
+    public void getSingleSearchPreventiiveData(SearchSingleComplaintPreventiveRequest mSingleRequest) {
+        Log.d(TAG, "getSingleSearchData");
+         mInterface.getSingleSearchPreventiveData(mSingleRequest).enqueue(new Callback<PPMDetailsResponse>() {
+            @Override
+            public void onResponse(Call<PPMDetailsResponse> call, Response<PPMDetailsResponse> response) {
+                Log.d(TAG, "onResponse");
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                        mCallback.onComplaintReceivedSuccess(response.body().getPPMDetails());
+                    }else{
+                      mCallback.onComplaintReceivedFailure(response.body().getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PPMDetailsResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure"+t.getMessage());
+                mCallback.onComplaintReceivedFailure(mContext.getString(R.string.msg_request_error_occurred));
+            }
+        });
+    }
+
+
+}

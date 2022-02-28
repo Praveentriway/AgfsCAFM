@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/AndroidEMCO/!svn/ver/63/app/src/main/java/com/daemon/emco_android/db/dao
+END
+SaveFeedbackDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/dao/SaveFeedbackDao.java
+END
+WorkStatusDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/WorkStatusDao.java
+END
+PriorityDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/PriorityDao.java
+END
+RCRespondDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/RCRespondDao.java
+END
+ReportTypesDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/ReportTypesDao.java
+END
+LogComplaintDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/LogComplaintDao.java
+END
+RCViewAssetDetailsDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/RCViewAssetDetailsDao.java
+END
+WorkPendingReasonDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/WorkPendingReasonDao.java
+END
+WorkTypeDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/WorkTypeDao.java
+END
+ZoneDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/ZoneDao.java
+END
+receiveComplaintViewDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/receiveComplaintViewDao.java
+END
+PpeNameDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/PpeNameDao.java
+END
+WorkDefectsDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/WorkDefectsDao.java
+END
+ContractDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/ContractDao.java
+END
+PPEFetchSaveDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/PPEFetchSaveDao.java
+END
+WorkDoneDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/WorkDoneDao.java
+END
+EmployeeDetailsDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/AndroidEMCO/!svn/ver/55/app/src/main/java/com/daemon/emco_android/db/dao/EmployeeDetailsDao.java
+END
+SiteAreaDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/SiteAreaDao.java
+END
+RCMaterialDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/AndroidEMCO/!svn/ver/63/app/src/main/java/com/daemon/emco_android/db/dao/RCMaterialDao.java
+END
+receiveComplaintItemDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/AndroidEMCO/!svn/ver/60/app/src/main/java/com/daemon/emco_android/db/dao/receiveComplaintItemDao.java
+END
+ImageUploadDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/ImageUploadDao.java
+END
+RCSavedMaterialDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/AndroidEMCO/!svn/ver/61/app/src/main/java/com/daemon/emco_android/db/dao/RCSavedMaterialDao.java
+END
+CategoryDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dao/CategoryDao.java
+END

@@ -20,17 +20,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -42,9 +41,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,6 +48,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.databinding.FragmentAssetAuditBinding;
 import com.daemon.emco_android.listeners.DatePickerDialogListener;
 import com.daemon.emco_android.listeners.DefectDoneImage_Listener;
 import com.daemon.emco_android.listeners.ImagePickListener;
@@ -65,15 +62,12 @@ import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.common.OpcoDetail;
 import com.daemon.emco_android.model.request.RCDownloadImageRequest;
 import com.daemon.emco_android.model.request.SaveRatedServiceRequest;
-import com.daemon.emco_android.model.response.ContractDetails;
 import com.daemon.emco_android.model.response.DefectDoneImageUploaded;
 import com.daemon.emco_android.model.response.GetPpmParamValue;
 import com.daemon.emco_android.model.response.ObjectMonthly;
 import com.daemon.emco_android.model.response.ObjectSavedCheckListResponse;
 import com.daemon.emco_android.model.response.RCDownloadImage;
-import com.daemon.emco_android.repository.db.dbhelper.DefectDoneImageDbInitializer;
 import com.daemon.emco_android.repository.db.entity.DFoundWDoneImageEntity;
-import com.daemon.emco_android.repository.db.entity.ServeyQuestionnaire;
 import com.daemon.emco_android.repository.remote.AssetVerificationRepository;
 import com.daemon.emco_android.repository.remote.GetPpmResponseService;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintRespondService;
@@ -81,14 +75,9 @@ import com.daemon.emco_android.repository.remote.SupportDocumentRepository;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewDataAdapter;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewItem;
 import com.daemon.emco_android.ui.components.FilterableListDialog;
-import com.daemon.emco_android.ui.components.Fragments.ImagePicker;
 import com.daemon.emco_android.ui.fragments.common.MainDashboard;
 import com.daemon.emco_android.utils.AppUtils;
-import com.daemon.emco_android.utils.BarcodeCaptureActivity;
 import com.daemon.emco_android.utils.ImageUtil;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -119,7 +108,6 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
     AssetInfo assetInfo;
     private Bundle mArgs;
     private AppCompatActivity mActivity;
-    View view;
     String refNo;
     private boolean isPermissionGranted = false;
     String type;
@@ -136,20 +124,15 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
     private final int THUMBNAIL_SIZE = 75;
     private CharSequence[] items;
     private ReceiveComplaintRespondService receiveComplaintRespond_service;
-    ImageButton btn_job_no,btn_custodian,btn_asset_status,btn_asset_condition,btn_warranty_expiry,btn_warranty_type;
-    TextView txt_ref_no, txt_job_no ,
-            txt_custodian ,txt_custodian_name, txt_asset_status, txt_asset_condition  ,txt_warranty_expiry,txt_warranty_type;
-    EditText txt_remarks,txt_warranty_remarks,txt_asset_location;
     List<JobList> jobLists = new ArrayList<>();
     private  List<DocumentType> docTypeList;
     List<EmployeeList> employeeList = new ArrayList<>();
     List<DocumentType> assetStatus = new ArrayList<>();
     List<DocumentType> assetCondition = new ArrayList<>();
-    FloatingActionButton btn_save;
     private boolean noImageAttached=false;
-    private RecyclerView recyclerView = null;
     private ArrayList<CustomRecyclerViewItem> itemList  =new ArrayList<>();
     private CustomRecyclerViewDataAdapter customRecyclerViewDataAdapter = null;
+    FragmentAssetAuditBinding binding;
     AssetInfoTrans trans;
 
     public AssetAuditFragment() {
@@ -171,7 +154,9 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_asset_audit, container, false);
+
+        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_asset_audit, container, false);
+
         mActivity = (AppCompatActivity) getActivity();
 
         initView();
@@ -179,31 +164,12 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
         setHasOptionsMenu(true);
         fetchAssetInfo();
         imageLoader = ImageLoader.getInstance();
-        return view;
+        return binding.getRoot();
 
     }
 
 
     public void initView(){
-
-        txt_ref_no=(TextView) view.findViewById(R.id.txt_ref_no) ;
-        txt_job_no=(TextView) view.findViewById(R.id.txt_job_no) ;
-        txt_asset_location=(EditText) view.findViewById(R.id.txt_asset_location) ;
-        txt_custodian =(TextView) view.findViewById(R.id.txt_custodian) ;
-        txt_custodian_name=(TextView) view.findViewById(R.id.txt_custodian_name) ;
-        txt_remarks=(EditText) view.findViewById(R.id.txt_remarks) ;
-        txt_asset_status=(TextView) view.findViewById(R.id.txt_asset_status) ;
-        txt_asset_condition=(TextView) view.findViewById(R.id.txt_asset_condition) ;
-        txt_warranty_type =(TextView) view.findViewById(R.id.txt_warranty_type) ;
-        txt_warranty_expiry=(TextView) view.findViewById(R.id.txt_warranty_expiry) ;
-        txt_warranty_remarks=(EditText) view.findViewById(R.id.txt_warranty_remarks) ;
-
-        btn_job_no=(ImageButton) view.findViewById(R.id.btn_job_no) ;
-        btn_custodian =(ImageButton) view.findViewById(R.id.btn_custodian) ;
-        btn_asset_status=(ImageButton) view.findViewById(R.id.btn_asset_status) ;
-        btn_asset_condition=(ImageButton) view.findViewById(R.id.btn_asset_condition) ;
-        btn_warranty_expiry=(ImageButton) view.findViewById(R.id.btn_warranty_expiry) ;
-        btn_warranty_type=(ImageButton) view.findViewById(R.id.btn_warranty_type) ;
 
         setUpRecyclerview();
 
@@ -213,7 +179,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
         getImage();
 
 
-        btn_job_no.setOnClickListener(new View.OnClickListener() {
+        binding.btnJobNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -222,35 +188,35 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
             }
         });
 
-        btn_custodian.setOnClickListener(new View.OnClickListener() {
+        binding.btnCustodian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             showEmployeeNoDialog();
             }
         });
 
-        btn_asset_status.setOnClickListener(new View.OnClickListener() {
+        binding.btnAssetStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             showAssetStatusDialog();
             }
         });
 
-        btn_warranty_type.setOnClickListener(new View.OnClickListener() {
+        binding.btnWarrantyType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDocTypeDialog();
             }
         });
 
-        btn_asset_condition.setOnClickListener(new View.OnClickListener() {
+        binding.btnAssetCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
            showAssetConditionDialog();
             }
         });
 
-        btn_warranty_expiry.setOnClickListener(new View.OnClickListener() {
+        binding.btnWarrantyExpiry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -260,21 +226,20 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
         });
 
 
-        txt_ref_no.setText(assetInfo.getAssetTag()+" - "+assetInfo.getEquipmentName());
-        txt_job_no.setText(assetInfo.getJobNo());
-        txt_asset_location.setText(assetInfo.getAssetLocation());
-        txt_custodian .setText(assetInfo.getCustodian());
-        txt_custodian_name.setText(assetInfo.getCustodianName());
-        txt_remarks.setText(assetInfo.getRemark());
-        txt_asset_status.setText(assetInfo.getStatus());
-        txt_asset_condition.setText(assetInfo.getCondition());
-        txt_warranty_type.setText(assetInfo.getWarrantyType());
-        txt_warranty_expiry.setText(assetInfo.getWarrantyExpiry());
-        txt_warranty_remarks.setText(assetInfo.getWarrantyRemarks());
+        binding.txtRefNo .setText(assetInfo.getAssetTag()+" - "+assetInfo.getEquipmentName());
+        binding.txtJobNo  .setText(assetInfo.getJobNo());
+        binding.txtAssetLocation  .setText(assetInfo.getAssetLocation());
+        binding.txtCustodian  .setText(assetInfo.getCustodian());
+        binding.txtCustodianName .setText(assetInfo.getCustodianName());
+        binding.txtRemarks .setText(assetInfo.getRemark());
+        binding.txtAssetStatus .setText(assetInfo.getStatus());
+        binding.txtAssetCondition .setText(assetInfo.getCondition());
+        binding.txtWarrantyType .setText(assetInfo.getWarrantyType());
+        binding.txtWarrantyExpiry  .setText(assetInfo.getWarrantyExpiry());
+        binding.txtWarrantyRemarks  .setText(assetInfo.getWarrantyRemarks());
+        binding.txtSerialNo  .setText(assetInfo.getSerialNo());
 
-
-         btn_save=(FloatingActionButton) view.findViewById(R.id.fab_save);
-        btn_save.setOnClickListener(new View.OnClickListener() {
+        binding.fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveAsset();
@@ -283,12 +248,13 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
 
         if(type.equalsIgnoreCase("Transfer")){
 
-            btn_asset_status.setVisibility(View.INVISIBLE);
+            binding.btnAssetStatus.setVisibility(View.INVISIBLE);
+            binding.linearMakeModel.setVisibility(View.GONE);
 
         }
         else{
 
-            btn_save.setImageResource(R.drawable.arrow);
+            binding.fabSave.setImageResource(R.drawable.arrow);
 
         }
 
@@ -297,24 +263,22 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
 
    public void setUpRecyclerview() {
 
-        // Create the recyclerview.
-        recyclerView = (RecyclerView)view.findViewById(R.id.custom_refresh_recycler_view);
         // Create the grid layout manager with 2 columns.
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),1);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         //layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         // Set layout manager.
-        recyclerView.setLayoutManager(layoutManager);
+       binding.customRefreshRecyclerView.setLayoutManager(layoutManager);
 
         itemList = new ArrayList<CustomRecyclerViewItem>();
         // Create car recycler view data adapter with car item list.
         customRecyclerViewDataAdapter = new CustomRecyclerViewDataAdapter(itemList,1,this,getContext(),true);
         // Set data adapter.
-        recyclerView.setAdapter(customRecyclerViewDataAdapter);
+       binding.customRefreshRecyclerView.setAdapter(customRecyclerViewDataAdapter);
 
         // Scroll RecyclerView a little to make later scroll take effect.
-        recyclerView.scrollToPosition(1);
+       binding.customRefreshRecyclerView.scrollToPosition(1);
 
     }
 
@@ -413,7 +377,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
     public void onSuccessSaveAsset(String strMsg, int mode) {
 
         AppUtils.hideProgressDialog();
-        showDialog(mActivity,strMsg,"");
+        showDialog(mActivity,"Request created successfully.","Reference Number : "+trans.getRefNo());
 
     }
 
@@ -466,7 +430,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
                             public void onItemSelected(String text) {
                                 if(!text.equals(space)){
 
-                            txt_job_no.setText(jobLists.get(strArraySiteName.indexOf(text)).getJobNo());
+                                    binding.txtJobNo.setText(jobLists.get(strArraySiteName.indexOf(text)).getJobNo());
 
                                 }
                             }
@@ -502,8 +466,8 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
                             @Override
                             public void onItemSelected(String text) {
                                 if(!text.equals(space)){
-                                  txt_custodian.setText(employeeList.get(strArraySiteName.indexOf(text)).getEmployeeId());
-                                    txt_custodian_name.setText(employeeList.get(strArraySiteName.indexOf(text)).getEmployeeName());
+                                    binding.txtCustodian.setText(employeeList.get(strArraySiteName.indexOf(text)).getEmployeeId());
+                                    binding.txtCustodianName.setText(employeeList.get(strArraySiteName.indexOf(text)).getEmployeeName());
                                 }
                             }
                         })
@@ -539,7 +503,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
                             @Override
                             public void onItemSelected(String text) {
                                 if(!text.equals(space)){
-                                   txt_asset_condition.setText(text);
+                                    binding.txtAssetCondition.setText(text);
                                 }
                             }
                         })
@@ -574,7 +538,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
                             @Override
                             public void onItemSelected(String text) {
                                 if(!text.equals(space)){
-                                    txt_asset_status.setText(text);
+                                    binding.txtAssetStatus .setText(text);
                                 }
                             }
                         })
@@ -607,7 +571,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
                             public void onItemSelected(String text) {
 
                                 if(!text.equals(space)){
-                                    txt_warranty_type.setText(text);
+                                    binding.txtWarrantyType .setText(text);
                                 }
                             }
                         })
@@ -637,6 +601,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
         trans.setWarrantyType(assetInfo.getWarrantyType());
         trans.setWarrantyExpiry(assetInfo.getWarrantyExpiry());
         trans.setWarrantyRemarks(assetInfo.getWarrantyRemarks());
+        trans.setSerialNo(assetInfo.getSerialNo());
         trans = assignNewValue(trans);
         trans.setTransStatus("Requested"); // fixed value
         trans.setAuditBy(getUseID());
@@ -657,7 +622,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
                fetchCheckList(trans);
            }
            else{
-               AppUtils.showSnackBar(R.id.coordinatorLayout,view,  "Upload image before proceeding next.");
+               AppUtils.showSnackBar(R.id.coordinatorLayout,binding.getRoot(),  "Upload image before proceeding next.");
            }
 
         }
@@ -716,16 +681,23 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
 
     public AssetInfoTrans assignNewValue(AssetInfoTrans trans){
 
-        trans.setJobNewNo(txt_job_no.getText().toString());
-        trans.setAssetNewLocation(txt_asset_location.getText().toString());
-        trans.setCustodianNewNo(txt_custodian.getText().toString());
-        trans.setCustodianNewName(txt_custodian_name.getText().toString());
-        trans.setAssetNewStatus(txt_asset_status.getText().toString());
-        trans.setAssetNewCondition(txt_asset_condition.getText().toString());
-        trans.setAssetNewRemarks(txt_remarks.getText().toString());
-        trans.setWarrantyNewType(txt_warranty_type.getText().toString());
-        trans.setWarrantyNewExpiry(txt_warranty_expiry.getText().toString());
-        trans.setWarrantyNewRemarks(txt_warranty_remarks.getText().toString());
+        trans.setJobNewNo(binding.txtJobNo.getText().toString());
+        trans.setAssetNewLocation(binding.txtAssetLocation .getText().toString());
+        trans.setCustodianNewNo(binding.txtCustodian .getText().toString());
+        trans.setCustodianNewName(binding.txtCustodianName .getText().toString());
+        trans.setAssetNewStatus(binding.txtAssetStatus .getText().toString());
+        trans.setAssetNewCondition(binding.txtAssetCondition .getText().toString());
+        trans.setAssetNewRemarks(binding.txtRemarks.getText().toString());
+        trans.setWarrantyNewType(binding.txtWarrantyType .getText().toString());
+        trans.setWarrantyNewExpiry(binding.txtWarrantyExpiry .getText().toString());
+        trans.setWarrantyNewRemarks(binding.txtWarrantyRemarks .getText().toString());
+        trans.setAssetNewSerialNo(binding.txtSerialNo.getText().toString());
+
+        if(!type.equalsIgnoreCase("Transfer")){
+            trans.setMake(binding.txtAssetMake .getText().toString());
+            trans.setModel(binding.txtAssetModel.getText().toString());
+        }
+
         return trans;
     }
 
@@ -751,7 +723,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
     @Override
     public void onDateReceivedSuccess(String strDate) {
 
-        txt_warranty_expiry.setText(changeDateFormat(strDate));
+        binding.txtWarrantyExpiry .setText(changeDateFormat(strDate));
 
     }
 
@@ -886,15 +858,15 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
 
         if (base64 == null) {
 
-            items = new CharSequence[]{"Take photo", "Choose photo", "No image"};
+            items = new CharSequence[]{"Take photo", "No image"};
             builder.setTitle("Add  photo");
 
         }
         else if(base64.equalsIgnoreCase("noImage")){
-            items = new CharSequence[]{"Take photo", "Choose photo"};
+            items = new CharSequence[]{"Take photo"};
             builder.setTitle("Add  photo");
         } else {
-            items = new CharSequence[]{"Take photo", "Choose photo", "View photo"}; // , "Delete photo"
+            items = new CharSequence[]{"Take photo", "View photo"}; // , "Delete photo"
             builder.setTitle("Update and view photo");
         }
         builder.setItems(
@@ -905,13 +877,9 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
                         switch (item) {
                             case 0:
                                 dispatchTakePhotoIntent();
-
                                 break;
+
                             case 1:
-                                dispatchChoosePhotoIntent();
-
-                                break;
-                            case 2:
 
                                 if (items[item].toString().equalsIgnoreCase("View photo")) {
                                     dispatchViewPhotoIntent(base64);
@@ -924,7 +892,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
 
                                 break;
 
-                            case 3:
+                            case 2:
                                 dialog.dismiss();
                                 showNoImageAlert(count);
                                 chekNoimage = 1;
@@ -1002,14 +970,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
 
     }
 
-    private void dispatchChoosePhotoIntent() {
-        ImagePicker fragment = new ImagePicker();
-        fragment.SetImagePickListener(this);
-        FragmentTransaction ObjTransaction = mActivity.getSupportFragmentManager().beginTransaction();
-        ObjTransaction.add(android.R.id.content, fragment, AppUtils.SHARED_DIALOG_PICKER);
-        ObjTransaction.addToBackStack(AppUtils.SHARED_DIALOG_PICKER);
-        ObjTransaction.commit();
-    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -1105,7 +1066,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.custom_fullimage_dialog,
-                (ViewGroup) view.findViewById(R.id.layout_root));
+                (ViewGroup) binding.getRoot().findViewById(R.id.layout_root));
         ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
         image.setImageBitmap(AppUtils.getDecodedString(base64));
         image.getLayoutParams().height = height;
@@ -1266,7 +1227,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
 
                         if(fromUpload){
                             AppUtils.hideProgressDialog();
-                            AppUtils.showSnackBar(R.id.coordinatorLayout,view, "Image has been successfully Saved.");
+                            AppUtils.showSnackBar(R.id.coordinatorLayout,binding.getRoot(), "Image has been successfully Saved.");
                         }
 
                         super.onPostExecute(aVoid);
@@ -1277,7 +1238,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
             else{
 
                 customRecyclerViewDataAdapter = new CustomRecyclerViewDataAdapter(itemList,imgCount,this,getContext(),false);
-                recyclerView.setAdapter(customRecyclerViewDataAdapter);
+                binding.customRefreshRecyclerView.setAdapter(customRecyclerViewDataAdapter);
 
             }
         } catch (Exception e) {
@@ -1287,7 +1248,7 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
 
     public void processRecycleview(){
         customRecyclerViewDataAdapter = new CustomRecyclerViewDataAdapter(itemList,imgCount,this,getContext(),false);
-        recyclerView.setAdapter(customRecyclerViewDataAdapter);
+        binding.customRefreshRecyclerView.setAdapter(customRecyclerViewDataAdapter);
     }
 
     @Override
@@ -1301,12 +1262,12 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
     }
 
     @Override
-    public void onReceivedPPMParameterSucess(GetPpmParamValue customerRemarks) {
+    public void onReceivedPPMParameterSuccess(GetPpmParamValue customerRemarks) {
 
     }
 
     @Override
-    public void onReceivedSucess(List<ObjectMonthly> customerRemarks) {
+    public void onReceivedSuccess(List<ObjectMonthly> customerRemarks) {
 
         AppUtils.hideProgressDialog();
         loadFragment(new AssetCheckListFragment(),customerRemarks, trans, TAG_FRAGMENT_ASSET_FINDINGS);
@@ -1314,12 +1275,12 @@ public class AssetAuditFragment extends Fragment implements AssetVerificationRep
     }
 
     @Override
-    public void onGetSavedDataSucess(List<ObjectSavedCheckListResponse> customerRemarks) {
+    public void onGetSavedDataSuccess(List<ObjectSavedCheckListResponse> customerRemarks) {
 
     }
 
     @Override
-    public void onReceivedSavedSucess(String customerRemarks) {
+    public void onReceivedSavedSuccess(String customerRemarks) {
 
     }
 

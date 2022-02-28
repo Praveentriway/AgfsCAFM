@@ -1,0 +1,16 @@
+package com.daemon.emco_android.listeners;
+
+import com.daemon.emco_android.db.entity.CategoryEntity;
+
+import java.util.List;
+
+/**
+ * Created by vikram on 12/3/18.
+ */
+
+public interface CheckCustomerSignListener
+{
+    void onCheckSucess(String s);
+
+    void onCategoryReceivedFailure(String strErr);
+}

@@ -1,0 +1,36 @@
+package com.daemon.emco_android.db.dao;
+
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.PriorityEntity;
+
+import java.util.List;
+
+@Dao
+public interface PriorityDao {
+
+    @Query("SELECT * FROM PriorityEntity")
+    List<PriorityEntity> getAll();
+
+    @Query("SELECT COUNT(*) from PriorityEntity")
+    int count();
+
+    @Query("SELECT COUNT(*) from PriorityEntity where code LIKE  :code")
+    int countByNatureCode(String code);
+
+    @Query("SELECT * FROM PriorityEntity where code LIKE  :code")
+    PriorityEntity findByCategoryCode(String code);
+
+    @Insert
+    void insertAll(List<PriorityEntity> priorityEntities);
+
+    @Delete
+    void delete(PriorityEntity priorityEntity);
+
+    @Query("DELETE FROM PriorityEntity")
+    void deleteAll();
+}

@@ -29,7 +29,7 @@ class RegisterActivity : AppCompatActivity() {
             mPreferences = getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE)
             mEditor = mPreferences.edit()
             val loginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null)
-            if (loginData != null && loginData.length > 0) {
+            if (loginData != null && loginData.isNotEmpty()) {
                 Log.d(TAG, "getLoginData $loginData")
                 val mainActivity = Intent(this, MainActivity::class.java)
                 startActivity(mainActivity)

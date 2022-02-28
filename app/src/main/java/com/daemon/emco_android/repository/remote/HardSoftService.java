@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.repository.remote.restapi.Api;
 import com.daemon.emco_android.repository.remote.restapi.ApiClient;
 import com.daemon.emco_android.repository.remote.restapi.ApiConstant;
 import com.daemon.emco_android.repository.remote.restapi.ApiInterface;
@@ -37,18 +38,20 @@ public class HardSoftService {
         mContext = context;
         mCallback = listener;
         mView_listener = view_listener;
-        mInterface = ApiClient.getClient(mContext).create(ApiInterface.class);
+        mInterface = Api.dataClient().create(ApiInterface.class);
     }
 
     public void getHardSoftServiceComplaintDetails(
             HardSoftRequest hardSoftRequest, int startIndex, String pageType) {
         Log.d(TAG, "GetReceiveComplaintListData");
         Call<ReceiveComplaintResponse> get;
-        if (pageType.equals(mContext.getString(R.string.title_reactive_soft_services))) {
-            get = mInterface.getSoftServiceComplaintDetails(hardSoftRequest, startIndex, 10);
-        } else {
-            get = mInterface.getHardServiceComplaintDetails(hardSoftRequest, startIndex, 10);
-        }
+       // get = mInterface.getHardServiceComplaintDetails(hardSoftRequest, startIndex, 10);
+        get = mInterface.getHardServiceInspectionDetails(hardSoftRequest, startIndex, 10);
+      //  if (pageType.equals(mContext.getString(R.string.title_reactive_soft_services))) {
+      //      get = mInterface.getSoftServiceComplaintDetails(hardSoftRequest, startIndex, 10);
+     //   } else {  GETHARDSERVICEINSPECTIONDETAILS
+      //     get = mInterface.getHardServiceComplaintDetails(hardSoftRequest, startIndex, 10);
+       // }
         get.enqueue(
                 new Callback<ReceiveComplaintResponse>() {
                     @Override

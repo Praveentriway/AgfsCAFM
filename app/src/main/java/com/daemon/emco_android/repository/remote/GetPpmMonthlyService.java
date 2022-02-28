@@ -47,7 +47,7 @@ public class GetPpmMonthlyService
                         Log.d(TAG, "onResponse success " + response.body().getMessage());
                         if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
                             Log.d(TAG, "onResponse success");
-                            mCallback.onReceivedSavedSucess(response.body().getMessage());
+                            mCallback.onReceivedSavedSuccess(response.body().getMessage());
                         }else{
                             mCallback.onReceiveFailure(response.body().getMessage().toString());
                         }
@@ -72,7 +72,7 @@ public class GetPpmMonthlyService
                 public void onResponse(Call<CheckListMonthlyResponse> call, Response<CheckListMonthlyResponse> response) {
                     if (response.isSuccessful()) {
                         if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
-                            mCallback.onReceivedSucess(response.body().getObject());
+                            mCallback.onReceivedSuccess(response.body().getObject());
                         }else{
                             mCallback.onReceiveFailure(response.body().getMessage().toString());
                         }
@@ -97,7 +97,7 @@ public class GetPpmMonthlyService
                 public void onResponse(Call<GetPpmParamValue> call, Response<GetPpmParamValue> response) {
                     if (response.isSuccessful()) {
                         if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
-                            mCallback.onReceivedPPMParameterSucess(response.body());
+                            mCallback.onReceivedPPMParameterSuccess(response.body());
                         }else{
                             mCallback.onReceiveFailure(response.body().getMessage().toString());
                         }

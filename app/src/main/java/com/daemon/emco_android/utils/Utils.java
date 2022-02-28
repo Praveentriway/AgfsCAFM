@@ -15,6 +15,12 @@ public class Utils {
     public static final String TAG_PM_PPMDETAILS_LIST = "Fragment_PM_PPMDetails_List";
     public static final String TAG_FRAGMENT_CUST_FEEDBACK_QUES = "Fragment_cust_feedback_questionnaire";
     public static final String TAG_FRAGMENT_HEADER_SECONDARY = "TAG_FRAGMENT_HEADER_SECONDARY";
+    public static final String TAG_FRAGMENT_UTILITY_SCANNING = "TAG_FRAGMENT_UTILITY_SCANNING";
+
+    public static final String TAG_FRAGMENT_UTILITY_DETAIL = "TAG_FRAGMENT_UTILITY_DETAIL";
+
+    public static final String TAG_FRAGMENT_UTILITY_READING = "TAG_FRAGMENT_UTILITY_READING";
+
     public static final String TAG_FRAGMENT_CUST_FEEDBACK_SUGGESTION = "Fragment_cust_feedback_suggestion";
     public static final String TAG_FRAGMENT_DOC_UPLOAD = "FRAGMENT_DOC_UPLOAD";
     public static final String FRAGMENT_DOC_LIST = "FRAGMENT_DOC_LIST";
@@ -45,10 +51,15 @@ public class Utils {
 
     public static final String TAG_HELP_SUPPORT = "TAG_HELP_SUPPORT";
 
+    public static final String TAG_UTILITY_SCANNING = "TAG_UTILITY_SCANNING";
+
     public static final String TAG_F_CUSTOMER_FEEDBACK_HEADER = "Customer Feedback header";
 
     public static final String TAG_F_ASSET_VERIFICATION = "TAG_F_ASSET_VERIFICATION";
-
+    public static final String TAG_F_RV_HARDSERVICE_LIST = "TAG_F_RV_HARDSERVICE_LIST";
+    public static final String TAG_F_REACTIVE_VERIFICATION = "TAG_F_REACTIVE_VERIFICATION";
+    public static final String TAG_F_RV_HARDSERVICE = "Hard Service";
+    public static final String TAG_F_RV_SOFTSERVICE = "Soft Service";
     public static final String TAG_F_JOBLOCATIONFINDER = "TAG_F_JOBLOCATIONFINDER";
     public static final String TAG_CHANGE_PASS = "change pass";
     public static final String TAG_VIEW_PROFILE_NEW = "view profile new";

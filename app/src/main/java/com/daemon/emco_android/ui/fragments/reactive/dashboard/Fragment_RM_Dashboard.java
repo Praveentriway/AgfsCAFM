@@ -188,7 +188,6 @@ public class Fragment_RM_Dashboard extends Fragment
   }
 
   private void getPopupDataFromServer() {
-
     gettingSiteName();
     gettingReportTypes();
   }

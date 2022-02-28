@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/AndroidEMCO/!svn/ver/118/app/src/main/java/com/daemon/emco_android/fragments/user
+END
+Fragment_ForgotPassword.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/AndroidEMCO/!svn/ver/118/app/src/main/java/com/daemon/emco_android/fragments/user/Fragment_ForgotPassword.java
+END
+Fragment_Login.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/AndroidEMCO/!svn/ver/118/app/src/main/java/com/daemon/emco_android/fragments/user/Fragment_Login.java
+END
+Fragment_ChangePassword.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/AndroidEMCO/!svn/ver/90/app/src/main/java/com/daemon/emco_android/fragments/user/Fragment_ChangePassword.java
+END
+Fragment_ViewProfile_New.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/AndroidEMCO/!svn/ver/90/app/src/main/java/com/daemon/emco_android/fragments/user/Fragment_ViewProfile_New.java
+END
+Fragment_Reg.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/AndroidEMCO/!svn/ver/118/app/src/main/java/com/daemon/emco_android/fragments/user/Fragment_Reg.java
+END
+Fragment_ViewProfile.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/AndroidEMCO/!svn/ver/51/app/src/main/java/com/daemon/emco_android/fragments/user/Fragment_ViewProfile.java
+END

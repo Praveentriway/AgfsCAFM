@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -144,6 +145,7 @@ public class PpmDashboard extends Fragment implements View.OnClickListener  {
                 mdata.putString(AppUtils.ARGS_FILTERTYPE, "P");
                 filter.setArguments(mdata);
                 loadFragment(filter, Utils.TAG_DOCUMENT_FILTER);
+
                 break;
         }
     }

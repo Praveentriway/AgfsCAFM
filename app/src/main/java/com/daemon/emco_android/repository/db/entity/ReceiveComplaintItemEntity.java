@@ -70,6 +70,12 @@ public class ReceiveComplaintItemEntity implements Parcelable {
   @ColumnInfo(name = "complainDate")
   private String complainDate;
 
+
+
+  @SerializedName("ticketNo")
+
+  private String ticketNo;
+
   @SerializedName("workType")
   @Expose
   @ColumnInfo(name = "workType")
@@ -135,6 +141,7 @@ public class ReceiveComplaintItemEntity implements Parcelable {
     this.complaintNumber = in.readString();
     this.complainRefrenceNumber = in.readString();
     this.complainDate = in.readString();
+
     this.workType = in.readString();
     this.workTypeDescription = in.readString();
     this.priority = in.readString();
@@ -174,6 +181,14 @@ public class ReceiveComplaintItemEntity implements Parcelable {
   /** @param siteCode The siteCode */
   public void setSiteCode(String siteCode) {
     this.siteCode = siteCode;
+  }
+
+  /** @return The ticketNo */
+  public String getTicketNo() {
+    return ticketNo;
+  }
+  public void setTicketNo(String ticketNo) {
+    this.ticketNo = ticketNo;
   }
 
   /** @return The complaintNumber */
@@ -328,6 +343,7 @@ public class ReceiveComplaintItemEntity implements Parcelable {
     dest.writeString(this.complaintNumber);
     dest.writeString(this.complainRefrenceNumber);
     dest.writeString(this.complainDate);
+
     dest.writeString(this.workType);
     dest.writeString(this.workTypeDescription);
     dest.writeString(this.priority);
@@ -359,6 +375,7 @@ public class ReceiveComplaintItemEntity implements Parcelable {
         : that.complainRefrenceNumber != null) return false;
     if (complainDate != null ? !complainDate.equals(that.complainDate) : that.complainDate != null)
       return false;
+
     if (workType != null ? !workType.equals(that.workType) : that.workType != null) return false;
     if (workTypeDescription != null
         ? !workTypeDescription.equals(that.workTypeDescription)
@@ -391,6 +408,7 @@ public class ReceiveComplaintItemEntity implements Parcelable {
     result = 31 * result + (complaintNumber != null ? complaintNumber.hashCode() : 0);
     result = 31 * result + (complainRefrenceNumber != null ? complainRefrenceNumber.hashCode() : 0);
     result = 31 * result + (complainDate != null ? complainDate.hashCode() : 0);
+
     result = 31 * result + (workType != null ? workType.hashCode() : 0);
     result = 31 * result + (workTypeDescription != null ? workTypeDescription.hashCode() : 0);
     result = 31 * result + (priority != null ? priority.hashCode() : 0);

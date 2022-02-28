@@ -1,0 +1,87 @@
+package com.daemon.emco_android.model.response;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+public class ObjectPPM {
+    @SerializedName("checkedBy")
+    @Expose
+    private List<CheckedBy> checkedBy = null;
+    @SerializedName("attendedBy")
+    @Expose
+    private List<AttendedBy> attendedBy = null;
+    @SerializedName("feedbackInformation")
+    @Expose
+    private String feedbackInformation;
+    @SerializedName("customerSignStatus")
+    @Expose
+    private String customerSignStatus;
+    @SerializedName("actStartDate")
+    @Expose
+    private String actStartDate;
+    @SerializedName("actEndDate")
+    @Expose
+    private String actEndDate;
+    @SerializedName("ppmStatus")
+    @Expose
+    private String ppmStatus;
+
+    public List<CheckedBy> getCheckedBy() {
+        return checkedBy;
+    }
+
+    public void setCheckedBy(List<CheckedBy> checkedBy) {
+        this.checkedBy = checkedBy;
+    }
+
+    public List<AttendedBy> getAttendedBy() {
+        return attendedBy;
+    }
+
+    public void setAttendedBy(List<AttendedBy> attendedBy) {
+        this.attendedBy = attendedBy;
+    }
+
+    public String getFeedbackInformation() {
+        return feedbackInformation;
+    }
+
+    public void setFeedbackInformation(String feedbackInformation) {
+        this.feedbackInformation = feedbackInformation;
+    }
+
+    public String getCustomerSignStatus() {
+        return customerSignStatus;
+    }
+
+    public void setCustomerSignStatus(String customerSignStatus) {
+        this.customerSignStatus = customerSignStatus;
+    }
+
+    public String getActStartDate() {
+        return actStartDate;
+    }
+
+    public void setActStartDate(String actStartDate) {
+        this.actStartDate = actStartDate;
+    }
+
+    public String getActEndDate() {
+        return actEndDate;
+    }
+
+    public void setActEndDate(String actEndDate) {
+        this.actEndDate = actEndDate;
+    }
+
+    public String getPpmStatus() {
+        return ppmStatus;
+    }
+
+    public void setPpmStatus(String ppmStatus) {
+        this.ppmStatus = ppmStatus;
+    }
+
+}

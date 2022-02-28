@@ -191,22 +191,22 @@ public class PPMCheckListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onReceivedPPMParameterSucess(GetPpmParamValue customerRemarks) {
+    public void onReceivedPPMParameterSuccess(GetPpmParamValue customerRemarks) {
         AppUtils.hideProgressDialog();
         getParamValue(customerRemarks);
 
     }
 
     @Override
-    public void onReceivedSucess(List<ObjectMonthly> customerRemarks) {
+    public void onReceivedSuccess(List<ObjectMonthly> customerRemarks) {
     }
 
     @Override
-    public void onGetSavedDataSucess(List<ObjectSavedCheckListResponse> customerRemarks) {
+    public void onGetSavedDataSuccess(List<ObjectSavedCheckListResponse> customerRemarks) {
     }
 
     @Override
-    public void onReceivedSavedSucess(String customerRemarks) {
+    public void onReceivedSavedSuccess(String customerRemarks) {
     }
 
     @Override

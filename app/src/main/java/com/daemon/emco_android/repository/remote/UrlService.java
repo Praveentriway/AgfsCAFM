@@ -17,7 +17,7 @@ import retrofit2.Response;
 import static com.daemon.emco_android.repository.remote.restapi.ApiConstant.PREFIXURL;
 import static com.daemon.emco_android.ui.activities.LoginActivity.IP_ADDRESS;
 
-/** Created by vikram on 13/6/17. */
+
 public class UrlService {
   private static final String TAG = UrlService.class.getSimpleName();
 
@@ -54,9 +54,9 @@ public class UrlService {
                     if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
                       mCallback.onUrlreceivedsucess(response.body());
                       SessionManager.saveSession(
-                          "baseurl", "http://" + ip + "/"+PREFIXURL+"/webapi/", mActivity);
+                          "baseurl", "https://" + ip + "/"+PREFIXURL+"/webapi/", mActivity);
                       SessionManager.saveSession(
-                          "baseurlfile", "http://" + ip + "/"+PREFIXURL+"/", mActivity);
+                          "baseurlfile", "https://" + ip + "/"+PREFIXURL+"/", mActivity);
 
                       SessionManager.saveSessionForURL(
                               IP_ADDRESS,  ip , mActivity);

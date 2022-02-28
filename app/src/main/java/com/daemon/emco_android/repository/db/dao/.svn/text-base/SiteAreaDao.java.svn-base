@@ -1,0 +1,36 @@
+package com.daemon.emco_android.db.dao;
+
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.SiteAreaEntity;
+
+import java.util.List;
+
+@Dao
+public interface SiteAreaDao {
+
+    @Query("SELECT * FROM siteAreaEntity")
+    List<SiteAreaEntity> getAllSites();
+
+    @Query("SELECT COUNT(*) from siteAreaEntity")
+    int countSiteArea();
+
+    @Query("SELECT COUNT(*) FROM siteAreaEntity where siteCode LIKE  :siteCode")
+    int countBySiteCode(String siteCode);
+
+    @Query("SELECT * FROM siteAreaEntity where siteCode LIKE  :siteCode")
+    SiteAreaEntity findSiteBySiteCode(String siteCode);
+
+    @Insert
+    void insertAllSites(List<SiteAreaEntity> siteAreaEntityList);
+
+    @Delete
+    void deleteSite(SiteAreaEntity siteAreaEntity);
+
+    @Query("DELETE FROM siteAreaEntity")
+    void deleteAll();
+}

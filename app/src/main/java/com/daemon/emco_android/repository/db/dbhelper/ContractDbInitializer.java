@@ -5,8 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.daemon.emco_android.repository.db.database.AppDatabase;
-import com.daemon.emco_android.repository.db.entity.ContractEntity;
 import com.daemon.emco_android.listeners.JobNoListener;
+import com.daemon.emco_android.repository.db.entity.ContractEntity;
 import com.daemon.emco_android.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -16,12 +16,12 @@ import java.util.List;
 public class ContractDbInitializer extends AsyncTask<Integer, Void, Integer> {
 
   private final String TAG = ContractDbInitializer.class.getSimpleName();
-  private List<ContractEntity> mContractList = new ArrayList<>();
+  private List<ContractEntity> mContractList = new ArrayList<ContractEntity>();
   private JobNoListener mCallback;
   private AppDatabase db;
 
   public ContractDbInitializer(
-      Context context, List<ContractEntity> contractEntities, JobNoListener callback) {
+          Context context, List<ContractEntity> contractEntities, JobNoListener callback) {
     db = AppDatabase.getAppDatabase(context);
     mContractList = contractEntities;
     mCallback = callback;

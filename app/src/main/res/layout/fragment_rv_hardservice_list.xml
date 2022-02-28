@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        style="@style/scroll_bar"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/ll_title"
+            style="@style/match_wrap_style"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/sv_rc_search"
+                style="@style/edit_searchview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:iconifiedByDefault="false"
+                android:visibility="gone"
+                app:defaultQueryHint="@string/lbl_rc_search" />
+
+
+            <LinearLayout
+                style="@style/match_parent_style"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/ll_receivecomplaint_title"
+                    style="@style/match_wrap_style"
+                    android:layout_below="@+id/sv_rc_search"
+                    android:background="@color/color_gray"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/rv_sno"
+                        style="@style/btn_wrap_content_gray"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:text="@string/lbl_s_no" />
+
+                    <TextView
+                        android:id="@+id/rv_request_no"
+                        style="@style/btn_wrap_content_gray"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:text="@string/lbl_request_no" />
+
+
+                    <TextView
+                        android:id="@+id/rv_date"
+                        style="@style/btn_wrap_content_gray"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:text="@string/lbl_date" />
+
+                    <TextView
+                        android:id="@+id/rv_request_location"
+                        style="@style/btn_wrap_content_gray"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/lbl_request_location" />
+
+                    <TextView
+                        android:id="@+id/rv_complaint_details"
+                        style="@style/btn_wrap_content_gray"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:text="@string/lbl_complaint_details"/>
+
+                    <TextView
+                        android:id="@+id/rv_status"
+                        style="@style/btn_wrap_content_gray"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:text="@string/lbl_status"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/rv_customer_ref"
+                        style="@style/btn_wrap_content_gray"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:text="@string/lbl_customer_ref" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                style="@style/scroll_bar"
+                android:layoutAnimation="@anim/layout_animation"
+                android:layout_marginBottom="@dimen/_10sdp" />
+
+
+            <include layout="@layout/view_list_empty" />
+
+            <include layout="@layout/view_error_retry" />
+
+            <include layout="@layout/view_loading_message" />
+
+            <include layout="@layout/footer" />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+    <io.github.yavski.fabspeeddial.FabSpeedDial
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:fabGravity="bottom_end"
+        app:fabMenu="@menu/fab_menu_rc"
+        android:id="@+id/fab_menu"
+        app:fabDrawable="@drawable/option"
+        app:miniFabBackgroundTint="@color/colorPrimary"
+        app:miniFabDrawableTint="@color/colorWhite"
+        app:miniFabTitleTextColor="@color/colorPrimary" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

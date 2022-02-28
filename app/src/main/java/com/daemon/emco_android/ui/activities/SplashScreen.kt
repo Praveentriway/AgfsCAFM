@@ -21,7 +21,7 @@ import me.relex.circleindicator.CircleIndicator
 import java.util.*
 import kotlin.collections.ArrayList
 
-
+// I AM COMMENT UPDATE CODE
 /**
  * Created by praba on 7/12/19.
  */
@@ -55,12 +55,12 @@ class SplashScreen : AppCompatActivity(), AppUpdateListener {
         }
 
     }
-
+// I AM COMMENT UPDATE CODE
     override fun onResume() {
         if (!updateShow) {
-            AppUpdaterUtils().showDialog(this,this)
+          //  AppUpdaterUtils().showDialog(this,this)
         }
-        updateShow = true
+      //  updateShow = true
         super.onResume()
     }
 

@@ -1,0 +1,34 @@
+package com.daemon.emco_android.db.dao;
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.MaterialMasterEntity;
+
+import java.util.List;
+
+@Dao
+public interface RCMaterialDao {
+
+  @Query("SELECT * FROM MaterialMaster")
+  List<MaterialMasterEntity> getAll();
+
+  @Query(
+      "SELECT * FROM MaterialMaster WHERE materialName LIKE :searchByName LIMIT 10 OFFSET :startIndex")
+  List<MaterialMasterEntity> getByMaterialName(String searchByName, int startIndex);
+
+  @Query("SELECT COUNT(*) from MaterialMaster where materialName LIKE :searchByName ")
+  int count(String searchByName);
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  void insertAll(List<MaterialMasterEntity> entities);
+
+  @Delete
+  void delete(MaterialMasterEntity entity);
+
+  @Query("DELETE FROM MaterialMaster")
+  void deleteAll();
+}

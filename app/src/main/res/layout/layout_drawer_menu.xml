@@ -27,6 +27,7 @@
                 android:drawablePadding="20dp"
                 android:paddingLeft="15dp"
                 android:text="Home"
+                android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp" />
             <View
@@ -41,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:textStyle="bold"
                 android:drawableLeft="@drawable/ic_contacts_24px"
                 android:drawablePadding="20dp"
                 android:paddingLeft="15dp"
@@ -58,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:textStyle="bold"
                 android:drawableLeft="@drawable/ic_change_password"
                 android:drawablePadding="20dp"
                 android:paddingLeft="15dp"
@@ -75,6 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:textStyle="bold"
                 android:drawableLeft="@drawable/ic_logout_menu"
                 android:drawablePadding="20dp"
                 android:paddingLeft="15dp"

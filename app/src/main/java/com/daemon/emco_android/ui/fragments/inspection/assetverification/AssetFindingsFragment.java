@@ -24,6 +24,7 @@ import com.daemon.emco_android.model.common.AssetInfo;
 import com.daemon.emco_android.model.common.AssetInfoTrans;
 import com.daemon.emco_android.model.common.DocumentType;
 import com.daemon.emco_android.model.common.EmployeeList;
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.model.common.JobList;
 import com.daemon.emco_android.model.common.OpcoDetail;
 import com.daemon.emco_android.model.common.PpmScheduleDocBy;
@@ -32,6 +33,7 @@ import com.daemon.emco_android.model.response.ObjectMonthly;
 import com.daemon.emco_android.model.response.ObjectSavedCheckListResponse;
 import com.daemon.emco_android.repository.remote.AssetVerificationRepository;
 import com.daemon.emco_android.repository.remote.GetPpmResponseService;
+import com.daemon.emco_android.service.GPSTracker;
 import com.daemon.emco_android.utils.AppUtils;
 
 import org.jsoup.helper.DataUtil;
@@ -171,12 +173,24 @@ public class AssetFindingsFragment extends Fragment implements  AssetVerificatio
     public void onSuccessSaveAsset(String strMsg, int mode) {
 
         AppUtils.hideProgressDialog();
-        showDialog(mActivity,strMsg,"");
+
+        String actionType="Asset Audit";
+        EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+        emp.setCompCode(assetInfo.getOpco());
+        emp.setTransType(actionType);
+        emp.setActionType(actionType);
+        emp.setRefNo(assetInfo.getRefNo());
+        emp.setCreatedBy(assetInfo.getCreatedBy());
+        new GPSTracker(getContext()).updateFusedLocation(emp);
+
+        showDialog(mActivity,"Record saved successfully.","Reference Number : "+assetInfo.getRefNo());
 
     }
 
     @Override
     public void onFailureSaveAsset(String strErr, int mode) {
+
+        AppUtils.showErrorToast(mActivity,strErr);
 
     }
 
@@ -191,24 +205,23 @@ public class AssetFindingsFragment extends Fragment implements  AssetVerificatio
     }
 
     @Override
-    public void onReceivedPPMParameterSucess(GetPpmParamValue customerRemarks) {
+    public void onReceivedPPMParameterSuccess(GetPpmParamValue customerRemarks) {
 
     }
 
     @Override
-    public void onReceivedSucess(List<ObjectMonthly> customerRemarks) {
-
+    public void onReceivedSuccess(List<ObjectMonthly> customerRemarks) {
 
 
     }
 
     @Override
-    public void onGetSavedDataSucess(List<ObjectSavedCheckListResponse> customerRemarks) {
+    public void onGetSavedDataSuccess(List<ObjectSavedCheckListResponse> customerRemarks) {
 
     }
 
     @Override
-    public void onReceivedSavedSucess(String customerRemarks) {
+    public void onReceivedSavedSuccess(String customerRemarks) {
 
         new AssetVerificationRepository(mActivity,this).saveAsset(assetInfo);
 
@@ -242,14 +255,15 @@ public class AssetFindingsFragment extends Fragment implements  AssetVerificatio
 
                                         }
                                     });
+
             MaterialDialog dialog = builder.build();
             dialog.show();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
 
+    }
 
 
 }

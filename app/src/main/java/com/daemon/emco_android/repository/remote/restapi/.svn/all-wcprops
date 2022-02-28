@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/123/app/src/main/java/com/daemon/emco_android/db/restapi
+END
+ApiInterface.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/db/restapi/ApiInterface.java
+END
+ApiConstant.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/db/restapi/ApiConstant.java
+END
+ApiClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/AndroidEMCO/!svn/ver/108/app/src/main/java/com/daemon/emco_android/db/restapi/ApiClient.java
+END

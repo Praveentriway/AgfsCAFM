@@ -214,7 +214,6 @@ public class FragmentRxSubmenu extends Fragment implements View.OnClickListener 
             case R.id.btn_view_complaint:
                 loadFragment(new Fragment_RM_SearchComplaint(), Utils.TAG_SINGLE_SEARCH_COMPLAINT);
                 break;
-
             case R.id.btn_dashboard:
                 loadFragment(new Fragment_RM_Dashboard(), Utils.TAG_DASHBOARD);
                 break;

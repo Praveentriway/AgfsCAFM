@@ -78,17 +78,20 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/_10sdp"
+
                         android:gravity="center">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_45sdp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp">
+                          >
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="@dimen/_45sdp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
                                 android:textColorHint="#B9B8B8"
                                 app:hintEnabled="false"
                                 app:passwordToggleEnabled="true">
@@ -97,7 +100,6 @@
                                 android:id="@+id/tie_password"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginTop="15dp"
                                 android:nextFocusDown="@+id/tie_serverurl"
                                 android:background="@drawable/broken_border"
                                 android:hint="Enter the password"
@@ -116,8 +118,7 @@
                                 android:id="@+id/txt_password"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="7dp"
+                                android:layout_marginLeft="30dp"
                                 android:background="#F1F1F1"
                                 android:textSize="@dimen/_10sdp"
                                 android:text=" Password "

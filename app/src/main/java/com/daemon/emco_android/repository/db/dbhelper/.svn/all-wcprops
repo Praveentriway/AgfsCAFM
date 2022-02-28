@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/95/app/src/main/java/com/daemon/emco_android/db/dbhelper
+END
+SiteAreaDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/db/dbhelper/SiteAreaDbInitializer.java
+END
+RCMaterialDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/AndroidEMCO/!svn/ver/63/app/src/main/java/com/daemon/emco_android/db/dbhelper/RCMaterialDbInitializer.java
+END
+ReceiveComplaintItemDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/AndroidEMCO/!svn/ver/95/app/src/main/java/com/daemon/emco_android/db/dbhelper/ReceiveComplaintItemDbInitializer.java
+END
+RCSavedMaterialDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/AndroidEMCO/!svn/ver/61/app/src/main/java/com/daemon/emco_android/db/dbhelper/RCSavedMaterialDbInitializer.java
+END
+CategoryDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/db/dbhelper/CategoryDbInitializer.java
+END
+WorkStatusDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dbhelper/WorkStatusDbInitializer.java
+END
+PPENamesDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dbhelper/PPENamesDbInitializer.java
+END
+RCAssetDetailsDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dbhelper/RCAssetDetailsDbInitializer.java
+END
+RCRespondDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dbhelper/RCRespondDbInitializer.java
+END
+PriorityDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/db/dbhelper/PriorityDbInitializer.java
+END
+ReportTypesDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dbhelper/ReportTypesDbInitializer.java
+END
+FeedbackDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/dbhelper/FeedbackDbInitializer.java
+END
+LogComplaintDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/db/dbhelper/LogComplaintDbInitializer.java
+END
+DefectDoneImageDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/AndroidEMCO/!svn/ver/60/app/src/main/java/com/daemon/emco_android/db/dbhelper/DefectDoneImageDbInitializer.java
+END
+FbEmployeeDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/AndroidEMCO/!svn/ver/55/app/src/main/java/com/daemon/emco_android/db/dbhelper/FbEmployeeDbInitializer.java
+END
+WorkPendingReasonDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dbhelper/WorkPendingReasonDbInitializer.java
+END
+WorkTypeDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/db/dbhelper/WorkTypeDbInitializer.java
+END
+ZoneDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/db/dbhelper/ZoneDbInitializer.java
+END
+ReceiveComplaintViewDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dbhelper/ReceiveComplaintViewDbInitializer.java
+END
+WorkDefectsDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/db/dbhelper/WorkDefectsDbInitializer.java
+END
+ContractDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/db/dbhelper/ContractDbInitializer.java
+END
+PPEFetchSaveDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/dbhelper/PPEFetchSaveDbInitializer.java
+END
+WorkDoneDbInitializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/db/dbhelper/WorkDoneDbInitializer.java
+END

@@ -1,0 +1,38 @@
+package com.daemon.emco_android.db.entity;
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import com.google.gson.annotations.SerializedName;
+
+@Entity(tableName = "PriorityEntity")
+public class PriorityEntity {
+
+  @ColumnInfo(name = "code")
+  @SerializedName("code")
+  @NonNull
+  @PrimaryKey
+  private String mCode;
+
+  @ColumnInfo(name = "description")
+  @SerializedName("description")
+  private String mDescription;
+
+  public String getCode() {
+    return mCode;
+  }
+
+  public void setCode(String code) {
+    mCode = code;
+  }
+
+  public String getDescription() {
+    return mDescription;
+  }
+
+  public void setDescription(String description) {
+    mDescription = description;
+  }
+}

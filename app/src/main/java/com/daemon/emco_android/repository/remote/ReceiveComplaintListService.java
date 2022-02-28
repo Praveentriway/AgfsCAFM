@@ -40,9 +40,11 @@ public class ReceiveComplaintListService {
     Log.d(TAG, "GetReceiveComplaintListData");
     Call<ReceiveComplaintResponse> getReceivecomplaint;
     if (pageType.equals(AppUtils.ARGS_RECEIVECOMPLAINT_PAGE)) {
+        Log.d("Bug","Bug_Track_2"+strEmpid + ","+status + ","+ startIndex);
       getReceivecomplaint =
           mInterface.getReceiveComplaintListResult(strEmpid, status, startIndex, 10);
     } else {
+        Log.d("Bug","Bug_Track_3");
       getReceivecomplaint = mInterface.getReceiveComplaintUnSignedResult(strEmpid, startIndex, 10);
     }
     getReceivecomplaint.enqueue(
@@ -123,9 +125,12 @@ public class ReceiveComplaintListService {
                 public void onResponse(
                     Call<CommonResponse> call, Response<CommonResponse> response) {
                   if (response.isSuccessful()) {
+
+                     Log.d("first", "onResponse success " + response.body().getObject().getNewComplaint());
+                      Log.d("first", "onResponse success o " + response.body().getObject().getOldComplaint());
                     Log.d(TAG, "onResponse success " + response.body().toString());
                     if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
-
+                        Log.d("firstchk", "onResponse success " + response.body().getObject());
                       // mCallback.onReceiveComplaintListReceived(null,response.body().getTotalNumberOfRows(), AppUtils.MODE_SERVER);
                       //  mCallback.onReceiveComplaintListReceivedUpdate(null,response.body().getObject().getNewComplaint(),response.body().getObject().getOldComplaint(), AppUtils.MODE_SERVER);
                         mCallback.onReceiveComplaintListReceivedUpdate(null,response.body().getObject(), AppUtils.MODE_SERVER);

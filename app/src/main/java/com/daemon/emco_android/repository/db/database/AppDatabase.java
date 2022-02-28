@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import android.content.Context;
-
 import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.repository.db.dao.CategoryDao;
 import com.daemon.emco_android.repository.db.dao.ContractDao;
@@ -172,4 +171,5 @@ public abstract class AppDatabase extends RoomDatabase {
   public abstract SaveFeedbackDao saveFeedbackDao();
 
   public abstract EmployeeTrackingDao employeeTrackingDao();
+
 }

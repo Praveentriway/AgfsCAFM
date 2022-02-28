@@ -23,6 +23,7 @@ public class PPENameEntity {
   @SerializedName("name")
   @ColumnInfo(name = "name")
   private String mName;
+
   private String ppeUsed;
 
   public String getPpeUsed() {

@@ -386,11 +386,11 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
 
 
     @Override
-    public void onReceivedPPMParameterSucess(GetPpmParamValue customerRemarks) {
+    public void onReceivedPPMParameterSuccess(GetPpmParamValue customerRemarks) {
     }
 
     @Override
-    public void onReceivedSucess(List<ObjectMonthly> customerRemarks) {
+    public void onReceivedSuccess(List<ObjectMonthly> customerRemarks) {
         AppUtils.hideProgressDialog();
         List<ObjectMonthly> value = new ArrayList<>();
         objectCodeValue = customerRemarks;
@@ -424,12 +424,12 @@ public class Fragment_IM_HardsoftPPMChecklist extends Fragment implements PPMSer
     }
 
     @Override
-    public void onGetSavedDataSucess(List<ObjectSavedCheckListResponse> customerRemarks) {
+    public void onGetSavedDataSuccess(List<ObjectSavedCheckListResponse> customerRemarks) {
         AppUtils.hideProgressDialog();
     }
 
     @Override
-    public void onReceivedSavedSucess(String customerRemarks) {
+    public void onReceivedSavedSuccess(String customerRemarks) {
         AppUtils.hideProgressDialog();
         AppUtils.showDialog(mActivity, customerRemarks);
     }

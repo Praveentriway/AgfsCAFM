@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material/icons/materialicons/visibility_off/baseline_visibility_off_24.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material/icons/materialiconsoutlined/touch_app/outline_touch_app_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,8 +33,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="515151" />
-                            <entry key="outputName" value="ic_baseline_visibility_off_24" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_outline_touch_app_24" />
                             <entry key="sourceFile" value="$USER_HOME$/Downloads/edit-black-24dp.svg" />
                           </map>
                         </option>

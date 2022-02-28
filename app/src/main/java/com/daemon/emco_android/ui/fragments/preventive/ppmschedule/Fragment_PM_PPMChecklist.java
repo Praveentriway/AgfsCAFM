@@ -446,11 +446,11 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
 
 
     @Override
-    public void onReceivedPPMParameterSucess(GetPpmParamValue customerRemarks) {
+    public void onReceivedPPMParameterSuccess(GetPpmParamValue customerRemarks) {
     }
 
     @Override
-    public void onReceivedSucess(List<ObjectMonthly> customerRemarks) {
+    public void onReceivedSuccess(List<ObjectMonthly> customerRemarks) {
         AppUtils.hideProgressDialog();
         List<ObjectMonthly> value = new ArrayList<>();
         txt_ppm_title.setText(customerRemarks.get(0).getCheckListDesc().replaceAll("(\\r|\\n)", ""));
@@ -483,12 +483,12 @@ public class Fragment_PM_PPMChecklist extends Fragment implements PPMService_Lis
     }
 
     @Override
-    public void onGetSavedDataSucess(List<ObjectSavedCheckListResponse> customerRemarks) {
+    public void onGetSavedDataSuccess(List<ObjectSavedCheckListResponse> customerRemarks) {
         AppUtils.hideProgressDialog();
     }
 
     @Override
-    public void onReceivedSavedSucess(String customerRemarks) {
+    public void onReceivedSavedSuccess(String customerRemarks) {
         AppUtils.hideProgressDialog();
         fetchPpmScheduleDocBy.clear();
 

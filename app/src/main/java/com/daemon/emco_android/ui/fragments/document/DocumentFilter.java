@@ -185,6 +185,7 @@ LinearLayout layout_main;
         if (mArgs != null) {
 
             type=  mArgs.getString(AppUtils.ARGS_FILTERTYPE);
+
             if(type.equalsIgnoreCase("P")){
                 searchOptions =searchOptionsP;
             }

@@ -22,11 +22,14 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.listeners.ContractUserListner;
+import com.daemon.emco_android.model.common.ContractNoUsers;
+import com.daemon.emco_android.repository.db.entity.ContractEntity;
+import com.daemon.emco_android.repository.remote.ContractUserRepo;
 import com.daemon.emco_android.repository.remote.GetLogComplaintPopupRepository;
 import com.daemon.emco_android.repository.db.dbhelper.ContractDbInitializer;
 import com.daemon.emco_android.repository.db.dbhelper.SiteAreaDbInitializer;
 import com.daemon.emco_android.repository.db.entity.BuildingDetailsEntity;
-import com.daemon.emco_android.repository.db.entity.ContractEntity;
 import com.daemon.emco_android.repository.db.entity.SiteAreaEntity;
 import com.daemon.emco_android.repository.db.entity.ZoneEntity;
 import com.daemon.emco_android.ui.fragments.common.MainDashboard;
@@ -54,8 +57,9 @@ import java.util.Locale;
 /** Created by subbu on 17/8/17. */
 
 public class Fragment_IM_HardSoftFilter extends Fragment
-    implements JobNoListener, SiteListener, DatePickerDialogListener,BuildingDetailsListener,ZoneListener{
+    implements JobNoListener, SiteListener, DatePickerDialogListener,BuildingDetailsListener,ZoneListener,ContractUserListner{
   private final String TAG = Fragment_IM_HardSoftFilter.class.getSimpleName();
+
   // root view of fragment
   View rootView = null;
   private String mNetworkInfo = null;
@@ -72,19 +76,24 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   private TextView tv_select_jobno, tv_select_site, tv_select_from_date, tv_select_to_date;
   private Button btnSearch;
   private Toolbar mToolbar;
+  String tags;
   private int mModeDate;
   private HardSoftRequest hardSoftRequest;
   private GetLogComplaintPopupRepository mGetComplaintPopupService;
+  private ContractUserRepo mContractUserRepo;
+  private ContractUserListner mListner;
   /** Global variables for post log complaint data */
   private Login mUserData;
   private String mStrLoginData = null, mFromDate = null, mToDate = null;
   private String mStrEmployeeId = null;
   private String mReportTypes = null; // response data from category data
   private String mStrSiteCode = null, mJobNo = null,mZoneCode=null,mBuildingCode=null;
+  private String Jno = null;
   private String mOpco = null;
   private List<SiteAreaEntity> listSiteArea = new ArrayList<>();
-  private List<ContractEntity> listJobNo = new ArrayList<>();
+  private List<ContractEntity> listJobNo = new ArrayList<ContractEntity>();
   private List<ZoneEntity> zoneArea = new ArrayList<>();
+  private List<ContractNoUsers> listJobUser = new ArrayList<ContractNoUsers>();
   private List<BuildingDetailsEntity> buildingName = new ArrayList<>();
   View.OnClickListener _OnClickListener =
       new View.OnClickListener() {
@@ -119,6 +128,10 @@ public class Fragment_IM_HardSoftFilter extends Fragment
         }
       };
 
+  public Fragment_IM_HardSoftFilter() {
+  }
+
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
 
@@ -140,9 +153,12 @@ public class Fragment_IM_HardSoftFilter extends Fragment
       mManager = mActivity.getSupportFragmentManager();
       font = App.getInstance().getFontInstance();
       mArgs = getArguments();
+      tags = (String) mArgs.get("tag");
+      Log.d("mARGS", tags);
       if (mArgs != null) {
         if (mArgs.containsKey(AppUtils.ARGS_IM_SERVICES_Page_TITLE)) {
           mTitle = mArgs.getString(AppUtils.ARGS_IM_SERVICES_Page_TITLE);
+          Log.d("mTitle",mTitle);
         }
       }
       mGetComplaintPopupService =
@@ -153,8 +169,21 @@ public class Fragment_IM_HardSoftFilter extends Fragment
                   mUserData.getEmployeeId() == null ? mUserData.getUserName() : null,
                   null,
                   null));
+      mContractUserRepo =
+              new ContractUserRepo(
+                      mActivity,
+                      new EmployeeIdRequest(
+                              mUserData.getEmployeeId(),
+                              mUserData.getEmployeeId() == null ? mUserData.getUserName() : null,
+                              null,
+                              null));
       getPopupDataFromServer();
-
+       if(mJobNo == null){
+         Log.d("mJobNo" , "");
+       }else{
+         Log.d("mJobNo",mJobNo);
+       }
+      Log.d("mJobNo",mJobNo);
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -168,6 +197,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
       initUI(rootView);
       setupActionBar();
       setProperties();
+
     } catch (Exception ex) {
       ex.printStackTrace();
     }
@@ -177,49 +207,75 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   private void getPopupDataFromServer() {
 
     gettingJobNo();
-    gettingSiteName();
+
   }
 
   private void gettingZoneName(){
-    if (mNetworkInfo.length() > 0) {
-      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+   // if (mNetworkInfo.length() > 0) {
+   //   if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+    Log.d("Site","siutes");
         AppUtils.showProgressDialog(mActivity,getString(R.string.lbl_loading),true);
         ZoneEntity zoneEntity = new ZoneEntity();
         zoneEntity.setOpco(mOpco);
         zoneEntity.setContractNo(mJobNo);
-        mGetComplaintPopupService.getZoneListData(zoneEntity, this);
-      }
-    }
+     //  zoneEntity.setServiceGroup(tags);
+      //  zoneEntity.setSiteCode(mStrSiteCode);
+        Log.d("SiteServidcegroup",tags+mStrSiteCode+mJobNo+mStrEmployeeId);
+        String[] data = {mOpco ,mStrEmployeeId ,tags, mStrSiteCode};
+       // mGetComplaintPopupService.getZoneListData(zoneEntity, this);
+       mGetComplaintPopupService.getZoneFromContractUser(data, this);
+     // }
+    //}
   }
 
-  private void gettingBuildingName(BuildingDetailsRequest buildingDetailsRequest) {
-    mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-    if (mNetworkInfo.length() > 0) {
-      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
-        mGetComplaintPopupService.getBuildingDetailsData(this, buildingDetailsRequest);
-      } else AppUtils.showDialog(mActivity, getString(R.string.lbl_alert_network_not_available));
-    }
+  private void gettingBuildingName() {
+   // mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null); BuildingDetailsRequest buildingDetailsRequest
+    //if (mNetworkInfo.length() > 0) {
+      //if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+       // mGetComplaintPopupService.getBuildingDetailsData(this, buildingDetailsRequest);
+    Log.d("SiteServidcegroup",tags+mStrSiteCode+mJobNo+mStrEmployeeId+mStrSiteCode+mZoneCode);
+    String[] data = {mStrEmployeeId ,tags,mOpco,mJobNo,mStrSiteCode,mZoneCode};
+    mContractUserRepo.getBuildingContractUser(data, this);
+
+      //} else AppUtils.showDialog(mActivity, getString(R.string.lbl_alert_network_not_available));
+    //}
   }
 
-  private void gettingJobNo() {
-    mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-    if (mNetworkInfo.length() > 0) {
-      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+  private void gettingJobNo () {
+    //mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
+   // Log.d("mNetworkInfo", String.valueOf(mNetworkInfo.length()));
+   // if (mNetworkInfo.length() > 0) {
+    //  if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
         AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
-        mGetComplaintPopupService.getContractListData(this);
-      }
-      else new ContractDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
-    }
+        Log.d("SiteServidcegroup",tags+mStrEmployeeId);
+        String[] data = {mStrEmployeeId ,tags};
+      // mGetComplaintPopupService.getContractNoFromContractUser(data,this);
+       mContractUserRepo.getContractNoContractUser(data, this);
+    //mGetComplaintPopupService.getContractNoFromContractUser(data, this);
+       //  mGetComplaintPopupService.getContractListData(this);
+
+    //  }
+      //else getContractListData new ContractDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
+    //}
+
   }
 
   private void gettingSiteName() {
-    mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
-    if (mNetworkInfo.length() > 0) {
-      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
-        mGetComplaintPopupService.getSiteAreaData(this);
-      }
-      else new SiteAreaDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
-    }
+  //  mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
+  //  if (mNetworkInfo.length() > 0) {
+   //   if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+
+        Log.d("Site_Name","Site Code");
+       // mGetComplaintPopupService.getSiteAreaData(this);
+
+    Log.d("SiteServidcegroup",tags+mStrEmployeeId+mOpco+mJobNo);
+       String[] data = {mStrEmployeeId ,tags,mOpco,mJobNo};
+       mContractUserRepo.getSiteContractUser(data, this);
+       //mGetComplaintPopupService.getSiteFromContractUser(data,this);
+
+    //  }
+    //  else new SiteAreaDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
+   // }
   }
 
   private void initUI(View rootView) {
@@ -284,11 +340,12 @@ public class Fragment_IM_HardSoftFilter extends Fragment
     data.putParcelable(AppUtils.ARGS_REACTIVE_MAINTENANCE_DASHBOARD_REQUEST, hardSoftRequest);
     data.putString(AppUtils.ARGS_IM_SERVICES_Page_TITLE, mTitle);
     Fragment _fragment;
-    if (mTitle.contains(getString(R.string.title_ppm_request_verification))) {
-      _fragment = new Fragment_IM_PPMList();
-    } else {
-      _fragment = new Fragment_IM_HardSoftList();
-    }
+    _fragment = new Fragment_IM_HardSoftList();
+   // if (mTitle.contains(getString(R.string.title_ppm_request_verification))) {
+  //    _fragment = new Fragment_IM_PPMList();
+   // } else {
+   //   _fragment = new Fragment_IM_HardSoftList();
+  //  }
 
     _fragment.setArguments(data);
     FragmentTransaction _transaction = mManager.beginTransaction();
@@ -308,7 +365,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   }
 
   private void submitForm() {
-
+    Log.d("MSGERR",mFromDate);
     try {
       String msgErr = "";
       if (mJobNo == null) {
@@ -339,7 +396,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
         AppUtils.setErrorBg(tv_select_to_date, true);
         msgErr = msgErr + "\n" + getString(R.string.lbl_select_to_date);
       } else AppUtils.setErrorBg(tv_select_to_date, false);
-
+     Log.d("MSGERR",msgErr);
       if (msgErr != "") {
         AppUtils.showDialog(mActivity, "Please fill all the mandatory fields.");
         return;
@@ -352,11 +409,11 @@ public class Fragment_IM_HardSoftFilter extends Fragment
       hardSoftRequest.setToDate(mToDate);
       hardSoftRequest.setZoneCode(mZoneCode);
       hardSoftRequest.setBuildingCode(mBuildingCode);
-
       hardSoftRequest.setBuildTag(mBuildingCode);
       hardSoftRequest.setJobNo(mJobNo);
       hardSoftRequest.setStartIndex("0");
       hardSoftRequest.setLimit("10");
+      hardSoftRequest.setServiceGroup(tags);
 
       AppUtils.showProgressDialog(mActivity, getString(R.string.lbl_loading), false);
       gotoFragmentList();
@@ -389,8 +446,9 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   }
 
   @Override
-  public void onDateReceivedSuccess(String strDate) {
+  public void onDateReceivedSuccess(String strDate)  {
     if (mModeDate == AppUtils.MODE_FROMDATE) {
+      Log.d("FROMDATE",strDate);
       mFromDate = strDate;
       SessionManager.saveSession("fromDataSave",mFromDate,mActivity);
       tv_select_from_date.setText(strDate);
@@ -408,9 +466,10 @@ public class Fragment_IM_HardSoftFilter extends Fragment
   public void getJobNo() {
     Log.d(TAG, "getDate");
     try {
-      String[] strArrayJobNo = new String[listJobNo.size()];
-      for (int i = 0; i < listJobNo.size(); i++) {
-        strArrayJobNo[i] = listJobNo.get(i).getJobNo();
+      String[] strArrayJobNo = new String[listJobUser.size()];
+      for (int i = 0; i < listJobUser.size(); i++) {
+        strArrayJobNo[i] = listJobUser.get(i).getContractNo();
+
       }
 
       new MaterialDialog.Builder(mActivity)
@@ -423,15 +482,21 @@ public class Fragment_IM_HardSoftFilter extends Fragment
                 public boolean onSelection(
                     MaterialDialog dialog, View view, int which, CharSequence text) {
                   if (which >= 0) {
-                    for (ContractEntity item : listJobNo) {
-                      if (text.toString()
-                          .equals(item.getJobNo() + "-" + item.getJobDescription())) {
-                        mJobNo = item.getJobNo();
-                      }
+                    for (ContractNoUsers item : listJobUser) {
+                    //  if (text.toString().equals(item.getJobNo() + "-" + item.getJobDescription())) {
+                    //    mJobNo = item.getJobNo();
+                   //   }
+                      mJobNo = item.getContractNo();
+                     // mJobNo = item.getJobNo();
+                      mOpco = item.getOpco();
                     }
+                    Log.d("Jno",text.toString());
+                    Jno=text.toString();
+                    gettingSiteName();
                     tv_select_jobno.setText(text.toString());
                     tv_select_jobno.setTypeface(font.getHelveticaBold());
                     AppUtils.setErrorBg(tv_select_jobno, false);
+
                   } else {
                     mJobNo = null;
                     tv_select_jobno.setText("");
@@ -474,9 +539,12 @@ public class Fragment_IM_HardSoftFilter extends Fragment
                                 mZoneCode = item.getZoneCode();
                                 BuildingDetailsRequest buildingDetailsRequest=new BuildingDetailsRequest(item.getOpco(),
                                         item.getContractNo(),item.getZoneCode(),null,null);
-                                gettingBuildingName(buildingDetailsRequest);
+                                //gettingBuildingName(buildingDetailsRequest);
+
                               }
                             }
+                            Log.d("mZoneCode",mZoneCode);
+                            gettingBuildingName();
                             tv_select_zone_area.setText(text.toString());
                             tv_select_zone_area.setTypeface(font.getHelveticaBold());
                             AppUtils.setErrorBg(tv_select_zone_area, false);
@@ -502,9 +570,9 @@ public class Fragment_IM_HardSoftFilter extends Fragment
 
   public void getBuildingName() {
     try {
-      String[] strArrayJobNo = new String[buildingName.size()];
-      for (int i = 0; i < buildingName.size(); i++) {
-        strArrayJobNo[i] = buildingName.get(i).getBuildingName();
+      String[] strArrayJobNo = new String[listJobUser.size()];
+      for (int i = 0; i < listJobUser.size(); i++) {
+        strArrayJobNo[i] = listJobUser.get(i).getBuildingName();
       }
       new MaterialDialog.Builder(mActivity)
               .title(R.string.lbl_select_building)
@@ -516,7 +584,7 @@ public class Fragment_IM_HardSoftFilter extends Fragment
                         public boolean onSelection(
                                 MaterialDialog dialog, View view, int which, CharSequence text) {
                           if (which >= 0) {
-                            for (BuildingDetailsEntity item : buildingName) {
+                            for (ContractNoUsers item : listJobUser) {
                               if (text.toString()
                                       .equals(item.getBuildingName())) {
                                 mBuildingCode = item.getBuildingCode();
@@ -547,10 +615,19 @@ public class Fragment_IM_HardSoftFilter extends Fragment
 
   public void getSiteName() {
     Log.d(TAG, "getSiteName");
+    Log.d("Jno",Jno);
     try {
-      String[] strArraySiteName = new String[listSiteArea.size()];
-      for (int i = 0; i < listSiteArea.size(); i++) {
-        strArraySiteName[i] = listSiteArea.get(i).getSiteDescription();
+      int no = 1;
+      String[] strArraySiteName = new String[no];
+      String[] siteNames ;
+      for (int i = 0; i < listJobUser.size(); i++) {
+           // if(listSiteArea.get(i).getJobNo().equals(Jno)){
+           //   no = +no ;
+            //  strArraySiteName[no - 1] = listSiteArea.get(i).getSiteDescription();
+
+           //   Log.d("sdfs", String.valueOf(listSiteArea.get(i).getJobNo()));
+          //  }
+        strArraySiteName[no - 1] = listJobUser.get(i).getSiteName();
       }
       new MaterialDialog.Builder(mActivity)
           .title(R.string.lbl_select_site)
@@ -562,11 +639,12 @@ public class Fragment_IM_HardSoftFilter extends Fragment
                 public boolean onSelection(
                     MaterialDialog dialog, View view, int which, CharSequence text) {
                   if (which >= 0) {
-                    for (SiteAreaEntity item : listSiteArea) {
-                      if (text.toString().equals(item.getSiteDescription())) {
+                  //  for (SiteAreaEntity item : listSiteArea) {
+                      for (ContractNoUsers item : listJobUser) {
+                      if (text.toString().equals(item.getSiteName())) {
                         mStrSiteCode = item.getSiteCode();
-                        mJobNo = item.getJobNo();
-                        mOpco = item.getOpco();
+                       // mJobNo = item.getContractNo();
+                      //  mOpco = item.getOpco();
                       }
                     }
                     tv_select_site.setText(text.toString());
@@ -642,6 +720,15 @@ public class Fragment_IM_HardSoftFilter extends Fragment
     listJobNo = contractList;
     if (mode == AppUtils.MODE_SERVER)
       new ContractDbInitializer(mActivity, listJobNo, this).execute(AppUtils.MODE_INSERT);
+  }
+
+
+  @Override
+  public void onContractUserReceivedSuccess(List<ContractNoUsers> contractList, int mode) {
+    Log.d(TAG, "onContractUserReceivedSuccess");
+    AppUtils.hideProgressDialog();
+    listJobUser = contractList;
+    Log.d(TAG, String.valueOf(contractList.get(0).getContractNo()));
   }
 
   @Override

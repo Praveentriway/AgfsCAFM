@@ -1,0 +1,331 @@
+package com.daemon.emco_android.fragments.reactive;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.PowerManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.StackingBehavior;
+import com.daemon.emco_android.MyApplication;
+import com.daemon.emco_android.R;
+import com.daemon.emco_android.activities.LoginActivity;
+import com.daemon.emco_android.db.dbhelper.ReceiveComplaintItemDbInitializer;
+import com.daemon.emco_android.model.Login;
+import com.daemon.emco_android.utils.AppUtils;
+import com.daemon.emco_android.utils.Font;
+import com.daemon.emco_android.utils.Utils;
+import com.google.gson.Gson;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.daemon.emco_android.utils.Utils.TAG_LOG_COMPLAINT;
+
+/**
+ * Created by subbu on 25/11/16.
+ */
+
+public class Fragment_ReactiveMaintenance extends Fragment implements View.OnClickListener {
+    private static final String TAG = Fragment_ReactiveMaintenance.class.getSimpleName();
+
+    private AppCompatActivity mActivity;
+    private Context mContext;
+    private Font font = MyApplication.getInstance().getFontInstance();
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
+    private FragmentManager mManager;
+    private Handler mHandler;
+
+    //private Button  btnPendingSignature ;
+    private ImageView btnLogComplaint,btnReceiveComplaint,btnViewComplaintStatus,btnDashboard;
+    private String mStringJson = null;
+    private Login user;
+    private CoordinatorLayout cl_main;
+    private Toolbar mToolbar;
+    private TextView tv_toolbar_title;
+    private View rootView = null;
+
+    private TimerTask mTimerTask;
+    final Handler handler = new Handler();
+    private Timer t = new Timer();
+
+    public void timeout(){
+        mTimerTask = new TimerTask() {
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        MaterialDialog.Builder builder =
+                                new MaterialDialog.Builder(mActivity).content("Your session has been expired!Please login to continue!!! ")
+                                        .title("You've timed out")
+                                        .positiveText(R.string.lbl_okay)
+                                        .stackingBehavior(StackingBehavior.ADAPTIVE)
+                                        .onPositive(
+                                                new MaterialDialog.SingleButtonCallback() {
+                                                    @Override
+                                                    public void onClick(
+                                                            @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                        dialog.dismiss();
+                                                        clearPreferences();
+                                                        Intent intent = new Intent(mActivity, LoginActivity.class);
+                                                        mActivity.startActivity(intent);
+                                                        mActivity.finish();
+                                                    }
+                                                });
+                        MaterialDialog dialog = builder.build();
+                        dialog.setCanceledOnTouchOutside(false);
+                        dialog.setCancelable(false);
+                        dialog.show();
+
+                    }
+                });
+            }};
+        // public void schedule (TimerTask task, long delay, long period)
+        t.scheduleAtFixedRate(mTimerTask,AppUtils.TIMEOUT_NEW,AppUtils.TIMEOUT);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
+
+        super.onCreate(savedInstanceState);
+        try {
+            mActivity = (AppCompatActivity) getActivity();
+            setHasOptionsMenu(true);
+            mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
+            mEditor = mPreferences.edit();
+            mHandler = new Handler();
+            mStringJson = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+            mManager = mActivity.getSupportFragmentManager();
+            font = MyApplication.getInstance().getFontInstance();
+            //mArgs = getArguments().getString(ARGS_BUNDLE_MESSAGE);
+
+            if (mStringJson != null) {
+                Gson gson = new Gson();
+                user = gson.fromJson(mStringJson, Login.class);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
+
+        try {
+            rootView = (View) inflater.inflate(R.layout.fragment_reactive_landing_page, container, false);
+            initUI(rootView);
+            setProperties();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return rootView;
+    }
+
+    private void initUI(View rootView) {
+        Log.d(TAG, "initUI");
+        try {
+            cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
+            btnLogComplaint = (ImageView) rootView.findViewById(R.id.btn_log_complaint);
+            btnReceiveComplaint = (ImageView) rootView.findViewById(R.id.btn_receive_complaint);
+            btnViewComplaintStatus = (ImageView) rootView.findViewById(R.id.btn_view_complaint);
+          //  btnPendingSignature = (Button) rootView.findViewById(R.id.btn_pending_client_signature);
+
+            btnDashboard = (ImageView) rootView.findViewById(R.id.btn_dashboard);
+            setupActionBar();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void setupActionBar() {
+        mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
+        //iv_backpress=(ImageView)mToolbar.findViewById(R.id.iv_backpress);
+        tv_toolbar_title=(TextView)mToolbar.findViewById(R.id.tv_toolbar_title);
+        tv_toolbar_title.setText(getString(R.string.title_reactive_maintenance));
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)tv_toolbar_title.getLayoutParams();
+        params.setMargins(0, 0, 0, 0);
+        tv_toolbar_title.setLayoutParams(params);
+       // mToolbar.setTitle(getResources().getString(R.string.title_reactive_maintenance));
+        mActivity.setSupportActionBar(mToolbar);
+        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mActivity.onBackPressed();
+            }
+        });
+    }
+
+    private void setProperties() {
+        Log.d(TAG, "setProperties");
+       // btnLogComplaint.setTypeface(font.getHelveticaRegular());
+       // btnReceiveComplaint.setTypeface(font.getHelveticaRegular());
+       // btnViewComplaintStatus.setTypeface(font.getHelveticaRegular());
+       // btnPendingSignature.setTypeface(font.getHelveticaRegular());
+       // btnDashboard.setTypeface(font.getHelveticaRegular());
+
+        btnLogComplaint.setOnClickListener(this);
+        btnReceiveComplaint.setOnClickListener(this);
+        btnViewComplaintStatus.setOnClickListener(this);
+       // btnPendingSignature.setOnClickListener(this);
+        btnDashboard.setOnClickListener(this);
+
+        if (user.getUserType().equals(AppUtils.CUSTOMER)) {
+            btnReceiveComplaint.setVisibility(View.GONE);
+            if (user.getContractNo().equals("*")){
+                btnDashboard.setVisibility(View.VISIBLE);
+            }else btnDashboard.setVisibility(View.GONE);
+            //btnReceiveComplaint.setBackground(getResources().getDrawable(R.drawable.bg_btn_light));
+        } else btnReceiveComplaint.setVisibility(View.VISIBLE);
+
+        AppUtils.closeInput(cl_main);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_log_complaint:
+                //if (user.getUserType().equals(AppUtils.CUSTOMER)) {
+                    loadFragment(new Fragment_RM_LogComplaintUser(), TAG_LOG_COMPLAINT);
+               // } else {
+                  //  loadFragment(new Fragment_RM_LogComplaint(), TAG_LOG_COMPLAINT);
+                //}
+                break;
+            case R.id.btn_receive_complaint:
+                Bundle data = new Bundle();
+                data.putString(AppUtils.ARGS_RECEIVECOMPLAINT_PAGETYPE, AppUtils.ARGS_RECEIVECOMPLAINT_PAGE);
+                Fragment_RC_List complaintsList = new Fragment_RC_List();
+                complaintsList.setArguments(data);
+                loadFragment(complaintsList, Utils.TAG_RECEIVED_COMPALINTS);
+                break;
+            case R.id.btn_view_complaint:
+                loadFragment(new Fragment_RM_SearchComplaint(), Utils.TAG_SINGLE_SEARCH_COMPLAINT);
+                break;
+            /*case R.id.btn_pending_client_signature:
+                Bundle mdata = new Bundle();
+                mdata.putString(AppUtils.ARGS_RECEIVECOMPLAINT_PAGETYPE, AppUtils.ARGS_RECEIVECOMPLAINTUNSIGNED_PAGE);
+                Fragment_RC_List unsignedcomplaintslist = new Fragment_RC_List();
+                unsignedcomplaintslist.setArguments(mdata);
+                loadFragment(unsignedcomplaintslist, Utils.TAG_RECEIVED_COMPALINTS);
+                break;*/
+            case R.id.btn_dashboard:
+                loadFragment(new Fragment_RM_Dashboard(), Utils.TAG_DASHBOARD);
+                break;
+
+        }
+    }
+
+    public void loadFragment(final Fragment fragment, final String tag) {
+        Log.d(TAG, "loadFragment");
+
+        Runnable mPendingRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // update the main content by replacing fragments
+                FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame_container, fragment, tag);
+                fragmentTransaction.addToBackStack(tag);
+                fragmentTransaction.commit();
+            }
+        };
+
+        if (mPendingRunnable != null) {
+            mHandler.post(mPendingRunnable);
+        }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        Log.d(TAG, "onPrepareOptionsMenu ");
+        menu.findItem(R.id.action_logout).setVisible(false);
+        menu.findItem(R.id.action_home).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                Log.d(TAG, "onOptionsItemSelected : home");
+                mActivity.onBackPressed();
+               /* FragmentManager fm = getActivity().getSupportFragmentManager();
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                    fm.popBackStack();
+                }*/
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        PowerManager pm = (PowerManager) mActivity.getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = pm.isScreenOn();
+        if(isScreenOn){
+            cleartime();
+        }
+    }
+
+    public void cleartime(){
+        if(mTimerTask!=null) {
+            mTimerTask.cancel();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        PowerManager pm = (PowerManager) mActivity.getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = pm.isScreenOn();
+        if(!isScreenOn){
+            timeout();
+        }
+    }
+
+
+
+    public void clearPreferences() {
+        Log.d(TAG, "clearPreferences");
+        try {
+            mEditor = mPreferences.edit();
+            mEditor
+                    .putString(
+                            AppUtils.SHARED_LOGIN_OFFLINE, mPreferences.getString(AppUtils.SHARED_LOGIN, null))
+                    .commit();
+            mEditor.putString(AppUtils.SHARED_LOGIN, null).commit();
+            new ReceiveComplaintItemDbInitializer(mActivity, null, null).execute(AppUtils.MODE_DELETE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}

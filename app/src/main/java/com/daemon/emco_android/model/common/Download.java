@@ -2,14 +2,10 @@ package com.daemon.emco_android.model.common;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-/**
- * Created by Daemonsoft on 8/30/2017.
- */
 
 public class Download implements Parcelable{
 
     public Download(){
-
     }
 
     private int progress;

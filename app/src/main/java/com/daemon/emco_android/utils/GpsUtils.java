@@ -59,15 +59,9 @@ public class GpsUtils {
 
     public static String getDeviceID(Context mContext) {
 
-        //deprecated
-
-//        TelephonyManager tManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-//        return tManager.getDeviceId();
-
         // updated method to generate device id
         String deviceId = android.provider.Settings.Secure.getString(
                 mContext.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-        Log.d("device id",deviceId);
         return deviceId;
 
     }

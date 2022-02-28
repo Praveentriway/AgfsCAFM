@@ -319,7 +319,7 @@ public class Fragment_ppmlist extends Fragment implements PPMDetailsService.List
 
                     if(!searchEnabled){
 
-                        Log.d(TAG, "onScrolled " + isLastPage + isLoading);
+                        Log.d(TAG, "onScrolled" + isLastPage + isLoading);
                         if (isLoading) return;
                         if (mList.isEmpty()) return;
 

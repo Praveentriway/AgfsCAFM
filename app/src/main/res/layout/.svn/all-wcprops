@@ -1,0 +1,473 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/AndroidEMCO/!svn/ver/121/app/src/main/res/layout
+END
+viewitem_im_ppmlist.xml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/AndroidEMCO/!svn/ver/46/app/src/main/res/layout/viewitem_im_ppmlist.xml
+END
+fragment_after_ppm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_after_ppm.xml
+END
+fragment_change_password.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/AndroidEMCO/!svn/ver/92/app/src/main/res/layout/fragment_change_password.xml
+END
+fragment_preventive_riskass_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_preventive_riskass_list.xml
+END
+view_item_im_ppmdetails.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/AndroidEMCO/!svn/ver/136/app/src/main/res/layout/view_item_im_ppmdetails.xml
+END
+fragment_view_complaint.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_view_complaint.xml
+END
+fragment_pm_dashboard.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_pm_dashboard.xml
+END
+view_item_riskassessment.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/view_item_riskassessment.xml
+END
+fragment_im_ppmlistview.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_im_ppmlistview.xml
+END
+fragment_rate_service.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_rate_service.xml
+END
+viewitem_im_hardsoftlist.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/136/app/src/main/res/layout/viewitem_im_hardsoftlist.xml
+END
+fragment_ppmchecklist.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/AndroidEMCO/!svn/ver/136/app/src/main/res/layout/fragment_ppmchecklist.xml
+END
+activity_main.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/AndroidEMCO/!svn/ver/38/app/src/main/res/layout/activity_main.xml
+END
+view_loading_message.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/AndroidEMCO/!svn/ver/42/app/src/main/res/layout/view_loading_message.xml
+END
+view_item_risk_assesment.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/view_item_risk_assesment.xml
+END
+fragment_receivecomplaints_respond.xml
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/AndroidEMCO/!svn/ver/113/app/src/main/res/layout/fragment_receivecomplaints_respond.xml
+END
+fragment_fragment__view_profile__new.xml
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_fragment__view_profile__new.xml
+END
+fragment_pm_equipmenttool.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_pm_equipmenttool.xml
+END
+layout_list_dialog.xml
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/AndroidEMCO/!svn/ver/47/app/src/main/res/layout/layout_list_dialog.xml
+END
+view_item_ppmcheckmonth_header.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/view_item_ppmcheckmonth_header.xml
+END
+fragment_im_hardsoftfilter_new.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_im_hardsoftfilter_new.xml
+END
+toolbar.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/AndroidEMCO/!svn/ver/136/app/src/main/res/layout/toolbar.xml
+END
+fragment_single_search_complaint.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/AndroidEMCO/!svn/ver/113/app/src/main/res/layout/fragment_single_search_complaint.xml
+END
+fragment_im_ppm_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/AndroidEMCO/!svn/ver/46/app/src/main/res/layout/fragment_im_ppm_list.xml
+END
+fragment_view_inspection_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_view_inspection_list.xml
+END
+fragment_ppmdetails_view.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_ppmdetails_view.xml
+END
+fragment_im_hardsoftlistcomment.xml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/AndroidEMCO/!svn/ver/136/app/src/main/res/layout/fragment_im_hardsoftlistcomment.xml
+END
+view_item_reactivecomplaint.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/AndroidEMCO/!svn/ver/113/app/src/main/res/layout/view_item_reactivecomplaint.xml
+END
+fragment_image_picker.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/AndroidEMCO/!svn/ver/21/app/src/main/res/layout/fragment_image_picker.xml
+END
+fragment_pm_ppmfindings.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_pm_ppmfindings.xml
+END
+view_search_complaint_item.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/AndroidEMCO/!svn/ver/47/app/src/main/res/layout/view_search_complaint_item.xml
+END
+view_item_image_picker.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/AndroidEMCO/!svn/ver/21/app/src/main/res/layout/view_item_image_picker.xml
+END
+barcode_capture.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/res/layout/barcode_capture.xml
+END
+fragment_log_complaint_user.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_log_complaint_user.xml
+END
+fragment_reactive_landing_page.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/AndroidEMCO/!svn/ver/121/app/src/main/res/layout/fragment_reactive_landing_page.xml
+END
+fragment_view_image.xml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_view_image.xml
+END
+fragment_receive_complaints_view.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/AndroidEMCO/!svn/ver/113/app/src/main/res/layout/fragment_receive_complaints_view.xml
+END
+view_item_rc_equipment.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/view_item_rc_equipment.xml
+END
+activity_splash_screen.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/AndroidEMCO/!svn/ver/101/app/src/main/res/layout/activity_splash_screen.xml
+END
+view_error_retry.xml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/AndroidEMCO/!svn/ver/42/app/src/main/res/layout/view_error_retry.xml
+END
+fragment_im_hardsoftfilter.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_im_hardsoftfilter.xml
+END
+view_item_ppmcheckmonth_header_item.xml
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/view_item_ppmcheckmonth_header_item.xml
+END
+footer.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/AndroidEMCO/!svn/ver/76/app/src/main/res/layout/footer.xml
+END
+fragment_view_complaint_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/AndroidEMCO/!svn/ver/113/app/src/main/res/layout/fragment_view_complaint_list.xml
+END
+fragment_view_profile.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_view_profile.xml
+END
+fragment_rm_dashboard.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_rm_dashboard.xml
+END
+fragment_ppmdetails_viewrequired.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/AndroidEMCO/!svn/ver/119/app/src/main/res/layout/fragment_ppmdetails_viewrequired.xml
+END
+view_item_equipmenttools.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/AndroidEMCO/!svn/ver/41/app/src/main/res/layout/view_item_equipmenttools.xml
+END
+fragment_preventive_complaint_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/AndroidEMCO/!svn/ver/121/app/src/main/res/layout/fragment_preventive_complaint_list.xml
+END
+view_item_receive_complaint_ppe.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/AndroidEMCO/!svn/ver/47/app/src/main/res/layout/view_item_receive_complaint_ppe.xml
+END
+fragment_pm_riskassessment.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_pm_riskassessment.xml
+END
+fragment_im_hardsoftlistview.xml
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/AndroidEMCO/!svn/ver/136/app/src/main/res/layout/fragment_im_hardsoftlistview.xml
+END
+view_item_inspectionlist.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/view_item_inspectionlist.xml
+END
+fragment_reg.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/AndroidEMCO/!svn/ver/113/app/src/main/res/layout/fragment_reg.xml
+END
+fragment_receivecomplaint_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/AndroidEMCO/!svn/ver/55/app/src/main/res/layout/fragment_receivecomplaint_list.xml
+END
+fragment_ppm_feedback.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_ppm_feedback.xml
+END
+fragment_multi_search_complaints.xml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_multi_search_complaints.xml
+END
+fragment_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/AndroidEMCO/!svn/ver/9/app/src/main/res/layout/fragment_list.xml
+END
+fragment_ppmsdetails_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_ppmsdetails_list.xml
+END
+fragment_piecharts.xml
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_piecharts.xml
+END
+fragment_inspection_landing_page.xml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/AndroidEMCO/!svn/ver/76/app/src/main/res/layout/fragment_inspection_landing_page.xml
+END
+activity_login.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/AndroidEMCO/!svn/ver/13/app/src/main/res/layout/activity_login.xml
+END
+fragment_login.xml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/AndroidEMCO/!svn/ver/113/app/src/main/res/layout/fragment_login.xml
+END
+view_item_receivecomplaint.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/AndroidEMCO/!svn/ver/55/app/src/main/res/layout/view_item_receivecomplaint.xml
+END
+fragment_im_hardsoft_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/AndroidEMCO/!svn/ver/136/app/src/main/res/layout/fragment_im_hardsoft_list.xml
+END
+fragment_preventive_equip_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_preventive_equip_list.xml
+END
+layout_list_item.xml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/AndroidEMCO/!svn/ver/47/app/src/main/res/layout/layout_list_item.xml
+END
+fragment_rm_rc_material.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_rm_rc_material.xml
+END
+fragment_log_complaint.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/AndroidEMCO/!svn/ver/78/app/src/main/res/layout/fragment_log_complaint.xml
+END
+view_item_rc_materialrequired.xml
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/AndroidEMCO/!svn/ver/41/app/src/main/res/layout/view_item_rc_materialrequired.xml
+END
+fragment_receive_complaint_ppe.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/AndroidEMCO/!svn/ver/53/app/src/main/res/layout/fragment_receive_complaint_ppe.xml
+END
+view_list_empty.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/res/layout/view_list_empty.xml
+END
+view_item_ppmdetails.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/view_item_ppmdetails.xml
+END
+fragment_forgot_password.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/113/app/src/main/res/layout/fragment_forgot_password.xml
+END
+fragment_receivecomplaints_feedback.xml
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_receivecomplaints_feedback.xml
+END
+fragment_main.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_main.xml
+END
+fragment_ppm_finding.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/AndroidEMCO/!svn/ver/132/app/src/main/res/layout/fragment_ppm_finding.xml
+END
+view_loading_message_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/42/app/src/main/res/layout/view_loading_message_list.xml
+END

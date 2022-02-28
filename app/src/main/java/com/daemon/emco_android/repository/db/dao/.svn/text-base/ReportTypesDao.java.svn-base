@@ -1,0 +1,36 @@
+package com.daemon.emco_android.db.dao;
+
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.ReportTypesEntity;
+
+import java.util.List;
+
+@Dao
+public interface ReportTypesDao {
+
+    @Query("SELECT * FROM ReportTypesEntity")
+    List<ReportTypesEntity> getAllReportTypes();
+
+    @Query("SELECT COUNT(*) from ReportTypesEntity")
+    int count();
+
+    @Query("SELECT COUNT(*) FROM ReportTypesEntity where reportSRL LIKE  :reportSRL")
+    int countByreportSRL(String reportSRL);
+
+    @Query("SELECT * FROM ReportTypesEntity where reportSRL LIKE  :reportSRL")
+    ReportTypesEntity findReportTypesByreportSRL(String reportSRL);
+
+    @Insert
+    void insertAllReportTypes(List<ReportTypesEntity> reportTypesEntities);
+
+    @Delete
+    void deleteReportTypes(ReportTypesEntity reportTypesEntity);
+
+    @Query("DELETE FROM ReportTypesEntity")
+    void deleteAll();
+}

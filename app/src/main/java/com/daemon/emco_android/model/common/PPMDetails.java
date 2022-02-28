@@ -4,7 +4,6 @@ package com.daemon.emco_android.model.common;
 import javax.annotation.Generated;
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -363,7 +363,7 @@ public class Login extends BaseFragment implements View.OnClickListener, UserLis
     }
 
     @Override
-    public void onLoginDataReceivedSuccess(com.daemon.emco_android.model.common.Login login, String totalNumberOfRows) {
+    public void onLoginDataReceivedSuccess(com.daemon.emco_android.model.common.Login login, String totalNumberOfRows,String token) {
         Log.d(TAG, "onLoginDataReceivedSuccess");
         AppUtils.hideProgressDialog();
         Gson gson = new GsonBuilder().create();

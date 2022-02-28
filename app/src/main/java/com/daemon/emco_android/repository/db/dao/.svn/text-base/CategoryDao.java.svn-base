@@ -1,0 +1,36 @@
+package com.daemon.emco_android.db.dao;
+
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.CategoryEntity;
+
+import java.util.List;
+
+@Dao
+public interface CategoryDao {
+
+    @Query("SELECT * FROM categoryEntity")
+    List<CategoryEntity> getAll();
+
+    @Query("SELECT COUNT(*) from categoryEntity")
+    int count();
+
+    @Query("SELECT COUNT(*) from categoryEntity where natureCode LIKE  :natureCode")
+    int countByNatureCode(String natureCode);
+
+    @Query("SELECT * FROM categoryEntity where natureCode LIKE  :natureCode")
+    CategoryEntity findByCategoryCode(String natureCode);
+
+    @Insert
+    void insertAll(List<CategoryEntity> categoryEntities);
+
+    @Delete
+    void delete(CategoryEntity categoryEntity);
+
+    @Query("DELETE FROM categoryEntity")
+    void deleteAll();
+}

@@ -1,10 +1,7 @@
 package com.daemon.emco_android.model.common;
 
-/**
- * Created by Daemonsoft on 8/7/2017.
- */
-
 public class CustomGallery {
+
     private String sdcardPath;
     private boolean isSeleted;
 
@@ -23,4 +20,5 @@ public class CustomGallery {
     public void setSeleted(boolean seleted) {
         isSeleted = seleted;
     }
+
 }

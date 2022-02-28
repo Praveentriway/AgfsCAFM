@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/AndroidEMCO/!svn/ver/123/app/src/main/java/com/daemon/emco_android/fragments/preventive
+END
+Fragment_PM_PPMChecklist.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PM_PPMChecklist.java
+END
+Fragment_PM_PPMDetails_View.java
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PM_PPMDetails_View.java
+END
+Fragment_PM_PPMDetails_ViewRequired.java
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svnroot/AndroidEMCO/!svn/ver/84/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PM_PPMDetails_ViewRequired.java
+END
+Fragment_PM_Risk_List.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/AndroidEMCO/!svn/ver/129/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PM_Risk_List.java
+END
+Fragment_PM_Equip_Tool.java
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svnroot/AndroidEMCO/!svn/ver/129/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PM_Equip_Tool.java
+END
+Fragment_PPMDetails_List.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PPMDetails_List.java
+END
+Fragment_PPM_Material.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PPM_Material.java
+END
+Fragment_PPM_Finding.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/AndroidEMCO/!svn/ver/129/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PPM_Finding.java
+END
+Fragment_PPM_Feedback.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PPM_Feedback.java
+END
+Fragment_PM_PPMDetails_List.java
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/AndroidEMCO/!svn/ver/129/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PM_PPMDetails_List.java
+END
+Fragment_PM_afterppm.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PM_afterppm.java
+END
+Fragment_PPM_PPE.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/AndroidEMCO/!svn/ver/124/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PPM_PPE.java
+END
+Fragment_PM_RateService.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/preventive/Fragment_PM_RateService.java
+END

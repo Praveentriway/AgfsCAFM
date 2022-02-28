@@ -1,0 +1,39 @@
+package com.daemon.emco_android.db.dao;
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.SaveFeedbackEntity;
+
+import java.util.List;
+
+/**
+ * Created by Daemonsoft on 10/10/2017.
+ */
+@Dao
+public interface SaveFeedbackDao {
+
+    @Query("SELECT * FROM SaveFeedbackEntity where mode LIKE :mode")
+    List<SaveFeedbackEntity> getAll(int mode);
+
+    @Query("SELECT COUNT(*) from SaveFeedbackEntity")
+    int count();
+
+    @Query("SELECT * FROM SaveFeedbackEntity where complaintNumber LIKE :complaintNumber")
+    SaveFeedbackEntity findBycomplaintNumber(String complaintNumber);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<SaveFeedbackEntity> saveFeedbackEntities);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(SaveFeedbackEntity saveFeedbackEntity);
+
+    @Delete
+    void delete(SaveFeedbackEntity saveFeedbackEntity);
+
+    @Query("DELETE FROM SaveFeedbackEntity")
+    void deleteAll();
+}

@@ -1,0 +1,917 @@
+package com.daemon.emco_android.activities;
+
+import android.Manifest;
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.StackingBehavior;
+import com.crashlytics.android.Crashlytics;
+import com.daemon.emco_android.MyApplication;
+import com.daemon.emco_android.R;
+import com.daemon.emco_android.asyncprocess.FeedBack_Service;
+import com.daemon.emco_android.asyncprocess.FileSize_Service;
+import com.daemon.emco_android.asyncprocess.PostLogComplaint_Service;
+import com.daemon.emco_android.asyncprocess.PpeService;
+import com.daemon.emco_android.asyncprocess.RCMeterial_Service;
+import com.daemon.emco_android.asyncprocess.ReceiveComplaintRespond_Service;
+import com.daemon.emco_android.asyncprocess.ReceiveComplaintView_Service;
+import com.daemon.emco_android.db.database.AppDatabase;
+import com.daemon.emco_android.db.dbhelper.DefectDoneImageDbInitializer;
+import com.daemon.emco_android.db.dbhelper.FeedbackDbInitializer;
+import com.daemon.emco_android.db.dbhelper.LogComplaintDbInitializer;
+import com.daemon.emco_android.db.dbhelper.PPEFetchSaveDbInitializer;
+import com.daemon.emco_android.db.dbhelper.RCRespondDbInitializer;
+import com.daemon.emco_android.db.dbhelper.RCSavedMaterialDbInitializer;
+import com.daemon.emco_android.db.dbhelper.ReceiveComplaintItemDbInitializer;
+import com.daemon.emco_android.db.entity.AssetDetailsEntity;
+import com.daemon.emco_android.db.entity.DFoundWDoneImageEntity;
+import com.daemon.emco_android.db.entity.EmployeeDetailsEntity;
+import com.daemon.emco_android.db.entity.LogComplaintEntity;
+import com.daemon.emco_android.db.entity.MaterialMasterEntity;
+import com.daemon.emco_android.db.entity.PPEFetchSaveEntity;
+import com.daemon.emco_android.db.entity.PPENameEntity;
+import com.daemon.emco_android.db.entity.ReceiveComplaintRespondEntity;
+import com.daemon.emco_android.db.entity.ReceiveComplaintViewEntity;
+import com.daemon.emco_android.db.entity.SaveFeedbackEntity;
+import com.daemon.emco_android.db.entity.SaveMaterialEntity;
+import com.daemon.emco_android.db.restapi.ApiClient;
+import com.daemon.emco_android.db.restapi.ApiConstant;
+import com.daemon.emco_android.db.restapi.ApiInterface;
+import com.daemon.emco_android.db.service.DownloadService;
+import com.daemon.emco_android.fragments.Fragment_Main;
+import com.daemon.emco_android.fragments.reactive.Fragment_ReactiveMaintenance;
+import com.daemon.emco_android.listeners.DefectDoneImage_Listener;
+import com.daemon.emco_android.listeners.FeedbackListener;
+import com.daemon.emco_android.listeners.LogComplaint_Listener;
+import com.daemon.emco_android.listeners.Material_Listener;
+import com.daemon.emco_android.listeners.PpeListener;
+import com.daemon.emco_android.listeners.ReceivecomplaintView_Listener;
+import com.daemon.emco_android.model.Login;
+import com.daemon.emco_android.model.request.EmployeeIdRequest;
+import com.daemon.emco_android.model.request.FileSizeRequest;
+import com.daemon.emco_android.model.response.AttendedBy;
+import com.daemon.emco_android.model.response.CheckedBy;
+import com.daemon.emco_android.model.response.DefectDoneImageUploaded;
+import com.daemon.emco_android.model.response.ObjectFeedBack;
+import com.daemon.emco_android.model.response.PpmEmployeeFeedResponse;
+import com.daemon.emco_android.model.response.RCDownloadImage;
+import com.daemon.emco_android.utils.AppUtils;
+import com.daemon.emco_android.utils.ConnectivityStatus;
+import com.daemon.emco_android.utils.Font;
+import com.daemon.emco_android.utils.SessionManager;
+import com.daemon.emco_android.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
+import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MainActivity extends AppCompatActivity
+    implements LogComplaint_Listener,
+        ReceivecomplaintView_Listener,
+        DefectDoneImage_Listener,
+        PpeListener,
+        FeedbackListener,
+        Material_Listener {
+  private final String TAG = MainActivity.class.getSimpleName();
+  private final int PERMISSION_REQUEST_CODE = 1;
+  private String mNetworkInfo = null;
+  private boolean isLoading = false;
+  private boolean isReceiver = false;
+  private Bundle mArgs;
+  private TextView tv_toolbar_title;
+  private ApiInterface mInterface;
+
+  // database
+  private RCRespondDbInitializer complaintRespondDbInitializer;
+  private PPEFetchSaveDbInitializer ppeFetchSaveDbInitializer;
+  private PostLogComplaint_Service logComplaint_service;
+  private ReceiveComplaintView_Service complaintView_service;
+  private ReceiveComplaintRespond_Service complaintRespond_service;
+  private PpeService ppeService;
+  private FeedBack_Service feedBackService;
+  private RCMeterial_Service rcMeterial_service;
+
+  private Handler mHandler;
+  private SharedPreferences mPreferences;
+  private SharedPreferences.Editor mEditor;
+  private AppCompatActivity mActivity;
+  private Font font = MyApplication.getInstance().getFontInstance();
+  private FragmentManager mManager;
+  private Context mContext;
+  private FrameLayout frame_container;
+  private Drawable drawableLogout;
+  private String mLoginData = null;
+  private String mFileSizeData = null;
+
+  private String mStrEmpId = null;
+  private BroadcastReceiver receiver =
+      new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+          try {
+            if (!ConnectivityStatus.isConnected(MainActivity.this)) {
+              Log.d(TAG, "not connected");
+              mEditor.putString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE);
+              mEditor.commit();
+              mNetworkInfo = AppUtils.NETWORK_NOT_AVAILABLE;
+              isLoading = false;
+            } else {
+              Log.d(TAG, "connected");
+              mEditor.putString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_AVAILABLE);
+              mEditor.commit();
+              mNetworkInfo = AppUtils.NETWORK_AVAILABLE;
+              Log.d(TAG, "isLoading " + isLoading);
+              if (isLoading) return;
+              isLoading = true;
+              updateLogComplaint();
+              updateReceiveComplaintRespond();
+              updateReceiveComplaintSaveImage();
+              updatePPE();
+              updateFeedback();
+              updateMaterial();
+
+              if (mPreferences.getString("day", null) != null) {
+                Date dateTime = null;
+                try {
+                  dateTime =
+                      new SimpleDateFormat("dd-MMM-yyyy")
+                          .parse(mPreferences.getString("day", "22-JAN-2011"));
+                } catch (ParseException e) {
+                  e.printStackTrace();
+                }
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(dateTime);
+                Calendar today = Calendar.getInstance();
+
+                if (calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                    && calendar.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) {
+                   // startService();
+                  // "Today "
+                } else {
+                  mFileSizeData = mPreferences.getString(AppUtils.FILE_SIZE_DATA, null);
+                  if(mFileSizeData!=null){
+                    FileSizeRequest loginRequest = new FileSizeRequest(String.valueOf(mFileSizeData));
+                    new FileSize_Service(mContext, null).startDownload(loginRequest);
+                  }
+                 // startService();
+                    mPreferences
+                            .edit()
+                            .putString("day", new SimpleDateFormat("dd-MMM-yyyy").format(new Date()))
+                            .commit();
+                }
+              } else {
+                getFileSizeData();
+                mPreferences
+                    .edit()
+                    .putString("day", new SimpleDateFormat("dd-MMM-yyyy").format(new Date()))
+                    .commit();
+              }
+            }
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      };
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Log.d(TAG, "onCreate");
+    try {
+      setContentView(R.layout.activity_main);
+      mActivity = this;
+      mContext=getApplicationContext();
+      mPreferences = this.getSharedPreferences(AppUtils.SHARED_PREFS, MODE_PRIVATE);
+      mEditor = mPreferences.edit();
+      mHandler = new Handler();
+      mManager = getSupportFragmentManager();
+      mArgs = getIntent().getExtras();
+
+      logComplaint_service = new PostLogComplaint_Service(this, this);
+      complaintView_service = new ReceiveComplaintView_Service(this, this);
+      complaintRespond_service = new ReceiveComplaintRespond_Service(this);
+      complaintRespond_service.setmCallbackImages(this);
+      ppeService = new PpeService(this, this);
+      feedBackService = new FeedBack_Service(mActivity, this);
+
+      frame_container = (FrameLayout) findViewById(R.id.frame_container);
+      drawableLogout = getResources().getDrawable(R.drawable.ic_logout);
+      drawableLogout.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+
+      mInterface = ApiClient.getClientLongTime(15, SessionManager.getSession("baseurl",mActivity)).create(ApiInterface.class);
+
+      // only one time register connectivity register
+      if (!isReceiver) {
+        registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+      } else isReceiver = false;
+      setupActionbar();
+      loadFragment();
+      logUser();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void logUser() {
+    Log.d(TAG, "logUser");
+    try {
+      mLoginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+      if (mLoginData == null) return;
+      Gson gson = new Gson();
+      Login login = gson.fromJson(mLoginData, Login.class);
+      mStrEmpId = login.getEmployeeId();
+      Crashlytics.setUserIdentifier(mStrEmpId);
+      Crashlytics.setUserEmail(login.getEmailId());
+      Crashlytics.setUserName(login.getUserType() + login.getUserName());
+    } catch (JsonSyntaxException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void getFileSizeData() {
+    try {
+      mInterface
+              .GetFileSizeData()
+              .enqueue(
+                      new Callback<com.daemon.emco_android.model.CommonResponse>() {
+                        @Override
+                        public void onResponse(
+                                Call<com.daemon.emco_android.model.CommonResponse> call, Response<com.daemon.emco_android.model.CommonResponse> response) {
+                          if (response.isSuccessful()) {
+                            if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                              mEditor = mPreferences.edit();
+                              mEditor.putString(AppUtils.FILE_SIZE_DATA, String.valueOf(response.body().getObject().toString()));
+                              mEditor.commit();
+                            }
+                          }
+                          startService();
+                        }
+
+                        @Override
+                        public void onFailure(Call<com.daemon.emco_android.model.CommonResponse> call, Throwable t) {
+                          Log.d(TAG, "onFailure" + t.getMessage());
+                          // sendNotification(80);
+                          //startDownload();
+                          startService();
+                        }
+                      });
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  protected void onResume() {
+    Log.d(TAG, "onResume");
+    try {
+      // only one time register connectivity register
+      if (isReceiver) {
+        registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+      } else isReceiver = true;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    super.onResume();
+  }
+
+  protected void onPause() {
+    Log.d(TAG, "onPause");
+    try {
+      if (receiver != null) unregisterReceiver(receiver);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    super.onPause();
+    //timeout();
+  }
+
+
+
+  @Override
+  protected void onStop() {
+    Log.d(TAG, "onStop");
+    super.onStop();
+  }
+
+  protected void onDestroy() {
+    Log.d(TAG, "onDestroy");
+    super.onDestroy();
+  }
+
+  private void setupActionbar() {
+    Log.d(TAG, "setupActionbar");
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    tv_toolbar_title=(TextView)toolbar.findViewById(R.id.tv_toolbar_title);
+    tv_toolbar_title.setText(getString(R.string.app_name));
+    //toolbar.setTitle(getString(R.string.app_name));
+    setSupportActionBar(toolbar);
+    TextView titleTextView = null;
+    try {
+      Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
+      f.setAccessible(true);
+      titleTextView = (TextView) f.get(toolbar);
+      titleTextView.setTypeface(font.getHelveticaRegular());
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void loadFragment() {
+    Log.d(TAG, "loadFragment");
+    setupActionbar();
+
+    // update the main content by replacing fragments
+    Fragment fragment = new Fragment_Main();
+    fragment.setArguments(mArgs);
+    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+    fragmentTransaction.replace(R.id.frame_container, fragment, AppUtils.TAG_FRAGMNENT_MAIN);
+    fragmentTransaction.commit();
+  }
+
+  private void updateLogComplaint() {
+    Log.d(TAG, "updateLogComplaint");
+    new LogComplaintDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
+  }
+
+  private void updateReceiveComplaintRespond() {
+    Log.d(TAG, "updateReceiveComplaintRespond");
+    complaintRespondDbInitializer = new RCRespondDbInitializer(this);
+    complaintRespondDbInitializer.populateAsync(
+        AppDatabase.getAppDatabase(mActivity), AppUtils.MODE_GETALL);
+  }
+
+  private void updateReceiveComplaintSaveImage() {
+    Log.d(TAG, "updateReceiveComplaintRespond");
+    new DefectDoneImageDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
+  }
+
+  private void updatePPE() {
+    Log.d(TAG, "updatePPE");
+    ppeFetchSaveDbInitializer = new PPEFetchSaveDbInitializer(this);
+    ppeFetchSaveDbInitializer.populateAsync(
+        AppDatabase.getAppDatabase(mActivity), AppUtils.MODE_GETALL);
+  }
+
+  private void updateFeedback() {
+    Log.d(TAG, "updatePPE");
+    feedBackService = new FeedBack_Service(mActivity, this);
+    new FeedbackDbInitializer(mActivity, this).execute(AppUtils.MODE_GETALL);
+  }
+
+  private void updateMaterial() {
+    Log.d(TAG, "updateMaterial");
+    rcMeterial_service = new RCMeterial_Service(mActivity, this);
+    new RCSavedMaterialDbInitializer(mActivity, this, null).execute(AppUtils.MODE_GETALL);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    Log.d(TAG, "onCreateOptionsMenu");
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.menu_main, menu);
+    menu.findItem(R.id.action_search).setVisible(false);
+    menu.findItem(R.id.action_refresh).setVisible(false);
+    menu.findItem(R.id.action_home).setVisible(false);
+    menu.findItem(R.id.action_logout).setVisible(true);
+    menu.findItem(R.id.action_logout).setIcon(drawableLogout);
+    return true;
+  }
+
+
+
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_logout:
+        Log.d(TAG, "logout pressed " + item.getTitle());
+        try {
+          MaterialDialog.Builder builder =
+              new MaterialDialog.Builder(mActivity)
+                  .content("Are you sure you want to logout?")
+                  .title("Logout")
+                  .positiveText(R.string.lbl_yes)
+                  .negativeText(R.string.lbl_cancel)
+                  .stackingBehavior(StackingBehavior.ADAPTIVE)
+                  .onPositive(
+                      new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(
+                            @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                          dialog.dismiss();
+                          clearPreferences();
+                          SessionManager.clearSession(mActivity);
+                          Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                          startActivity(intent);
+                          finish();
+                        }
+                      });
+
+          MaterialDialog dialog = builder.build();
+          dialog.show();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        break;
+      case R.id.action_home:
+        Log.d(TAG, "search pressed " + item.getTitle());
+        break;
+    }
+
+    return super.onOptionsItemSelected(item);
+  }
+
+  public void clearPreferences() {
+    Log.d(TAG, "clearPreferences");
+    try {
+      mEditor = mPreferences.edit();
+      mEditor
+          .putString(
+              AppUtils.SHARED_LOGIN_OFFLINE, mPreferences.getString(AppUtils.SHARED_LOGIN, null))
+          .commit();
+      mEditor.putString(AppUtils.SHARED_LOGIN, null).commit();
+      new ReceiveComplaintItemDbInitializer(mActivity, null, null).execute(AppUtils.MODE_DELETE);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onLogComplaintDataReceivedSuccess(EmployeeIdRequest logComplaint, int mode) {
+    Log.d(TAG, "onLogComplaintDataReceivedSuccess");
+    if (mode == AppUtils.MODE_SERVER)
+      new LogComplaintDbInitializer(this, new LogComplaintEntity(logComplaint.getEmailId()), this)
+          .execute(AppUtils.MODE_DELETE);
+  }
+
+  @Override
+  public void onLogComplaintDataReceivedFailure(String strErr, int mode) {
+    Log.d(TAG, "onLogComplaintDataReceivedFailure " + strErr);
+  }
+
+  @Override
+  public void onAllLogComplaintData(List<LogComplaintEntity> logComplaintEntities, int mode) {
+    try {
+      Log.d(TAG, "onAllLogComplaintData " + logComplaintEntities.size());
+      if (mode == AppUtils.MODE_LOCAL) {
+        for (LogComplaintEntity item : logComplaintEntities) {
+          Log.d(TAG, "for ... " + item.getComplainWebNumber());
+          try {
+            postDataToServer(item);
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void postDataToServer(LogComplaintEntity logComplaintRequest) {
+    Log.d(TAG, "postDataToServer");
+    if (mNetworkInfo.length() > 0) {
+      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+        logComplaint_service.postLogComplaintData(logComplaintRequest);
+      } else
+        new LogComplaintDbInitializer(mActivity, logComplaintRequest, this)
+            .execute(AppUtils.MODE_INSERT);
+    }
+  }
+
+  private void postImageToServer(DFoundWDoneImageEntity saveRequest) {
+    Log.d(TAG, "postImageToServer");
+    mNetworkInfo = mPreferences.getString(AppUtils.IS_NETWORK_AVAILABLE, null);
+    if (mNetworkInfo.length() > 0) {
+      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+        complaintRespond_service.saveComplaintRespondImageData(saveRequest,mActivity);
+      } else {
+        saveRequest.setId(saveRequest.getComplaintNo() + saveRequest.getDocType());
+        new DefectDoneImageDbInitializer(mActivity, saveRequest, this)
+            .execute(AppUtils.MODE_INSERT);
+      }
+    }
+  }
+
+  private void postRespondDataToServer(ReceiveComplaintRespondEntity complaintRespondEntity) {
+    Log.d(TAG, "postDataToServer");
+    if (mNetworkInfo.length() > 0) {
+      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+        complaintView_service.postReceiveComplaintViewData(complaintRespondEntity);
+      } else
+        complaintRespondDbInitializer.populateAsync(
+            AppDatabase.getAppDatabase(mActivity), complaintRespondEntity, AppUtils.MODE_INSERT);
+    }
+  }
+
+  private void postPPEDataToServer(List<PPEFetchSaveEntity> ppeFetchSaveEntities) {
+    Log.d(TAG, "postDataToServer");
+    if (mNetworkInfo.length() > 0) {
+      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+        ppeService.savePpeData(ppeFetchSaveEntities);
+      } else
+        ppeFetchSaveDbInitializer.populateAsync(
+            AppDatabase.getAppDatabase(mActivity), ppeFetchSaveEntities, AppUtils.MODE_INSERT);
+    }
+  }
+
+  private void postFeedbackDataToServer(SaveFeedbackEntity saveFeedbackEntity) {
+    Log.d(TAG, "postDataToServer");
+    if (mNetworkInfo.length() > 0) {
+      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+        feedBackService.postFeedbackDetailsData(saveFeedbackEntity);
+      }
+    }
+  }
+
+  private void postMaterialDataToServer(List<SaveMaterialEntity> saveMaterialRequests) {
+    Log.d(TAG, "postDataToServer");
+    if (mNetworkInfo.length() > 0) {
+      if (mNetworkInfo.equals(AppUtils.NETWORK_AVAILABLE)) {
+        rcMeterial_service.PostReceiveComplaintSaveMaterialData(saveMaterialRequests);
+      }
+    }
+  }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    List<Fragment> fragments = mManager.getFragments();
+    if (fragments != null) {
+      for (Fragment fragment : fragments) {
+        fragment.onActivityResult(requestCode, resultCode, data);
+      }
+    }
+  }
+
+  @Override
+  public void onBackPressed() {
+    Fragment main = mManager.findFragmentByTag(AppUtils.TAG_FRAGMNENT_MAIN);
+    Fragment reactive_main = mManager.findFragmentByTag(Utils.TAG_REACTIVE_MAINTENANCE);
+    Fragment receive_complaintlist = mManager.findFragmentByTag(Utils.TAG_RECEIVED_COMPALINTS);
+    if (main != null) {
+      if (main.isVisible()) {
+        Log.d(TAG, "main.isVisible");
+        // exit your application
+        MainActivity.this.finish();
+        return;
+      }
+    }
+    if (reactive_main != null) {
+      if (reactive_main.isVisible()) {
+        Log.d(TAG, "eactive_main.isVisible");
+        loadFragment(new Fragment_Main(), AppUtils.TAG_FRAGMNENT_MAIN);
+        return;
+      }
+    }
+    if (receive_complaintlist != null) {
+      if (receive_complaintlist.isVisible()) {
+        Log.d(TAG, "receive_complaintlist.isVisible");
+        loadFragment(new Fragment_ReactiveMaintenance(), Utils.TAG_REACTIVE_MAINTENANCE);
+        return;
+      }
+    }
+
+    if (getFragmentManager().getBackStackEntryCount() > 1) {
+      Log.d(
+          TAG,
+          "getFragmentManager().getBackStackEntryCount() "
+              + getFragmentManager().getBackStackEntryCount());
+      getFragmentManager().popBackStack();
+    } else {
+      Log.d(TAG, "super.onBackPressed");
+      super.onBackPressed();
+    }
+  }
+
+  public void loadFragment(final Fragment fragment, final String tag) {
+    Log.d(TAG, "loadFragment");
+    try {
+      Runnable mPendingRunnable =
+          new Runnable() {
+            @Override
+            public void run() {
+              // update the main content by replacing fragments
+              FragmentTransaction fragmentTransaction =
+                  mActivity.getSupportFragmentManager().beginTransaction();
+              fragmentTransaction.replace(R.id.frame_container, fragment, tag);
+              fragmentTransaction.addToBackStack(tag);
+              fragmentTransaction.commit();
+            }
+          };
+      if (mPendingRunnable != null) {
+        mHandler.post(mPendingRunnable);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onReceiveComplaintRemarksReceived(List<String> remarkList, int mode) {}
+
+  @Override
+  public void onReceiveComplaintRespondReceived(String strMsg, String complaintNumber, int mode) {
+    Log.d(TAG, "onReceiveComplaintRespondReceived");
+    if (mode == AppUtils.MODE_SERVER)
+      complaintRespondDbInitializer.populateAsync(
+          AppDatabase.getAppDatabase(this), complaintNumber, AppUtils.MODE_DELETE);
+  }
+
+  @Override
+  public void onReceiveComplaintViewReceived(
+      List<ReceiveComplaintViewEntity> complaintViewEntities, int from) {}
+
+  @Override
+  public void onReceiveComplaintViewAssetDetailsReceived(
+      List<AssetDetailsEntity> assetDetailsEntities, int from) {}
+
+  @Override
+  public void onReceiveComplaintViewReceivedError(String msg, int from) {}
+
+  @Override
+  public void onReceiveBarCodeAssetReceived(String msg, int mode) {
+
+  }
+
+  @Override
+  public void onAllReceiveComplaintData(
+      List<ReceiveComplaintRespondEntity> complaintRespondEntities, int modeLocal) {
+    try {
+      Log.d(TAG, "onAllReceiveComplaintData " + complaintRespondEntities.size());
+      if (modeLocal == AppUtils.MODE_LOCAL) {
+        for (ReceiveComplaintRespondEntity item : complaintRespondEntities) {
+          Log.d(TAG, "for ... " + item.getComplaintNumber());
+          try {
+            postRespondDataToServer(item);
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onReceiveComplaintBycomplaintNumber(
+      ReceiveComplaintRespondEntity complaintRespondEntity, int modeLocal) {}
+
+  @Override
+  public void onImageSaveReceivedSuccess(DefectDoneImageUploaded mImageEntity, int mode) {
+    Log.d(TAG, "onImageSaveReceivedSuccess ::" + mode);
+    if (mode == AppUtils.MODE_SERVER) {
+      new DefectDoneImageDbInitializer(
+              mActivity,
+              new DFoundWDoneImageEntity(mImageEntity.getComplaintNo() + mImageEntity.getDocType()),
+              this)
+          .execute(AppUtils.MODE_DELETE);
+    }
+  }
+
+  @Override
+  public void onImageReceivedSuccess(RCDownloadImage imageEntity, int mode) {}
+
+  @Override
+  public void onImageSaveReceivedFailure(String strErr, int mode) {}
+
+  @Override
+  public void onImageReceivedFailure(String strErr, int mode) {}
+
+  @Override
+  public void onAllImagesReceived(List<DFoundWDoneImageEntity> mImageEntities, int mode) {
+    try {
+      Log.d(TAG, "onAllImagesReceived " + mImageEntities.size());
+      if (mode == AppUtils.MODE_LOCAL) {
+        for (DFoundWDoneImageEntity item : mImageEntities) {
+          Log.d(TAG, "for ... " + item.getId());
+          try {
+            postImageToServer(item);
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    Log.d(TAG, " onConfigurationChanged :");
+  }
+
+  @Override
+  public void onPPENameListReceived(List<PPENameEntity> ppeNameEntities, int mode) {}
+
+  @Override
+  public void onPPESaveSuccess(String strMsg, int mode) {
+    try {
+      ppeFetchSaveDbInitializer.populateAsync(
+          AppDatabase.getAppDatabase(mActivity), AppUtils.MODE_UPDATE);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onPPESaveClicked(
+      List<PPENameEntity> ppeNameEntities,
+      List<PPEFetchSaveEntity> ppeSaveEntities,
+      boolean isFetchdata) {}
+
+  @Override
+  public void onPPEFetchListSuccess(List<PPEFetchSaveEntity> ppeSaveEntities, int mode) {
+    try {
+      Log.d(TAG, "onPPEFetchListSuccess " + ppeSaveEntities.size());
+      if (mode == AppUtils.MODE_LOCAL && ppeSaveEntities.size() > 0) {
+        postPPEDataToServer(ppeSaveEntities);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onPPEFetchListFailure(String strErr, int mode) {}
+
+  @Override
+  public void onPPESaveFailure(String strErr, int mode) {}
+
+  @Override
+  public void onPPENameListFailure(String strErr, int mode) {}
+
+  public void startService() {
+    Log.d(TAG, "downloadFile ");
+    if (checkPermission()) {
+      // start Download service
+      if (!isServiceRunning()) {
+        Intent intent = new Intent(this, DownloadService.class);
+        startService(intent);
+      }
+    } else {
+      // request Permission
+      ActivityCompat.requestPermissions(
+          this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+    }
+  }
+
+  private boolean checkPermission() {
+    int result =
+        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    if (result == PackageManager.PERMISSION_GRANTED) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(
+      int requestCode, String permissions[], int[] grantResults) {
+    switch (requestCode) {
+      case PERMISSION_REQUEST_CODE:
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          startService();
+        } else {
+          Snackbar.make(
+                  findViewById(R.id.cl_main),
+                  "Permission Denied, Please allow to proceed !",
+                  Snackbar.LENGTH_LONG)
+              .show();
+        }
+        break;
+    }
+  }
+
+  private boolean isServiceRunning() {
+    ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+    for (ActivityManager.RunningServiceInfo service :
+        manager.getRunningServices(Integer.MAX_VALUE)) {
+      if ("com.daemon.emco_android.db.service".equals(service.service.getClassName())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public void onFeedbackEmployeeDetailsReceivedSuccess(
+      List<EmployeeDetailsEntity> employeeDetailsEntities, int mode) {}
+
+  @Override
+  public void onFeedbackDetailsReceivedSuccess(SaveFeedbackEntity saveFeedbackEntity, int mode) {}
+
+  @Override
+  public void onAllFeedbackDetailsReceivedSuccess(
+      List<SaveFeedbackEntity> saveFeedbackEntities, int mode) {
+    try {
+      Log.d(TAG, "onAllImagesReceived " + saveFeedbackEntities.size());
+      if (mode == AppUtils.MODE_LOCAL) {
+        for (SaveFeedbackEntity item : saveFeedbackEntities) {
+          Log.d(TAG, "for ... " + item.getComplaintNumber());
+          try {
+            postFeedbackDataToServer(item);
+
+            item.setMode(AppUtils.MODE_SERVER);
+            new FeedbackDbInitializer(mActivity, this, item).execute(AppUtils.MODE_INSERT_SINGLE);
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onFeedbackDetailsReceivedSuccessPPMAtten(PpmEmployeeFeedResponse saveFeedbackEntity) {
+
+  }
+
+
+  @Override
+  public void onFeedbackEmployeeDetailsSaveSuccess(String strMsg, int mode) {}
+
+  @Override
+  public void onFeedbackPpmStatusSucess(List<String> strMsg, int mode) {
+
+  }
+
+  @Override
+  public void onFeedbackEmployeeDetailsReceivedFailure(String strErr, int mode) {}
+
+  @Override
+  public void onRCSaveMaterialSuccess(String strMsg, int from) {
+    try {
+      new RCSavedMaterialDbInitializer(mActivity, this, null).execute(AppUtils.MODE_UPDATE);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onRCMaterialListReceived(
+      List<MaterialMasterEntity> materialRequiredEntities, String noOfRows, int from) {}
+
+  @Override
+  public void onRCMaterialGetListReceived(
+      List<SaveMaterialEntity> getMaterialEntities, String noOfRows, int mode) {
+    try {
+      Log.d(TAG, "onRCMaterialGetListReceived " + getMaterialEntities.size());
+      if (mode == AppUtils.MODE_LOCAL && getMaterialEntities.size() > 0) {
+        postMaterialDataToServer(getMaterialEntities);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onRCMaterialListReceivedError(String strErr, int from) {}
+}

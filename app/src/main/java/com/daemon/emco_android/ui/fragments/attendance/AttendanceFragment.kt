@@ -42,10 +42,9 @@ import com.daemon.emco_android.repository.remote.ReceiveComplaintRespondService
 import com.daemon.emco_android.service.GPSTracker
 import com.daemon.emco_android.ui.fragments.common.MainDashboard
 import com.daemon.emco_android.utils.AppUtils
-import com.daemon.emco_android.utils.BarcodeCaptureActivity
 import com.daemon.emco_android.utils.GpsUtils
+import com.daemon.emco_android.utils.ZxingScannerActivity
 import com.google.android.gms.common.api.CommonStatusCodes
-import com.google.android.gms.vision.barcode.Barcode
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_attendance.*
 import uk.co.senab.photoview.PhotoViewAttacher
@@ -86,6 +85,8 @@ class AttendanceFragment : Fragment(), EmployeeGPSListener, DefectDoneImage_List
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true)
 
         if (checkPermission()) {
 
@@ -225,8 +226,8 @@ class AttendanceFragment : Fragment(), EmployeeGPSListener, DefectDoneImage_List
     private fun scan() {
         val requestId = AppUtils.getIdForRequestedCamera(AppUtils.CAMERA_FACING_BACK)
         if (requestId == -1) AppUtils.showDialog(context, "Camera not available") else {
-            val intent = Intent(context, BarcodeCaptureActivity::class.java)
-            intent.putExtra(BarcodeCaptureActivity.AutoFocus, true)
+            val intent = Intent(context, ZxingScannerActivity::class.java)
+            intent.putExtra(ZxingScannerActivity.AutoFocus, true)
             startActivityForResult(intent, AS_BARCODE_CAPTURE)
         }
 
@@ -277,10 +278,10 @@ class AttendanceFragment : Fragment(), EmployeeGPSListener, DefectDoneImage_List
         if (requestCode == AS_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
-                    val barcode: Barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject)
+                    val barcode = data.getStringExtra(ZxingScannerActivity.BarcodeObject)
                  //   showDialog(context, barcode.displayValue)
 
-                    scannedVal = barcode.displayValue.split("$$").toTypedArray()
+                    scannedVal = barcode.split("$$").toTypedArray()
              // binding.tieEmployeeId.setText(strs[0])
                     barcodeScanned=true
                     EmployeeGpsRepository(context, this).getEmployeeList(scannedVal[0])
@@ -420,7 +421,7 @@ class AttendanceFragment : Fragment(), EmployeeGPSListener, DefectDoneImage_List
         binding.txtEmployeeDivision.text = obj?.get(0)?.divisonName
         binding.txtEmployeeJobDetail.text = obj?.get(0)?.jobNo+" - "+obj?.get(0)?.jobName
 
-      showDetails()
+        showDetails()
 
     }
 
@@ -544,7 +545,7 @@ class AttendanceFragment : Fragment(), EmployeeGPSListener, DefectDoneImage_List
 
 
     private fun requestPermission() {
-        ActivityCompat.requestPermissions(mActivity, arrayOf(Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE),
+        ActivityCompat.requestPermissions(mActivity, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE),
                 PERMISSION_REQUEST_CODE)
     }
 

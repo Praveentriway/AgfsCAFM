@@ -279,6 +279,7 @@ public class fragment_ppmfilter extends Fragment implements View.OnClickListener
         fragmentTransaction.replace(R.id.frame_container, fragment, tag);
         fragmentTransaction.addToBackStack(tag);
         fragmentTransaction.commit();
+
     }
 
 

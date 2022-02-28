@@ -59,6 +59,7 @@ import com.daemon.emco_android.model.common.AssetInfo;
 import com.daemon.emco_android.model.common.AssetInfoTrans;
 import com.daemon.emco_android.model.common.DocumentType;
 import com.daemon.emco_android.model.common.EmployeeList;
+import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.model.common.JobList;
 import com.daemon.emco_android.model.common.Login;
 import com.daemon.emco_android.model.common.OpcoDetail;
@@ -70,6 +71,7 @@ import com.daemon.emco_android.repository.remote.AssetVerificationRepository;
 import com.daemon.emco_android.repository.remote.LocationFinderRepository;
 import com.daemon.emco_android.repository.remote.ReceiveComplaintRespondService;
 import com.daemon.emco_android.repository.remote.SupportDocumentRepository;
+import com.daemon.emco_android.service.GPSTracker;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewDataAdapter;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewItem;
 import com.daemon.emco_android.ui.base.BasicFragment;
@@ -109,6 +111,7 @@ public class AddAssetTagFragment extends Fragment implements AssetVerificationRe
     List<OpcoDetail> opcoList = new ArrayList<>();
     List<JobList> jobLists = new ArrayList<>();
     private boolean noImageAttached=false;
+    AssetInfoTrans trans;
     private ArrayList<CustomRecyclerViewItem> itemList  =new ArrayList<>();
     private CustomRecyclerViewDataAdapter customRecyclerViewDataAdapter = null;
     List<DocumentType> assetCondition = new ArrayList<>();
@@ -425,16 +428,19 @@ else if(TextUtils.isEmpty(binding.txtAssetName.getText())){
 
 else{
 
-    AssetInfoTrans trans= new AssetInfoTrans();
+    trans= new AssetInfoTrans();
     trans.setOpco(binding.txtOpco.getText().toString());
     trans.setRefNo(getReferenceNo());
     trans.setTransType("TAG_REQUEST");
-    trans.setJobNo(binding.txtJobNo.getText().toString());
+    trans.setJobNewNo(binding.txtJobNo.getText().toString());
     trans.setAssetName(binding.txtAssetName.getText().toString());
     trans.setAssetDescription(binding.txtAssetDesc.getText().toString());
-    trans.setAssetLocation(binding.txtAssetLocation.getText().toString());
-    trans.setAssetCondition(binding.txtAssetCondition.getText().toString());
-    trans.setAssetRemarks(binding.txtRemarks.getText().toString());
+    trans.setAssetNewLocation(binding.txtAssetLocation.getText().toString());
+    trans.setAssetNewCondition(binding.txtAssetCondition.getText().toString());
+    trans.setAssetNewRemarks(binding.txtRemarks.getText().toString());
+    trans.setAssetNewSerialNo(binding.txtSerialNo.getText().toString());
+    trans.setMake(binding.txtAssetMake.getText().toString());
+    trans.setModel(binding.txtAssetModel.getText().toString());
     trans.setTransStatus("Requested"); // fixed value
     trans.setAuditBy(getUseID());
     trans.setCreatedBy(getUseID());
@@ -450,7 +456,6 @@ else{
     public String getUseID(){
 
         String mStrEmpId="";
-
         Gson gson = new Gson();
         SharedPreferences mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, MODE_PRIVATE);
         mEditor = mPreferences.edit();
@@ -460,14 +465,13 @@ else{
             mStrEmpId = user.getEmployeeId();
         }
         return mStrEmpId;
+
     }
 
     public String getReferenceNo(){
 
         if(refno.equalsIgnoreCase("")){
-
             refno = (binding.txtOpco.getText().toString()+"-"+new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date()));
-
         }
 
        return refno;
@@ -476,7 +480,6 @@ else{
 
 
     public void setUpRecyclerview() {
-
 
         // Create the grid layout manager with 2 columns.
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),1);
@@ -546,7 +549,17 @@ else{
     public void onSuccessSaveAsset(String strMsg, int mode) {
 
         AppUtils.hideProgressDialog();
-        showDialog(mActivity,strMsg,"");
+
+        EmployeeTrackingDetail emp=new EmployeeTrackingDetail();
+        emp.setCompCode(trans.getOpco());
+        emp.setTransType("Asset Tag Request");
+        emp.setActionType("Requested");
+        emp.setRefNo(trans.getRefNo());
+        emp.setCreatedBy(trans.getCreatedBy());
+        new GPSTracker(getContext()).updateFusedLocation(emp);
+
+        showDialog(mActivity,"Request created successfully.","Reference Number : "+trans.getRefNo());
+
 
     }
 
@@ -652,15 +665,15 @@ else{
 
         if (base64 == null) {
 
-            items = new CharSequence[]{"Take photo", "Choose photo", "No image"};
+            items = new CharSequence[]{"Take photo", "No image"};
             builder.setTitle("Add  photo");
 
         }
         else if(base64.equalsIgnoreCase("noImage")){
-            items = new CharSequence[]{"Take photo", "Choose photo"};
+            items = new CharSequence[]{"Take photo"};
             builder.setTitle("Add  photo");
         } else {
-            items = new CharSequence[]{"Take photo", "Choose photo", "View photo"}; // , "Delete photo"
+            items = new CharSequence[]{"Take photo", "View photo"}; // , "Delete photo"
             builder.setTitle("Update and view photo");
         }
         builder.setItems(
@@ -673,11 +686,8 @@ else{
                                 dispatchTakePhotoIntent();
 
                                 break;
-                            case 1:
-                                dispatchChoosePhotoIntent();
 
-                                break;
-                            case 2:
+                            case 1:
 
                                 if (items[item].toString().equalsIgnoreCase("View photo")) {
                                     dispatchViewPhotoIntent(base64);
@@ -690,7 +700,7 @@ else{
 
                                 break;
 
-                            case 3:
+                            case 2:
                                 dialog.dismiss();
                                 showNoImageAlert(count);
                                 chekNoimage = 1;

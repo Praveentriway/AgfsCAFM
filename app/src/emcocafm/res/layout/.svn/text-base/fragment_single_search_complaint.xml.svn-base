@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/match_parent_style"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        style="@style/match_parent_style"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_3sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/emco_logo_with_name"
+            android:visibility="gone" />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/match_parent_style"
+            android:background="@color/colorWhite">
+
+            <LinearLayout
+                style="@style/match_parent_style"
+                android:layout_marginBottom="@dimen/bottom_view_margin"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_site"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_site" />
+
+                    <TextView
+                        android:id="@+id/tv_select_site"
+                        style="@style/textview_spinner"
+                        android:layout_weight=".4"
+                        android:text="@string/lbl_select_site" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_complaint_ref_no"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_complaint_ref_no" />
+
+                    <com.daemon.emco_android.components.CustomTextInputLayout
+                        android:id="@+id/til_complaint_ref"
+                        android:layout_weight=".4"
+                        style="@style/text_input_layout_common">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/tie_complaint_ref_no"
+                            style="@style/text_input_edittext_common"
+                            android:layout_margin="@dimen/_4sdp"
+                            android:hint="@string/msg_enter_complaint_ref_no"
+                            android:imeOptions="actionSearch" />
+                    </com.daemon.emco_android.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btnSearchComplaint"
+                    style="@style/btn_common_home"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:layout_marginLeft="@dimen/_140sdp"
+                    android:layout_marginRight="@dimen/_140sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/lbl_search" />
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_goto_multi_search"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_for_multiple_complaint" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btnGotoMultipleComplaints"
+                        style="@style/btn_common"
+                        android:layout_weight=".4"
+                        android:text="@string/lbl_click_here" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/emco_logo_with_name"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_2017_ags"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_5sdp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

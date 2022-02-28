@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/match_parent_style"
+    android:background="@color/colorWhite"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        style="@style/match_wrap_style"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_3sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/emco_logo_with_name" />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/match_parent_style">
+
+            <LinearLayout
+                style="@style/match_parent_style"
+                android:layout_marginBottom="@dimen/bottom_view_margin"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:orientation="vertical"
+                android:padding="@dimen/_3sdp">
+
+                <LinearLayout
+                    android:id="@+id/ll_im_landing"
+                    style="@style/match_parent_style"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_reactive_request_verification"
+                        style="@style/btn_common_home"
+                        android:text="@string/title_reactive_request_verification" />
+
+                    <Button
+                        android:id="@+id/btn_ppm_request_verification"
+                        style="@style/btn_common_home"
+                        android:text="@string/title_ppm_request_verification" />
+
+                    <Button
+                        android:id="@+id/btn_periodic_inspection"
+                        style="@style/btn_common_home"
+                        android:text="@string/title_periodic_inspection" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_im_services"
+                    style="@style/match_parent_style"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btn_hard_services"
+                        style="@style/btn_common_home"
+                        android:text="@string/title_hard_services" />
+
+                    <Button
+                        android:id="@+id/btn_soft_services"
+                        style="@style/btn_common_home"
+                        android:text="@string/title_soft_services" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_im_periodic"
+                    style="@style/match_parent_style"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btn_assigned"
+                        style="@style/btn_common_home"
+                        android:text="@string/title_assigned_inspection" />
+
+                    <Button
+                        android:id="@+id/btn_random"
+                        style="@style/btn_common_home"
+                        android:text="@string/title_random_inspection" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/emco_logo_with_name"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_2017_ags"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_5sdp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

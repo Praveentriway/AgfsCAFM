@@ -1,0 +1,497 @@
+package com.daemon.emco_android.db.service;
+
+import android.Manifest;
+import android.app.ActivityManager;
+import android.app.IntentService;
+import android.app.NotificationManager;
+import android.arch.persistence.db.SupportSQLiteDatabase;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import com.daemon.emco_android.R;
+import com.daemon.emco_android.activities.MainActivity;
+import com.daemon.emco_android.asyncprocess.FileSize_Service;
+import com.daemon.emco_android.asyncprocess.User_Service;
+import com.daemon.emco_android.db.database.AppDatabase;
+import com.daemon.emco_android.db.dbhelper.RCAssetDetailsDbInitializer;
+import com.daemon.emco_android.db.dbhelper.RCMaterialDbInitializer;
+import com.daemon.emco_android.db.dbhelper.ReceiveComplaintViewDbInitializer;
+import com.daemon.emco_android.db.dbhelper.WorkDefectsDbInitializer;
+import com.daemon.emco_android.db.dbhelper.WorkDoneDbInitializer;
+import com.daemon.emco_android.db.restapi.ApiClient;
+import com.daemon.emco_android.db.restapi.ApiConstant;
+import com.daemon.emco_android.db.restapi.ApiInterface;
+import com.daemon.emco_android.listeners.FileSizeListener;
+import com.daemon.emco_android.model.Download;
+import com.daemon.emco_android.model.request.FileSizeRequest;
+import com.daemon.emco_android.model.request.LoginRequest;
+import com.daemon.emco_android.model.response.AssetDetailsResponse;
+import com.daemon.emco_android.model.response.CommonResponse;
+import com.daemon.emco_android.model.response.MaterialRequiredResponse;
+import com.daemon.emco_android.model.response.ReceiveComplaintViewResponse;
+import com.daemon.emco_android.model.response.WorkDefectResponse;
+import com.daemon.emco_android.model.response.WorkDoneResponse;
+import com.daemon.emco_android.utils.AppUtils;
+import com.daemon.emco_android.utils.SessionManager;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.text.DecimalFormat;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class DownloadService extends IntentService implements FileSizeListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+    public static NotificationCompat.Builder notificationBuilder;
+    public static NotificationManager notificationManager;
+    private ApiInterface mInterface;
+    private static Context mContext;
+    public static double totalFileSize;
+    private double checkValueServer = 0.0;
+    private boolean checkFirst = true;
+    private final int PERMISSION_REQUEST_CODE = 1;
+
+
+    public DownloadService() {
+        super("Download Service");
+    }
+
+    @Override
+    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        Log.d(TAG, "onHandleIntent");
+
+        mContext = getApplicationContext();
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_download)
+                        // .setContentTitle("Material data download")
+                        .setContentText("Fetching Data")
+                        .setAutoCancel(true);
+        notificationManager.notify(0, notificationBuilder.build());
+
+        //mActivity = (AppCompatActivity) getApplicationContext();
+
+        initDownload();
+    }
+
+    private void initDownload() {
+        Log.d(TAG, "initDownload");
+        try {
+            sendNotification(10);
+            mInterface = ApiClient.getClientLongTime(5, SessionManager.getSession("baseurl",mContext)).create(ApiInterface.class);
+            // GetAllReceiveComplaintViewData();
+            sendNotification(30);
+            GetAllAssetBArCodeDetailsData();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void onStartDownload() {
+        try {
+            ApiInterface mInterface =
+                    ApiClient.getClientLongTime(5, SessionManager.getSession("baseurlfile",mContext)).create(ApiInterface.class);
+            final Call<ResponseBody> request = mInterface.downloadFile();
+            new AsyncTask<Void, Long, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    try {
+
+                        sendNotification(90);
+                        downloadFile(request.execute().body());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            }.execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendNotification(int per) {
+        Log.d(TAG, "sendNotification");
+
+        notificationBuilder.setProgress(100, per, false);
+        notificationBuilder.setContentText("Data Downloading " + per + " % ");
+        notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    private static void onDownloadComplete() {
+        Log.d(TAG, "onDownloadComplete");
+
+        try {
+            Download download = new Download();
+            download.setProgress(100);
+            notificationManager.cancel(0);
+            notificationBuilder.setProgress(0, 0, false);
+            notificationBuilder.setContentText("Data Downloaded");
+            notificationManager.notify(0, notificationBuilder.build());
+            notificationManager.cancel(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        Log.d(TAG, "onTaskRemoved");
+        notificationManager.cancel(0);
+    }
+
+    public void GetAllReceiveComplaintViewData() {
+        Log.d(TAG, "GetReceiveComplaintViewData");
+        try {
+            mInterface
+                    .getAllReceiveComplaintViewResult()
+                    .enqueue(
+                            new Callback<ReceiveComplaintViewResponse>() {
+                                @Override
+                                public void onResponse(
+                                        Call<ReceiveComplaintViewResponse> call,
+                                        Response<ReceiveComplaintViewResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        Log.d(TAG, "onResponse success " + response.body().getMessage());
+                                        if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                                            Log.d(TAG, "onResponse success");
+                                            if (response.body().getReceiveComplaintViewEntity().isEmpty())
+                                                return;
+                                            new ReceiveComplaintViewDbInitializer(
+                                                    mContext, null, response.body().getReceiveComplaintViewEntity())
+                                                    .execute(AppUtils.MODE_INSERT);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ReceiveComplaintViewResponse> call, Throwable t) {
+                                    Log.d(TAG, "onFailure" + t.getMessage());
+                                }
+                            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void GetAllAssetBArCodeDetailsData() {
+        Log.d(TAG, "GetReceiveComplaintViewAssetDetailsData");
+        try {
+            mInterface
+                    .getAllAssetBarcodeDetailsResult()
+                    .enqueue(
+                            new Callback<AssetDetailsResponse>() {
+                                @Override
+                                public void onResponse(
+                                        Call<AssetDetailsResponse> call, Response<AssetDetailsResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        Log.d(TAG, "onResponse success " + response.body().getMessage());
+                                        if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                                            new RCAssetDetailsDbInitializer(
+                                                    mContext, null, response.body().getAssetDetailsEntity())
+                                                    .execute(AppUtils.MODE_INSERT);
+
+                                            sendNotification(45);
+                                            getAllWorkDefectData();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<AssetDetailsResponse> call, Throwable t) {
+                                    Log.d(TAG, "onFailure" + t.getMessage());
+                                    sendNotification(45);
+                                    getAllWorkDefectData();
+                                }
+                            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getAllWorkDefectData() {
+        Log.d(TAG, "getWorkDefectData");
+        try {
+            mInterface
+                    .getAllWorkDefectsData()
+                    .enqueue(
+                            new Callback<WorkDefectResponse>() {
+                                @Override
+                                public void onResponse(
+                                        Call<WorkDefectResponse> call, Response<WorkDefectResponse> response) {
+                                    Log.d(TAG, "onResponse");
+                                    if (response.isSuccessful()) {
+                                        WorkDefectResponse mResponse = response.body();
+                                        if (mResponse.getStatus().equals(ApiConstant.SUCCESS)) {
+                                            new WorkDefectsDbInitializer(mContext, null, mResponse.getObject())
+                                                    .execute(AppUtils.MODE_INSERT);
+                                        }
+
+                                        sendNotification(60);
+                                        getAllWorkDoneData();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<WorkDefectResponse> call, Throwable t) {
+                                    Log.d(TAG, "onFailure :::" + t.getMessage());
+                                    sendNotification(60);
+                                    getAllWorkDoneData();
+                                }
+                            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void getAllWorkDoneData() {
+        Log.d(TAG, "getWorkDoneData");
+        try {
+            mInterface
+                    .getAllWorkDoneData()
+                    .enqueue(
+                            new Callback<WorkDoneResponse>() {
+                                @Override
+                                public void onResponse(
+                                        Call<WorkDoneResponse> call, Response<WorkDoneResponse> response) {
+                                    Log.d(TAG, "onResponse");
+                                    if (response.isSuccessful()) {
+                                        WorkDoneResponse mResponse = response.body();
+                                        if (mResponse.getStatus().equals(ApiConstant.SUCCESS)) {
+                                            new WorkDoneDbInitializer(mContext, null, mResponse.getObject())
+                                                    .execute(AppUtils.MODE_INSERT);
+                                        }
+                                    }
+                                    sendNotification(70);
+
+                                    onStartDownload();
+                                }
+
+                                @Override
+                                public void onFailure(Call<WorkDoneResponse> call, Throwable t) {
+                                    Log.d(TAG, "onFailure :::" + t.getMessage());
+                                    sendNotification(70);
+                                    onStartDownload();
+                                }
+                            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+  /*private void startDownload() {
+    try {
+      mInterface
+              .getMaterialMaster()
+              .enqueue(
+                      new Callback<CommonResponse>() {
+                        @Override
+                        public void onResponse(
+                                Call<CommonResponse> call, Response<CommonResponse> response) {
+                          Log.d(TAG, "onResponse");
+                          if (response.isSuccessful()) {
+                            if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                              onStartDownload();
+
+                              sendNotification(80);
+                            }
+                          }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CommonResponse> call, Throwable t) {
+                          Log.d(TAG, "onFailure" + t.getMessage());
+
+                          sendNotification(99);
+                          onDownloadComplete();
+                        }
+                      });
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }*/
+
+    public void getRCMeterialRequiredListData(
+            String strOPCo, String strDescription, String startIndex) {
+        Log.d(TAG, "GetReceiveComplaintMeterialListData");
+        try {
+            mInterface
+                    .getReceiveComplaintMaterialRequiredResult(strOPCo, strDescription, startIndex, "1000")
+                    .enqueue(
+                            new Callback<MaterialRequiredResponse>() {
+                                @Override
+                                public void onResponse(
+                                        Call<MaterialRequiredResponse> call,
+                                        Response<MaterialRequiredResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        Log.d(TAG, "onResponse success " + response.body().getMessage());
+                                        if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                                            Log.d(TAG, "onResponse success");
+                                            if (!response.body().getObject().isEmpty())
+                                                new RCMaterialDbInitializer(mContext, null, response.body().getObject())
+                                                        .execute(AppUtils.MODE_INSERT);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<MaterialRequiredResponse> call, Throwable t) {
+                                    Log.d(TAG, "onFailure" + t.getMessage());
+                                }
+                            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void executeSQLscript(File file) {
+        Log.d(TAG, "executeSQLscript");
+        try {
+            InputStream is = null;
+
+            // is = mContext.getAssets().open("MaterialMasterEntity.sql");
+            is = new FileInputStream(file);
+
+            Writer writer = new StringWriter();
+            char[] buffer = new char[2048];
+            try {
+                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                int n;
+                while ((n = reader.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                }
+            } finally {
+                is.close();
+            }
+            SupportSQLiteDatabase db;
+            db = AppDatabase.getAppDatabase(mContext).getOpenHelper().getWritableDatabase();
+
+            Log.d(TAG, "openOrCreateDatabase " + db.isOpen());
+            db.execSQL(writer.toString());
+            sendNotification(99);
+            onDownloadComplete();
+            db.close();
+
+            // Delete file
+            file.delete();
+            if (file.exists()) {
+                file.getCanonicalFile().delete();
+                if (file.exists()) {
+                    mContext.deleteFile(file.getName());
+                }
+            }
+            if (file.delete()) {
+                Log.d(TAG, "file Deleted :" + file.getPath());
+            } else {
+                Log.d(TAG, "file not Deleted :" + file.getPath());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void downloadFile(ResponseBody body) {
+        Log.d(TAG, "downloadFile");
+        try {
+            int count;
+            byte data[] = new byte[1024 * 4];
+            long fileSize = body.contentLength();
+            InputStream bis = new BufferedInputStream(body.byteStream(), 1024 * 8);
+
+            String PATH = Environment.getExternalStorageDirectory() + "/download";
+            File dir = new File(PATH);
+            dir.mkdirs();
+
+            File outputFile = new File(dir, "MaterialMaster.sql");
+            if (!outputFile.exists()) {
+                outputFile.createNewFile();
+            }
+            Log.d(TAG, "PATH " + PATH + "\ngetAbsolutePath " + outputFile.getAbsolutePath());
+            OutputStream output = new FileOutputStream(outputFile);
+            long total = 0;
+            long startTime = System.currentTimeMillis();
+            int timeCount = 1;
+            while ((count = bis.read(data)) != -1) {
+
+                total += count;
+                totalFileSize = fileSize / (Math.pow(1024, 2));
+                double current = total / (Math.pow(1024, 2));
+
+                int progress = (int) ((total * 100) / fileSize);
+
+                long currentTime = System.currentTimeMillis() - startTime;
+
+                Download download = new Download();
+                download.setTotalFileSize(totalFileSize);
+
+                if (currentTime > 1000 * timeCount) {
+
+                    download.setCurrentFileSize(current);
+                    download.setProgress(progress);
+                    sendNotification(download);
+                    timeCount++;
+                }
+
+                output.write(data, 0, count);
+            }
+            onDownloadComplete();
+            output.flush();
+            output.close();
+            bis.close();
+            executeSQLscript(outputFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendNotification(Download download) {
+        Log.d(TAG, "sendNotification");
+        notificationBuilder.setProgress(100, download.getProgress(), false);
+        notificationBuilder.setContentText(
+                "Downloading data "
+                        + new DecimalFormat("##.##").format(download.getCurrentFileSize())
+                        + "/"
+                        + new DecimalFormat("##.##").format(totalFileSize)
+                        + " MB");
+        notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    @Override
+    public void onFileSizeSuccess(Object response) {
+        onStartDownload();
+    }
+}

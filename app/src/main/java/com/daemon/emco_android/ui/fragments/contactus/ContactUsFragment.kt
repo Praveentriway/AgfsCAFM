@@ -73,7 +73,7 @@ class ContactUsFragment : Fragment() {
         email.putExtra(Intent.EXTRA_SUBJECT, "subject")
         email.putExtra(Intent.EXTRA_TEXT, "message")
         email.type = "message/rfc822"
-        startActivity(Intent.createChooser(email, "Choose an Email client :"))
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

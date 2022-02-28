@@ -269,6 +269,7 @@ public class Fragment_RC_List extends Fragment
         mStrEmpId = user.getEmployeeId();
         if (user.getUserType().equals(AppUtils.TECHNICIAN)
             || user.getUserType().equals(AppUtils.SUPERVISOR)) {
+          Log.d("first","sdfs");
           showNewMsg();
         }
       }
@@ -406,6 +407,7 @@ public class Fragment_RC_List extends Fragment
     mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
     tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
     img_toolbar = (ImageView) mToolbar.findViewById(R.id.img_toolbar);
+    //Log.d("mUnS",mUnSignedPage);
     tv_toolbar_title.setText(
         getResources()
             .getString(
@@ -463,6 +465,7 @@ public class Fragment_RC_List extends Fragment
       if (mSavedInstanceState != null) {
         mUnSignedPage = mSavedInstanceState.getString(AppUtils.ARGS_RECEIVECOMPLAINT_PAGETYPE);
         mList = mSavedInstanceState.getParcelableArrayList(AppUtils.ARG_RC_LIST);
+       // Log.d("SavedINst",mList.toString());
         mSelectedPosition = mSavedInstanceState.getInt(AppUtils.ARG_SELECTED_POSITION);
         setReceivecomplaintList();
       }
@@ -753,17 +756,20 @@ public class Fragment_RC_List extends Fragment
   public void onReceiveComplaintListItemClicked(
       List<ReceiveComplaintItemEntity> temp, int position) {
     Log.d(TAG, "onReceivecomplaintListItemClicked");
+    Log.d("asd"," item Clicked ");
     try {
+
       this.temp = temp;
       if (temp != null) {
         if (temp.get(position).getStatus().equalsIgnoreCase("c")) {
-
+          Log.d("asd"," item Clicked1 ");
           // changed navigation based on Sulaiman request
           gotoFragmentReceiveComplaintView(temp, position);
 
         } else {
           if (temp.get(position).getComplaintNumber() != null) {
             gotoFragmentReceiveComplaintView(temp, position);
+            Log.d("asd"," item Clicked2 ");
           }
         }
       }
@@ -798,6 +804,7 @@ public class Fragment_RC_List extends Fragment
       mdata.putParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_ITEM_DETAILS, data.get(position));
       mdata.putInt(AppUtils.ARGS_RECEIVEDCOMPLAINT_ITEM_POSITION, position);
       Fragment_RC_View fragment = new Fragment_RC_View();
+
       fragment.setArguments(mdata);
       fragment.setAdapter(adapter);
       fragment.setRecyclerView(recyclerView);
@@ -907,7 +914,7 @@ public class Fragment_RC_List extends Fragment
   public boolean onQueryTextSubmit(String query) {
 
     img_toolbar.setVisibility(View.GONE);
-
+    Log.d("Filter","Trap Hit filter b oqtc");
     Log.d(TAG, "onQueryTextSubmit");
     // filter your list from your input
     filter(query);
@@ -918,6 +925,7 @@ public class Fragment_RC_List extends Fragment
   @Override
   public boolean onQueryTextChange(String newText) {
     Log.d(TAG, "onQueryTextChange");
+    Log.d("Filter","Trap Hit filter b last");
     // filter your list from your input
     filter(newText);
     // you can use runnable postDelayed like 500 ms to delay search text
@@ -925,7 +933,7 @@ public class Fragment_RC_List extends Fragment
   }
 
   void filter(String text) {
-
+      Log.d("Filter","Trap Hit filter last");
     try {
       if (mList != null && !mList.isEmpty()) {
         if (temp != null) {
@@ -937,6 +945,7 @@ public class Fragment_RC_List extends Fragment
           // or use .equal(text) with you want equal match
           // use .toLowerCase() for better matches
           if (d.getComplainRefrenceNumber().toLowerCase().contains(text.toLowerCase()) || d.getComplainDetails().toLowerCase().contains(text.toLowerCase()) || d.getLocation().toLowerCase().contains(text.toLowerCase()) ) {
+
             temp.add(d);
           }
         }
@@ -969,6 +978,7 @@ public class Fragment_RC_List extends Fragment
       calendar.setTime(dateTime);
 
       if (ConnectivityStatus.isConnected(mActivity)) {
+        Log.d("first","1");
         receiveComplaintListService.getallforwardedcomplaintbyemployeeid(mStrEmpId);
       } else {
         if (mUnSignedPage == AppUtils.ARGS_RECEIVECOMPLAINT_PAGE) {
@@ -981,6 +991,7 @@ public class Fragment_RC_List extends Fragment
       if (checkInternet(getContext())) {
         //  receiveComplaintListService.getallforwardedcomplaintbyemployeeid(mStrEmpId);
       } else {
+        Log.d("first","2");
         getReceiveComplainFromService(0);
       }
       mPreferences

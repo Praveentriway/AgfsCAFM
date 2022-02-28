@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/AndroidEMCO/!svn/ver/74/app/src/main/java/com/daemon/emco_android/fragments/inspection
+END
+Fragment_IM_HardSoftListComment.java
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/inspection/Fragment_IM_HardSoftListComment.java
+END
+Fragment_IM_PPMList.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/inspection/Fragment_IM_PPMList.java
+END
+Fragment_InspectionModule.java
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svnroot/AndroidEMCO/!svn/ver/129/app/src/main/java/com/daemon/emco_android/fragments/inspection/Fragment_InspectionModule.java
+END
+Fragment_IM_HardSoftList.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/inspection/Fragment_IM_HardSoftList.java
+END
+Fragment_IM_Services.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/AndroidEMCO/!svn/ver/129/app/src/main/java/com/daemon/emco_android/fragments/inspection/Fragment_IM_Services.java
+END
+Fragment_IM_HardsoftPPMChecklist.java
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svnroot/AndroidEMCO/!svn/ver/134/app/src/main/java/com/daemon/emco_android/fragments/inspection/Fragment_IM_HardsoftPPMChecklist.java
+END
+Fragment_IM_HardSoftFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/AndroidEMCO/!svn/ver/135/app/src/main/java/com/daemon/emco_android/fragments/inspection/Fragment_IM_HardSoftFilter.java
+END
+Fragment_IM_Periodic.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svnroot/AndroidEMCO/!svn/ver/49/app/src/main/java/com/daemon/emco_android/fragments/inspection/Fragment_IM_Periodic.java
+END
+Fragment_IM_HardSoftListView.java
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svnroot/AndroidEMCO/!svn/ver/134/app/src/main/java/com/daemon/emco_android/fragments/inspection/Fragment_IM_HardSoftListView.java
+END
+Fragment_IM_PPMListView.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/AndroidEMCO/!svn/ver/134/app/src/main/java/com/daemon/emco_android/fragments/inspection/Fragment_IM_PPMListView.java
+END

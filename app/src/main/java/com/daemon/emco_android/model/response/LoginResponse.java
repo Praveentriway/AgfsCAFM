@@ -15,8 +15,18 @@ public class LoginResponse {
     private Login mLogin;
     @SerializedName("status")
     private String mStatus;
+    @SerializedName("token")
+    private String token;
     @SerializedName("totalNumberOfRows")
     private String totalNumberOfRows;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getMessage() {
         return mMessage;

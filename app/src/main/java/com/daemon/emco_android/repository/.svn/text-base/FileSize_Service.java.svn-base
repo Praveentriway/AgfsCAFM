@@ -1,0 +1,71 @@
+package com.daemon.emco_android.asyncprocess;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.daemon.emco_android.db.restapi.ApiClient;
+import com.daemon.emco_android.db.restapi.ApiConstant;
+import com.daemon.emco_android.db.restapi.ApiInterface;
+import com.daemon.emco_android.db.service.DownloadService;
+import com.daemon.emco_android.listeners.FileSizeListener;
+import com.daemon.emco_android.model.request.FileSizeRequest;
+import com.daemon.emco_android.utils.AppUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * Created by vikram on 13/6/17.
+ */
+
+public class FileSize_Service {
+    private static final String TAG = FileSize_Service.class.getSimpleName();
+    private Context mActivity;
+    private ApiInterface mInterface;
+    private FileSizeListener mCallback;
+    private String mFileSizeData = null;
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
+    private final int PERMISSION_REQUEST_CODE = 1;
+
+    public FileSize_Service(Context _activity, FileSizeListener listener) {
+        mActivity = _activity;
+        mCallback = listener;
+        mInterface = ApiClient.getClient(mActivity).create(ApiInterface.class);
+
+    }
+
+
+    public void startDownload(FileSizeRequest loginRequest) {
+        Log.d(TAG, "getLoginData");
+        try {
+            mInterface.getMaterialMasterNew(loginRequest).enqueue(new Callback<com.daemon.emco_android.model.CommonResponse>() {
+                @Override
+                public void onResponse(Call<com.daemon.emco_android.model.CommonResponse> call, Response<com.daemon.emco_android.model.CommonResponse> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                            mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
+                            mEditor = mPreferences.edit();
+                            mEditor.putString(AppUtils.FILE_SIZE_DATA, response.body().getObject().toString());
+                            mEditor.commit();
+                            Intent intent = new Intent(mActivity, DownloadService.class);
+                            mActivity.startService(intent);
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(Call<com.daemon.emco_android.model.CommonResponse> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+
+

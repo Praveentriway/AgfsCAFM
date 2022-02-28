@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 15,
-    "identityHash": "f5fa9dcd3d852e28e450c1886a550d40",
+    "identityHash": "617e0df921217af9b1b045dc641663dc",
     "entities": [
       {
         "tableName": "logComplaintEntity",
@@ -490,7 +490,7 @@
       },
       {
         "tableName": "ReceiveComplaintItemEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`opco` TEXT NOT NULL, `siteCode` TEXT NOT NULL, `complaintNumber` TEXT NOT NULL, `complainRefrenceNumber` TEXT, `complainDate` TEXT, `workType` TEXT, `workTypeDescription` TEXT, `priority` TEXT, `location` TEXT, `complainDetails` TEXT, `customerRefrenceNumber` TEXT, `status` TEXT, `statusDesription` TEXT, `forwardedToEmployee` TEXT, `contractNumber` TEXT, `zoneCode` TEXT, `checked` INTEGER NOT NULL, PRIMARY KEY(`opco`, `siteCode`, `complaintNumber`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`opco` TEXT NOT NULL, `siteCode` TEXT NOT NULL, `complaintNumber` TEXT NOT NULL, `complainRefrenceNumber` TEXT, `complainDate` TEXT, `ticketNo` TEXT, `workType` TEXT, `workTypeDescription` TEXT, `priority` TEXT, `location` TEXT, `complainDetails` TEXT, `customerRefrenceNumber` TEXT, `status` TEXT, `statusDesription` TEXT, `forwardedToEmployee` TEXT, `contractNumber` TEXT, `zoneCode` TEXT, `checked` INTEGER NOT NULL, PRIMARY KEY(`opco`, `siteCode`, `complaintNumber`))",
         "fields": [
           {
             "fieldPath": "opco",
@@ -519,6 +519,12 @@
           {
             "fieldPath": "complainDate",
             "columnName": "complainDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ticketNo",
+            "columnName": "ticketNo",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -1367,7 +1373,7 @@
       },
       {
         "tableName": "zoneEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contractNo` TEXT, `opco` TEXT, `zoneCode` TEXT NOT NULL, `zoneName` TEXT, PRIMARY KEY(`zoneCode`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contractNo` TEXT, `opco` TEXT, `zoneCode` TEXT NOT NULL, `zoneName` TEXT, `serviceGroup` TEXT, `siteCode` TEXT, PRIMARY KEY(`zoneCode`))",
         "fields": [
           {
             "fieldPath": "contractNo",
@@ -1390,6 +1396,18 @@
           {
             "fieldPath": "zoneName",
             "columnName": "zoneName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "serviceGroup",
+            "columnName": "serviceGroup",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "siteCode",
+            "columnName": "siteCode",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -2118,7 +2136,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"f5fa9dcd3d852e28e450c1886a550d40\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"617e0df921217af9b1b045dc641663dc\")"
     ]
   }
 }

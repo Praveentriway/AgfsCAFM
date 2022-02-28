@@ -6,27 +6,9 @@ public class ApiConstant {
 
     public static final String SUCCESS = "True";
     public static final String FAILURE = "False";
-    // dev url
-  /* public static final String BASE_URL = "http://125.17.102.143:8080/mobileapi/webapi/";
-  public static final String BASE_URL_FILE = "http://125.17.102.143:8080/mobileapi/";*/
 
-    // client url
-  /*  public static final String BASE_URL = "http://my.agfacilities.com:8585/mobileapi/webapi/";
-  public static final String BASE_URL_FILE = "http://my.agfacilities.com:8585/mobileapi/";*/
     public static final String LOGIN = "login/validateUser";
     public static final String CHANGEPASSWORD = "changePasswordRequest/changePassword";
-
-    // http://10.111.111.41:8080/mobileapi
-
-  /* // Production url
-  public static final String BASE_URL = "http://10.111.111.41:8080/mobileapi/webapi/";
-  public static final String BASE_URL_FILE = "http://10.111.111.41:8080/mobileapi/";*/
-
-    /*public static final String BASE_URL = "http://10.111.111.37:8585/mobileapi/webapi/";
-    public static final String BASE_URL_FILE = "http://10.111.111.37:8585/mobileapi/";*/
-  //  public static final String URLVALID = "/mobileapi/webapi/";
-
-     // public static final String PREFIXURL = "mobileapi";
 
     public static final String PREFIXURL = "mobileapi";
     public static final String URLVALID = "/"+PREFIXURL+"/webapi/";
@@ -39,12 +21,16 @@ public class ApiConstant {
     public static final String CATEGORY = "categoryMaster/getCategoryMaster";
     public static final String BUILDING = "buildingdetails/getBuildingDetails";
     public static final String ZONE = "zoneMaster/getZoneMaster";
+    public static final String ZONECONTRACTUSER = "contractUserMaster/getZoneFromContractUser";
+    public static final String BUILDINGCONTRACTUSER = "contractUserMaster/getBuildingFromContractUser";
     public static final String ALLZONE = "zoneMaster/getAllZonesByUserName";
     public static final String PRIORITY = "priorityMaster/getPriorityMaster";
     public static final String GETALLREPORTTYPES = "reporttype/getAllReportTypes";
     public static final String SITE = "siteMaster/getSiteMaster";
+    public static final String SITECONTRACTUSER = "contractUserMaster/getSiteFromContractUser";
     public static final String WORKTYPE = "worktype/getAllWorkType";
     public static final String CONTRACT = "contractMaster/getContractMaster";
+    public static final String CONTRACTNO = "contractUserMaster/getContractNoFromContractUser";
     public static final String SINGLESEARCHCOMPLAINT =
             "complainRecieve/getComplaintRecieveByComplainRefrenceNumber";
     public static final String SINGLESEARCHPREVENTIVE =
@@ -160,6 +146,8 @@ public class ApiConstant {
             "ppmScheduleDoc/getAllHardServicePpmScheduleDocDetails";
     public static final String GETHARDSERVICECOMPLAINTDETAILS =
             "complainRecieve/getHardServiceComplaintDetails";
+    public static final String GETHARDSERVICEINSPECTIONDETAILS =
+            "inspectionMaster/getHardServiceInspectionDetails";
     public static final String GETSOFTSERVICECOMPLAINTBYCOMPLAINTID =
             "complaintEntry/getSoftServiceComplaintByComplaintId";
     public static final String GETHARDSERVICECOMPLAINTBYCOMPLAINTID =
@@ -233,6 +221,12 @@ public class ApiConstant {
     public static final String EMPLOYEELIST = "AssetInfo/getEmployeeList";
     public static final String ASSETTYPE = "AssetInfo/getAssetStatus";
     public static final String ASSETSAVE = "AssetInfo/saveAsset";
+
+
+// UTILITY CONSUMPTION
+
+    public static final String UTILITYDETAIL = "utilityConsumption/getUtilityDetails";
+    public static final String SAVEUTILITY = "utilityConsumption/saveUtilityTransaction";
 
 
     private static Context context;

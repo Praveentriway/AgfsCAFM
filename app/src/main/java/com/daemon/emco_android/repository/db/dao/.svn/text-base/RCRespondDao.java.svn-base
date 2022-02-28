@@ -1,0 +1,43 @@
+package com.daemon.emco_android.db.dao;
+
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
+
+import com.daemon.emco_android.db.entity.ReceiveComplaintRespondEntity;
+
+import java.util.List;
+
+@Dao
+public interface RCRespondDao {
+
+    @Query("SELECT * FROM ReceiveComplaintRespondEntity")
+    List<ReceiveComplaintRespondEntity> getAll();
+
+    @Query("SELECT COUNT(*) from ReceiveComplaintRespondEntity")
+    int count();
+
+    @Query("SELECT COUNT(*) from ReceiveComplaintRespondEntity where complaintNumber LIKE  :complaintNumber")
+    int countByWebNumber(String complaintNumber);
+
+    @Query("SELECT * FROM ReceiveComplaintRespondEntity where complaintNumber LIKE  :complaintNumber")
+    ReceiveComplaintRespondEntity findByWebNo(String complaintNumber);
+
+    @Insert
+    void insertComplaint(ReceiveComplaintRespondEntity... logComplaintEntities);
+
+    @Update
+    void updateLogComplaint(ReceiveComplaintRespondEntity... logComplaintEntities);
+
+    @Delete
+    void delete(ReceiveComplaintRespondEntity categoryEntity);
+
+    @Query("DELETE FROM ReceiveComplaintRespondEntity where complaintNumber LIKE  :complaintNumber")
+    void deleteSingleComplaint(String complaintNumber);
+
+    @Query("DELETE FROM ReceiveComplaintRespondEntity")
+    void deleteAll();
+}

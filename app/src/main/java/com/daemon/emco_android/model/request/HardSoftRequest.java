@@ -60,6 +60,19 @@ public class HardSoftRequest implements Parcelable {
   @SerializedName("limit")
   private String limit;
 
+  @SerializedName("serviceGroup")
+  private String serviceGroup;
+
+  public String getServiceGroup() {
+    return serviceGroup;
+  }
+
+  public void setServiceGroup(String serviceGroup) {
+    this.serviceGroup = serviceGroup;
+  }
+
+
+
   /** @return The jobNumber */
   public String getJobNumber() {
     return jobNumber;

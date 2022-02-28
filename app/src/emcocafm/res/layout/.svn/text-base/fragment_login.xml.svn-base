@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/match_parent_style"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        style="@style/match_parent_style"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_2sdp"
+            android:visibility="gone"
+            android:src="@drawable/emco_logo_with_name"
+             />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/match_parent_style"
+            android:background="@color/colorWhite">
+
+            <LinearLayout
+                style="@style/match_parent_style"
+                android:layout_marginBottom="@dimen/bottom_view_margin"
+                android:layout_marginLeft="@dimen/_50sdp"
+                android:layout_marginRight="@dimen/_50sdp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:layout_gravity="center"
+                    android:layout_weight=".5"
+                    android:orientation="vertical" >
+
+                    <com.daemon.emco_android.components.CustomTextInputLayout
+                        android:id="@+id/til_username"
+                        style="@style/text_input_layout_common">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/tie_username"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/msg_enter_username"
+                            android:maxLength="10" />
+                    </com.daemon.emco_android.components.CustomTextInputLayout>
+
+                    <com.daemon.emco_android.components.CustomTextInputLayout
+                        android:id="@+id/til_password"
+                        style="@style/text_input_layout_common">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/tie_password"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/msg_enter_password"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPassword"
+                            android:maxLength="10" />
+                    </com.daemon.emco_android.components.CustomTextInputLayout>
+
+                    <com.daemon.emco_android.components.CustomTextInputLayout
+                        android:id="@+id/til_serverurl"
+                        style="@style/text_input_layout_common">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/tie_serverurl"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/msg_server_url"
+                            android:imeOptions="actionDone"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@./:"
+                            android:inputType="textFilter"
+                            android:maxLength="45" />
+                    </com.daemon.emco_android.components.CustomTextInputLayout>
+
+
+                    <Button
+                        android:id="@+id/btnLogin"
+                        style="@style/btn_common"
+                        android:layout_marginLeft="@dimen/_35sdp"
+                        android:layout_marginRight="@dimen/_35sdp"
+                        android:text="@string/lbl_login" />
+
+                   <!-- <TextView
+                        android:id="@+id/tv_forgot_password"
+                        style="@style/textview_label"
+                        android:text="@string/msg_forget_password"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimary" />-->
+                    <TextView
+                        android:id="@+id/tv_forgot_password"
+                        style="@style/textview_label_new1"
+                        android:text="@string/msg_forget_password"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/tv_reg"
+                        style="@style/textview_label_new1"
+                        android:text="@string/new_user_register_now"
+                        android:textAlignment="textEnd" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:visibility="gone"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/emco_logo_with_name" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:visibility="gone"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_2017_ags"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_5sdp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

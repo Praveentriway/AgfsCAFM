@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.daemon.emco_android.listeners.ContractUserListner;
+import com.daemon.emco_android.model.common.ContractNoUsers;
+import com.daemon.emco_android.repository.db.entity.ContractEntity;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -43,7 +47,6 @@ import com.daemon.emco_android.repository.db.dbhelper.WorkTypeDbInitializer;
 import com.daemon.emco_android.repository.db.dbhelper.ZoneDbInitializer;
 import com.daemon.emco_android.repository.db.entity.BuildingDetailsEntity;
 import com.daemon.emco_android.repository.db.entity.CategoryEntity;
-import com.daemon.emco_android.repository.db.entity.ContractEntity;
 import com.daemon.emco_android.repository.db.entity.LogComplaintEntity;
 import com.daemon.emco_android.repository.db.entity.PriorityEntity;
 import com.daemon.emco_android.repository.db.entity.SiteAreaEntity;
@@ -81,7 +84,7 @@ public class Fragment_RM_LogComplaint extends Fragment
         LogComplaint_Listener,
         PriorityListListener,
         WorkTypeListListener,
-        BuildingDetailsListener {
+        BuildingDetailsListener,ContractUserListner{
     private final String TAG = Fragment_RM_LogComplaint.class.getSimpleName();
     // root view of fragment
     View rootView = null;
@@ -116,6 +119,7 @@ public class Fragment_RM_LogComplaint extends Fragment
     /**
      * Global variables for post log complaint data
      */
+
     private String mStrLoginData = null;
 
     private String mStrEmployeeId = null;
@@ -139,7 +143,8 @@ public class Fragment_RM_LogComplaint extends Fragment
             mJobNo = null;
     private Login mUserData;
     private List<ZoneEntity> listZone = new ArrayList<>();
-    private List<ContractEntity> listJobNo = new ArrayList<>();
+    private List<ContractEntity> listJobNo = new ArrayList<ContractEntity>();
+    private List<ContractNoUsers> listJobUser = new ArrayList<ContractNoUsers>();
     private List<SiteAreaEntity> listSiteArea = new ArrayList<>();
     private List<CategoryEntity> listCategory = new ArrayList<>();
     private List<PriorityEntity> listpriorities = new ArrayList<>();
@@ -802,6 +807,8 @@ public class Fragment_RM_LogComplaint extends Fragment
         } else new ZoneDbInitializer(mActivity, null, this).execute(AppUtils.MODE_GETALL);
     }
 
+
+
     @Override
     public void onContractReceivedSuccess(List<ContractEntity> contractList, int mode) {
         Log.d(TAG, "onContractReceivedSuccess");
@@ -811,6 +818,11 @@ public class Fragment_RM_LogComplaint extends Fragment
             AppUtils.hideProgressDialog();
             new ContractDbInitializer(mActivity, listJobNo, this).execute(AppUtils.MODE_INSERT);
         }
+    }
+
+    @Override
+    public void onContractUserReceivedSuccess(List<ContractNoUsers> contractList, int mode) {
+        listJobUser = contractList;
     }
 
     @Override

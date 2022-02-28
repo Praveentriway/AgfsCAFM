@@ -31,6 +31,7 @@ import com.daemon.emco_android.model.common.EmployeeTrackingDetail;
 import com.daemon.emco_android.service.GPSTracker;
 import com.daemon.emco_android.ui.components.Fragments.ImagePicker;
 import com.daemon.emco_android.ui.fragments.common.MainDashboard;
+import com.daemon.emco_android.utils.ZxingScannerActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -64,7 +65,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.daemon.emco_android.R;
-import com.daemon.emco_android.utils.BarcodeCaptureActivity;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewDataAdapter;
 import com.daemon.emco_android.ui.adapter.CustomRecyclerViewItem;
 import com.daemon.emco_android.repository.remote.PPMScheduleByService;
@@ -198,8 +198,8 @@ public class FragmentBeforePpm extends Fragment
                             if (requestId == -1)
                                 AppUtils.showDialog(mActivity, "Camera not available");
                             else {
-                                Intent intent = new Intent(mActivity, BarcodeCaptureActivity.class);
-                                intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+                                Intent intent = new Intent(mActivity, ZxingScannerActivity.class);
+                                intent.putExtra(ZxingScannerActivity.AutoFocus, true);
 
                                 startActivityForResult(intent, RC_BARCODE_CAPTURE);
                             }
@@ -257,6 +257,17 @@ public class FragmentBeforePpm extends Fragment
             e.printStackTrace();
         }
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (!isPermissionGranted) {
+            getPermissionToReadExternalStorage();
+            return;
+        }
+
     }
 
     private void initUI(View rootView) {
@@ -610,6 +621,33 @@ public class FragmentBeforePpm extends Fragment
         mImagePathToBeAttached = image.getAbsolutePath();
         return image;
     }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void getPermissionToReadExternalStorage() {
+        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED ) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    // Show our own UI to explain to the user why we need to read the contacts
+                    // before actually requesting the permission and showing the default UI
+                }
+
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    // Show our own UI to explain to the user why we need to read the contacts
+                    // before actually requesting the permission and showing the default UI
+                }
+
+            }
+            requestPermissions(
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
+                    REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            isPermissionGranted = true;
+        }
+    }
+
 
     @TargetApi(Build.VERSION_CODES.M)
     public void getPermissionToReadExternalStorage(int count,String base64) {
@@ -1089,14 +1127,14 @@ public class FragmentBeforePpm extends Fragment
         if (requestCode == RC_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
-                    Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-                    tv_assetcode.setText(barcode.displayValue);
-                    Log.d(TAG, "Barcode read: " + barcode.displayValue);
+                    String barcode = data.getStringExtra(ZxingScannerActivity.BarcodeObject);
+                    tv_assetcode.setText(barcode);
+                    Log.d(TAG, "Barcode read: " + barcode);
                     if (assetDetailsEntity == null) {
                         getBarcodeDetailsService();
                     }else{
 
-                        if(tv_assetcode.getText().toString().equalsIgnoreCase(barcode.displayValue) || tv_clientBarcode.getText().toString().equalsIgnoreCase(barcode.displayValue)){
+                        if(tv_assetcode.getText().toString().equalsIgnoreCase(barcode) || tv_clientBarcode.getText().toString().equalsIgnoreCase(barcode)){
                             getBarcodeDetailsService();
                         }
                         else{

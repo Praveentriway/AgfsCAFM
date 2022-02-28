@@ -1,0 +1,213 @@
+package com.daemon.emco_android.db.entity;
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import com.google.gson.annotations.SerializedName;
+
+@Entity(tableName = "DFoundWDoneImageEntity")
+public class DFoundWDoneImageEntity {
+
+  @ColumnInfo @NonNull @PrimaryKey private String id;
+
+  @SerializedName("opco")
+  @ColumnInfo
+  private String opco;
+
+  @SerializedName("complaintSite")
+  @ColumnInfo
+  private String complaintSite;
+
+  @SerializedName("complaintNo")
+  @ColumnInfo
+  private String complaintNo;
+
+  public String getPpmRefNo() {
+    return ppmRefNo;
+  }
+
+  public void setPpmRefNo(String ppmRefNo) {
+    this.ppmRefNo = ppmRefNo;
+  }
+
+  @SerializedName("ppmRefNo")
+  @ColumnInfo
+
+  private String ppmRefNo;
+
+  @SerializedName("fileType")
+  @ColumnInfo
+  private String fileType;
+
+  @SerializedName("transactionType")
+  @ColumnInfo
+  private String transactionType;
+
+  @SerializedName("docType")
+  @ColumnInfo
+  private String docType;
+
+  @SerializedName("createdBy")
+  @ColumnInfo
+  private String createdBy;
+
+  @SerializedName("modifiedBy")
+  @ColumnInfo
+  private String modifiedBy;
+
+  @SerializedName("base64Image")
+  @ColumnInfo
+  private String base64Image;
+
+  @SerializedName("fieldId")
+  @ColumnInfo
+  private String fieldId;
+
+  @SerializedName("imageName")
+  @ColumnInfo
+  private String imageName;
+
+  @SerializedName("actStartDate")
+  @ColumnInfo
+  private String actStartDate;
+
+  @SerializedName("actEndDate")
+  @ColumnInfo
+  private String actEndDate;
+
+  public DFoundWDoneImageEntity(String id) {
+    this.id = id;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getFieldId() {
+    return fieldId;
+  }
+
+  public void setFieldId(String fieldId) {
+    this.fieldId = fieldId;
+  }
+
+  public String getImageName() {
+    return imageName;
+  }
+
+  public void setImageName(String imageName) {
+    this.imageName = imageName;
+  }
+
+  public String getActStartDate() {
+    return actStartDate;
+  }
+
+  public void setActStartDate(String actStartDate) {
+    this.actStartDate = actStartDate;
+  }
+
+  public String getActEndDate() {
+    return actEndDate;
+  }
+
+  public void setActEndDate(String actEndDate) {
+    this.actEndDate = actEndDate;
+  }
+
+  /** @return The opco */
+  public String getOpco() {
+    return opco;
+  }
+
+  /** @param opco The opco */
+  public void setOpco(String opco) {
+    this.opco = opco;
+  }
+
+  /** @return The complaintSite */
+  public String getComplaintSite() {
+    return complaintSite;
+  }
+
+  /** @param complaintSite The complaintSite */
+  public void setComplaintSite(String complaintSite) {
+    this.complaintSite = complaintSite;
+  }
+
+  /** @return The complaintNo */
+  public String getComplaintNo() {
+    return complaintNo;
+  }
+
+  /** @param complaintNo The complaintNo */
+  public void setComplaintNo(String complaintNo) {
+    this.complaintNo = complaintNo;
+  }
+
+  /** @return The fileType */
+  public String getFileType() {
+    return fileType;
+  }
+
+  /** @param fileType The fileType */
+  public void setFileType(String fileType) {
+    this.fileType = fileType;
+  }
+
+  /** @return The transactionType */
+  public String getTransactionType() {
+    return transactionType;
+  }
+
+  /** @param transactionType The transactionType */
+  public void setTransactionType(String transactionType) {
+    this.transactionType = transactionType;
+  }
+
+  /** @return The docType */
+  public String getDocType() {
+    return docType;
+  }
+
+  /** @param docType The docType */
+  public void setDocType(String docType) {
+    this.docType = docType;
+  }
+
+  /** @return The createdBy */
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+  /** @param createdBy The createdBy */
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  /** @return The modifiedBy */
+  public String getModifiedBy() {
+    return modifiedBy;
+  }
+
+  /** @param modifiedBy The modifiedBy */
+  public void setModifiedBy(String modifiedBy) {
+    this.modifiedBy = modifiedBy;
+  }
+
+  /** @return The base64Image */
+  public String getBase64Image() {
+    return base64Image;
+  }
+
+  /** @param base64Image The base64Image */
+  public void setBase64Image(String base64Image) {
+    this.base64Image = base64Image;
+  }
+}

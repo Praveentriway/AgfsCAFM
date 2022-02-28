@@ -2,7 +2,7 @@ package com.daemon.emco_android.model.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class EmployeeIdRequest {
+public class  EmployeeIdRequest {
 
   @SerializedName("employeeId")
   private String employeeId;

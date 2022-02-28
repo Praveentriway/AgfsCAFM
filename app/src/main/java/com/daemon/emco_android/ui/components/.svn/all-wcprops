@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/AndroidEMCO/!svn/ver/107/app/src/main/java/com/daemon/emco_android/components
+END
+BottomView.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/AndroidEMCO/!svn/ver/36/app/src/main/java/com/daemon/emco_android/components/BottomView.java
+END
+BarcodeGraphicTracker.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/BarcodeGraphicTracker.java
+END
+GraphicTracker.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/GraphicTracker.java
+END
+FooterBehavior.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/AndroidEMCO/!svn/ver/35/app/src/main/java/com/daemon/emco_android/components/FooterBehavior.java
+END
+CustomViewPager.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/CustomViewPager.java
+END
+RecyclerItemClickListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/AndroidEMCO/!svn/ver/47/app/src/main/java/com/daemon/emco_android/components/RecyclerItemClickListener.java
+END
+SimpleDividerItemDecoration.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/SimpleDividerItemDecoration.java
+END
+ScrollAwareFABBehavior.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/ScrollAwareFABBehavior.java
+END
+CameraSourcePreview.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/AndroidEMCO/!svn/ver/49/app/src/main/java/com/daemon/emco_android/components/CameraSourcePreview.java
+END
+GraphicOverlay.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/GraphicOverlay.java
+END
+BarcodeGraphic.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/BarcodeGraphic.java
+END
+ExtendedViewPager.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/ExtendedViewPager.java
+END
+SmartFragmentStatePagerAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/SmartFragmentStatePagerAdapter.java
+END
+SquareImageView.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/SquareImageView.java
+END
+BottomViewBehavior.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/components/BottomViewBehavior.java
+END
+TouchImageView.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/TouchImageView.java
+END
+CameraSource.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/107/app/src/main/java/com/daemon/emco_android/components/CameraSource.java
+END
+TrackedGraphic.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/TrackedGraphic.java
+END
+FilterableListDialog.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/components/FilterableListDialog.java
+END
+CustomTextInputLayout.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/components/CustomTextInputLayout.java
+END
+BarcodeTrackerFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/AndroidEMCO/!svn/ver/1/app/src/main/java/com/daemon/emco_android/components/BarcodeTrackerFactory.java
+END
+VerticalScrollingBehavior.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/components/VerticalScrollingBehavior.java
+END

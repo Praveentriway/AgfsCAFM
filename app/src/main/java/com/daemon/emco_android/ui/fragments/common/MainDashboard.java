@@ -56,6 +56,8 @@ import com.daemon.emco_android.ui.fragments.reactive.logcomplaints.Fragment_RM_L
 import com.daemon.emco_android.ui.fragments.reactive.Fragment_RM_SearchComplaint;
 import com.daemon.emco_android.ui.fragments.reactive.FragmentRxSubmenu;
 import com.daemon.emco_android.model.common.Login;
+import com.daemon.emco_android.ui.fragments.utilityconsumption.UtilityBarcodeScanningFragment;
+import com.daemon.emco_android.ui.fragments.utilityconsumption.UtilityFilterFragment;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.Font;
 import com.daemon.emco_android.utils.SessionManager;
@@ -89,19 +91,16 @@ public class MainDashboard extends Fragment implements View.OnClickListener, Use
     final Handler handler = new Handler();
     private AppCompatActivity mActivity;
     Intent  mServiceIntent;
-    private Font font = App.getInstance().getFontInstance();
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private FragmentManager mManager;
     private LinearLayout ll_main_cust, ll_main_tech, ll_main_tech2;
-
-    private CardView  btnPreventive, btnInspection, btnSurvey,btn_location_module,btn_attendance;
+    private CardView  btnPreventive, btnInspection, btnSurvey,btn_location_module,btn_attendance,btn_utility_module;
     private ExpectAnim expectAnimMove;
     CardView btnReactive;
     private ImageView btnLogComplaint,
             btnReceiveComplaint,
             btnDashboard,
-            btn_view_complaint,
             btnViewComplaintStatus,
             profile_action;
     private String mStringJson = null;
@@ -129,7 +128,6 @@ public class MainDashboard extends Fragment implements View.OnClickListener, Use
             mStringJson = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
 
             mManager = mActivity.getSupportFragmentManager();
-            font = App.getInstance().getFontInstance();
             mArgs = getArguments();
 
             if (mStringJson != null) {
@@ -255,6 +253,7 @@ public class MainDashboard extends Fragment implements View.OnClickListener, Use
             btnInspection = (CardView) rootView.findViewById(R.id.btn_inspection_module);
             btnSurvey = (CardView) rootView.findViewById(R.id.btn_survey_module);
             btn_attendance= (CardView) rootView.findViewById(R.id.btn_attendance);
+            btn_utility_module= (CardView) rootView.findViewById(R.id.btn_utility_module);
             btn_location_module = (CardView) rootView.findViewById(R.id.btn_location_module);
             tv_user_name = (TextView) rootView.findViewById(R.id.tv_user_name);
             profile_action = (ImageView) rootView.findViewById(R.id.profile_action);
@@ -341,6 +340,7 @@ public class MainDashboard extends Fragment implements View.OnClickListener, Use
             profile_action.setOnClickListener(this);
             btnSurvey.setOnClickListener(this);
             btn_attendance.setOnClickListener(this);
+            btn_utility_module.setOnClickListener(this);
             btn_location_module.setOnClickListener(this);
             linear_toolbar.setOnClickListener(this);
 
@@ -396,6 +396,8 @@ public class MainDashboard extends Fragment implements View.OnClickListener, Use
                 if (!(user.getUserType().equals(AppUtils.AUDITOR))) {
                     loadFragment(new FragmentRxSubmenu(), Utils.TAG_REACTIVE_MAINTENANCE);
                 }
+
+
                 break;
             case R.id.btn_preventive_maintenance:
                 if (!(user.getUserType().equals(AppUtils.AUDITOR))) {
@@ -415,6 +417,14 @@ public class MainDashboard extends Fragment implements View.OnClickListener, Use
             case R.id.btn_attendance:
                 if (!(user.getUserType().equals(AppUtils.AUDITOR))) {
                     loadFragment(new AttendanceFragment(), Utils.TAG_HELP_SUPPORT);
+                }
+
+                break;
+
+
+            case R.id.btn_utility_module:
+                if (!(user.getUserType().equals(AppUtils.AUDITOR))) {
+                    loadFragment(new UtilityBarcodeScanningFragment(), Utils.TAG_UTILITY_SCANNING);
                 }
 
                 break;
@@ -439,7 +449,6 @@ public class MainDashboard extends Fragment implements View.OnClickListener, Use
                 if (!(user.getUserType().equals(AppUtils.AUDITOR))) {
                     loadFragment(new Fragment_RM_LogComplaintUser(), TAG_LOG_COMPLAINT);
                 }
-
 
                 break;
             case R.id.btn_receive_complaint:
@@ -618,6 +627,11 @@ public class MainDashboard extends Fragment implements View.OnClickListener, Use
 
     @Override
     public void onReceiveFailureEmployeeList(String toString) {
+
+    }
+
+    @Override
+    public void onLoginDataReceivedSuccess(Login login, String totalNumberOfRows, String token) {
 
     }
 

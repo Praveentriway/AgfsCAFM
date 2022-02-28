@@ -78,37 +78,6 @@ public class AssetVerificationRepository {
         }
     }
 
-    public void getJobList(String opco) {
-
-        try {
-            mInterface.getJobList(opco).enqueue(new Callback<JobListResponse>() {
-                @Override
-                public void onResponse(Call<JobListResponse> call, Response<JobListResponse> response) {
-                    if (response.isSuccessful()) {
-                        Log.d(TAG, "onResponse success " + response.body().getMessage());
-                        if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
-                            Log.d(TAG, "onResponse success");
-                            mCallback.onReceiveJobList(response.body().getObject());
-                        }else{
-                            mCallback.onReceiveFailureJobList(response.body().getMessage());
-                        }
-                    }
-                    else{
-                        mCallback.onReceiveFailureJobList(response.body().getMessage());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<JobListResponse> call, Throwable t) {
-                    Log.d(TAG, "onFailure" + t.getMessage());
-                    mCallback.onReceiveFailureJobList(t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void getEmployeeList() {
 
@@ -181,8 +150,8 @@ public class AssetVerificationRepository {
     public void saveAsset(AssetInfoTrans trans) {
 
         Log.d(TAG, "saveAsset");
-        Call<CommonResponse> saveSurvey = mInterface.saveAsset(trans);
-        saveSurvey.enqueue(
+        Call<CommonResponse> saveAsset = mInterface.saveAsset(trans);
+        saveAsset.enqueue(
                 new Callback<CommonResponse>() {
                     @Override
                     public void onResponse(
@@ -211,6 +180,36 @@ public class AssetVerificationRepository {
                 });
     }
 
+    public void getJobList(String opco) {
+
+        try {
+            mInterface.getJobList(opco).enqueue(new Callback<JobListResponse>() {
+                @Override
+                public void onResponse(Call<JobListResponse> call, Response<JobListResponse> response) {
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "onResponse success " + response.body().getMessage());
+                        if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
+                            Log.d(TAG, "onResponse success");
+                            mCallback.onReceiveJobList(response.body().getObject());
+                        }else{
+                            mCallback.onReceiveFailureJobList(response.body().getMessage());
+                        }
+                    }
+                    else{
+                        mCallback.onReceiveFailureJobList(response.body().getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JobListResponse> call, Throwable t) {
+                    Log.d(TAG, "onFailure" + t.getMessage());
+                    mCallback.onReceiveFailureJobList(t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void getLocationOpco(String userid) {
         Log.d(TAG, "getLocationOpco");

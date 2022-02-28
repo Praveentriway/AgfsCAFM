@@ -1,5 +1,7 @@
 package com.daemon.emco_android.listeners;
 
+
+import com.daemon.emco_android.model.common.ContractNoUsers;
 import com.daemon.emco_android.repository.db.entity.ContractEntity;
 
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.List;
  */
 
 public interface JobNoListener {
-    void onContractReceivedSuccess(List<ContractEntity> contractList,int mode);
+    void onContractReceivedSuccess(List<ContractEntity> contractList, int mode);
+
     void onContractReceivedFailure(String strErr, int mode);
 }

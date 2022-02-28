@@ -19,17 +19,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by vikram on 13/6/17.
- */
-
 public class UserService {
     private static final String TAG = UserService.class.getSimpleName();
 
     private AppCompatActivity mActivity;
     private ApiInterface mInterface;
     private UserListener mCallback;
-
 
     public UserService(AppCompatActivity _activity, UserListener listener) {
         mActivity = _activity;
@@ -53,7 +48,7 @@ public class UserService {
                             if (response.body().getStatus().equalsIgnoreCase(ApiConstant.SUCCESS)) {
                                 Log.d(TAG, "onResponse success");
                                 Login mResponse = response.body().getObject();
-                                mCallback.onLoginDataReceivedSuccess(mResponse, response.body().getTotalNumberOfRows());
+                                mCallback.onLoginDataReceivedSuccess(mResponse, response.body().getTotalNumberOfRows(),response.body().getToken());
                             } else mCallback.onUserDataReceivedFailure(response.body().getMessage());
                         }
                         else{

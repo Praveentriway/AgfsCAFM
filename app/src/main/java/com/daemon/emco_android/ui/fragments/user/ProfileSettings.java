@@ -264,6 +264,11 @@ public class ProfileSettings extends Fragment implements View.OnClickListener, U
 
     public void onLoginDataReceivedSuccess(Login login, String totalNumberOfRows){}
 
+    @Override
+    public void onLoginDataReceivedSuccess(Login login, String totalNumberOfRows, String token) {
+
+    }
+
     public void onUserDataReceivedSuccess(CommonResponse response){}
 
     public void onUserDataReceivedFailure(String strErr){}

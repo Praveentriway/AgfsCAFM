@@ -16,9 +16,10 @@ import java.util.List;
 public interface PPMService_Listner
 {
 
-    void onReceivedPPMParameterSucess(GetPpmParamValue customerRemarks);
-    void onReceivedSucess(List<ObjectMonthly> customerRemarks);
-    void onGetSavedDataSucess(List<ObjectSavedCheckListResponse> customerRemarks);
-    void onReceivedSavedSucess(String customerRemarks);
+    void onReceivedPPMParameterSuccess(GetPpmParamValue customerRemarks);
+    void onReceivedSuccess(List<ObjectMonthly> customerRemarks);
+    void onGetSavedDataSuccess(List<ObjectSavedCheckListResponse> customerRemarks);
+    void onReceivedSavedSuccess(String customerRemarks);
     void onReceiveFailure(String strErr);
+
 }

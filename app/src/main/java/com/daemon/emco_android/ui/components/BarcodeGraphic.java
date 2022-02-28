@@ -58,6 +58,8 @@ public class BarcodeGraphic extends GraphicOverlay.Graphic {
         mTextPaint.setTextSize(36.0f);
     }
 
+
+
     public int getId() {
         return mId;
     }

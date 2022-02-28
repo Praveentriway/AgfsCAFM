@@ -1,0 +1,36 @@
+package com.daemon.emco_android.db.dao;
+
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.WorkPendingReasonEntity;
+
+import java.util.List;
+
+@Dao
+public interface WorkPendingReasonDao {
+
+    @Query("SELECT * FROM workPendingReasonEntity")
+    List<WorkPendingReasonEntity> getAll();
+
+    @Query("SELECT COUNT(*) from workPendingReasonEntity")
+    int count();
+
+    @Query("SELECT COUNT(*) FROM workPendingReasonEntity where reasonCode LIKE  :reasonCode")
+    int countByWorkReasonCode(String reasonCode);
+
+    @Query("SELECT * FROM workPendingReasonEntity where reasonCode LIKE  :reasonCode")
+    WorkPendingReasonEntity findByWorkReasonCode(String reasonCode);
+
+    @Insert
+    void insertAll(List<WorkPendingReasonEntity> workPendingReasonEntities);
+
+    @Delete
+    void delete(WorkPendingReasonEntity workPendingReasonEntity);
+
+    @Query("DELETE FROM workPendingReasonEntity")
+    void deleteAll();
+}

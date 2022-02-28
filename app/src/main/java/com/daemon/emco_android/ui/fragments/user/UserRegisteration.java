@@ -477,7 +477,7 @@ public class UserRegisteration extends BaseFragment implements View.OnClickListe
 
 
     @Override
-    public void onLoginDataReceivedSuccess(com.daemon.emco_android.model.common.Login login, String totalNumberOfRows) {
+    public void onLoginDataReceivedSuccess(com.daemon.emco_android.model.common.Login login, String totalNumberOfRows,String token) {
         Log.d(TAG, "onLoginDataReceivedSuccess");
     }
 

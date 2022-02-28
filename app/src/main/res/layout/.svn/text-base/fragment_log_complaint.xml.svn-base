@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/scroll_bar"
+    android:fadeScrollbars="false"
+    android:scrollbarSize="4dp"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        style="@style/match_parent_style"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_margin="@dimen/_3sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/emco_logo_with_name" />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/match_parent_style"
+            android:background="@color/colorWhite">
+
+            <LinearLayout
+                style="@style/match_parent_style"
+                android:layout_marginBottom="@dimen/bottom_view_margin"
+                android:layout_marginLeft="@dimen/_35sdp"
+                android:layout_marginRight="@dimen/_35sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_priority"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_priority" />
+
+                    <TextView
+                        android:id="@+id/tv_select_priority"
+                        android:layout_weight=".3"
+                        style="@style/textview_spinner"
+                        android:text="@string/lbl_select_priority" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_site"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_site" />
+
+                    <TextView
+                        android:id="@+id/tv_select_site"
+                        style="@style/textview_spinner"
+                        android:layout_weight=".3"
+                        android:text="@string/lbl_select_site" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_job_no"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_contract_title" />
+
+                    <TextView
+                        android:id="@+id/tv_select_job_no"
+                        style="@style/textview_spinner"
+                        android:layout_weight=".3"
+                        android:text="@string/lbl_select_jobno" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_zone"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_zone" />
+
+                    <TextView
+                        android:id="@+id/tv_select_zone"
+                        style="@style/textview_spinner"
+                        android:layout_weight=".3"
+                        android:text="@string/lbl_select_zone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_category"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_category" />
+
+                    <TextView
+                        android:id="@+id/tv_select_category"
+                        style="@style/textview_spinner"
+                        android:layout_weight=".3"
+                        android:text="@string/lbl_select_category" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_worktype"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_worktype" />
+
+                    <TextView
+                        android:id="@+id/tv_select_worktype"
+                        style="@style/textview_spinner"
+                        android:layout_weight=".3"
+                        android:text="@string/lbl_select_worktype" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_property"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_property_details" />
+
+                    <TextView
+                        android:id="@+id/tv_select_property"
+                        style="@style/textview_spinner"
+                        android:layout_weight=".3"
+                        android:text="@string/lbl_select_property"
+                        android:visibility="gone" />
+
+                    <com.daemon.emco_android.components.CustomTextInputLayout
+                        android:id="@+id/til_property"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3"
+                        android:visibility="visible">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/tie_property"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/msg_enter_building_name"
+                            android:maxLength="100" />
+                    </com.daemon.emco_android.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_location"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_location_details" />
+
+                    <com.daemon.emco_android.components.CustomTextInputLayout
+                        android:id="@+id/til_location"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/tie_location"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/lbl_flat_office_etc"
+                            android:maxLength="100" />
+                    </com.daemon.emco_android.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_sublocation"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_sublocation" />
+
+                    <com.daemon.emco_android.components.CustomTextInputLayout
+                        android:id="@+id/til_sublocation"
+                        style="@style/text_input_layout_common"
+                        android:layout_weight=".3">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/tie_sublocation"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/lbl_sublocation"
+                            android:maxLength="100" />
+                    </com.daemon.emco_android.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_complaint_details"
+                        style="@style/textview_label"
+                        android:layout_weight=".6"
+                        android:text="@string/lbl_complaint_details" />
+
+                    <com.daemon.emco_android.components.CustomTextInputLayout
+                        android:id="@+id/til_complaint"
+                        style="@style/text_input_layout_common"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:layout_weight=".3">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/tie_complaint"
+                            style="@style/text_input_edittext_common"
+                            android:hint="@string/msg_enter_complaint"
+                            android:imeOptions="actionDone"
+                            android:inputType="textMultiLine"
+                            android:maxLength="250"
+                            android:maxLines="7" />
+                    </com.daemon.emco_android.components.CustomTextInputLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnSaveComplaint"
+                    style="@style/btn_common"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:text="@string/lbl_save" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/emco_logo_with_name"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_2017_ags"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_5sdp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

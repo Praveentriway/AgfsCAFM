@@ -1,0 +1,153 @@
+package com.daemon.emco_android.db.database;
+
+import android.arch.persistence.room.Database;
+import android.arch.persistence.room.Room;
+import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
+import android.content.Context;
+
+import com.daemon.emco_android.db.dao.CategoryDao;
+import com.daemon.emco_android.db.dao.ContractDao;
+import com.daemon.emco_android.db.dao.EmployeeDetailsDao;
+import com.daemon.emco_android.db.dao.ImageUploadDao;
+import com.daemon.emco_android.db.dao.LogComplaintDao;
+import com.daemon.emco_android.db.dao.PPEFetchSaveDao;
+import com.daemon.emco_android.db.dao.PpeNameDao;
+import com.daemon.emco_android.db.dao.PriorityDao;
+import com.daemon.emco_android.db.dao.RCMaterialDao;
+import com.daemon.emco_android.db.dao.RCRespondDao;
+import com.daemon.emco_android.db.dao.RCSavedMaterialDao;
+import com.daemon.emco_android.db.dao.RCViewAssetDetailsDao;
+import com.daemon.emco_android.db.dao.ReportTypesDao;
+import com.daemon.emco_android.db.dao.SaveFeedbackDao;
+import com.daemon.emco_android.db.dao.SiteAreaDao;
+import com.daemon.emco_android.db.dao.WorkDefectsDao;
+import com.daemon.emco_android.db.dao.WorkDoneDao;
+import com.daemon.emco_android.db.dao.WorkPendingReasonDao;
+import com.daemon.emco_android.db.dao.WorkStatusDao;
+import com.daemon.emco_android.db.dao.WorkTypeDao;
+import com.daemon.emco_android.db.dao.ZoneDao;
+import com.daemon.emco_android.db.dao.receiveComplaintItemDao;
+import com.daemon.emco_android.db.dao.receiveComplaintViewDao;
+import com.daemon.emco_android.db.entity.AssetDetailsEntity;
+import com.daemon.emco_android.db.entity.CategoryEntity;
+import com.daemon.emco_android.db.entity.ContractEntity;
+import com.daemon.emco_android.db.entity.DFoundWDoneImageEntity;
+import com.daemon.emco_android.db.entity.EmployeeDetailsEntity;
+import com.daemon.emco_android.db.entity.LogComplaintEntity;
+import com.daemon.emco_android.db.entity.MaterialMasterEntity;
+import com.daemon.emco_android.db.entity.PPEFetchSaveEntity;
+import com.daemon.emco_android.db.entity.PPENameEntity;
+import com.daemon.emco_android.db.entity.PriorityEntity;
+import com.daemon.emco_android.db.entity.ReceiveComplaintItemEntity;
+import com.daemon.emco_android.db.entity.ReceiveComplaintRespondEntity;
+import com.daemon.emco_android.db.entity.ReceiveComplaintViewEntity;
+import com.daemon.emco_android.db.entity.ReportTypesEntity;
+import com.daemon.emco_android.db.entity.SaveFeedbackEntity;
+import com.daemon.emco_android.db.entity.SaveMaterialEntity;
+import com.daemon.emco_android.db.entity.SiteAreaEntity;
+import com.daemon.emco_android.db.entity.WorkDefectEntity;
+import com.daemon.emco_android.db.entity.WorkDoneEntity;
+import com.daemon.emco_android.db.entity.WorkPendingReasonEntity;
+import com.daemon.emco_android.db.entity.WorkStatusEntity;
+import com.daemon.emco_android.db.entity.WorkTypeEntity;
+import com.daemon.emco_android.db.entity.ZoneEntity;
+import com.daemon.emco_android.utils.AppUtils;
+
+@Database(
+  entities = {
+    LogComplaintEntity.class,
+    ContractEntity.class,
+    CategoryEntity.class,
+    AssetDetailsEntity.class,
+    ReceiveComplaintRespondEntity.class,
+    ReceiveComplaintItemEntity.class,
+    ReceiveComplaintViewEntity.class,
+    WorkDefectEntity.class,
+    WorkStatusEntity.class,
+    MaterialMasterEntity.class,
+    SaveMaterialEntity.class,
+    WorkPendingReasonEntity.class,
+    ZoneEntity.class,
+    WorkDoneEntity.class,
+    PPENameEntity.class,
+    PriorityEntity.class,
+    PPEFetchSaveEntity.class,
+    DFoundWDoneImageEntity.class,
+    WorkTypeEntity.class,
+    SiteAreaEntity.class,
+    ReportTypesEntity.class,
+    EmployeeDetailsEntity.class,
+    SaveFeedbackEntity.class
+  },
+  version = 12
+)
+@TypeConverters(SaveFeedbackEntity.class)
+public abstract class AppDatabase extends RoomDatabase {
+
+  private static AppDatabase INSTANCE;
+
+  public static AppDatabase getAppDatabase(Context context) {
+    if (INSTANCE == null) {
+      INSTANCE =
+          Room.databaseBuilder(
+                  context.getApplicationContext(), AppDatabase.class, AppUtils.EMCO_DATABASE)
+              // allow queries on the main thread.
+              // Don't do this on a real app! See PersistenceBasicSample for an example.
+              .allowMainThreadQueries()
+              .fallbackToDestructiveMigration()
+              .build();
+    }
+    return INSTANCE;
+  }
+
+  public static void destroyInstance() {
+    INSTANCE = null;
+  }
+
+  public abstract receiveComplaintItemDao receiveComplaintItemDao();
+
+  public abstract receiveComplaintViewDao receiveComplaintViewDao();
+
+  public abstract RCMaterialDao rcMaterialDao();
+
+  public abstract RCSavedMaterialDao rcSavedMaterialDao();
+
+  public abstract RCViewAssetDetailsDao rcViewAssetDetailsDao();
+
+  public abstract SiteAreaDao siteAreaDao();
+
+  public abstract WorkTypeDao workTypeDao();
+
+  public abstract PriorityDao priorityDao();
+
+  public abstract ZoneDao zoneDao();
+
+  public abstract CategoryDao categoryDao();
+
+  public abstract ContractDao contractDao();
+
+  public abstract WorkDefectsDao workDefectsDao();
+
+  public abstract WorkDoneDao workDoneDao();
+
+  public abstract WorkStatusDao workStatusDao();
+
+  public abstract WorkPendingReasonDao workPendingReasonDao();
+
+  public abstract PpeNameDao ppeNameDao();
+
+  public abstract LogComplaintDao logComplaintDao();
+
+  public abstract RCRespondDao rcRespondDao();
+
+  public abstract ReportTypesDao reportTypesDao();
+
+  public abstract ImageUploadDao imageUploadDao();
+
+  public abstract PPEFetchSaveDao ppeFetchSaveDao();
+
+  public abstract EmployeeDetailsDao employeeDetailsDao();
+
+  public abstract SaveFeedbackDao saveFeedbackDao();
+}

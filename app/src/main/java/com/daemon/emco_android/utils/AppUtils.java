@@ -79,7 +79,7 @@ public class AppUtils extends Dialog {
 
   public static GifLoadingView mGifLoadingView;
 
-  public static CharSequence[] serverurls= BuildConfig.URL_ARRAY;
+  public static CharSequence[] serverurls = BuildConfig.URL_ARRAY;
 
   // Room database variables
   public static final String EMCO_DATABASE = "emco_database";
@@ -224,9 +224,17 @@ public class AppUtils extends Dialog {
 
   public static String ARGS_SURVEYMODE = "ARGS_SURVEYMODE";
 
+  public static String ARGS_COMPANYCODE = "ARGS_COMPANYCODE";
+
+  public static String ARGS_JOBNO = "ARGS_JOBNO";
+
   public static String ARGS_SURVEYTRANS = "ARGS_SURVEYTRANS";
 
   public static String ARGS_ASSETINFO = "ARGS_ASSETINFO";
+
+  public static String ARGS_UTILITY_ASSET = "ARGS_UTILITY_ASSET";
+
+  public static final String METER_READING_EXTRA_FILEPATH = "meter_reading_extra_filepath";
 
   public static String ARGS_CHECKLIST = "ARGS_CHECKLIST";
 
@@ -565,7 +573,7 @@ public class AppUtils extends Dialog {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 strDate = (simpleDateFormat.format(newDate.getTime()));
-                Log.d(TAG, "datePickerDialog " + strDate);
+                Log.d(TAG, " datePickerDialog " + strDate);
                 mCallback.onDateReceivedSuccess(strDate);
               }
             },
@@ -578,7 +586,7 @@ public class AppUtils extends Dialog {
   }
 
 
-  public static DisplayImageOptions getOptions() {
+  public static DisplayImageOptions getOptions(){
     DisplayImageOptions options =
         new DisplayImageOptions.Builder()
             .displayer(new RoundedBitmapDisplayer(0))

@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 import com.daemon.emco_android.R;
+import com.daemon.emco_android.listeners.ContractUserListner;
+import com.daemon.emco_android.model.response.ContractUserResponse;
+import com.daemon.emco_android.repository.db.entity.ContractEntity;
 import com.daemon.emco_android.repository.db.entity.ZoneEntity;
-import com.daemon.emco_android.repository.remote.restapi.ApiClient;
+import com.daemon.emco_android.repository.remote.restapi.Api;
 import com.daemon.emco_android.repository.remote.restapi.ApiConstant;
 import com.daemon.emco_android.repository.remote.restapi.ApiInterface;
 import com.daemon.emco_android.listeners.BuildingDetailsListener;
@@ -45,6 +48,7 @@ public class GetLogComplaintPopupRepository {
   private ReportTypesListener mCallbackReportTypes;
   private WorkTypeListListener workTypeListListener;
   private JobNoListener mCallbackContract;
+  private ContractUserListner mCallBackContractUser;
   private ZoneListener mCallbackZone;
   private CategoryListener mCallbackCategory;
   private BuildingDetailsListener mbuildingDetails;
@@ -55,7 +59,8 @@ public class GetLogComplaintPopupRepository {
       AppCompatActivity mActivity, EmployeeIdRequest employeeIdRequest) {
     this.mActivity = mActivity;
     this.employeeIdRequest = employeeIdRequest;
-    mInterface = ApiClient.getClient(mActivity).create(ApiInterface.class);
+  //  mInterface = ApiClient.getClient(mActivity).create(ApiInterface.class);
+      mInterface = Api.dataClient().create(ApiInterface.class);
   }
 
   public void getSiteAreaData(SiteListener listener) {
@@ -93,7 +98,10 @@ public class GetLogComplaintPopupRepository {
     }
   }
 
-  public void getPriorityListData(PriorityListListener listener) {
+
+
+
+    public void getPriorityListData(PriorityListListener listener) {
     Log.d(TAG, "getPriorityListData");
     this.mCallbackPriority = listener;
     Call<PriorityResponse> callPriorityList = mInterface.getPriorityListResult();
@@ -169,8 +177,7 @@ public class GetLogComplaintPopupRepository {
     Log.d(TAG, "getContractListData");
     this.mCallbackContract = listener;
     try {
-      mInterface
-          .getContractListResult(employeeIdRequest)
+      mInterface.getContractListResult(employeeIdRequest)
           .enqueue(
               new Callback<ContractResponse>() {
                 @Override
@@ -202,6 +209,9 @@ public class GetLogComplaintPopupRepository {
       ex.printStackTrace();
     }
   }
+
+
+
 
   public void getZoneListData(ZoneEntity zoneEntity,final ZoneListener mCallbackZone) {
     Log.d(TAG, "getZoneListData");
@@ -238,6 +248,50 @@ public class GetLogComplaintPopupRepository {
       ex.printStackTrace();
     }
   }
+
+
+    public void getZoneFromContractUser(String[] data,final ZoneListener mCallbackZone) {
+        Log.d(TAG, "getZoneListData");
+        this.mCallbackZone = mCallbackZone;
+      //  ZoneEntity zone =new ZoneEntity();{mOpco ,mStrEmployeeId ,tags, mStrSiteCode};
+        Log.d("getZoneFromContractUser","getZoneFromContractUser"+ data[2]);
+        String opco = data[0];
+        String employeeId = data[1];
+        String serviceGroup = data[2];
+        String siteCode = data[3];
+        try {
+            mInterface
+                    .getZoneFromContractUser(employeeId,serviceGroup,siteCode,opco)
+                    .enqueue(
+                            new Callback<ZoneResponse>() {
+                                @Override
+                                public void onResponse(Call<ZoneResponse> call, Response<ZoneResponse> response) {
+                                    Log.d(TAG, "onResponse");
+                                    if (response.isSuccessful()) {
+                                        if (response.body().getStatus().equals(ApiConstant.SUCCESS)) {
+                                            mCallbackZone.onZoneReceivedSuccess(
+                                                    response.body().getObject(), AppUtils.MODE_SERVER);
+                                        } else
+                                            mCallbackZone.onZoneReceivedFailure(
+                                                    response.body().getMessage(), AppUtils.MODE_SERVER);
+
+                                    } else
+                                        mCallbackZone.onZoneReceivedFailure(response.message(), AppUtils.MODE_SERVER);
+                                }
+
+                                @Override
+                                public void onFailure(Call<ZoneResponse> call, Throwable t) {
+                                    Log.d(TAG, "onFailure");
+                                    mCallbackZone.onZoneReceivedFailure(
+                                            mActivity.getString(R.string.msg_request_error_occurred),
+                                            AppUtils.MODE_SERVER);
+                                }
+                            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
   public void getCategoryData(CategoryListener listener) {
     Log.d(TAG, "getCategoryData");

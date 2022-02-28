@@ -8,6 +8,8 @@ import com.daemon.emco_android.listeners.URLListener;
 import com.daemon.emco_android.utils.AppUtils;
 import com.daemon.emco_android.utils.SessionManager;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -40,32 +42,35 @@ public class ApiClient {
                 .build();
 
         if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(SessionManager.getSession("baseurl",mActivity))
-                    .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+             retrofit = new Retrofit.Builder()
+                      //.baseUrl("http://172.28.30.98:8888/mobileapi/webapi/")
+                       .baseUrl(SessionManager.getSession("baseurl",mActivity))
+                       .client(okHttpClient)
+                       .addConverterFactory(GsonConverterFactory.create())
+                       .build();
         }
-        /*if (retrofit == null) {
-            try{
-                url= "http://" + url + "/mobileapi/webapi/";
-                retrofit = new Retrofit.Builder()
-                        .baseUrl(url)
-                        .client(okHttpClient)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-            }catch (Exception e){
-                e.printStackTrace();
-                showDialog(mActivity);
-            }finally {
-               AppUtils.hideProgressDialog();
-            }
-        }*/
 
         return retrofit;
     }
 
-    public static Retrofit getClientLongTime(Context context) {
+
+    public static Retrofit dataClient() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl("http://172.28.30.98:8888/mobileapi/webapi/")
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+
+        return retrofit;
+    }
+
+    public static Retrofit getClientLongTime(Context context) throws GeneralSecurityException, IOException {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -80,12 +85,6 @@ public class ApiClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit;
-       /* retrofit = new Retrofit.Builder()
-                .baseUrl(SessionManager.getSession("baseurl",mActivity))
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        return retrofit;*/
     }
 
     public static Retrofit getClientLongTime(int timeINminutes, String url) {
@@ -116,7 +115,7 @@ public class ApiClient {
                 .build();
         try {
             if(url!=null){
-                result= "http://" + url + "/"+PREFIXURL+"/webapi/";
+                result= "https://" + url + "/"+PREFIXURL+"/webapi/";
                 retrofit = new Retrofit.Builder()
                         .baseUrl(result)
                         .client(okHttpClient)

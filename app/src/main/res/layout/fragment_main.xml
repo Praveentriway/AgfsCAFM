@@ -209,7 +209,8 @@
                     android:visibility="visible"
                     android:weightSum="4">
 
-                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                    <androidx.cardview.widget.CardView
+                        card_view:cardUseCompatPadding="true"
                         app:cardElevation="@dimen/_7sdp"
                         android:id="@+id/btn_attendance"
                         android:layout_width="match_parent"
@@ -220,35 +221,37 @@
                         android:src="@drawable/helpandsupport"
                         android:visibility="visible" >
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:weightSum="1"
-                            android:background="@drawable/cardview_body"
-                            android:orientation="vertical">
 
-                            <ImageView
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:layout_marginRight="@dimen/_5sdp"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:layout_weight="0.7"
-                                android:src="@drawable/scheduling" />
+                                android:layout_height="match_parent"
+                                android:weightSum="1"
+                                android:background="@drawable/cardview_body"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:textSize="@dimen/_6sdp"
-                                android:layout_marginLeft="@dimen/_2sdp"
-                                android:layout_marginRight="@dimen/_2sdp"
-                                android:layout_weight="0.3"
-                                android:textColor="@color/colorBlack"
-                                fontPath="fonts/HelveticaBold.otf"
-                                android:gravity="center_horizontal"
-                                android:text="Attendance" />
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:layout_weight="0.7"
+                                    android:src="@drawable/scheduling" />
 
-                        </LinearLayout>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:textSize="@dimen/_6sdp"
+                                    android:layout_marginLeft="@dimen/_2sdp"
+                                    android:layout_marginRight="@dimen/_2sdp"
+                                    android:layout_weight="0.3"
+                                    android:textColor="@color/colorBlack"
+                                    fontPath="fonts/HelveticaBold.otf"
+                                    android:gravity="center_horizontal"
+                                    android:text="Attendance" />
+
+                            </LinearLayout>
+
                     </androidx.cardview.widget.CardView>
 
 
@@ -292,13 +295,15 @@
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-                    <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
+                    <androidx.cardview.widget.CardView
+                        card_view:cardUseCompatPadding="true"
                         app:cardElevation="@dimen/_7sdp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/_20sdp"
                         android:layout_weight="1"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        android:id="@+id/btn_utility_module"
                         android:src="@drawable/energy_icon" >
 
                         <LinearLayout
@@ -327,7 +332,7 @@
                                 android:textColor="@color/colorBlack"
                                 fontPath="fonts/HelveticaBold.otf"
                                 android:gravity="center_horizontal"
-                                android:text="Energy" />
+                                android:text="Utility Consumption" />
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>

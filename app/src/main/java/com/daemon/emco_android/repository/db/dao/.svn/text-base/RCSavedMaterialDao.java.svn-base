@@ -1,0 +1,39 @@
+package com.daemon.emco_android.db.dao;
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.SaveMaterialEntity;
+
+import java.util.List;
+
+@Dao
+public interface RCSavedMaterialDao {
+
+  @Query("SELECT * FROM SaveMaterialEntity WHERE mode LIKE :mode")
+  List<SaveMaterialEntity> getAll(int mode);
+
+  @Query(
+      "SELECT * FROM SaveMaterialEntity WHERE transactionType LIKE :transactionType AND complainNumber LIKE :complainNumber LIMIT 20 OFFSET :startIndex")
+  List<SaveMaterialEntity> getMaterialBY(
+      String transactionType, String complainNumber, int startIndex);
+
+  @Query(
+      "SELECT COUNT(*) from SaveMaterialEntity where transactionType LIKE :transactionType AND complainNumber LIKE :complainNumber")
+  int countBY(String transactionType, String complainNumber);
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  void insertAll(List<SaveMaterialEntity> entities);
+
+  @Query("UPDATE SaveMaterialEntity SET mode =:mode WHERE mode LIKE :oldmode")
+  void updateAll(int oldmode, int mode);
+
+  @Delete
+  void delete(SaveMaterialEntity entity);
+
+  @Query("DELETE FROM SaveMaterialEntity")
+  void deleteAll();
+}

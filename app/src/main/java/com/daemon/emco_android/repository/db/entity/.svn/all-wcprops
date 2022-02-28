@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/AndroidEMCO/!svn/ver/95/app/src/main/java/com/daemon/emco_android/db/entity
+END
+ReceiveComplaintRespondEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/ReceiveComplaintRespondEntity.java
+END
+WorkTypeEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/WorkTypeEntity.java
+END
+MaterialMasterEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/AndroidEMCO/!svn/ver/62/app/src/main/java/com/daemon/emco_android/db/entity/MaterialMasterEntity.java
+END
+ReportTypesEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/ReportTypesEntity.java
+END
+SaveMaterialEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/AndroidEMCO/!svn/ver/124/app/src/main/java/com/daemon/emco_android/db/entity/SaveMaterialEntity.java
+END
+WorkStatusEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/WorkStatusEntity.java
+END
+PPESaveEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/entity/PPESaveEntity.java
+END
+CategoryEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/CategoryEntity.java
+END
+GetMaterialEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/entity/GetMaterialEntity.java
+END
+SaveFeedbackEntityNew.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/AndroidEMCO/!svn/ver/124/app/src/main/java/com/daemon/emco_android/db/entity/SaveFeedbackEntityNew.java
+END
+EmployeeDetailsEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/EmployeeDetailsEntity.java
+END
+SiteAreaEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/SiteAreaEntity.java
+END
+PPEFetchSaveEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/PPEFetchSaveEntity.java
+END
+AssetDetailsEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/AssetDetailsEntity.java
+END
+BuildingDetailsEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/entity/BuildingDetailsEntity.java
+END
+ReceiveComplaintViewEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/AndroidEMCO/!svn/ver/128/app/src/main/java/com/daemon/emco_android/db/entity/ReceiveComplaintViewEntity.java
+END
+ZoneEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/ZoneEntity.java
+END
+MultiSearchComplaintEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/entity/MultiSearchComplaintEntity.java
+END
+WorkPendingReasonEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/WorkPendingReasonEntity.java
+END
+LogComplaintEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/AndroidEMCO/!svn/ver/59/app/src/main/java/com/daemon/emco_android/db/entity/LogComplaintEntity.java
+END
+PriorityEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/PriorityEntity.java
+END
+SaveFeedbackEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/SaveFeedbackEntity.java
+END
+WorkDefectEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/WorkDefectEntity.java
+END
+DFoundWDoneImageEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/AndroidEMCO/!svn/ver/128/app/src/main/java/com/daemon/emco_android/db/entity/DFoundWDoneImageEntity.java
+END
+RiskAssesEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svnroot/AndroidEMCO/!svn/ver/124/app/src/main/java/com/daemon/emco_android/db/entity/RiskAssesEntity.java
+END
+RCViewRemarksEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/entity/RCViewRemarksEntity.java
+END
+ReceiveComplaintItemEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/ReceiveComplaintItemEntity.java
+END
+SingleSearchComplaintEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/AndroidEMCO/!svn/ver/52/app/src/main/java/com/daemon/emco_android/db/entity/SingleSearchComplaintEntity.java
+END
+WorkDoneEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/WorkDoneEntity.java
+END
+ContractEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/ContractEntity.java
+END
+PPENameEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/AndroidEMCO/!svn/ver/57/app/src/main/java/com/daemon/emco_android/db/entity/PPENameEntity.java
+END

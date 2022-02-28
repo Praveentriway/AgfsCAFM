@@ -1,0 +1,664 @@
+package com.daemon.emco_android.fragments.preventive;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.StackingBehavior;
+import com.daemon.emco_android.MyApplication;
+import com.daemon.emco_android.R;
+import com.daemon.emco_android.adapter.RC_Material_ListAdapter;
+import com.daemon.emco_android.asyncprocess.RCMeterial_Service;
+import com.daemon.emco_android.db.dbhelper.RCMaterialDbInitializer;
+import com.daemon.emco_android.db.dbhelper.RCSavedMaterialDbInitializer;
+import com.daemon.emco_android.db.entity.MaterialMasterEntity;
+import com.daemon.emco_android.db.entity.ReceiveComplaintViewEntity;
+import com.daemon.emco_android.db.entity.SaveMaterialEntity;
+import com.daemon.emco_android.fragments.Fragment_Main;
+import com.daemon.emco_android.listeners.Material_Listener;
+import com.daemon.emco_android.model.Login;
+import com.daemon.emco_android.model.PpmScheduleDocBy;
+import com.daemon.emco_android.utils.AppUtils;
+import com.daemon.emco_android.utils.Font;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/** Created by Daemonsoft on 7/26/2017. */
+public class Fragment_PPM_Material extends Fragment implements Material_Listener {
+
+  private static String TAG = Fragment_PPM_Material.class.getSimpleName();
+  private Font font = MyApplication.getInstance().getFontInstance();
+  private AppCompatActivity mActivity;
+  private FragmentManager mManager;
+  private CoordinatorLayout cl_main;
+
+  private RecyclerView recyclerView;
+  private LinearLayoutManager mLayoutManager;
+  private int totalnoOfRows = 0;
+  private int mCurrentnoOfRows = 0;
+  private boolean isLastPage = true;
+  private boolean isLoading = false;
+  private boolean isGetMaterial = true;
+  private boolean isMaterialRequired = false;
+
+  private TextView text_view_loading_message;
+  private LinearLayout layout_loading_message;
+  private TextView text_view_message, text_view_empty,tv_toolbar_title;
+  private LinearLayout layout_loading;
+  private RelativeLayout layout_empty;
+  private RC_Material_ListAdapter adapter;
+  private List<MaterialMasterEntity> mList = new ArrayList<>();
+  private List<SaveMaterialEntity> mgetList = new ArrayList<>();
+  private Bundle mArgs;
+  private SharedPreferences mPreferences;
+  private RCMeterial_Service rcMeterial_service;
+  private String mStrEmpId = null, mQuery = null, mOpco = null;
+  private String mLoginData = null;
+  //private ReceiveComplaintViewEntity receiveComplaintViewEntity;
+  private PpmScheduleDocBy ppmScheduleDocBy;
+  private SearchView sac_material_search;
+  View.OnClickListener _OnClickListener =
+      new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          switch (view.getId()) {
+            case R.id.btn_material_save:
+              postSaveMaterialData();
+              break;
+            case R.id.sac_material_search:
+              sac_material_search.setEnabled(true);
+              break;
+            default:
+              break;
+          }
+        }
+      };
+  private Button btn_material_save;
+  private TextView tv_itemcode, tv_description, tv_quantity, tv_remarks;
+  private Toolbar mToolbar;
+  private View rootView;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    try {
+      Log.d(TAG, "onCreate");
+
+      mActivity = (AppCompatActivity) getActivity();
+      setHasOptionsMenu(true);
+      setRetainInstance(false);
+      mManager = mActivity.getSupportFragmentManager();
+      mArgs = getArguments();
+      mActivity
+          .getWindow()
+          .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+      mPreferences = mActivity.getSharedPreferences(AppUtils.SHARED_PREFS, Context.MODE_PRIVATE);
+      mLoginData = mPreferences.getString(AppUtils.SHARED_LOGIN, null);
+      rcMeterial_service = new RCMeterial_Service(mActivity, this);
+      if (mLoginData != null) {
+        Gson gson = new Gson();
+        Login login = gson.fromJson(mLoginData, Login.class);
+        mStrEmpId = login.getEmployeeId();
+      }
+
+      if (mArgs != null && mArgs.size() > 0) {
+        // Check if true material required page other wise material used page
+        ppmScheduleDocBy =
+            mArgs.getParcelable(AppUtils.ARGS_RECEIVEDCOMPLAINT_VIEW_DETAILS);
+        isMaterialRequired =
+            mArgs.getString(AppUtils.ARGS_MATERIAL_PAGE_STRING, AppUtils.ARGS_MATERIAL_USED_STRING)
+                == AppUtils.ARGS_MATERIAL_REQUIRED_STRING;
+
+        getReceiveComplainMaterialFromService(mCurrentnoOfRows);
+      }
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  @Override
+  public View onCreateView(
+      LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    rootView = inflater.inflate(R.layout.fragment_rm_rc_material, container, false);
+    Log.d(TAG, "onCreateView");
+    initView(rootView);
+    setManager();
+    setProperties();
+
+
+    if ((isGetMaterial ? mgetList : mList).isEmpty()) {
+      showLoadingMaterial();
+    }
+    return rootView;
+  }
+
+  public void initView(View view) {
+    Log.d(TAG, "initView");
+
+    try {
+      cl_main = (CoordinatorLayout) mActivity.findViewById(R.id.cl_main);
+      recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+      sac_material_search = (SearchView) view.findViewById(R.id.sac_material_search);
+
+      text_view_loading_message = (TextView) view.findViewById(R.id.text_view_message);
+      layout_loading_message = (LinearLayout) view.findViewById(R.id.layout_loading);
+
+      layout_loading = (LinearLayout) view.findViewById(R.id.layout_loading);
+      layout_empty = (RelativeLayout) view.findViewById(R.id.layout_empty);
+      text_view_empty = (TextView) view.findViewById(R.id.text_view_empty);
+      text_view_message = (TextView) view.findViewById(R.id.text_view_message);
+
+      tv_itemcode = (TextView) view.findViewById(R.id.tv_itemcode);
+      tv_description = (TextView) view.findViewById(R.id.tv_description);
+      tv_quantity = (TextView) view.findViewById(R.id.tv_quantity);
+      tv_remarks = (TextView) view.findViewById(R.id.tv_remarks);
+
+      btn_material_save = (Button) view.findViewById(R.id.btn_material_save);
+      setupActionBar();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public void setProperties() {
+    Log.d(TAG, "setProperties");
+
+    try {
+      text_view_empty.setTypeface(font.getHelveticaRegular());
+      text_view_message.setTypeface(font.getHelveticaRegular());
+      tv_itemcode.setTypeface(font.getHelveticaRegular());
+      tv_description.setTypeface(font.getHelveticaRegular());
+      tv_quantity.setTypeface(font.getHelveticaRegular());
+      tv_remarks.setTypeface(font.getHelveticaRegular());
+      text_view_loading_message.setTypeface(font.getHelveticaRegular());
+
+      sac_material_search.setQueryHint(getString(R.string.lbl_search));
+      sac_material_search.setIconifiedByDefault(false);
+      sac_material_search.setEnabled(false);
+      sac_material_search.setOnClickListener(_OnClickListener);
+      sac_material_search.setOnQueryTextListener(
+          new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+              sac_material_search.setEnabled(false);
+              submitQuery(query);
+              return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+              return false;
+            }
+          });
+
+      adapter = new RC_Material_ListAdapter(mActivity, mList, mgetList);
+      adapter.setListener(this);
+      recyclerView.setAdapter(adapter);
+      // more than data con't editable so remove pagination
+      recyclerView.addOnScrollListener(
+          new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+              super.onScrolled(recyclerView, dx, dy);
+              if ((isGetMaterial ? mgetList : mList).isEmpty()) return;
+              if (isLoading) return;
+              int visibleItemCount = mLayoutManager.getChildCount();
+              int totalItemCount = mLayoutManager.getItemCount();
+              int pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+              if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                // End of list
+                if (!isLastPage) {
+                  Log.d(TAG, "onScrolled " + isLastPage + isLoading);
+                  if (isGetMaterial) {
+                    getReceiveComplainMaterialFromService(mCurrentnoOfRows);
+                  } else {
+                    getRCMaterialFromService(mCurrentnoOfRows);
+                  }
+                }
+              }
+            }
+          });
+
+      btn_material_save.setOnClickListener(_OnClickListener);
+      AppUtils.closeInput(cl_main);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  private void submitQuery(String query) {
+    Log.d(TAG, "submitQuery");
+
+    try {
+      AppUtils.closeInput(cl_main);
+      if (TextUtils.isEmpty(query)) {
+        AppUtils.showDialog(mActivity, "Search query Empty");
+      } else if (ppmScheduleDocBy == null) {
+        AppUtils.showDialog(mActivity, "Opco Data unavailable");
+      } else {
+        isLoading = true;
+        mList.clear();
+        mgetList.clear();
+        if (adapter != null) adapter.notifyDataSetChanged();
+        isGetMaterial = false;
+        mCurrentnoOfRows = 0;
+        mQuery = query;
+        mOpco = ppmScheduleDocBy.getCompanyCode();
+
+        adapter = new RC_Material_ListAdapter(mActivity, mList, mgetList);
+        adapter.setListener(this);
+        recyclerView.setAdapter(adapter);
+        adapter.setGetMaterial(isGetMaterial);
+        adapter.notifyDataSetChanged();
+
+        getRCMaterialFromService(mCurrentnoOfRows);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void postSaveMaterialData() {
+    Log.d(TAG, "postSaveMaterialData");
+    try {
+      boolean network_available =
+          mPreferences
+              .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
+              .contains(AppUtils.NETWORK_AVAILABLE);
+      List<SaveMaterialEntity> saveMaterialRequests = new ArrayList<>();
+      if (isGetMaterial) {
+        List<SaveMaterialEntity> mSavegetList = adapter.onRCMaterialUpdate();
+        if (mSavegetList != null) {
+          for (int i = 0; i < mSavegetList.size(); i++) {
+            SaveMaterialEntity entity = mSavegetList.get(i);
+            SaveMaterialEntity request = new SaveMaterialEntity();
+
+            if (entity != null
+                && entity.getItemQuantity() != null
+                && !TextUtils.isEmpty(entity.getItemQuantity().trim())) {
+              request.setCompanyCode(entity.getCompanyCode());
+              request.setTransactionType(isMaterialRequired ? AppUtils.REQUIRED : AppUtils.USED);
+              request.setDocType("P");
+              request.setJobNumber(ppmScheduleDocBy.getJobNo());
+              request.setItemCode(entity.getItemCode());
+              request.setItemQuantity(entity.getItemQuantity());
+              request.setRemarks(entity.getRemarks());
+              request.setUser(mStrEmpId);
+              request.setMode(network_available ? AppUtils.MODE_SERVER : AppUtils.MODE_LOCAL);
+              request.setRefrenceDocNumber(ppmScheduleDocBy.getPpmNo());
+              request.setRefrenceDocDate(ppmScheduleDocBy.getPpmDate());
+
+              saveMaterialRequests.add(request);
+            } else Log.d(TAG, TAG + entity.toString());
+          }
+        }
+      } else {
+        List<MaterialMasterEntity> mSaveList = adapter.onRCMaterialInsert();
+        if (mSaveList != null) {
+          for (int i = 0; i < mSaveList.size(); i++) {
+            MaterialMasterEntity entity = mSaveList.get(i);
+            SaveMaterialEntity request = new SaveMaterialEntity();
+
+            if (entity != null
+                && entity.getItemQuantity() != null
+                && !TextUtils.isEmpty(entity.getItemQuantity().trim())) {
+              request.setCompanyCode(entity.getOpco());
+              request.setTransactionType(isMaterialRequired ? AppUtils.REQUIRED : AppUtils.USED);
+              request.setDocType("P");
+              request.setJobNumber(ppmScheduleDocBy.getJobNo());
+              request.setItemCode(entity.getMaterialCode());
+              request.setItemQuantity(entity.getItemQuantity());
+              request.setRemarks(entity.getRemarks());
+              request.setUser(mStrEmpId);
+              request.setRefrenceDocNumber(ppmScheduleDocBy.getPpmNo());
+              request.setRefrenceDocDate(ppmScheduleDocBy.getPpmDate());
+              request.setMode(network_available ? AppUtils.MODE_SERVER : AppUtils.MODE_LOCAL);
+
+              saveMaterialRequests.add(request);
+            }
+          }
+        }
+      }
+      Log.d(TAG, " saveMaterialRequests " + saveMaterialRequests.size());
+
+      if (saveMaterialRequests.isEmpty()) {
+        AppUtils.showDialog(mActivity, "Please Enter Quantity");
+      } else {
+
+        if (network_available) {
+          AppUtils.showProgressDialog(mActivity, "Saving Material...", false);
+          rcMeterial_service.PostPPMSaveMaterialData(saveMaterialRequests);
+        } /*else {
+            new RCSavedMaterialDbInitializer(mActivity, this, saveMaterialRequests)
+                .execute(AppUtils.MODE_INSERT);
+
+            onRCSaveMaterialSuccess("Saved Successfully", AppUtils.MODE_LOCAL);
+          }*/
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void setupActionBar() {
+    mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
+    tv_toolbar_title = (TextView) mToolbar.findViewById(R.id.tv_toolbar_title);
+    tv_toolbar_title.setText(isMaterialRequired ? R.string.lbl_material_reqd : R.string.lbl_material_used);
+    /*mToolbar.setTitle(
+        getResources()
+            .getString(
+                isMaterialRequired ? R.string.lbl_material_reqd : R.string.lbl_material_used));*/
+    mActivity.setSupportActionBar(mToolbar);
+    mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    mToolbar.setNavigationOnClickListener(
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            // mActivity.onBackPressed();
+            mManager.popBackStack();
+          }
+        });
+  }
+
+  public void setManager() {
+    Log.d(TAG, "setManager");
+
+    try {
+      mLayoutManager = new LinearLayoutManager(mActivity);
+      recyclerView.setLayoutManager(mLayoutManager);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public void getRCMaterialFromService(int mCurrentnoOfRows) {
+    Log.d(TAG, "getReceiveComplainFromService");
+
+    try {
+      if ((isGetMaterial ? mgetList : mList).isEmpty()) {
+        showLoadingMaterial();
+      }
+      isLoading = true;
+      if (mPreferences
+          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
+          .contains(AppUtils.NETWORK_AVAILABLE)) {
+        rcMeterial_service.getRCMeterialRequiredListData(mOpco, mQuery, mCurrentnoOfRows + "");
+      } else {
+        new RCMaterialDbInitializer(mActivity, this, mQuery, mCurrentnoOfRows)
+            .execute(AppUtils.MODE_GET);
+      }
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public void getReceiveComplainMaterialFromService(int mCurrentnoOfRows) {
+    Log.d(TAG, "getReceiveComplainFromService");
+
+    try {
+      if ((isGetMaterial ? mgetList : mList).isEmpty()) {
+        showLoadingMaterial();
+      }
+      isLoading = true;
+      if (mPreferences
+          .getString(AppUtils.IS_NETWORK_AVAILABLE, AppUtils.NETWORK_NOT_AVAILABLE)
+          .contains(AppUtils.NETWORK_AVAILABLE)) {
+        rcMeterial_service.getPPMMeterialListData(
+            ppmScheduleDocBy.getPpmNo(),ppmScheduleDocBy.getCompanyCode(),
+            ppmScheduleDocBy.getPpmDate(),
+            isMaterialRequired ? AppUtils.REQUIRED : AppUtils.USED,
+            mCurrentnoOfRows + "");
+      } else {
+        new RCSavedMaterialDbInitializer(
+                mActivity,
+                this,
+                isMaterialRequired ? AppUtils.REQUIRED : AppUtils.USED,
+                "",
+                mCurrentnoOfRows)
+            .execute(AppUtils.MODE_GET);
+      }
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public void setRCMaterialList(boolean isGetMaterial) {
+    Log.d(TAG, "setRCMaterialList");
+
+    try {
+      Log.w(TAG, +mgetList.size() + " mList : " + mList.size());
+      if ((isGetMaterial ? mgetList.size() : mList.size()) > 0) {
+        adapter.setGetMaterial(isGetMaterial);
+        adapter.notifyDataSetChanged();
+        showList();
+      } else {
+        showEmptyView(getString(R.string.msg_material_empty));
+      }
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public void showList() {
+    if (recyclerView != null) recyclerView.setVisibility(View.VISIBLE);
+    if (layout_loading != null) layout_loading.setVisibility(View.GONE);
+    if (layout_empty != null) layout_empty.setVisibility(View.GONE);
+    if (btn_material_save != null) btn_material_save.setVisibility(View.VISIBLE);
+  }
+
+  public void showLoadingMaterial() {
+    Log.d(TAG, "showLoadingMaterial");
+    try {
+      if (layout_empty != null) layout_empty.setVisibility(View.GONE);
+      if (layout_loading != null) layout_loading.setVisibility(View.VISIBLE);
+      if (recyclerView != null) recyclerView.setVisibility(View.GONE);
+      if (btn_material_save != null) btn_material_save.setVisibility(View.GONE);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public void showEmptyView(String Str_Msg) {
+    try {
+      if (text_view_empty != null) {
+        text_view_empty.setText(Str_Msg);
+      } else AppUtils.showDialog(mActivity, Str_Msg);
+      if (layout_empty != null) layout_empty.setVisibility(View.VISIBLE);
+      if (layout_loading != null) layout_loading.setVisibility(View.GONE);
+      if (recyclerView != null) recyclerView.setVisibility(View.GONE);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    Log.d(TAG, "onPrepareOptionsMenu ");
+    menu.findItem(R.id.action_logout).setVisible(false);
+    menu.findItem(R.id.action_home).setVisible(true);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_home:
+        Log.d(TAG, "onOptionsItemSelected : home");
+        // mActivity.onBackPressed();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+          fm.popBackStack();
+        }
+        Fragment _fragment = new Fragment_Main();
+        FragmentTransaction _transaction = mManager.beginTransaction();
+        _transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+        _transaction.replace(R.id.frame_container, _fragment);
+        break;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    Log.d(TAG, " onConfigurationChanged :");
+
+    // Checks whether a hardware keyboard is available
+    if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+      if (btn_material_save != null) {
+        if ((isGetMaterial ? mgetList.size() : mList.size()) > 0) {
+          btn_material_save.setVisibility(View.VISIBLE);
+        }
+      }
+      Log.d(TAG, " mSavedInstanceState :btn_material_save");
+    } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+      if (btn_material_save != null) btn_material_save.setVisibility(View.GONE);
+      Log.d(TAG, " mSavedInstanceState :GONE");
+    }
+  }
+
+  @Override
+  public void onRCSaveMaterialSuccess(String strMsg, int from) {
+    AppUtils.hideProgressDialog();
+    MaterialDialog.Builder builder =
+        new MaterialDialog.Builder(mActivity)
+            .content(strMsg)
+            .positiveText(R.string.lbl_okay)
+            .stackingBehavior(StackingBehavior.ADAPTIVE)
+            .onPositive(
+                new MaterialDialog.SingleButtonCallback() {
+                  @Override
+                  public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    dialog.dismiss();
+                    mManager.popBackStack();
+                  }
+                });
+
+    MaterialDialog dialog = builder.build();
+    dialog.show();
+  }
+
+  @Override
+  public void onRCMaterialListReceived(
+      List<MaterialMasterEntity> materialRequiredEntities, String noOfRows, int from) {
+    Log.d(TAG, "onReceiveComplaintMaterialrequiredListReceived");
+
+    try {
+      isLoading = false;
+      AppUtils.hideProgressDialog();
+      if (mList != null) {
+        mCurrentnoOfRows = mList.size();
+      } else {
+        mList = new ArrayList<>();
+      }
+      if (noOfRows != null) totalnoOfRows = Integer.valueOf(noOfRows);
+      if (materialRequiredEntities.size() > 0) {
+        mList.addAll(materialRequiredEntities);
+        mCurrentnoOfRows = mList.size();
+        if (mCurrentnoOfRows > 1) {
+          if (totalnoOfRows <= mCurrentnoOfRows) {
+            isLastPage = true;
+            adapter.enableFooter(false);
+          } else {
+            isLastPage = false;
+            adapter.enableFooter(true);
+          }
+        }
+        isGetMaterial = false;
+        setRCMaterialList(isGetMaterial);
+      } else Log.d(TAG, "onComplaintReceivedSuccess data Not found");
+      Log.d(TAG, mCurrentnoOfRows + " onComplaintReceivedSuccess totalnoOfRows " + totalnoOfRows);
+      if (!mList.isEmpty() && from == AppUtils.MODE_SERVER)
+        new RCMaterialDbInitializer(mActivity, this, mList).execute(AppUtils.MODE_INSERT);
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onRCMaterialGetListReceived(
+      List<SaveMaterialEntity> getMaterialEntities, String noOfRows, int from) {
+    Log.d(TAG, "onRCMaterialGetListReceived");
+    try {
+      Log.d(TAG, mCurrentnoOfRows + " onRCMaterialGetListReceived totalnoOfRows " + totalnoOfRows);
+      isLoading = false;
+      AppUtils.hideProgressDialog();
+      if (mgetList != null) {
+        mCurrentnoOfRows = mgetList.size();
+      } else {
+        mgetList = new ArrayList<>();
+      }
+      if (noOfRows != null) totalnoOfRows = Integer.valueOf(noOfRows);
+      if (getMaterialEntities.size() > 0) {
+        mgetList.addAll(getMaterialEntities);
+        mCurrentnoOfRows = mgetList.size();
+        if (mCurrentnoOfRows > 1) {
+          if (totalnoOfRows <= mCurrentnoOfRows) {
+            isLastPage = true;
+            adapter.enableFooter(false);
+          } else {
+            isLastPage = false;
+            adapter.enableFooter(true);
+          }
+        }
+        isGetMaterial = true;
+        setRCMaterialList(isGetMaterial);
+
+        if (!mgetList.isEmpty() && from == AppUtils.MODE_SERVER) {
+          List<SaveMaterialEntity> mList = new ArrayList<>();
+          for (SaveMaterialEntity entity : mgetList) {
+            entity.setId(entity.getItemCode() + entity.getComplainNumber());
+            mList.add(entity);
+          }
+          new RCSavedMaterialDbInitializer(mActivity, this, mList).execute(AppUtils.MODE_INSERT);
+        }
+      } else Log.d(TAG, "onRCMaterialGetListReceived data Not found");
+
+      Log.d(TAG, mCurrentnoOfRows + " onRCMaterialGetListReceived totalnoOfRows " + totalnoOfRows);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onRCMaterialListReceivedError(String strErr, int from) {
+    Log.d(TAG, "onRCMaterialListReceivedError");
+    try {
+      AppUtils.hideProgressDialog();
+      showEmptyView(strErr);
+      setRCMaterialList(isGetMaterial);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+}

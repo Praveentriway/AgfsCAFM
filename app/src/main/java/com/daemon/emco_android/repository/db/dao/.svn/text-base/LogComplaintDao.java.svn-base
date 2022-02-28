@@ -1,0 +1,41 @@
+package com.daemon.emco_android.db.dao;
+
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
+import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
+
+import com.daemon.emco_android.db.entity.LogComplaintEntity;
+
+import java.util.List;
+
+@Dao
+public interface LogComplaintDao {
+
+    @Query("SELECT * FROM logComplaintEntity")
+    List<LogComplaintEntity> getAll();
+
+    @Query("SELECT COUNT(*) from logComplaintEntity")
+    int count();
+
+    @Query("SELECT COUNT(*) from logComplaintEntity where complainWebNumber LIKE  :complainWebNumber")
+    int countByWebNumber(String complainWebNumber);
+
+    @Query("SELECT * FROM logComplaintEntity where complainWebNumber LIKE  :complainWebNumber")
+    LogComplaintEntity findByWebNo(String complainWebNumber);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertComplaint(LogComplaintEntity... logComplaintEntities);
+
+    @Update
+    void updateLogComplaint(LogComplaintEntity... logComplaintEntities);
+
+    @Delete
+    void delete(LogComplaintEntity categoryEntity);
+
+    @Query("DELETE FROM logComplaintEntity where complainWebNumber LIKE  :uniqeWebNo")
+    void deleteSingleComplaint(String uniqeWebNo);
+}

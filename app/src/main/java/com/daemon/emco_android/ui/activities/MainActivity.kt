@@ -61,7 +61,7 @@ import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.layout_drawer_menu.*
 import kotlinx.android.synthetic.main.nav_header_main2.*
 import kotlinx.android.synthetic.main.toolbar.*
-
+// I commented update feild on 377 line
 class MainActivity : AppCompatActivity(), UserListener, View.OnClickListener, AppUpdateListener {
     private val TAG = MainActivity::class.java.simpleName
     private val PERMISSION_REQUEST_CODE = 1
@@ -191,6 +191,7 @@ class MainActivity : AppCompatActivity(), UserListener, View.OnClickListener, Ap
         setupActionbar()
         // update the main content by replacing fragments
         val fragment: Fragment = MainDashboard()
+        //val fragment: Fragment = FragmentRxSubmenu()
         fragment.arguments = mArgs
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -374,19 +375,20 @@ class MainActivity : AppCompatActivity(), UserListener, View.OnClickListener, Ap
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
-
+// I commented update feild
     override fun onResume() {
         if (!GpsUtils.isNetworkConnected(mContext)) {
             buildAlertMessageNoGps(resources.getString(R.string.no_internet_msg))
         }
         if (!updateShow) {
+            //below line
             AppUpdaterUtils().showDialog(this,this)
         }
         updateShow = true
         super.onResume()
     }
 
-    override fun onLoginDataReceivedSuccess(login: Login, totalNumberOfRows: String) {}
+    override fun onLoginDataReceivedSuccess(login: Login?, totalNumberOfRows: String?, token: String?) {}
     override fun onUserDataReceivedSuccess(response: CommonResponse) {}
     override fun onUserDataReceivedFailure(strErr: String) {}
     fun onDrawerOpen() {

@@ -84,7 +84,7 @@
 
                     <androidx.cardview.widget.CardView card_view:cardUseCompatPadding="true"
                         app:cardElevation="@dimen/_7sdp"
-                        android:id="@+id/btn_ppm_inspection"
+                        android:id="@+id/btn_reactive_verfication"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/_20sdp"

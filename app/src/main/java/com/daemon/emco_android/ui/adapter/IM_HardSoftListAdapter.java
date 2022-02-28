@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daemon.emco_android.App;
 import com.daemon.emco_android.R;
@@ -75,8 +76,8 @@ public class IM_HardSoftListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 holder.itemView.setTag(position);
                 holder.tv_s_no.setText(String.valueOf(position + 1));
 
-                if (current.getComplainRefrenceNumber() != null)
-                    holder.tv_request_no.setText(current.getComplainRefrenceNumber());
+                if (current.getTicketNo() != null)
+                    holder.tv_request_no.setText(current.getTicketNo());
                 if (current.getComplainDate() != null)
                     holder.tv_time.setText( current.getComplainDate());
                 if (current.getSiteCode() != null)
@@ -189,6 +190,9 @@ public class IM_HardSoftListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     @Override
                     public void onClick(View v) {
                         try {
+                            //int pos = getAdapterPosition();
+                            //ReceiveComplaintItemEntity it = data.get(pos);
+                            //Toast.makeText(v.getContext(), "You clicked " + it.getComplaintNumber(), Toast.LENGTH_SHORT).show();
                             mCallBack.onReceiveComplaintListItemClicked(data, (int) itemView.getTag());
                         } catch (Exception e) {
                             e.printStackTrace();

@@ -1,0 +1,74 @@
+package com.daemon.emco_android.model.response;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.SerializedName;
+
+public class RCDownloadImage implements Parcelable {
+
+    public static final Parcelable.Creator<RCDownloadImage> CREATOR = new Parcelable.Creator<RCDownloadImage>() {
+        @Override
+        public RCDownloadImage createFromParcel(Parcel source) {
+            return new RCDownloadImage(source);
+        }
+
+        @Override
+        public RCDownloadImage[] newArray(int size) {
+            return new RCDownloadImage[size];
+        }
+    };
+    @SerializedName("base64Image")
+    private String base64Image;
+    @SerializedName("docType")
+    private String docType;
+
+    public RCDownloadImage(String base64Image, String docType) {
+        this.base64Image = base64Image;
+        this.docType = docType;
+    }
+
+    protected RCDownloadImage(Parcel in) {
+        this.base64Image = in.readString();
+        this.docType = in.readString();
+    }
+
+    /**
+     * @return The base64Image
+     */
+    public String getBase64Image() {
+        return base64Image;
+    }
+
+    /**
+     * @param base64Image The base64Image
+     */
+    public void setBase64Image(String base64Image) {
+        this.base64Image = base64Image;
+    }
+
+    /**
+     * @return The docType
+     */
+    public String getDocType() {
+        return docType;
+    }
+
+    /**
+     * @param docType The docType
+     */
+    public void setDocType(String docType) {
+        this.docType = docType;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.base64Image);
+        dest.writeString(this.docType);
+    }
+}

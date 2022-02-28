@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /** Created by vikram on 23/7/17. */
 @Entity(tableName = "contractEntity")
 public class ContractEntity {
@@ -94,5 +96,11 @@ public class ContractEntity {
 
   public void setSiteDescription(String siteDescription) {
     this.siteDescription = siteDescription;
+  }
+
+  public void onContractReceivedFailure(String message, int modeServer) {
+  }
+
+  public void onContractNoReceivedSuccess(List<ContractEntity> res, int modeServer) {
   }
 }

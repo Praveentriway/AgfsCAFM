@@ -362,6 +362,7 @@ public class DownloadService extends IntentService {
 
     public void GetAllReceiveComplaintListData() {
         Log.d(TAG, "GetAllReceiveComplaintListData");
+        Log.d("firstAA","SDASDA"+mStrEmployeeId);
         try {
             mInterface
                     .getReceiveComplaintListResult(mStrEmployeeId, "A", 0, 100)

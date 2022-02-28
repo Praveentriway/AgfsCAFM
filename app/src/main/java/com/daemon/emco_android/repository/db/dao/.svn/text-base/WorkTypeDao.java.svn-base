@@ -1,0 +1,36 @@
+package com.daemon.emco_android.db.dao;
+
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+
+import com.daemon.emco_android.db.entity.WorkTypeEntity;
+
+import java.util.List;
+
+@Dao
+public interface WorkTypeDao {
+
+    @Query("SELECT * FROM WorkTypeEntity")
+    List<WorkTypeEntity> getAll();
+
+    @Query("SELECT COUNT(*) from WorkTypeEntity")
+    int count();
+
+    @Query("SELECT COUNT(*) from WorkTypeEntity where code LIKE  :code")
+    int countByNatureCode(String code);
+
+    @Query("SELECT * FROM WorkTypeEntity where code LIKE  :code")
+    WorkTypeEntity findByCategoryCode(String code);
+
+    @Insert
+    void insertAll(List<WorkTypeEntity> typeEntities);
+
+    @Delete
+    void delete(WorkTypeEntity workTypeEntity);
+
+    @Query("DELETE FROM WorkTypeEntity")
+    void deleteAll();
+}

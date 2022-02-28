@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F3F4F8"
+        tools:ignore="MissingPrefix">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/bg_button_asset"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp">
+
+                <TextView
+
+                    android:id="@+id/tv_utility_det"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="FAPEAGI00001  FAPEAGI00001 FAPEAGI00001"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/linear1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:background="@color/colorFormMasterElementBackground"
+                android:orientation="vertical"
+                card_view:cardCornerRadius="0dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <androidx.core.widget.NestedScrollView
+                    style="@style/match_parent_style"
+                    android:fillViewport="true"
+                    android:scrollbars="vertical"
+                    android:fadeScrollbars="false"
+                    card_view:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <LinearLayout
+                        android:id="@+id/layout_main"
+                        style="@style/match_parent_style"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="2.2"
+
+                                android:padding="@dimen/_7sdp"
+                                android:text="Company Code"
+                                android:textColor="@color/color_gray_new"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="3.1"
+                                android:padding="@dimen/_7sdp"
+                                android:text="Test value"
+                                android:id="@+id/tv_company_code"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="1.5dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_marginRight="16dp"
+                                android:background="@color/colorPrimary" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="2.2"
+                                android:padding="@dimen/_7sdp"
+                                android:text="Job No."
+                                android:textColor="@color/color_gray_new"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="3.1"
+                                android:padding="@dimen/_7sdp"
+                                android:text="test value"
+                                android:id="@+id/tv_job_no"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorFormMasterHeaderBackground2"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="2.2"
+                                android:padding="@dimen/_7sdp"
+                                android:text="Equipment Name"
+                                android:textColor="@color/color_gray_new"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="3.1"
+                                android:padding="@dimen/_7sdp"
+                                android:text="Test val"
+                                android:id="@+id/tv_eqp_name"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="1.5dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_marginRight="16dp"
+                                android:background="@color/colorPrimary" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="2.2"
+                                android:padding="@dimen/_7sdp"
+                                android:text="Asset Code"
+                                android:textColor="@color/color_gray_new"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="3.1"
+                                android:padding="@dimen/_7sdp"
+                                android:text="test value"
+                                android:id="@+id/tv_asset_code"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="2.2"
+                                android:padding="@dimen/_7sdp"
+                                android:text="Natural Descp."
+                                android:textColor="@color/color_gray_new"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="3.1"
+                                android:padding="@dimen/_7sdp"
+                                android:text="Test value"
+                                android:id="@+id/tv_nature_description"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="1.5dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_marginRight="16dp"
+                                android:background="@color/colorPrimary" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="2.2"
+                                android:padding="@dimen/_7sdp"
+                                android:text="Asset Barcode"
+                                android:textColor="@color/color_gray_new"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="3.1"
+                                android:padding="@dimen/_7sdp"
+                                android:text="test value"
+                                android:id="@+id/tv_asset_barcode"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorFormMasterHeaderBackground2"
+                            android:orientation="horizontal">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="2.2"
+                                android:padding="@dimen/_7sdp"
+                                android:text="Asset Descp."
+                                android:textColor="@color/color_gray_new"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="3.1"
+                                android:padding="@dimen/_7sdp"
+                                android:text="Test lue"
+                                android:id="@+id/tv_asset_description"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+                            <View
+                                android:layout_width="1.5dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_marginRight="16dp"
+                                android:background="@color/colorPrimary" />
+
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="2.2"
+                                android:padding="@dimen/_7sdp"
+
+                                android:text="Asset Condition"
+                                android:textColor="@color/color_gray_new"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="3.1"
+                                android:padding="@dimen/_7sdp"
+                                android:text="test value"
+                                android:id="@+id/tv_asset_condition"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="2.2"
+
+                                android:padding="@dimen/_7sdp"
+                                android:text="Asset Make"
+                                android:textColor="@color/color_gray_new"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="3.1"
+                                android:padding="@dimen/_7sdp"
+                                android:text="test value"
+                                android:id="@+id/tv_asset_make"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+
+
+                            <View
+                                android:layout_width="1.5dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_marginRight="16dp"
+                                android:background="@color/colorPrimary" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="2.2"
+                                android:padding="@dimen/_7sdp"
+
+                                android:text="Asset Model"
+                                android:textColor="@color/color_gray_new"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="3.1"
+                                android:padding="@dimen/_7sdp"
+                                android:id="@+id/tv_asset_model"
+                                android:text="test value"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_9sdp"
+                                android:textStyle="bold" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </androidx.core.widget.NestedScrollView>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:id="@+id/llBottomContainer2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_alignParentBottom="true"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="5dp" >
+                <Button
+
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_9sdp"
+                    android:id="@+id/btn_audit"
+                    android:textAllCaps="false"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="@drawable/bg_button_asset"
+                    android:text="Asset Audit" />
+
+                <Button
+
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_9sdp"
+                    android:textAllCaps="false"
+                    android:id="@+id/btn_transfer"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="@drawable/bg_button_asset"
+                    android:text="Asset Transfer" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <io.github.yavski.fabspeeddial.FabSpeedDial
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:fabGravity="bottom_end"
+            app:fabMenu="@menu/fab_utility_menu"
+            android:id="@+id/fab_menu"
+            app:fabDrawable="@drawable/arrow"
+            app:miniFabBackgroundTint="@color/colorPrimary"
+            app:miniFabDrawableTint="@color/colorWhite"
+            app:miniFabTitleTextColor="@color/colorPrimary" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

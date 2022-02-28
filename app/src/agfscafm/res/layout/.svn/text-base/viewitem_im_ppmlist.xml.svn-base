@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        style="@style/match_parent_style"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            style="@style/match_wrap_style"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_ccc"
+                style="@style/checkbox_view"
+                android:checked="false"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_s_no"
+                style="@style/checkbox_label"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/lbl_s_no"
+                android:textSize="@dimen/_7sdp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_building"
+            style="@style/textview_label"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lbl_building"
+            android:textSize="@dimen/_7sdp" />
+
+
+        <TextView
+            android:id="@+id/tv_location_floor_flat"
+            style="@style/textview_label"
+            android:layout_weight=".9"
+            android:gravity="center"
+            android:text="@string/lbl_location_floor_flat"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_location_barcode"
+            style="@style/textview_label"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lbl_location_barcode"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_start_date"
+            style="@style/textview_label"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lbl_start_date"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_end_date"
+            style="@style/textview_label"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lbl_end_date"
+            android:textSize="@dimen/_7sdp" />
+
+        <TextView
+            android:id="@+id/tv_ppm_details"
+            style="@style/textview_label"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lbl_ppm_details"
+            android:textSize="@dimen/_7sdp" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

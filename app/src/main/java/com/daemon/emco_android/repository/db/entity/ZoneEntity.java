@@ -28,6 +28,34 @@ public class ZoneEntity {
   @ColumnInfo(name = "zoneName")
   private String zoneName;
 
+  @SerializedName("serviceGroup")
+
+  private String serviceGroup;
+
+  @SerializedName("siteCode")
+
+  private String siteCode;
+
+  public String getSiteCode() {
+    return siteCode;
+  }
+
+  public void setSiteCode(String siteCode) {
+    this.siteCode = siteCode;
+  }
+
+
+
+  public String getServiceGroup() {
+    return serviceGroup;
+  }
+
+  public void setServiceGroup(String serviceGroup) {
+    this.serviceGroup = serviceGroup;
+  }
+
+
+
   public String getContractNo() {
     return contractNo;
   }

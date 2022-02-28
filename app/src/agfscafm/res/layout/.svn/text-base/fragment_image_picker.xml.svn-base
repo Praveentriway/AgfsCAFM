@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/match_parent_style"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        style="@style/match_parent_style"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <include layout="@layout/fragment_list" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom_container"
+        style="@style/match_wrap_style"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/btn_ok"
+            style="@style/wrap_content_style"
+            android:layout_weight="1"
+            android:text="@string/lbl_okay" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/match_parent_style"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        style="@style/match_wrap_style"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/match_parent_style"
+            android:background="@color/colorWhite">
+
+            <LinearLayout
+                style="@style/match_wrap_style"
+                android:layout_marginBottom="@dimen/bottom_view_margin"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/match_wrap_style"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_comments"
+                            style="@style/textview_label"
+                            android:layout_weight="1"
+                            android:text="@string/lbl_comments" />
+
+                        <EditText
+                            android:id="@+id/tv_comments"
+                            style="@style/textview_bg_border"
+                            android:layout_weight=".3"
+                            android:gravity="left"
+                            android:hint="@string/lbl_comments"
+                            android:inputType="textMultiLine"
+                            android:minLines="5" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_wrap_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_lbl_photo"
+                            style="@style/textview_label"
+                            android:layout_weight="1"
+                            android:text="@string/lbl_photo" />
+
+                        <LinearLayout
+                            style="@style/match_wrap_style"
+                            android:layout_weight=".3"
+                            android:orientation="horizontal">
+
+                            <RelativeLayout
+                                android:layout_width="@dimen/_68sdp"
+                                android:layout_height="@dimen/_68sdp"
+                                android:layout_marginRight="@dimen/_10sdp">
+
+                                <ProgressBar
+                                    android:id="@+id/pb_defectfound"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_centerInParent="true"
+                                    android:visibility="gone" />
+
+                                <ImageView
+                                    android:id="@+id/iv_defectfound"
+                                    android:layout_width="@dimen/_66sdp"
+                                    android:layout_height="@dimen/_66sdp"
+                                    app:srcCompat="@drawable/ic_camera_24dp" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="@dimen/_68sdp"
+                                android:layout_height="@dimen/_68sdp"
+                                android:gravity="center"
+                                android:layout_marginRight="@dimen/_10sdp">
+
+                                <Button
+                                    android:id="@+id/btn_save_img"
+                                    style="@style/btn_wrap_content"
+                                    android:gravity="right|center"
+                                    android:text="@string/lbl_save" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btn_save"
+                        style="@style/btn_wrap_content_red"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:paddingLeft="@dimen/_20sdp"
+                        android:paddingRight="@dimen/_20sdp"
+                        android:text="@string/lbl_save" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/emco_logo_with_name" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:visibility="gone"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_2017_ags"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/match_wrap_style"
+                    android:text="@string/lbl_version"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_5sdp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
